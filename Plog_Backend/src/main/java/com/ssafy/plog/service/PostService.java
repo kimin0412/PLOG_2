@@ -26,6 +26,6 @@ public interface PostService {
 
 	List<Category> getCategory(int uid);
 
-	List<Post> selectByTitle(int uid, String title);
+	List<Post> selectByWord(int uid, String word, boolean[] checklist);
 
 }
