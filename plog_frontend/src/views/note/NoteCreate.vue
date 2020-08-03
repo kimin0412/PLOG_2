@@ -43,7 +43,7 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <Editor ref="toastuiEditor1"  style="height: 600px;"/> 
+                <Editor ref="toastuiEditor1" height="500px"/> 
             </v-col> 
         </v-row>
         <v-row>
@@ -130,7 +130,7 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
-            <Editor ref="toastuiEditor2" /> 
+            <Editor ref="toastuiEditor2"/> 
           </v-col>
         </v-row>
         <v-row>

@@ -12,6 +12,7 @@
       elevation="6"
       elevate-on-scroll
       class="newnav"
+      id="header"
     >
     
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
@@ -218,21 +219,82 @@
         </v-btn>
       </v-card-text>
 
-      <v-card-text class="white--text pt-0">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+      <v-card-text class="white--text pt-0 px-15">
+        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. 
+        Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. 
+        Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, 
+        cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. 
+        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-text class="white--text d-flex">
-        <div class="footer-logo">PLOG</div>
+        <div class="footer-logo ml-15">PLOG</div>
         <v-spacer></v-spacer>
         <router-link to="/aboutus" class="footer-router">About us</router-link>
         <router-link to="/aboutus/developers" class="footer-router">Developers</router-link>
-        <router-link to="/aboutus" class="footer-router">License</router-link>
+        <router-link to="/aboutus" class="footer-router mr-15">License</router-link>
       </v-card-text>
     </v-card>
   </v-footer>
+  <v-speed-dial
+      fixed
+      right
+      bottom
+      small
+      v-model="fab"
+      v-show="btnShow"
+      :direction="direction"
+      :open-on-hover="hover"
+      :transition="transition"
+      class="mb-13"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="light-green"
+          dark
+          small
+          fab
+        >
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-menu</v-icon>
+        </v-btn>
+      </template>
+      <v-btn
+        fab
+        dark
+        small
+        color="brown"
+        @click="gotoaboutus"
+      >
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="teal"
+        @click="gotonotecreate"
+      >
+        <v-icon>mdi-pencil-plus</v-icon>
+      </v-btn>
+    </v-speed-dial>
+
+    <v-btn
+      bottom
+      right
+      fixed
+      dark
+      fab
+      color="orange"
+      small
+      v-show="btnShow"
+      @click="$vuetify.goTo('#header')">
+        <v-icon class="white--text">mdi-chevron-double-up</v-icon>
+    </v-btn>
+
   </div>
 
   <!-- 작은화면 -->
@@ -294,124 +356,124 @@
             active-class="blue--text"
           >
 
-            <v-list-item>
+            <router-link to="/schedule" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-calendar-month</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/schedule" class="drawer-menu">Schedule</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>Schedule</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/note" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-post</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/note" class="drawer-menu">Note</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>Note</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/note/create" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-pen</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/note/create" class="drawer-menu">New note</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>New note</v-list-item-title>
+            </v-list-item></router-link>
 
             <v-divider></v-divider>
 
-            <v-list-item>
+            <router-link to="/search" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-magnify</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/search" class="drawer-menu">Search</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>Search</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/special" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-star</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/special" class="drawer-menu">Special</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>Special</v-list-item-title>
+            </v-list-item></router-link>
 
             <v-divider></v-divider>
 
-            <v-list-item>
+            <router-link to="/mypage" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/mypage" class="drawer-menu">My Page</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>My Page</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/aboutus" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-information-outline</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/aboutus" class="drawer-menu">About us</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>About us</v-list-item-title>
+            </v-list-item></router-link>
 
             <v-divider></v-divider>
 
-            <v-list-item>
+            <router-link to="/login" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/login" class="drawer-menu">(임시)로그인</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>(임시)로그인</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/signup" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/signup" class="drawer-menu">(임시)회원가입</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>(임시)회원가입</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/signup/error" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/signup/error" class="drawer-menu">(임시)회원가입 오류</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>(임시)회원가입 오류</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/signup/success" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title><router-link to="/signup/success" class="drawer-menu">(임시)회원가입 성공</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>(임시)회원가입 성공</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/logout" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title  class="drawer-menu"><router-link to="/logout" class="drawer-menu">(임시)로그아웃</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title >(임시)로그아웃</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/auth" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title  class="drawer-menu"><router-link to="/auth" class="drawer-menu">로그인필요</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>로그인필요</v-list-item-title>
+            </v-list-item></router-link>
 
             <v-divider></v-divider>
 
-            <v-list-item>
+            <router-link to="/note/update" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class="grey--text"><router-link to="/note/update" class="drawer-menu">(임시)노트수정</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title>(임시)노트수정</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <router-link to="/error" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-box</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class="grey--text"><router-link to="/error" class="drawer-menu">일반적인 오류</router-link></v-list-item-title>
-            </v-list-item>
+              <v-list-item-title >일반적인 오류</v-list-item-title>
+            </v-list-item></router-link>
 
-            <v-list-item>
+            <v-list-item @click="headeroff">
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
-              <v-list-item-title class="grey--text" @click="headeroff">PLOG</v-list-item-title>
+              <v-list-item-title >PLOG</v-list-item-title>
             </v-list-item>    
           </v-list-item-group>
 
@@ -457,7 +519,20 @@
       </v-btn>
 
     </v-bottom-navigation>
-  </div>
+        <v-btn
+      bottom
+      right
+      fixed
+      dark
+      fab
+      color="brown darken-1"
+      small
+      class="mb-10"
+      v-show="btnShow"
+      @click="$vuetify.goTo('#header')">
+        <v-icon class="white--text">mdi-chevron-double-up</v-icon>
+    </v-btn>
+    </div>
   </div>
 
 
@@ -501,6 +576,7 @@ export default {
     }
   },
   data: () => ({
+    btnShow : window.scrollY > 1,
     drawer: false,
     activeBtn: 1,
     isfirstpage: true,
@@ -511,6 +587,17 @@ export default {
       'mdi-linkedin',
       'mdi-instagram',
     ],
+    // 오른쪽 아래 버튼
+    direction: 'top',
+    fab: false,
+    fling: false,
+    hover: false,
+    tabs: null,
+    top: false,
+    right: true,
+    bottom: true,
+    left: false,
+    transition: 'slide-y-reverse-transition',
   }),
   methods: {
     headeron() {
@@ -547,6 +634,46 @@ export default {
       if (this.$route.name !== 'Search'){
         this.$router.push('/search')
       }
+    },
+    // 맨위로 버튼 + 노트 생성 버튼
+    handleScroll() {
+      this.btnShow = window.scrollY > 0;
+    },
+    gotonotecreate() {
+      if (this.$route.name !== 'Createnote'){
+        this.$router.push('/note/create')
+      }
+    }
+  },
+  // 맨위로 버튼
+  beforeMount() {
+    window.addEventListener("scroll", this.handleScroll)
+  },
+  beforeDestory() {
+    window.removeEventListener("scroll", this.handleScroll)
+  },
+  computed: {
+    activeFab () {
+      switch (this.tabs) {
+        case 'one': return { class: 'purple', icon: 'account_circle' }
+        case 'two': return { class: 'red', icon: 'edit' }
+        case 'three': return { class: 'green', icon: 'keyboard_arrow_up' }
+        default: return {}
+      }
+    },
+  },
+  watch: {
+    top (val) {
+      this.bottom = !val
+    },
+    right (val) {
+      this.left = !val
+    },
+    bottom (val) {
+      this.top = !val
+    },
+    left (val) {
+      this.right = !val
     },
   }
 };
@@ -679,5 +806,16 @@ export default {
   text-decoration: none;
   color: rgb(212, 212, 212) !important;
   margin-left: 20px;
+}
+.tooltip {
+  display: none !important;
+}
+
+#create .v-speed-dial {
+  position: absolute;
+}
+
+#create .v-btn--floating {
+  position: relative;
 }
 </style>
