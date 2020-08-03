@@ -23,9 +23,17 @@ public interface TmppostDao extends JpaRepository<Tmppost, Integer> {
 	@Query(value = "select * from tmppost where tp_user = ?1 and tp_title LIKE %?2%", nativeQuery=true)
 	List<Tmppost> findBytpUserAndtpTitle(int tpUser, String tpTitle);
 	
+	@Query(value = "select * from tmppost where tp_user = ?1 and tp_content LIKE %?2%", nativeQuery=true)
+	List<Tmppost> findBytpUserAndtpContent(int tpUser, String tpContent);
+	
+	@Query(value = "select * from tmppost where tp_user = ?1 and (tp_content LIKE %?2% or tp_title LIKE %?2%)", nativeQuery=true)
+	List<Tmppost> findBytpUserAndtpTitleOrtpContent(int uid, String word);
+	
 	Tmppost findBytpId(int tpId);
 
 	@Transactional
 	int deleteBytpId(int tpId);
+
+	
 	
 }

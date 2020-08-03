@@ -50,8 +50,18 @@ public class TmppostServiceImpl implements TmppostService {
 		dao.save(tp);
 	}
 
+	
 	@Override
-	public List<Tmppost> selectByTitle(int uid, String title) {
-		return dao.findBytpUserAndtpTitle(uid, title);
+	public List<Tmppost> selectByWord(int uid, String word, boolean[] checklist) {
+		if(checklist[0] && checklist[1]) {
+			return dao.findBytpUserAndtpTitleOrtpContent(uid, word);
+		}  else if(checklist[0] && !checklist[1]) {
+			return dao.findBytpUserAndtpTitle(uid, word);
+		} else if(!checklist[0] && checklist[1]) {
+			return dao.findBytpUserAndtpContent(uid, word);
+		} else {
+			return null;
+		}
 	}
+	
 }

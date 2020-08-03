@@ -208,9 +208,9 @@
             </v-col>
           </v-row>
           <v-row>
-              <v-col cols="4" class="py-0"><v-switch v-model="op4" :label="`제목${op4.toString()}`"></v-switch></v-col>
-              <v-col cols="4" class="py-0"><v-switch v-model="op5" :label="`내용${op5.toString()}`"></v-switch></v-col>
-              <v-col cols="4" class="py-0"><v-switch v-model="op6" :label="`#${op6.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op1" :label="`제목${op1.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op2" :label="`내용${op2.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op3" :label="`#${op3.toString()}`"></v-switch></v-col>
           </v-row>
           <v-row v-if="searched" class="mt-3">
             <v-col cols="12" class="py-1 text-subtitle-2 text-center grey--text">'{{ searchword }}' 에 대한 검색결과입니다.</v-col>
@@ -413,6 +413,9 @@ export default {
           params : {
             uid : 1,
             searchword : this.searchword,
+            c1 : this.op1,
+            c2 : this.op2,
+            c3 : this.op3,
           }
         })
         .then(({data}) => {
@@ -423,6 +426,8 @@ export default {
           params : {
             uid : 1,
             searchword : this.searchword,
+            c1 : this.op1,
+            c2 : this.op2,
           }
         })
         .then(({data}) => {

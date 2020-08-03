@@ -26,6 +26,31 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	@Query(value = "select * from post where p_user = ?1 and p_title LIKE %?2%", nativeQuery=true)
 	List<Post> findBypUserAndpTitle(int pUser, String pTitle);
 	
+	@Query(value = "select * from post where p_user = ?1 and p_content LIKE %?2%", nativeQuery=true)
+	List<Post> findBypUserAndpContent(int uid, String pContent);	
+	
+	@Query(value = "select * from post where p_user = ?1 and (p_content LIKE %?2% or p_title LIKE %?2%)", nativeQuery=true)
+	List<Post> findBypUserAndpTitleOrpContent(int uid, String word);
+	
+	@Query(value = "select * from post where p_id in (select ph_post "
+													+ "from post_hashtag "
+													+ "where ph_user = ?1 and ph_hashtag in (select h_id "
+																						+ "from hashtag "
+																						+ "where h_name like %?2%))", nativeQuery=true)
+	List<Post> findBypUserAndpTag(int uid, String word);
+	
+	
+	@Query(value = "(select * from post p1 where p1.p_user = ?1 and p1.p_title LIKE %?2%) UNION (select * from post p2 where p2.p_id in (select ph_post from post_hashtag where ph_user = ?1 and ph_hashtag in (select h_id from hashtag where h_name like %?2%)))", nativeQuery=true)
+	List<Post> findBypUserAndpTitleOrpTag(int uid, String word);
+	
+	@Query(value = "select * from post p where (p.p_user = ?1 and p.p_content LIKE %?2%) or (p.p_id in (select ph_post from post_hashtag where ph_user = ?1 and ph_hashtag in (select h_id from hashtag where h_name like %?2%)))", nativeQuery=true)
+	List<Post> findBypUserAndpContentOrpTag(int uid, String word);
+
+	@Query(value = "select * from post where (p_user = ?1 and (p_content LIKE %?2% or p_title LIKE %?2%)) or (p_id in (select ph_post from post_hashtag where ph_user = ?1 and ph_hashtag in (select h_id from hashtag where h_name like %?2%)))", nativeQuery=true)
+	List<Post> findBypUserAndpTitleOrpContentOrpTag(int uid, String word);
+	
+		
+	
 	@Query(value = "select * from post where pUser = ?1 and pSchedule = ?2", nativeQuery=true)
 	List<Post> findBypUserAndpSchedule(int pUser, int pSchedule);
 
@@ -50,6 +75,16 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO post (p_title, p_content, p_user, p_schedule, p_category) VALUES (?1, ?2, ?3, ?4, ?5) ", nativeQuery=true)
-	int insertPost(String title, String content, int uid, int schedule, int category);	
+	int insertPost(String title, String content, int uid, int schedule, int category);
+
+	
+
+	
+
+	
+
+	
+
+	
 
 }
