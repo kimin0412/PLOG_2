@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +23,7 @@ public class PostServiceImpl implements PostService {
 	CategoryDao cdao;
 	
 	public List<Post> selectAll(int uid) {
-		//return dao.findAll();
-		return dao.findBypUser(uid);
+		return dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pDate"));
 	}
 
 	@Override

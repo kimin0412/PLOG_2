@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.plog.dao.CategoryDao;
@@ -21,7 +22,7 @@ public class TmppostServiceImpl implements TmppostService {
 
 	@Override
 	public List<Tmppost> selectAll(int tpUser) {
-		return dao.findBytpUser(tpUser);
+		return dao.findBytpUser(tpUser , Sort.by(Sort.Direction.DESC,"tpDate"));
 	}
 
 	@Override
