@@ -1,5 +1,15 @@
 <template>
   <div>
+      <div class="text-center">
+          <v-snackbar
+            v-model="snackbar"
+            :timeout="timeout"
+            color="success"
+            text
+        >
+        {{ text }}
+        </v-snackbar>
+      </div>
     <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
         <v-container class="pt-0">
@@ -43,7 +53,25 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <Editor ref="toastuiEditor1" height="500px"/> 
+                <div id="emoDiv">
+                    <input type="hidden" id="hidden-area" :value="hiddenArea">
+                    <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">👀</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💩</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💬</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💭</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💯</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📝</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📢</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📷</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                </div>
+                <br>
+                <br>
+                <Editor ref="toastuiEditor1" height="500px"/>
             </v-col> 
         </v-row>
         <v-row>
@@ -130,7 +158,7 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
-            <Editor ref="toastuiEditor2"/> 
+            <Editor ref="toastuiEditor2" /> 
           </v-col>
         </v-row>
         <v-row>
@@ -191,7 +219,8 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 import moment from 'moment';
 
-export default {
+
+export default {    
     components: {
       Editor
     },
@@ -212,7 +241,11 @@ export default {
             search: null,
             todaySchedule : [], 
             hashtags : '',
-            nextPId : ''  
+            nextPId : '',
+
+            snackbar: false,
+            text: 'My timeout is set to 1500.',
+            timeout: 1500,
         }
     },
 
@@ -239,7 +272,6 @@ export default {
     },
 
     methods: {
-
         createAction() { 
             var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
             var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
@@ -315,7 +347,27 @@ export default {
         },
         nospace() {
             alert('공백 없이 단어로 입력해주세요')
-        }
+        },
+
+        addEmoji(){
+            let emoji = event.target.innerText;
+            let toCopy = document.querySelector('#hidden-area');
+            toCopy.setAttribute('type', 'text');
+            toCopy.setAttribute('value', emoji);
+            toCopy.select();
+
+            try {
+                document.execCommand('copy');
+                this.text = emoji + ' 가 복사되었습니다!\nCtrl+V 로 사용하세요!';
+                this.snackbar = true;
+            } catch (err) {
+                this.text = '복사에 실패하였습니다 😰';
+                this.snackbar = true;
+            }
+
+            toCopy.setAttribute('type', 'hidden');
+            window.getSelection().removeAllRanges();
+        },
     },
     watch: {
       model (val) {
@@ -330,5 +382,9 @@ export default {
 <style scoped>
 .content-center {
   width: 85%;
+}
+.emoji {
+    float: left;
+    font-size: 20px;
 }
 </style>
