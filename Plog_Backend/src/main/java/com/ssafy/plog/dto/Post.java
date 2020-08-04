@@ -47,20 +47,24 @@ public class Post {
 	@Column
 	private int pBookmark;
 	
-	public int getBookmark() {
-		return pBookmark;
-	}
-
-	public void setBookmark(int bookmark) {
-		this.pBookmark = bookmark;
-	}
-
+	@Column
+	private String pColor;
+	
 	@Override
 	public String toString() {
 		return "Post [pId=" + pId + ", pTitle=" + pTitle + ", pContent=" + pContent + ", pDate=" + pDate + ", pUser="
-				+ pUser + ", pSchedule=" + pSchedule + ", pCategory=" + pCategory + "]";
+				+ pUser + ", pSchedule=" + pSchedule + ", pCategory=" + pCategory + ", pBookmark=" + pBookmark
+				+ ", pColor=" + pColor + "]";
 	}
 
+	public int getBookmark() {
+		return pBookmark;
+	}
+	
+	public void setBookmark(int bookmark) {
+		this.pBookmark = bookmark;
+	}
+	
 	public int getpId() {
 		return pId;
 	}
@@ -115,6 +119,22 @@ public class Post {
 
 	public void setpCategory(int pCategory) {
 		this.pCategory = pCategory;
+	}
+
+//	public int getpBookmark() {
+//		return pBookmark;
+//	}
+//
+//	public void setpBookmark(int pBookmark) {
+//		this.pBookmark = pBookmark;
+//	}
+
+	public String getpColor() {
+		return pColor;
+	}
+
+	public void setpColor(String pColor) {
+		this.pColor = pColor;
 	}
 	
 	
