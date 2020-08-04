@@ -20,34 +20,70 @@
                 {{ $refs.calendar.title }}
               </v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-menu bottom right>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    outlined
-                    small
-                    color="grey darken-2"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <span>{{ typeToLabel[type] }}</span>
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item @click="type = 'day'">
-                    <v-list-item-title>Day</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item @click="type = 'week'">
-                    <v-list-item-title>Week</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item @click="type = 'month'">
-                    <v-list-item-title>Month</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item @click="type = '4day'">
-                    <v-list-item-title>4 days</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+              <v-row>
+                <!-- 스케줄 생성 모달 -->
+                <v-dialog v-model="dialog" persistent max-width="600px">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-col cols="12" class="d-none d-sm-block py-1 text-right">
+                      <v-btn
+                        color="blue darken-3"
+                        small
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon class="mr-3" small>mdi-calendar</v-icon> 일정 등록
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="12" class="d-sm-none py-1 text-right">
+                          <v-btn
+                            color="info"
+                            small
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <v-icon>mdi-pencil</v-icon>
+                          </v-btn>                 
+                    </v-col>            
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">New Schedule :)</span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12" sm="6" class="text-center">
+                            <v-date-picker v-model="dates" range width="200"></v-date-picker>
+                          </v-col>
+                          <v-col cols="12" sm="6">
+                            <v-col cols="12" class="text-center">
+                              <v-text-field label="Schedule Name*" v-model="sName" required></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field v-model="dateRangeText" label="Date range" readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                              <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
+                            </v-col>
+                            <v-col cols="12" class="text-right">
+                              <small>*indicates required field</small>
+                            </v-col>                                                
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                      
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <small>*indicates required field</small>
+                      <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="createSchedule">등록하기</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
             </v-toolbar>
           </v-sheet>
           <v-sheet height="500">
@@ -58,12 +94,12 @@
               :events="events"
               :event-color="getEventColor"
               :type="type"
-              @click:event="showEvent"
+
               @click:more="viewDay"
               @click:date="viewDay"
               @change="updateRange"
             ></v-calendar>
-            <v-menu
+            <!-- <v-menu
               v-model="selectedOpen"
               :close-on-content-click="false"
               :activator="selectedElement"
@@ -103,11 +139,14 @@
                   </v-btn>
                 </v-card-actions>
               </v-card>
-            </v-menu>
+            </v-menu> -->
           </v-sheet>
+          <v-col cols="12" class="text-center grey--text">
+            <small>날짜(숫자)를 클릭하시면, 해당 날짜의 일정과 기록이 하단에 나타납니다 :)</small>
+          </v-col>
         </v-col>
         <v-col cols="12">
-          <v-row class="mt-15">
+          <v-row class="mt-10">
             <v-col cols="12" class="text-h6 py-1">Today's schedule</v-col>
             <v-col cols="12">
               
@@ -119,7 +158,7 @@
               
             </v-col>
           </v-row>
-          <v-row class="mt-5">
+          <v-row class="mt-10">
             <v-col cols="12" class="text-h6 py-1">Daily Logs</v-col>
             <v-col cols="12">
                 <div v-for="(item,i) in dailyPost"  :key="i" ><router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6 text-decoration-none"><v-card class="mx-auto">
@@ -177,67 +216,7 @@
             </v-card-actions>
           </v-card>
           </v-menu>
-          <v-row>
-            <!-- 스케줄 생성 모달 -->
-            <v-dialog v-model="dialog" persistent max-width="600px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-col cols="12" class="d-none d-sm-block py-1 text-right">
-                  <v-btn
-                    color="info"
-                    small
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    일정 등록
-                  </v-btn>
-                </v-col>
-            <v-col cols="12" class="d-sm-none py-1 text-right">
-                  <v-btn
-                    color="info"
-                    small
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>                 
-            </v-col>            
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">New Schedule</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Schedule Name*" v-model="sName" required></v-text-field>
-                      </v-col>
 
-                      <v-col cols="12" sm="8">
-                        <v-date-picker v-model="dates" range></v-date-picker>
-                      </v-col>
-
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="dateRangeText" label="Date range" readonly></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12">
-                        <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                  <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                  <v-btn color="blue darken-1" text @click="createSchedule">등록하기</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-row>
           <v-row>
             <!-- 스케줄 수정 모달 -->
             <v-dialog v-model="dialogUpdate" persistent max-width="600px">
@@ -286,7 +265,70 @@
           <v-col cols="12" class="py-1 text-h5">DAILY</v-col>
           <v-col cols="12" class="py-1 text-h4 font-weight-bold">SCHEDULE</v-col>
         </v-row>
-        <v-row justify="center" class="mt-10">
+        <v-row class="mt-10 px-0">
+          <!-- 스케줄 생성 모달 -->
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-col cols="12" class="d-none d-sm-block py-1 text-right px-0">
+                <v-btn
+                  color="info"
+                  small
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  일정 등록
+                </v-btn>
+              </v-col>
+          <v-col cols="12" class="d-sm-none py-1 text-right px-0">
+                <v-btn
+                  color="light-green"
+                  small
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon class="mr-3" small>mdi-calendar</v-icon> 일정 생성
+                </v-btn>                 
+          </v-col>            
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">New Schedule</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" class="text-center">
+                      <v-date-picker v-model="dates" range width="200"></v-date-picker>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-col cols="12" class="text-center">
+                        <v-text-field label="Schedule Name*" v-model="sName" required ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field v-model="dateRangeText" label="Date range" readonly></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
+                      </v-col>
+                      <v-col cols="12" class="text-right">
+                        <small>*indicates required field</small>
+                      </v-col>                                                
+                    </v-col>
+                  </v-row>
+                </v-container>
+                
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                <v-btn color="blue darken-1" text @click="createSchedule">등록하기</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+        <v-row justify="center">
           <v-date-picker v-model="date" 
           :events="functionEvents"
           :picker-date.sync="pickerDate"
@@ -294,67 +336,9 @@
           elevation="5" 
           full-width></v-date-picker>
         </v-row>
-          <v-row>
-            <!-- 스케줄 생성 모달 -->
-            <v-dialog v-model="dialog" persistent max-width="600px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-col cols="12" class="d-none d-sm-block py-1 text-right px-0">
-                  <v-btn
-                    color="info"
-                    small
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    일정 등록
-                  </v-btn>
-                </v-col>
-            <v-col cols="12" class="d-sm-none py-1 text-right">
-                  <v-btn
-                    color="info"
-                    small
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>                 
-            </v-col>            
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">New Schedule</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Schedule Name*" v-model="sName" required></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12" sm="8">
-                        <v-date-picker v-model="dates" range></v-date-picker>
-                      </v-col>
-
-                      <v-col cols="12" sm="6">
-                        <v-text-field v-model="dateRangeText" label="Date range" readonly></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12">
-                        <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                  <small>*indicates required field</small>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                  <v-btn color="blue darken-1" text @click="createSchedule">등록하기</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-row>
+        <v-col cols="12" class="text-center grey--text text-caption">
+          <small>날짜(숫자) 클릭 > 일정과 기록이 하단에 나타납니다 :)</small>
+        </v-col>        
         <v-row class="mt-10">
           <v-col cols="12" class="py-1 text-h6">Daily Task</v-col>
           <v-col cols="12"> <v-card class="mx-auto"><div v-for="(item,i) in dailySchedule" :key="i" >
@@ -606,22 +590,22 @@
       next () {
         this.$refs.calendar.next()
       },
-      showEvent ({ nativeEvent, event }) {
-        const open = () => {
-          this.selectedEvent = event
-          this.selectedElement = nativeEvent.target
-          setTimeout(() => this.selectedOpen = true, 10)
-        }
+      // showEvent ({ nativeEvent, event }) {
+      //   const open = () => {
+      //     this.selectedEvent = event
+      //     this.selectedElement = nativeEvent.target
+      //     setTimeout(() => this.selectedOpen = true, 10)
+      //   }
 
-        if (this.selectedOpen) {
-          this.selectedOpen = false
-          setTimeout(open, 10)
-        } else {
-          open()
-        }
+      //   if (this.selectedOpen) {
+      //     this.selectedOpen = false
+      //     setTimeout(open, 10)
+      //   } else {
+      //     open()
+      //   }
 
-        nativeEvent.stopPropagation()
-      },
+      //   nativeEvent.stopPropagation()
+      // },
       updateRange () {
         const events = []
         const allDay = this.rnd(0, 3) === 0
