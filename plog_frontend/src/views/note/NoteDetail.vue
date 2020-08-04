@@ -36,17 +36,18 @@
             <v-col cols="2" class="d-flex align-top justify-center ">
                 Content
             </v-col>
-            <v-col cols="10" class="">
+            <v-col cols="10" class="" id="viewer" ref="viewer">
                 <div height="500px" class="tui-editor-contents" v-html="content">
                 </div>
             </v-col> 
         </v-row>
         <v-row>
             <v-col cols="12" class="d-flex justify-end py-0 atag">
+                <v-btn @click="makePDF" small color="green" class="py-0 white--text text-center atag mr-3">PDF</v-btn>
                 <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center" style="text-decoration: none;"> 
                       <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">수정</v-btn>
                 </router-link>
-                <v-btn @click="deleteNote" small color="red" class="white--text">삭제</v-btn>
+                <v-btn @click="deleteNote" small color="red" class="py-0 white--text text-center atag mr-3">삭제</v-btn>
             </v-col>
         </v-row>        
       </div>
@@ -86,6 +87,8 @@ import moment from 'moment';
 import http from '@/util/http-common.js';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 export default {
     name: 'Note',
@@ -168,6 +171,37 @@ export default {
                     this.$router.push('/note')
                 }
               });
+        },
+        makePDF () {
+            var fileName = this.Note.pTitle;
+            window.scrollTo(0, 0);
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute('id', "myCanvas");
+            canvas.setAttribute('width', 1920);
+            canvas.setAttribute('height', 1080);
+            canvas.setAttribute('style', "width : 300px; height : 300px");
+            // var context = canvas.getContext("2d");
+            // context.scale(3,3);
+            canvas = this.$refs.viewer;
+            html2canvas(canvas).then(function(canvas){
+                var doc = new jsPDF("p", "mm", "a4");
+                var imgData = canvas.toDataURL('image/png');
+                var imgWidth = 210; 
+                var pageHeight = 295;
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight; 
+                var position = 0; 
+                doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+                heightLeft -= pageHeight; 
+                while (heightLeft >= 0) { 
+                    position = heightLeft - imgHeight; 
+                    doc.addPage(); 
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight); 
+                    heightLeft -= pageHeight; 
+                }
+                doc.save(fileName + ".pdf");
+            })
         },
     },
     watch: {
