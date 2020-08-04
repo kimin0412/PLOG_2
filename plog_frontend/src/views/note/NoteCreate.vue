@@ -73,12 +73,52 @@
                 <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
                 <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
               </div>
-              <br />
-              <br />
+            </v-col>
+            <v-col cols="12">
               <Editor ref="toastuiEditor1" height="500px" />
             </v-col>
           </v-row>
           <v-row>
+            <!-- 일정과 연결 -->
+            <v-col cols="12" class="d-flex justify-end py-0">
+              <v-dialog v-model="dialog" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="amber darken-2"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-5 d-none d-sm-block"
+                    small
+                  >
+                    connect with schedule
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>Schedules</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text style="height: 300px;">
+                    <v-radio-group v-model="dialogm1" column>
+                      <div v-for="(item, i) in todaySchedule" :key="i">
+                        <v-radio
+                          v-bind:label="item.name"
+                          v-bind:value="item.id"
+                        ></v-radio>
+                      </div>
+                    </v-radio-group>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions class="d-flex justify-end">
+                    <v-btn color="blue darken-1" text @click="dialog = false"
+                      >Save</v-btn
+                    >
+                    <v-btn color="blue darken-1" text @click="dialog = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
             <!-- 표지 색상 고르는 dialog -->
             <v-col cols="12" class="d-flex justify-end">
               <v-dialog v-model="dialogColor" scrollable max-width="300px">
@@ -155,48 +195,8 @@
               </v-dialog>
             </v-col>
 
-            <v-col cols="12" class="d-flex justify-end py-0">
-              <v-dialog v-model="dialog" scrollable max-width="300px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="amber darken-2"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    class="px-5 d-none d-sm-block"
-                    small
-                  >
-                    connect with schedule
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>Schedules</v-card-title>
-                  <v-divider></v-divider>
-                  <v-card-text style="height: 300px;">
-                    <v-radio-group v-model="dialogm1" column>
-                      <div v-for="(item, i) in todaySchedule" :key="i">
-                        <v-radio
-                          v-bind:label="item.name"
-                          v-bind:value="item.id"
-                        ></v-radio>
-                      </div>
-                    </v-radio-group>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions class="d-flex justify-end">
-                    <v-btn color="blue darken-1" text @click="dialog = false"
-                      >Save</v-btn
-                    >
-                    <v-btn color="blue darken-1" text @click="dialog = false"
-                      >Close</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-col>
-
             <!-- 폴더안에 넣기 -->
-            <v-col cols="12" class="d-flex justify-end">
+            <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -318,6 +318,7 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col cols="12" class="py-1 text-h6 my-2">Emoji</v-col>
           <v-col cols="12">
             <div id="emoDiv">
               <input type="hidden" id="hidden-area2" :value="hiddenArea2" />
@@ -392,7 +393,138 @@
               </v-card>
             </v-dialog>
           </v-col>
-          <v-col cols="12" class="text-end">
+          <v-col cols="12" class="d-flex justify-end">
+              <v-dialog v-model="dialogColor" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="pink lighten-2"
+                    dark
+                    small
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon left>mdi-heart</v-icon>
+                    Pick Color !
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>Select Color</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text style="height: 300px;">
+                    <v-radio-group v-model="pickColor" column>
+                      <v-radio label="red" color="red" value="red"></v-radio>
+                      <v-radio
+                        label="orange"
+                        color="orange"
+                        value="orange"
+                      ></v-radio>
+                      <v-radio
+                        label="amber"
+                        color="amber"
+                        value="amber"
+                      ></v-radio>
+                      <v-radio
+                        label="yellow"
+                        color="yellow"
+                        value="yellow"
+                      ></v-radio>
+                      <v-radio label="lime" color="lime" value="lime"></v-radio>
+                      <v-radio
+                        label="green"
+                        color="green"
+                        value="green"
+                      ></v-radio>
+                      <v-radio label="blue" color="blue" value="blue"></v-radio>
+                      <v-radio
+                        label="purple"
+                        color="purple"
+                        value="purple"
+                      ></v-radio>
+                      <v-radio label="pink" color="pink" value="pink"></v-radio>
+                      <v-radio
+                        label="brown"
+                        color="brown"
+                        value="brown"
+                      ></v-radio>
+                      <v-radio label="grey" color="grey" value="grey"></v-radio>
+                    </v-radio-group>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialogColor = false"
+                      >Save</v-btn
+                    >
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialogColor = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
+
+            <!-- 폴더안에 넣기 -->
+            <v-col cols="12" class="d-flex justify-end py-0">
+              <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary darken-1"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-5"
+                    small
+                  >
+                    Category
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>Categories</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text style="height: 300px;">
+                    <div v-if="categories.length > 0">
+                      <v-radio-group v-model="category" column>
+                        <div v-for="(item, i) in categories" v-bind:key="i">
+                          <v-radio
+                            v-bind:label="item.cName"
+                            v-bind:value="item.cId"
+                          ></v-radio>
+                        </div>
+                      </v-radio-group>
+                    </div>
+                    <div v-else>
+                      <div>
+                        생성된 폴더가 없습니다.
+                      </div>
+                    </div>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions class="d-flex justify-end">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialogCategory = false"
+                      >Save</v-btn
+                    >
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="
+                        category = 1;
+                        dialogCategory = false;
+                      "
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
+          <v-col cols="12" class="text-end pb-10">
             <v-btn
               @click="createAction"
               small
