@@ -107,6 +107,47 @@
                 </v-card>
                 </v-dialog>
             </v-col>
+
+            <!-- 폴더안에 넣기 -->
+            <v-col cols="12" class="d-flex justify-end">
+                <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    color="amber darken-2"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-5 d-none d-sm-block"
+                    small
+                    >
+                    Category
+                    </v-btn>
+                </template>
+                <v-card>
+                    <v-card-title>Categories</v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text style="height: 300px;">
+                        <div v-if="categories.length > 0">
+                            <v-radio-group v-model="category" column >
+                                <div v-for="item in categories"  v-bind:key = "item">
+                                    <v-radio v-bind:label="item.cName" v-bind:value="item.cId"></v-radio>
+                                </div>
+                            </v-radio-group>
+                        </div>
+                        <div v-else>
+                            <div>
+                                생성된 폴더가 없습니다.
+                            </div>
+                        </div>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions class="d-flex justify-end">
+                        <v-btn color="blue darken-1" text @click="dialogCategory = false">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="category = 1; dialogCategory = false">Close</v-btn>
+                    </v-card-actions>
+                </v-card>
+                </v-dialog>
+            </v-col>
             <v-col cols="12" class="text-end">
                 <v-btn @click="createAction" small color="light-green" class="white--text mr-3">SAVE</v-btn>
                 <v-btn @click="tmpcreateAction" small color="grey" class="white--text">TEMP SAVE</v-btn>
@@ -242,6 +283,9 @@ export default {
             todaySchedule : [], 
             hashtags : '',
             nextPId : '',
+            dialogCategory : false,
+            category : '',
+            categories : [],
 
             snackbar: false,
             text: 'My timeout is set to 1500.',
@@ -269,6 +313,15 @@ export default {
             this.todaySchedule.push({"name":element.sName, "startdate" : element.sStartdate, "enddate" : element.sEnddate, "id": element.sId});  
         });
       });
+
+      http.get('/category/listAll', {
+        params : {
+          uid : 1,
+        }
+      })
+      .then(({data}) => {
+        this.categories = data;
+      });
     },
 
     methods: {
@@ -287,11 +340,12 @@ export default {
             console.log(content);
 
             http.post('/post/',{
+                    pId : this.nextPId,
                     pTitle : this.title,
                     pContent : content,
                     pUser : 1,
                     pSchedule : this.dialogm1,
-                    pCategory : 1,
+                    pCategory : this.category,
             })
             .then(({ data }) => {
                 if(data.data == 'success'){

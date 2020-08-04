@@ -79,4 +79,9 @@ public class HashTagServiceImpl implements HashTagService {
 	public int getNextPId(int sId) {
 		return pdao.getLatelyPId(sId);
 	}
+
+	@Override
+	public void deletePostHashtag(int pId) {
+		hdao.deletePostHashtag(pId);
+	}
 }

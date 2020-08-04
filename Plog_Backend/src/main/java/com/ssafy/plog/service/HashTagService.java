@@ -9,5 +9,7 @@ public interface HashTagService {
 	List<String> selectByIds(int uid, int pid);
 
 	int getNextPId(int sId);
+
+	void deletePostHashtag(int pId);
 	
 }
