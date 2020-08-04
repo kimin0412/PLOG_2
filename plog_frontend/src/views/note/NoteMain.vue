@@ -664,16 +664,26 @@ export default {
           var ok = confirm("안에있는 내용들 다 지울겁니까?")
           if(ok) { // 다 지우기
             http.delete('/category/delete/all', {
-              cId : cId
+              params : {
+                cid : cId
+              }
             })
             .then(({data}) => {
               if(data.data == 'success'){
                 this.$router.go();
               }
             });
-
           } else { // 카테고리만 지우고 나머진 pCategory를 1로 변경하기
-
+            http.delete('/category/delete/only', {
+              params : {
+                cid : cId
+              }
+            })
+            .then(({data}) => {
+              if(data.data == 'success'){
+                this.$router.go();
+              }
+            });
           }
         }
     },

@@ -58,12 +58,23 @@ public class CategoryController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
     
-    @RequestMapping("/category/delete/all")
-	public Object deleteAllCategory(@RequestBody Post post) {
+    @DeleteMapping("/category/delete/all")
+	public Object deleteAllCategory(@RequestParam int cid) {
     	
     	final BasicResponse result = new BasicResponse();
+    	cService.deletePostInCategory(cid);
     	
-    	cService.updatePostCategory(post);
+    	result.status = true;
+        result.data = "success";	
+    		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+    
+    @DeleteMapping("/category/delete/only")
+	public Object deleteOnlyCategory(@RequestParam int cid) {
+    	
+    	final BasicResponse result = new BasicResponse();
+    	cService.deleteOnlyCategory(cid);
     	
     	result.status = true;
         result.data = "success";	
