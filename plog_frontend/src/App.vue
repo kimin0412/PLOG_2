@@ -200,37 +200,37 @@
       <router-view/>
     </v-container>
     <v-footer
-    dark
+    
     padless
   >
     <v-card
       flat
       tile
-      class="grey darken-1 black--text text-center"
+      class="grey lighten-4 black--text text-center"
+      width="100vw"
     >
-      <v-card-text>
+      <!-- <v-card-text>
         <v-btn
           v-for="icon in icons"
           :key="icon"
-          class="mx-4 white--text"
+          class="mx-4 grey--text"
           icon
         >
           <v-icon size="24px">{{ icon }}</v-icon>
         </v-btn>
-      </v-card-text>
+      </v-card-text> -->
 
-      <v-card-text class="white--text pt-0 px-15">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. 
-        Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. 
-        Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, 
-        cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. 
-        Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      </v-card-text>
+      <!-- <v-card-text class="grey--text pt-0 px-15">
+        <v-row class="text-left">
+          <v-col cols="8" class="spl-7">PLOG</v-col>
+          <v-col cols="4">NOTE</v-col>
+        </v-row>
+      </v-card-text> -->
 
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
 
-      <v-card-text class="white--text d-flex">
-        <div class="footer-logo ml-15">PLOG</div>
+      <v-card-text class="grey--text d-flex">
+        <div class="footer-logo ml-15 grey--text">PLOG</div>
         <v-spacer></v-spacer>
         <router-link to="/aboutus" class="footer-router">About us</router-link>
         <router-link to="/aboutus/developers" class="footer-router">Developers</router-link>
@@ -527,7 +527,7 @@
       fab
       color="brown darken-1"
       small
-      class="mb-10"
+      class="mb-12"
       v-show="btnShow"
       @click="$vuetify.goTo('#header')">
         <v-icon class="white--text">mdi-chevron-double-up</v-icon>
@@ -741,6 +741,7 @@ export default {
   position: fixed !important;
   bottom:0 !important;
   box-shadow: none !important;
+  z-index: 3 !important;
 }
 
 .smallnavitem {
@@ -804,7 +805,7 @@ export default {
 }
 .footer-router {
   text-decoration: none;
-  color: rgb(212, 212, 212) !important;
+  color: rgb(110, 110, 110) !important;
   margin-left: 20px;
 }
 .tooltip {

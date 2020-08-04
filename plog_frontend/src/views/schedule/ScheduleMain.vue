@@ -110,29 +110,25 @@
           <v-row class="mt-15">
             <v-col cols="12" class="text-h6 py-1">Today's schedule</v-col>
             <v-col cols="12">
-              <v-card class="mx-auto">
-                <div v-for="item in dailySchedule"  v-bind:key = "item" >
-                  <v-card-text class="d-flex justify-center py-0">
-                    <div>{{item.name}} / {{item.content}} <v-btn @click=scheduleDetail(item.id) text color="blue lighten-2  ml-auto">go</v-btn></div>
-                  </v-card-text>
-                </div>        
-              </v-card>
+              
+                <div v-for="(item,i) in dailySchedule"  :key="i" ><v-card class="mx-auto">
+                  <v-card-text class="d-flex justify-space-between  py-0">
+                    <div class="pt-2"><v-icon class="mr-3 " small>mdi-check</v-icon><span class="text-subtitle-2 font-weight-bold">{{item.name}}</span> : {{item.content}}</div> <v-btn @click=scheduleDetail(item.id) text color="blue lighten-2  ml-auto">DETAIL</v-btn>
+                  </v-card-text><v-divider></v-divider>
+                </v-card></div>        
+              
             </v-col>
           </v-row>
           <v-row class="mt-5">
             <v-col cols="12" class="text-h6 py-1">Daily Logs</v-col>
             <v-col cols="12">
-              <v-card class="mx-auto">
-                <div v-for="item in dailyPost"  v-bind:key = "item" >
-                  <v-card-text class="d-flex justify-center py-0">
-                      <div>{{item.name}} 
-                        <router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6"> 
-                          <v-btn text color="blue lighten-2  ml-auto">go</v-btn>
-                        </router-link>
-                      </div>
-                  </v-card-text>
-                </div>
-              </v-card>
+                <div v-for="(item,i) in dailyPost"  :key="i" ><router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6 text-decoration-none"><v-card class="mx-auto">
+                  <v-card-text class="d-flex justify-space-between py-0">
+                      <div class="pt-2"><v-icon class="mr-3" small>mdi-pencil</v-icon>{{item.name}} </div>
+                          <v-btn text color="blue lighten-2  ml-auto">click</v-btn>
+                      
+                  </v-card-text><v-divider></v-divider>
+                </v-card></router-link></div>
             </v-col>
           </v-row>
 
@@ -142,6 +138,7 @@
             :close-on-content-click="false"
             :activator="selectedElement"
             offset-x
+            class="detailmodal"
           >
           <v-card>
             <v-card-title>
@@ -159,11 +156,11 @@
                   </v-col>
 
                   <v-card class="mx-auto">
-                    <div v-for="item in postOfSchedule"  v-bind:key = "item" >
+                    <div v-for="(item,i) in postOfSchedule" :key="i" >
                       <v-card-text class="d-flex justify-center py-0">
                         <div>{{item.name}} 
                           <router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6"> 
-                            <v-btn text color="blue lighten-2  ml-auto">go</v-btn>
+                            <v-btn text color="blue lighten-2  ml-auto">click</v-btn>
                           </router-link>
                         </div>
                       </v-card-text>
@@ -180,17 +177,6 @@
             </v-card-actions>
           </v-card>
           </v-menu>
-
-          <!-- <v-row class="pl-5 mt-5">
-            <v-col cols="12" class="d-none d-sm-block py-1 text-right">
-              <v-btn small color="info" dark>일정 등록</v-btn>
-            </v-col>
-            <v-col cols="12" class="d-sm-none py-1 text-right">
-              <v-btn color="info" fab small dark>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>          
-            </v-col>
-          </v-row> -->
           <v-row>
             <!-- 스케줄 생성 모달 -->
             <v-dialog v-model="dialog" persistent max-width="600px">
@@ -371,27 +357,24 @@
           </v-row>
         <v-row class="mt-10">
           <v-col cols="12" class="py-1 text-h6">Daily Task</v-col>
-            <div v-for="item in dailySchedule"  v-bind:key = "item" >
-              <v-card-text class="d-flex justify-center py-0">
-                <div>{{item.name}} / {{item.content}} <v-btn @click=scheduleDetail(item.id) text color="blue lighten-2  ml-auto">go</v-btn></div>
+          <v-col cols="12"> <v-card class="mx-auto"><div v-for="(item,i) in dailySchedule" :key="i" >
+              <v-card-text class="d-flex justify-space-between py-0">
+                <div class="pt-2"><v-icon small class="mr-1">mdi-check</v-icon> {{item.name}}</div><v-btn @click="scheduleDetail(item.id)" text color="blue lighten-2  ml-auto">go</v-btn>
               </v-card-text>
-            </div>
-          <v-col cols="12"></v-col>
+            </div></v-card>
+          </v-col>
         </v-row>
         <v-row class="mt-10">
           <v-col cols="12" class="py-1 text-h6">Daily Log</v-col>
-            <v-card class="mx-auto">
-              <div v-for="item in dailyPost"  v-bind:key = "item" >
-                <v-card-text class="d-flex justify-center py-0">
-                  <div>{{item.name}} 
-                        <router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6"> 
-                          <v-btn text color="blue lighten-2  ml-auto">go</v-btn>
-                        </router-link>
-                  </div>
+          <v-col cols="12">  
+              <div v-for="(item,i) in dailyPost" :key="i" ><router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6 text-decoration-none"><v-card class="mx-auto">
+                <v-card-text class="d-flex justify-space-between py-0">
+                  <div class="pt-2"><v-icon class="mr-3" small>mdi-pencil</v-icon>{{item.name}}</div> 
+                          <v-btn text color="blue lighten-2  ml-auto">click</v-btn>
                 </v-card-text>
-              </div>
-            </v-card>
-          <v-col cols="12"></v-col>
+              </v-card></router-link><v-divider></v-divider></div>
+            
+          </v-col>
         </v-row>
       </v-container>
     </div>
@@ -788,5 +771,9 @@
 .content-center {
   width: 85%;
 }
-
+.detailmodal {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+}
 </style>
