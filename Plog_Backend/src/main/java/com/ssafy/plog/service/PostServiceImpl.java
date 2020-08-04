@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,8 @@ public class PostServiceImpl implements PostService {
 	CategoryDao cdao;
 	
 	public List<Post> selectAll(int uid) {
-		return dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pDate"));
+		//return dao.findAll();
+		return dao.findBypUser(uid);
 	}
 
 	@Override
@@ -70,28 +70,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> selectByWord(int uid, String word, boolean[] checklist) {
-		if(checklist[0] && checklist[1] && checklist[2]) {
-			return dao.findBypUserAndpTitleOrpContentOrpTag(uid, word);
-		} else if(checklist[0] && checklist[1] && !checklist[2]) {
-			return dao.findBypUserAndpTitleOrpContent(uid, word);
-		} else if(checklist[0] && !checklist[1] && checklist[2]) {
-			return dao.findBypUserAndpTitleOrpTag(uid, word);
-		} else if(!checklist[0] && checklist[1] && checklist[2]) {
-			System.out.println("check");
-			List<Post> list = dao.findBypUserAndpContentOrpTag(uid, word);
-			System.out.println(list.size());
-			return list;
-			
-		} else if(checklist[0] && !checklist[1] && !checklist[2]) {
-			return dao.findBypUserAndpTitle(uid, word);
-		} else if(!checklist[0] && checklist[1] && !checklist[2]) {
-			return dao.findBypUserAndpContent(uid, word);
-		} else if(!checklist[0] && !checklist[1] && checklist[2]){
-			return dao.findBypUserAndpTag(uid, word);
-		} else {
-			return null;
-		}
+	public List<Post> selectByTitle(int uid, String title) {
+		return dao.findBypUserAndpTitle(uid, title);
 	}
 
 	@Override

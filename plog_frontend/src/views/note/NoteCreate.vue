@@ -1,5 +1,15 @@
 <template>
   <div>
+      <div class="text-center">
+          <v-snackbar
+            v-model="snackbar"
+            :timeout="timeout"
+            color="success"
+            text
+        >
+        {{ text }}
+        </v-snackbar>
+      </div>
     <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
         <v-container class="pt-0">
@@ -43,7 +53,25 @@
         </v-row>
         <v-row>
             <v-col cols="12">
-                <Editor ref="toastuiEditor1"  style="height: 600px;"/> 
+                <div id="emoDiv">
+                    <input type="hidden" id="hidden-area" :value="hiddenArea">
+                    <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">👀</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💩</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💬</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💭</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💯</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📝</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📢</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📷</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                </div>
+                <br>
+                <br>
+                <Editor ref="toastuiEditor1" height="500px"/>
             </v-col> 
         </v-row>
         <v-row>
@@ -75,6 +103,47 @@
                     <v-card-actions class="d-flex justify-end">
                         <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
                         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                    </v-card-actions>
+                </v-card>
+                </v-dialog>
+            </v-col>
+
+            <!-- 폴더안에 넣기 -->
+            <v-col cols="12" class="d-flex justify-end">
+                <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                    color="amber darken-2"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-5 d-none d-sm-block"
+                    small
+                    >
+                    Category
+                    </v-btn>
+                </template>
+                <v-card>
+                    <v-card-title>Categories</v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text style="height: 300px;">
+                        <div v-if="categories.length > 0">
+                            <v-radio-group v-model="category" column >
+                                <div v-for="item in categories"  v-bind:key = "item">
+                                    <v-radio v-bind:label="item.cName" v-bind:value="item.cId"></v-radio>
+                                </div>
+                            </v-radio-group>
+                        </div>
+                        <div v-else>
+                            <div>
+                                생성된 폴더가 없습니다.
+                            </div>
+                        </div>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions class="d-flex justify-end">
+                        <v-btn color="blue darken-1" text @click="dialogCategory = false">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="category = 1; dialogCategory = false">Close</v-btn>
                     </v-card-actions>
                 </v-card>
                 </v-dialog>
@@ -191,7 +260,8 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 import moment from 'moment';
 
-export default {
+
+export default {    
     components: {
       Editor
     },
@@ -212,7 +282,14 @@ export default {
             search: null,
             todaySchedule : [], 
             hashtags : '',
-            nextPId : ''  
+            nextPId : '',
+            dialogCategory : false,
+            category : '',
+            categories : [],
+
+            snackbar: false,
+            text: 'My timeout is set to 1500.',
+            timeout: 1500,
         }
     },
 
@@ -236,10 +313,18 @@ export default {
             this.todaySchedule.push({"name":element.sName, "startdate" : element.sStartdate, "enddate" : element.sEnddate, "id": element.sId});  
         });
       });
+
+      http.get('/category/listAll', {
+        params : {
+          uid : 1,
+        }
+      })
+      .then(({data}) => {
+        this.categories = data;
+      });
     },
 
     methods: {
-
         createAction() { 
             var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
             var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
@@ -255,11 +340,12 @@ export default {
             console.log(content);
 
             http.post('/post/',{
+                    pId : this.nextPId,
                     pTitle : this.title,
                     pContent : content,
                     pUser : 1,
                     pSchedule : this.dialogm1,
-                    pCategory : 1,
+                    pCategory : this.category,
             })
             .then(({ data }) => {
                 if(data.data == 'success'){
@@ -315,7 +401,27 @@ export default {
         },
         nospace() {
             alert('공백 없이 단어로 입력해주세요')
-        }
+        },
+
+        addEmoji(){
+            let emoji = event.target.innerText;
+            let toCopy = document.querySelector('#hidden-area');
+            toCopy.setAttribute('type', 'text');
+            toCopy.setAttribute('value', emoji);
+            toCopy.select();
+
+            try {
+                document.execCommand('copy');
+                this.text = emoji + ' 가 복사되었습니다!\nCtrl+V 로 사용하세요!';
+                this.snackbar = true;
+            } catch (err) {
+                this.text = '복사에 실패하였습니다 😰';
+                this.snackbar = true;
+            }
+
+            toCopy.setAttribute('type', 'hidden');
+            window.getSelection().removeAllRanges();
+        },
     },
     watch: {
       model (val) {
@@ -330,5 +436,9 @@ export default {
 <style scoped>
 .content-center {
   width: 85%;
+}
+.emoji {
+    float: left;
+    font-size: 20px;
 }
 </style>

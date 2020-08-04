@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,25 +15,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.plog.dto.BasicResponse;
-import com.ssafy.plog.dto.Hashtag;
-import com.ssafy.plog.service.HashTagService;
+import com.ssafy.plog.dto.Category;
+import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.service.CategoryService;
 
 @CrossOrigin("*")
 @RestController
-public class HashTagController {
+public class CategoryController {
 	
 	@Autowired
-	HashTagService hService;
+	CategoryService cService;
 	
-    @RequestMapping("/hashtag/insert")
-	public Object insert(@RequestBody Hashtag hashtag) {
+    @RequestMapping("/category/insert")
+	public Object insert(@RequestBody Category category) {
     	
     	final BasicResponse result = new BasicResponse();
     	
-    	if(!hashtag.gethName().equals("")) {
-            String[] tags = hashtag.gethName().split(" ");
-            hService.insertHashTag(tags, hashtag.gethId());
-         }
+    	cService.insertCategory(category);
     	
     	result.status = true;
         result.data = "success";	
@@ -40,36 +39,35 @@ public class HashTagController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
     
-    @RequestMapping("/hashtag/select")
-    @ResponseBody
-	public Object selectByIds(@RequestParam int uid, int pid) {   	
-    	List<String> tags = hService.selectByIds(uid, pid);
-		return tags;
+    @RequestMapping("/category/listAll")
+	public List<Category> getAllList(@RequestParam int uid) {
+    	return cService.getAllCategory(uid);
+		
 	}
     
-    @RequestMapping("/hashtag/getnextPostId")
-    @ResponseBody
-	public Object selectNextPostId(@RequestParam int uId) { 
-    	int no = hService.getNextPId(uId);
-    	Hashtag ht = new Hashtag();
-    	ht.sethId(no+1);
-		return ht;
-	}
-    
-    @DeleteMapping("/hashtag/delete")
-    @ResponseBody
-    public Object deleteHashtag(@RequestParam int pId) { 
-    	hService.deletePostHashtag(pId);
+    @RequestMapping("/category/update/post")
+	public Object updatePost(@RequestBody Post post) {
     	
     	final BasicResponse result = new BasicResponse();
+    	
+    	cService.updatePostCategory(post);
     	
     	result.status = true;
         result.data = "success";	
     		
 		return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+	}
     
-    
-    
-    
+    @RequestMapping("/category/delete/all")
+	public Object deleteAllCategory(@RequestBody Post post) {
+    	
+    	final BasicResponse result = new BasicResponse();
+    	
+    	cService.updatePostCategory(post);
+    	
+    	result.status = true;
+        result.data = "success";	
+    		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 }

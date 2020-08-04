@@ -10,7 +10,7 @@
               </v-col>
             </v-row>
             <v-row class="mt-5">
-                <D3WordsCloud :config="chart_config" :datum="chart_data" style="min-width: 75vw; min-height:600px;"></D3WordsCloud>
+                <D3WordsCloud :config="chart_config" :datum="chart_data" style="min-width: 75vw; min-height:300px;"></D3WordsCloud>
             </v-row>
             <v-row>
               <v-col cols="12">

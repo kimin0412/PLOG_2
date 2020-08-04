@@ -12,6 +12,8 @@
     "@toast-ui/vue-editor": "^2.3.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "html2canvas": "^1.0.0-rc.5",
+    "jspdf": "^1.5.3",
     "moment": "^2.27.0",
     "vue": "^2.6.11",
     "vue-d3-charts": "^0.2.8",

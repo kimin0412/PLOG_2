@@ -26,7 +26,7 @@ public interface PostService {
 
 	List<Category> getCategory(int uid);
 
-	List<Post> selectByWord(int uid, String word, boolean[] checklist);
+	List<Post> selectByTitle(int uid, String title);
 
 	boolean bookmarkByPid(int pid);
 
