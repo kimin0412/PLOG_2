@@ -98,10 +98,10 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public boolean bookmarkByPid(int pid) {
 		Post p = dao.findBypId(pid);
-		if(p.getBookmark() == 0) {
-			p.setBookmark(1);
+		if(p.getpBookmark() == 0) {
+			p.setpBookmark(1);
 		} else {
-			p.setBookmark(0);
+			p.setpBookmark(0);
 		}
 		return dao.save(p) != null;
 	}

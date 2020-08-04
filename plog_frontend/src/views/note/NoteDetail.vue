@@ -10,10 +10,11 @@
                 {{this.Note.pTitle}}
                 <!-- <v-text-field color="brown lighten-3" solo label="제목을 입력해 주세요" v-model="title"></v-text-field> -->
             </v-col>
-            <v-flex xs12 sm3>
-              <v-btn flat icon color="yellow" @click="bookmark()">
-                <v-icon>star</v-icon>
-              </v-btn>
+            <v-flex class="py-0 text-center">
+                <v-btn text icon @click="bookmark()">
+                    <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
+                    <v-icon color="gray" v-else>mdi-star</v-icon>
+                </v-btn>
             </v-flex>
         </v-row>
         <v-row>
@@ -117,6 +118,7 @@ export default {
             search: null,
             pId: this.$route.query.pId,
             hashtags: [],
+            bmToggle : 0,
         }
     },
 
@@ -134,6 +136,7 @@ export default {
         var v_content = this.Note.pContent;
         console.log(this.Note.pContent);
         this.content = entities.decode(v_content);
+        this.bmToggle = data.pBookmark;
       });
 
       http.get('/hashtag/select', {
@@ -218,9 +221,16 @@ export default {
             .then((response) => {
               if(response === 'success'){
                 console.log("success");
-              }
+              }              
             });
-        }
+            if(this.bmToggle == 1){
+                this.bmToggle = 0;
+                this.Note.pBookmark = 0;
+            } else {
+                this.bmToggle = 1;
+                this.Note.pBookmark = 1;
+            }
+        },
     },
     watch: {
       model (val) {
