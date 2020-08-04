@@ -88,6 +88,12 @@
                             class="fill-height"
                           >
                             <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-flex class="py-0 text-center">
+                              <v-btn text icon @click="bookmark()">
+                                <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
+                                <v-icon color="gray" v-else>mdi-star</v-icon>
+                              </v-btn>
+                            </v-flex>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -278,6 +284,12 @@
                             class="fill-height"
                           >
                             <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-flex class="py-0 text-center">
+                              <v-btn text icon @click="bookmark()">
+                                <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
+                                <v-icon color="gray" v-else>mdi-star</v-icon>
+                              </v-btn>
+                            </v-flex>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -399,6 +411,7 @@ export default {
         selected: {},
         tpselected: {},
         hashtags: [],
+        bmToggle : 0,
       }
     },
     // watch() {
@@ -448,7 +461,7 @@ export default {
             console.log(note)
             this.selected = note
             this.hashtags = []
-
+            this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
                 uid : 1,
@@ -466,7 +479,28 @@ export default {
             this.tpselected = tpnote
             
         },
-      },      
+        bookmark(){
+          http.get('/post/bookmark', {
+              params : {
+                uid : 1,
+                pid : this.selected.pId,
+              }
+            })
+            .then((response) => {
+              if(response === 'success'){
+                console.log("success");
+              }              
+            });
+            if(this.bmToggle == 1){
+                this.bmToggle = 0;
+                this.selected.pBookmark = 0;
+            } else {
+                this.bmToggle = 1;
+                this.selected.pBookmark = 1;
+            }
+        },    
+      },  
+      
 }
 </script>
 

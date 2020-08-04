@@ -47,12 +47,12 @@ public class Post {
 	@Column
 	private int pBookmark;
 	
-	public int getBookmark() {
+	public int getpBookmark() {
 		return pBookmark;
 	}
 
-	public void setBookmark(int bookmark) {
-		this.pBookmark = bookmark;
+	public void setpBookmark(int pBookmark) {
+		this.pBookmark = pBookmark;
 	}
 
 	@Override
