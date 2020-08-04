@@ -13,4 +13,8 @@ public interface CategoryService {
 
 	void updatePostCategory(Post post);
 
+	void deletePostInCategory(int cid);
+
+	void deleteOnlyCategory(int cid);
+
 }
