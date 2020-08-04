@@ -21,5 +21,5 @@ public interface TmppostService {
 
 	void registPost(Tmppost tp);
 
-	List<Tmppost> selectByWord(int uid, String title, boolean[] checklist);
+	List<Tmppost> selectByTitle(int uid, String title);
 }

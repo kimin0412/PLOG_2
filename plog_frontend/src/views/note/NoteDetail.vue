@@ -157,6 +157,17 @@ export default {
                     this.$router.push('/note')
                 }
               });
+
+              http.delete('/hashtag/delete', {
+                params : {
+                  pId : this.pId,
+                }
+              })
+              .then(({data}) => {
+                if(data.data == 'success'){
+                    this.$router.push('/note')
+                }
+              });
         },
     },
     watch: {
