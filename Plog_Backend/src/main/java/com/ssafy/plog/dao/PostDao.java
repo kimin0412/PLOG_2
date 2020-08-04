@@ -74,8 +74,8 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO post (p_title, p_content, p_user, p_schedule, p_category) VALUES (?1, ?2, ?3, ?4, ?5) ", nativeQuery=true)
-	int insertPost(String title, String content, int uid, int schedule, int category);
+	@Query(value = "INSERT INTO post (p_title, p_content, p_user, p_schedule, p_category, p_color) VALUES (?1, ?2, ?3, ?4, ?5, ?6) ", nativeQuery=true)
+	int insertPost(String title, String content, int uid, int schedule, int category, String color);
 
 	
 
