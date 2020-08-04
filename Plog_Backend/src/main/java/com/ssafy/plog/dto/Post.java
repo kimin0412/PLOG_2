@@ -57,14 +57,6 @@ public class Post {
 				+ ", pColor=" + pColor + "]";
 	}
 
-	public int getBookmark() {
-		return pBookmark;
-	}
-	
-	public void setBookmark(int bookmark) {
-		this.pBookmark = bookmark;
-	}
-	
 	public int getpId() {
 		return pId;
 	}
@@ -121,13 +113,13 @@ public class Post {
 		this.pCategory = pCategory;
 	}
 
-//	public int getpBookmark() {
-//		return pBookmark;
-//	}
-//
-//	public void setpBookmark(int pBookmark) {
-//		this.pBookmark = pBookmark;
-//	}
+	public int getpBookmark() {
+		return pBookmark;
+	}
+
+	public void setpBookmark(int pBookmark) {
+		this.pBookmark = pBookmark;
+	}
 
 	public String getpColor() {
 		return pColor;
