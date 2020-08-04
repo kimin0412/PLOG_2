@@ -232,6 +232,11 @@
                       class="fill-height"
                     >
                       <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                      <v-flex class="py-0 text-center">
+                      <v-btn flat icon color="yellow" @click="bookmark()">
+                        <v-icon>star</v-icon>
+                      </v-btn>
+                    </v-flex>
                       <v-col cols="12" class="py-0 text-center text-h6">
                       <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>

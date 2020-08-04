@@ -44,8 +44,12 @@ public class TmppostController {
     }
 	
 	@GetMapping("/list/search")
-	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword) {	//@RequestParam final String searchType,
-		List<Tmppost> posts = service.selectByTitle(uid, searchword);
+	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword,
+			@RequestParam final Boolean c1, @RequestParam final Boolean c2) {
+		boolean[] checklist = new boolean[3];
+		checklist[0] = c1;
+		checklist[1] = c2;
+		List<Tmppost> posts = service.selectByWord(uid, searchword, checklist);
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
