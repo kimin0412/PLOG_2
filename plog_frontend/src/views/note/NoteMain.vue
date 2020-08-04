@@ -105,8 +105,9 @@
                   >
                     <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col> 
                     <v-flex class="py-0 text-center">
-                      <v-btn flat icon color="yellow" @click="bookmark()">
-                        <v-icon>star</v-icon>
+                      <v-btn text icon @click="bookmark()">
+                        <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
+                        <v-icon color="gray" v-else>mdi-star</v-icon>
                       </v-btn>
                     </v-flex>
                     <v-col cols="12" class="py-0 text-center text-h6">
@@ -233,10 +234,11 @@
                     >
                       <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
                       <v-flex class="py-0 text-center">
-                      <v-btn flat icon color="yellow" @click="bookmark()">
-                        <v-icon>star</v-icon>
-                      </v-btn>
-                    </v-flex>
+                        <v-btn text icon @click="bookmark()">
+                          <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
+                          <v-icon color="gray" v-else>mdi-star</v-icon>
+                        </v-btn>
+                      </v-flex>
                       <v-col cols="12" class="py-0 text-center text-h6">
                       <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -419,7 +421,7 @@
                   >
                     <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
                     <v-flex xs12 sm3>
-                      <v-btn flat icon color="yellow" @click="bookmark()">
+                      <v-btn text icon color="yellow" @click="bookmark()">
                         <v-icon>star</v-icon>
                       </v-btn>
                     </v-flex>
@@ -539,6 +541,7 @@ export default {
         model: null,
         tpmodel: null,
         selected: {},
+        bmToggle : 0,
         tpselected: {},
         hashtags: [],
         categoryDialog : false,
@@ -587,7 +590,7 @@ export default {
             console.log(note)
             this.selected = note
             this.hashtags = []
-
+            this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
                 uid : 1,
@@ -615,8 +618,15 @@ export default {
             .then((response) => {
               if(response === 'success'){
                 console.log("success");
-              }
+              }              
             });
+            if(this.bmToggle == 1){
+                this.bmToggle = 0;
+                this.selected.pBookmark = 0;
+            } else {
+                this.bmToggle = 1;
+                this.selected.pBookmark = 1;
+            }
         },
         createCategory() {
            http.post('/category/insert', {
