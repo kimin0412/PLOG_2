@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="d-none d-sm-block">
+        <div class="d-none d-sm-block pt-12">
             <div class="centercontent mx-auto">
             <v-container>
                 <v-row>

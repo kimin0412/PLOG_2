@@ -94,7 +94,7 @@
                     <v-divider></v-divider>
                     <v-card-text style="height: 300px;">
                     <v-radio-group v-model="dialogm1" column >
-                        <div v-for="item in todaySchedule"  v-bind:key = "item">
+                        <div v-for="(item,i) in todaySchedule"  :key="i">
                             <v-radio v-bind:label="item.name" v-bind:value="item.id"></v-radio>
                         </div>
                     </v-radio-group>
@@ -129,7 +129,7 @@
                     <v-card-text style="height: 300px;">
                         <div v-if="categories.length > 0">
                             <v-radio-group v-model="category" column >
-                                <div v-for="item in categories"  v-bind:key = "item">
+                                <div v-for="(item,i) in categories"  v-bind:key="i">
                                     <v-radio v-bind:label="item.cName" v-bind:value="item.cId"></v-radio>
                                 </div>
                             </v-radio-group>
@@ -196,6 +196,29 @@
             </v-container>
           </v-col>
         </v-row>
+        <v-row>
+                        <v-col cols="12">
+                <div id="emoDiv">
+                    <input type="hidden" id="hidden-area2" :value="hiddenArea2">
+                    <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">👀</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💩</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💬</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💭</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">💯</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📝</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📢</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">📷</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
+                    <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                </div>
+                <br>
+                <br>
+                <Editor ref="toastuiEditor1" height="500px"/>
+            </v-col> 
+        </v-row>
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
@@ -223,7 +246,7 @@
                     <v-card-text style="height: 300px;">
                     <div v-if="todaySchedule.length > 0">
                         <v-radio-group v-model="dialogm1" column >
-                            <div v-for="item in todaySchedule"  v-bind:key = "item">
+                            <div v-for="(item,i) in todaySchedule"  v-bind:key="i">
                                 <v-radio v-bind:label="item.name" v-bind:value="item.id"></v-radio>
                             </div>
                         </v-radio-group>
@@ -267,6 +290,8 @@ export default {
     },
     data() {
         return {
+            hiddenArea : '',
+            hiddenArea2: '',
             title : "",
             content : "",
             chip2: true,
