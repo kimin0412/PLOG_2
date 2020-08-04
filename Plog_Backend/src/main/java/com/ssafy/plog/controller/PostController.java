@@ -128,5 +128,15 @@ public class PostController {
 	    }
 	 
 	 
+	 @GetMapping("/bookmark")
+	 public Object bookmark(@RequestParam final int uid, @RequestParam final int pid) {
+		 ResponseEntity response = null;
+	    	if(service.bookmarkByPid(pid)) {
+	    	    response = new ResponseEntity<String>("success", HttpStatus.OK);
+	    	} else {
+	    		response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	    	}    	
+	    	return response;
+	 }
 			 
 }

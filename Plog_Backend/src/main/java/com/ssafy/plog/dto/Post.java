@@ -44,6 +44,17 @@ public class Post {
 	@Column
 	private int pCategory;
 	
+	@Column
+	private int pBookmark;
+	
+	public int getBookmark() {
+		return pBookmark;
+	}
+
+	public void setBookmark(int bookmark) {
+		this.pBookmark = bookmark;
+	}
+
 	@Override
 	public String toString() {
 		return "Post [pId=" + pId + ", pTitle=" + pTitle + ", pContent=" + pContent + ", pDate=" + pDate + ", pUser="

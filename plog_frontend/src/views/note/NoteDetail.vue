@@ -10,6 +10,11 @@
                 {{this.Note.pTitle}}
                 <!-- <v-text-field color="brown lighten-3" solo label="제목을 입력해 주세요" v-model="title"></v-text-field> -->
             </v-col>
+            <v-flex xs12 sm3>
+              <v-btn flat icon color="yellow" @click="bookmark()">
+                <v-icon>star</v-icon>
+              </v-btn>
+            </v-flex>
         </v-row>
         <v-row>
             <v-col cols="2" class="d-flex align-center justify-center pb-10">
@@ -158,6 +163,19 @@ export default {
                 }
               });
         },
+        bookmark(){
+          http.get('/post/bookmark', {
+              params : {
+                uid : 1,
+                pid : this.pId,
+              }
+            })
+            .then((response) => {
+              if(response === 'success'){
+                console.log("success");
+              }
+            });
+        }
     },
     watch: {
       model (val) {

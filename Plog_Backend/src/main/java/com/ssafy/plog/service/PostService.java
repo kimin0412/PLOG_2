@@ -28,4 +28,6 @@ public interface PostService {
 
 	List<Post> selectByWord(int uid, String word, boolean[] checklist);
 
+	boolean bookmarkByPid(int pid);
+
 }
