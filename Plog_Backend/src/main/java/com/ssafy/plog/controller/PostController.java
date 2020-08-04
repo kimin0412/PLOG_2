@@ -44,8 +44,13 @@ public class PostController {
     }
 	
 	@GetMapping("/list/search")
-	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword) {
-		List<Post> posts = service.selectByTitle(uid, searchword);
+	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword,
+			@RequestParam final Boolean c1, @RequestParam final Boolean c2, @RequestParam final Boolean c3) {
+		boolean[] checklist = new boolean[3];
+		checklist[0] = c1;
+		checklist[1] = c2;
+		checklist[2] = c3;
+		List<Post> posts = service.selectByWord(uid, searchword, checklist);
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
@@ -127,5 +132,15 @@ public class PostController {
 	    }
 	 
 	 
+	 @GetMapping("/bookmark")
+	 public Object bookmark(@RequestParam final int uid, @RequestParam final int pid) {
+		 ResponseEntity response = null;
+	    	if(service.bookmarkByPid(pid)) {
+	    	    response = new ResponseEntity<String>("success", HttpStatus.OK);
+	    	} else {
+	    		response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	    	}    	
+	    	return response;
+	 }
 			 
 }

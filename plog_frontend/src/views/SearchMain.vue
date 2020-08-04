@@ -408,7 +408,7 @@ export default {
       complete() {
         this.searched = true
         this.pastword = this.searched
-        console.log(this.searchword)
+        //console.log(this.searchword)
         http.get('/post/list/search', {
           params : {
             uid : 1,
@@ -419,8 +419,9 @@ export default {
           }
         })
         .then(({data}) => {
-          console.log(data);
+          //console.log(data);
           this.Notes = data;
+          //this.selected = null;
         });
         http.get('/tp/list/search', {
           params : {
@@ -432,12 +433,13 @@ export default {
         })
         .then(({data}) => {
           this.tmpNotes = data;
+          //this.tpselected = null;
         });
       },
       complete2() {
         this.searched = true
         this.pastword = this.searched
-        console.log(this.searchword)
+        //console.log(this.searchword)
       },
       getFormatDate(regtime) {
             return moment(new Date(regtime)).format('YYYY.MM.DD');

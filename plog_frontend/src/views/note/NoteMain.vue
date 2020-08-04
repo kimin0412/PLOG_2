@@ -103,7 +103,12 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                    <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col> 
+                    <v-flex class="py-0 text-center">
+                      <v-btn flat icon color="yellow" @click="bookmark()">
+                        <v-icon>star</v-icon>
+                      </v-btn>
+                    </v-flex>
                     <v-col cols="12" class="py-0 text-center text-h6">
                     <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                       <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -227,6 +232,11 @@
                       class="fill-height"
                     >
                       <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                      <v-flex class="py-0 text-center">
+                      <v-btn flat icon color="yellow" @click="bookmark()">
+                        <v-icon>star</v-icon>
+                      </v-btn>
+                    </v-flex>
                       <v-col cols="12" class="py-0 text-center text-h6">
                       <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -322,7 +332,7 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>
+                    <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>                    
                     <v-col cols="12" class="py-0 text-center text-h6">
                     <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                       <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -408,6 +418,11 @@
                     class="fill-height"
                   >
                     <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                    <v-flex xs12 sm3>
+                      <v-btn flat icon color="yellow" @click="bookmark()">
+                        <v-icon>star</v-icon>
+                      </v-btn>
+                    </v-flex>
                     <v-col cols="12" class="py-0 text-center text-h6">
                     <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                       <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -590,7 +605,19 @@ export default {
             this.tpselected = tpnote
             
         },
-
+        bookmark(){
+          http.get('/post/bookmark', {
+              params : {
+                uid : 1,
+                pid : this.selected.pId,
+              }
+            })
+            .then((response) => {
+              if(response === 'success'){
+                console.log("success");
+              }
+            });
+        },
         createCategory() {
            http.post('/category/insert', {
               cName : this.cName,
