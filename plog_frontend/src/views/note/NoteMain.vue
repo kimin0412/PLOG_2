@@ -116,22 +116,20 @@
                     </router-link>
                     </v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
-                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                      <v-card-text class="d-flex justify-center py-0">
+                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
+                      <v-card-text class="d-flex justify-center flex-wrap py-0">
                         <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                           <v-chip
                             class="ma-2"
                             color="teal"
                             text-color="white"
+                            small
                           >
-                            <v-avatar left>
-                              <v-icon>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>
+                              <v-icon small>mdi-checkbox-marked-circle</v-icon>
                             {{item.name}}
                           </v-chip>
                         </div>
                       </v-card-text>
-                    </v-col>
                   </v-row>
                 </v-sheet>
               </v-expand-transition>
@@ -226,7 +224,7 @@
                   <v-sheet
                     v-if="modelInCategory != null"
                     color="grey lighten-4"
-                    height="200"
+                    height="250"
                     tile
                   >
                     <v-row
@@ -246,15 +244,16 @@
                       </v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                        <v-card-text class="d-flex justify-center py-0">
+                        <v-card-text class="d-flex justify-center flex-wrap py-0">
                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                             <v-chip
                               class="ma-2"
                               color="teal"
                               text-color="white"
+                              small
                             >
                               <v-avatar left>
-                                <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                <v-icon small>mdi-checkbox-marked-circle</v-icon>
                               </v-avatar>
                               {{item.name}}
                             </v-chip>

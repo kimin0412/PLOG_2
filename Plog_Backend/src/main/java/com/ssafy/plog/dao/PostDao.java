@@ -74,8 +74,8 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "INSERT INTO post (p_title, p_content, p_user, p_schedule, p_category, p_color) VALUES (?1, ?2, ?3, ?4, ?5, ?6) ", nativeQuery=true)
-	int insertPost(String title, String content, int uid, int schedule, int category, String color);
+	@Query(value = "INSERT INTO post (p_id, p_title, p_content, p_user, p_schedule, p_category, p_color) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7) ", nativeQuery=true)
+	int insertPost(int pid, String title, String content, int uid, int schedule, int category, String color);
 
 	@Query(value = "select * from post where p_user = ?1 and p_bookmark = 1 order by p_bookmark desc, p_date desc", nativeQuery=true)
 	List<Post> findBypBookmark(int uid);
