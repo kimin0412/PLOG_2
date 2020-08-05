@@ -189,7 +189,6 @@ export default {
               .then((response) => {
                 if(response.data === 'success'){
                     alert('삭제 완료');
-                    this.$router.push('/note')
                 }
               });
 
