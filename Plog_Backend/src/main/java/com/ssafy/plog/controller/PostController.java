@@ -54,6 +54,12 @@ public class PostController {
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
+	@GetMapping("/list/bookmark")
+	public Object selectByBookmark(@RequestParam(required = false) final int uid) {
+		List<Post> posts = service.selectByBookmark(uid);
+    	return posts;
+    }
+	
 	@GetMapping("category")
 	public Object getCategory(@RequestParam(required = false) final int uid) {
 
