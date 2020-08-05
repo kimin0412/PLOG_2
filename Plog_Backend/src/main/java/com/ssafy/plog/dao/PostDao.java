@@ -80,7 +80,7 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	@Query(value = "select * from post where p_user = ?1 and p_bookmark = 1 order by p_bookmark desc, p_date desc", nativeQuery=true)
 	List<Post> findBypBookmark(int uid);
 
-	
-
+	@Query(value = "select * from post where p_category = ?1 ", nativeQuery = true)
+	List<Post> findPostByCategory(int cid);
 
 }
