@@ -552,6 +552,7 @@ export default {
       }
     },
     created() {
+      window.scrollTo(0, 0);
       http.get('/category/listAll', {
         params : {
           uid : 1,

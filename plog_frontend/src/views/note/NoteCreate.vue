@@ -271,6 +271,8 @@
         </v-container>
       </div>
     </div>
+
+    <!-- 모바일 -->
     <div class="d-block d-sm-none">
       <v-container>
         <v-row>

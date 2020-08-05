@@ -146,6 +146,7 @@ export default {
     },
 
     created() {
+      window.scrollTo(0, 0);
       http.get('/post/', {
         params : {
           pId : this.pId,
