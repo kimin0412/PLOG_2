@@ -240,7 +240,7 @@
                         center-active
                       >
                         <v-slide-item
-                          v-for="(note, index) in this.Notes" :key="index"
+                          v-for="(note, index) in Notes" :key="index"
                           v-slot:default="{ active, toggle }"
                         >
                         <div @click="getNote(note)">
@@ -412,11 +412,35 @@ export default {
         tpselected: {},
         hashtags: [],
         bmToggle : 0,
+        hashtagName : this.$route.query.name,
       }
     },
     // watch() {
     //   searchagain
     // },
+
+    created () {
+      if(this.hashtagName != null || this.hashtagName != ''){
+        this.searched = true
+        this.pastword = this.searched
+        this.searchword = this.hashtagName
+        this.op1 = false
+        this.op2 = false
+        this.op3 = true
+        http.get('/post/list/search/hashtag', {
+          params : {
+            uid : 1,
+            hName : this.hashtagName
+          }
+        })
+        .then(({data}) => {
+          //console.log(data);
+          this.Notes = data;
+          //this.selected = null;
+        });
+      }
+      
+    },
     methods: {
       complete() {
         this.searched = true

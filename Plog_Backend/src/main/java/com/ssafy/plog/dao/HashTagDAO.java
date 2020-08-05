@@ -23,4 +23,7 @@ public interface HashTagDAO extends JpaRepository<Hashtag, Integer>{
 	@Query(value = "delete from post_hashtag where ph_post = ?1 ", nativeQuery=true)
 	void deletePostHashtag(int pId);
 
+	@Query(value = "select h_id from hashtag where h_name like ?1 ", nativeQuery=true)
+	int getHId(String hName);
+
 }

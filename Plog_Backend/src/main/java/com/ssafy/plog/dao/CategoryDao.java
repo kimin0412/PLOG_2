@@ -22,4 +22,9 @@ public interface CategoryDao extends JpaRepository<Category, Integer> {
 	@Transactional
 	@Query(value = "update Post set p_category = ?2 where p_id = ?1 ", nativeQuery=true)
 	void updatePost(int pId, int pCategory);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update Category set c_name = ?2 where c_id = ?1 ", nativeQuery=true)
+	void updateCategory(int cId, String cName);
 }

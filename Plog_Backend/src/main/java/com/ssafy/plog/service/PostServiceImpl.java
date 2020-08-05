@@ -1,6 +1,7 @@
 package com.ssafy.plog.service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.plog.dao.CategoryDao;
+import com.ssafy.plog.dao.HashTagDAO;
 import com.ssafy.plog.dao.PostDao;
+import com.ssafy.plog.dao.PostHashtagDAO;
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 
@@ -21,6 +24,12 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	CategoryDao cdao;
+	
+	@Autowired
+	HashTagDAO hdao;
+	
+	@Autowired
+	PostHashtagDAO phdao;
 	
 	public List<Post> selectAll(int uid) {
 		//return dao.findAll();
@@ -109,6 +118,20 @@ public class PostServiceImpl implements PostService {
 			p.setpBookmark(0);
 		}
 		return dao.save(p) != null;
+	}
+
+	@Override
+	public List<Post> searchHashtag(int uid, String hName) {
+		//해쉬 아이디 가져오기 -> ph에서 해쉬아이디로 검색 -> ph_post로 post가져오기
+		int hid = hdao.getHId(hName);
+		
+		List<Integer> pIds = phdao.getPhByHash(uid, hid);
+		List<Post> posts = new LinkedList<>();
+		for (int i = 0, size = pIds.size(); i < size; i++) {
+			posts.add(dao.findBypId(pIds.get(i)));
+		}
+		
+		return posts;
 	}
 
 }
