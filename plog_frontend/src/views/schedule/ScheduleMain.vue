@@ -22,7 +22,7 @@
               <v-spacer></v-spacer>
               <v-row>
                 <!-- 스케줄 생성 모달 -->
-                <v-dialog v-model="dialog" persistent max-width="600px">
+                <v-dialog v-model="dialog2" persistent max-width="600px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-col cols="12" class="d-none d-sm-block py-1 text-right">
                       <v-btn
@@ -49,7 +49,7 @@
                   </template>
                   <v-card>
                     <v-card-title>
-                      <span class="headline">New Schedule :)</span>
+                      <span class="headline">New Schedule</span>
                     </v-card-title>
                     <v-card-text>
                       <v-container>
@@ -67,6 +67,16 @@
                             <v-col cols="12">
                               <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
                             </v-col>
+                            
+                            <v-col class="d-flex" cols="12">
+                              <v-select
+                                v-model="pickColor"
+                                :items="colors"
+                                filled
+                                label="Filled style"
+                                full-width
+                              ></v-select>
+                            </v-col>
                             <v-col cols="12" class="text-right">
                               <small>*indicates required field</small>
                             </v-col>                                                
@@ -78,7 +88,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <small>*indicates required field</small>
-                      <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="dialog2 = false">Close</v-btn>
                       <v-btn color="blue darken-1" text @click="createSchedule">등록하기</v-btn>
                     </v-card-actions>
                   </v-card>
@@ -312,6 +322,16 @@
                       <v-col cols="12">
                         <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
                       </v-col>
+                      <v-col class="d-flex" cols="12">
+                              <v-select
+                                v-model="pickColor"
+                                :items="colors"
+                                filled
+                                label="color"
+                                full-width
+                              >
+                              </v-select>
+                            </v-col>
                       <v-col cols="12" class="text-right">
                         <small>*indicates required field</small>
                       </v-col>                                                
@@ -371,6 +391,7 @@
     name: 'schedule',
     data: () => ({
       dialog: false,
+      dialog2: false,
       dialogUpdate : false,
       arrayEvents: null,
       date: new Date().toISOString().substr(0, 10),
@@ -386,7 +407,7 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      colors: ['red', 'pink', 'purple', 'indigo', 'light-blue', 'green', 'lime', 'yellow', 'orange', 'brown', 'grey'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       pickerDate: null,
 
@@ -420,6 +441,8 @@
       postOfSchedule : [],
 
       scheduleDetailId : '',
+
+      pickColor: "",
     }),
 
     created() {
@@ -625,7 +648,8 @@
                 name : element.sName,
                 start : element.sStartdate,
                 end : element.sEnddate,
-                color: this.colors[this.rnd(0, this.colors.length - 1)],
+                color: element.sColor + " lighten-2",
+                
                 timed: !allDay,
               })
             });
@@ -639,13 +663,16 @@
 
       createSchedule () {
         this.dialog = false;
+        this.dialog2 = false;
         http
           .post('/schedule/insert', {
             sName : this.sName,
             sContent : this.sContent,
             sStartdate : this.dates[0],
             sEnddate : this.dates[1],
-            sUser : 1
+            sColor : this.pickColor,
+            sUser : 1,
+            // sColor : this.pickColor,
           })
           .then(({ data }) => {
           let msg = '등록 처리시 문제가 발생했습니다.';

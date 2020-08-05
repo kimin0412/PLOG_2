@@ -65,8 +65,15 @@ public class CategoryServiceImpl implements CategoryService {
 		int size = posts.size();
 		
 		for (int i = 0; i < size; i++) {
-			//update
-//			pdao.deleteById(posts.get(i).getpId());
+			pdao.updatePCategory(posts.get(i).getpId());
 		}
+		
+		cdao.deleteById(cid);
+	}
+
+	@Override
+	public void updateCategory(Category category) {
+		cdao.updateCategory(category.getcId(), category.getcName());
+		
 	}
 }

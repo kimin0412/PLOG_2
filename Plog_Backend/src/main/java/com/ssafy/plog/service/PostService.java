@@ -30,4 +30,6 @@ public interface PostService {
 
 	boolean bookmarkByPid(int pid);
 
+	List<Post> searchHashtag(int uid, String hName);
+
 }
