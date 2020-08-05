@@ -12,9 +12,9 @@
             </v-col>
             <v-flex class="py-0 text-center">
                 <v-btn text icon @click="bookmark()">
-                    <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
-                    <v-icon color="gray" v-else>mdi-star</v-icon>
-                </v-btn>
+                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                        <v-icon large color="gray" v-else>mdi-star</v-icon>
+                      </v-btn>
             </v-flex>
         </v-row>
         <v-row>
@@ -146,6 +146,7 @@ export default {
     },
 
     created() {
+      window.scrollTo(0, 0);
       http.get('/post/', {
         params : {
           pId : this.pId,
@@ -188,7 +189,6 @@ export default {
               .then((response) => {
                 if(response.data === 'success'){
                     alert('삭제 완료');
-                    this.$router.push('/note')
                 }
               });
 

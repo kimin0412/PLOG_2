@@ -33,9 +33,14 @@ public class PostServiceImpl implements PostService {
 	
 	public List<Post> selectAll(int uid) {
 		//return dao.findAll();
-		return dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pDate"));
+		return dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
 	}
 
+	@Override
+	public List<Post> selectByBookmark(int uid) {
+		return dao.findBypBookmark(uid);
+	}
+	
 	@Override
 	public List<Post> selectByDay(int uid, LocalDate date) {
 		return dao.findBypDate(uid, date);

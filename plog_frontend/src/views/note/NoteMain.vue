@@ -136,8 +136,8 @@
                     <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col> 
                     <v-flex class="py-0 text-center">
                       <v-btn text icon @click="bookmark()">
-                        <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
-                        <v-icon color="gray" v-else>mdi-star</v-icon>
+                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                        <v-icon large color="gray" v-else>mdi-star</v-icon>
                       </v-btn>
                     </v-flex>
                     <v-col cols="12" class="py-0 text-center text-h6">
@@ -146,8 +146,8 @@
                     </router-link>
                     </v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
-                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                      <v-card-text class="d-flex justify-center py-0">
+                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
+                      <v-card-text class="d-flex justify-center flex-wrap py-0">
                         <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                           <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
                               <v-chip
@@ -164,7 +164,6 @@
                             </router-link>
                         </div>
                       </v-card-text>
-                    </v-col>
                   </v-row>
                 </v-sheet>
               </v-expand-transition>
@@ -259,7 +258,7 @@
                   <v-sheet
                     v-if="modelInCategory != null"
                     color="grey lighten-4"
-                    height="200"
+                    height="250"
                     tile
                   >
                     <v-row
@@ -268,9 +267,9 @@
                       <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
                       <v-flex class="py-0 text-center">
                         <v-btn text icon @click="bookmark()">
-                          <v-icon color="yellow" v-if="bmToggle == 1">mdi-star</v-icon>
-                          <v-icon color="gray" v-else>mdi-star</v-icon>
-                        </v-btn>
+                          <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                          <v-icon large color="gray" v-else>mdi-star</v-icon>
+                      </v-btn>
                       </v-flex>
                       <v-col cols="12" class="py-0 text-center text-h6">
                       <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
@@ -279,7 +278,7 @@
                       </v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                        <v-card-text class="d-flex justify-center py-0">
+                        <v-card-text class="d-flex justify-center flex-wrap py-0">
                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                             <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
                               <v-chip
@@ -422,6 +421,7 @@
                     class="ma-4"
                     height="150"
                     width="100"
+                    v-bind:id="note.pId"
                     @click="toggle"
                   >
                     <div class="text-center">
@@ -457,9 +457,10 @@
                     class="fill-height"
                   >
                     <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
-                    <v-flex xs12 sm3>
-                      <v-btn text icon color="yellow" @click="bookmark()">
-                        <v-icon>star</v-icon>
+                    <v-flex xs12 sm3 class="text-center">
+                      <v-btn text icon @click="bookmark()">
+                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                        <v-icon large color="gray" v-else>mdi-star</v-icon>
                       </v-btn>
                     </v-flex>
                     <v-col cols="12" class="py-0 text-center text-h6">
@@ -595,6 +596,7 @@ export default {
       }
     },
     created() {
+      window.scrollTo(0, 0);
       http.get('/category/listAll', {
         params : {
           uid : 1,
