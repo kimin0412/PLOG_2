@@ -57,7 +57,7 @@
                 center-active
               >
                 <v-slide-item
-                  v-for="(note, index) in this.Notes" :key="index"
+                  v-for="(note, index) in Notes" :key="index"
                   v-slot:default="{ active, toggle }"
                 >
                 <div @click="getNote(note)">
@@ -118,7 +118,7 @@
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                       <v-card-text class="d-flex justify-center py-0">
-                        <div v-for="item in hashtags"  v-bind:key = "item" >
+                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                           <v-chip
                             class="ma-2"
                             color="teal"
@@ -247,7 +247,7 @@
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                         <v-card-text class="d-flex justify-center py-0">
-                          <div v-for="item in hashtags"  v-bind:key = "item" >
+                          <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                             <v-chip
                               class="ma-2"
                               color="teal"
@@ -291,7 +291,7 @@
                 center-active
               >
                 <v-slide-item
-                  v-for="(tpnote, index) in this.tmpNotes" :key="index"
+                  v-for="(tpnote, index) in tmpNotes" :key="index"
                   v-slot:default="{ active, toggle }"
                 >
                 <div @click="getTpNote(tpnote)">
@@ -376,7 +376,7 @@
                 center-active
               >
                 <v-slide-item
-                  v-for="(note, index) in this.Notes" :key="index"
+                  v-for="(note, index) in Notes" :key="index"
                   v-slot:default="{ active, toggle }"
                 >
                 <div @click="getNote(note)">
@@ -433,7 +433,7 @@
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                       <v-card-text class="d-flex justify-center py-0">
-                        <div v-for="item in hashtags"  v-bind:key = "item" >
+                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                           <v-chip
                             class="ma-2"
                             color="teal"
@@ -466,7 +466,7 @@
                 center-active
               >
                 <v-slide-item
-                  v-for="(tpnote, index) in this.tmpNotes" :key="index"
+                  v-for="(tpnote, index) in tmpNotes" :key="index"
                   v-slot:default="{ active, toggle }"
                 >
                 <div @click="getTpNote(tpnote)">
@@ -552,6 +552,7 @@ export default {
       }
     },
     created() {
+      window.scrollTo(0, 0);
       http.get('/category/listAll', {
         params : {
           uid : 1,
@@ -664,16 +665,26 @@ export default {
           var ok = confirm("안에있는 내용들 다 지울겁니까?")
           if(ok) { // 다 지우기
             http.delete('/category/delete/all', {
-              cId : cId
+              params : {
+                cid : cId
+              }
             })
             .then(({data}) => {
               if(data.data == 'success'){
                 this.$router.go();
               }
             });
-
           } else { // 카테고리만 지우고 나머진 pCategory를 1로 변경하기
-
+            http.delete('/category/delete/only', {
+              params : {
+                cid : cId
+              }
+            })
+            .then(({data}) => {
+              if(data.data == 'success'){
+                this.$router.go();
+              }
+            });
           }
         }
     },

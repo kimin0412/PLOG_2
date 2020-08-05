@@ -2,7 +2,7 @@
   <div>
       <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
-          <v-container>
+          <v-container class="py-0">
             <v-row>
               <v-col cols="12" class="py-1 px-0">
                 <div class="mr-3" style="width: 70px; border-top: 3px solid #bdbdbd; border-left: 2px solid #bdbdbd;"></div>
@@ -19,12 +19,6 @@
                 :wordClick="wordClickHandler">
                 </wordcloud>                
             </v-row>
-            <v-row>
-              <v-col cols="12">
-
-              </v-col>
-            </v-row>
-
           </v-container>
         </div>
       </div>

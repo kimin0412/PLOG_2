@@ -6,7 +6,7 @@
             <v-col cols="2" class="d-flex align-center justify-center pt-5">
                 Title
             </v-col>
-            <v-col cols="2" class="d-flex align-center pt-5">
+            <v-col cols="10" class="d-flex align-center pt-5">
                 {{this.Note.pTitle}}
                 <!-- <v-text-field color="brown lighten-3" solo label="제목을 입력해 주세요" v-model="title"></v-text-field> -->
             </v-col>
@@ -21,9 +21,9 @@
             <v-col cols="2" class="d-flex align-center justify-center pb-10">
                 Keyword
             </v-col>
-            <v-col cols="2" class="d-flex align-center pb-10">
+            <v-col cols="10" class="d-flex align-center pb-10">
                 <v-card-text class="d-flex py-0">
-                        <div v-for="item in hashtags"  v-bind:key = "item" >
+                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                           <v-chip
                             class="ma-2"
                             color="teal"
@@ -35,7 +35,7 @@
                             {{item.name}}
                           </v-chip>
                         </div>
-                      </v-card-text>
+                  </v-card-text>
             </v-col> 
         </v-row>
         <v-row>
@@ -73,16 +73,39 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1  grey--text text-h6">Keyword</v-col>
           <v-col cols="12">
-
+            <v-card-text class="d-flex py-0 px-0">
+                    <div v-for="(item,i) in hashtags"  v-bind:key="i" >
+                      <v-chip
+                        small
+                        class="ma-2"
+                        color="teal"
+                        text-color="white"
+                      >
+                        <v-avatar left>
+                          <v-icon small>mdi-checkbox-marked-circle</v-icon>
+                        </v-avatar>
+                        {{item.name}}
+                      </v-chip>
+                    </div>
+              </v-card-text>
           </v-col>
         </v-row>
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6  grey--text">Content</v-col>
           <v-col cols="12">
-            <div height="500px" class="" v-html="content">
+            <div class="" v-html="content" style="max-width: 100vw;">
             </div>
           </v-col>
         </v-row>
+        <v-row>
+            <v-col cols="12" class="d-flex justify-end py-0 atag">
+                <v-btn @click="makePDF" small color="green" class="py-0 white--text text-center atag mr-3">PDF</v-btn>
+                <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center" style="text-decoration: none;"> 
+                      <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">수정</v-btn>
+                </router-link>
+                <v-btn @click="deleteNote" small color="red" class="py-0 white--text text-center atag mr-3">삭제</v-btn>
+            </v-col>
+        </v-row>   
       </v-container>
     </div>
   </div>
@@ -123,6 +146,7 @@ export default {
     },
 
     created() {
+      window.scrollTo(0, 0);
       http.get('/post/', {
         params : {
           pId : this.pId,
