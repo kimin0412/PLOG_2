@@ -492,10 +492,12 @@
                     <div v-if="categories.length > 0">
                       <v-radio-group v-model="category" column>
                         <div v-for="(item, i) in categories" v-bind:key="i">
-                          <v-radio
-                            v-bind:label="item.cName"
-                            v-bind:value="item.cId"
-                          ></v-radio>
+                          <div v-if="item.cId != 1">
+                            <v-radio
+                              v-bind:label="item.cName"
+                              v-bind:value="item.cId"
+                            ></v-radio>
+                          </div>
                         </div>
                       </v-radio-group>
                     </div>
