@@ -87,7 +87,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
                             <v-flex class="py-0 text-center">
                               <v-btn text icon @click="bookmark()">
                                 <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -172,7 +172,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -283,7 +283,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
                             <v-flex class="py-0 text-center">
                              <v-btn text icon @click="bookmark()">
                                 <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -368,7 +368,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -429,7 +429,7 @@ export default {
         this.op3 = true
         http.get('/post/list/search/hashtag', {
           params : {
-            uid : 1,
+            uid : this.$store.state.auth.user.id,
             hName : this.hashtagName
           }
         })
@@ -448,7 +448,7 @@ export default {
         //console.log(this.searchword)
         http.get('/post/list/search', {
           params : {
-            uid : 1,
+            uid : this.$store.state.auth.user.id,
             searchword : this.searchword,
             c1 : this.op1,
             c2 : this.op2,
@@ -462,7 +462,7 @@ export default {
         });
         http.get('/tp/list/search', {
           params : {
-            uid : 1,
+            uid : this.$store.state.auth.user.id,
             searchword : this.searchword,
             c1 : this.op1,
             c2 : this.op2,
@@ -488,7 +488,7 @@ export default {
             this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -506,7 +506,7 @@ export default {
         bookmark(){
           http.get('/post/bookmark', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })

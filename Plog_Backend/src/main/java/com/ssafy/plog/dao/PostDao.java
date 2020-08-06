@@ -69,8 +69,8 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	List<Post> selectPostsbySchedule(String sId);
 
 	@Transactional
-	@Query(value = "select max(p_id) from post where p_user = ?1 ", nativeQuery=true)
-	int getLatelyPId(int sId);
+	@Query(value = "select max(p_id) from post", nativeQuery=true)
+	int getLatelyPId();
 
 	@Modifying
 	@Transactional

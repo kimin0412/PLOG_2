@@ -165,7 +165,7 @@ export default {
 
       http.get('/hashtag/select', {
         params : {
-          uid : 1,
+          uid : this.$store.state.auth.user.id,
           pid : this.pId,
         }
       })
@@ -237,7 +237,7 @@ export default {
         bookmark(){
           http.get('/post/bookmark', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.pId,
               }
             })

@@ -77,7 +77,7 @@ public class HashTagServiceImpl implements HashTagService {
 
 	@Override
 	public int getNextPId(int sId) {
-		return pdao.getLatelyPId(sId);
+		return pdao.getLatelyPId();
 	}
 
 	@Override

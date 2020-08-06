@@ -104,6 +104,7 @@ public class PostController {
 		if(post.getpCategory() == 0) {
 			post.setpCategory(1);
 		}
+		
 		result.temp = service.registPost(post);
 		result.data = "success";
 		
