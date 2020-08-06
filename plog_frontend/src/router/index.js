@@ -48,12 +48,14 @@ import GroupDetail from '../views/group/GroupDetail.vue'
 import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
 
+import { auth } from '@/store/auth.module';
+
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
-    name: 'Aboutus',
+    name: 'Main',
     component: Aboutus
   },
   {
@@ -70,38 +72,89 @@ Vue.use(VueRouter)
   {
     path: '/schedule',
     name: 'Schedule',
-    component: Schedule
+    component: Schedule,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/note',
     name: 'Note',
-    component: Note
+    component: Note,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/mypage',
     name: 'Mypage',
-    component: Mypage
+    component: Mypage,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/search',
     name: 'Search',
-    component: Search
+    component: Search,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   // account
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter(from, to, next) {
+      if (auth.state.status.loggedIn) {
+        alert('이미 로그인 상태입니다.')
+        next('/mypage')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/signup',
     name: 'Signup',
-    component: Signup
+    component: Signup,
+    beforeEnter(from, to, next) {
+      if (auth.state.status.loggedIn) {
+        alert('이미 PLOG의 유저이시군요 :)')
+        next('/mypage')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/mypage/edit',
     name: 'Editprofile',
-    component: Editprofile
+    component: Editprofile,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/signup/success',
@@ -116,7 +169,14 @@ Vue.use(VueRouter)
   {
     path: '/logout',
     name: 'Logout',
-    component: Logout
+    component: Logout,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   // special
   {
@@ -135,23 +195,51 @@ Vue.use(VueRouter)
   {
     path: '/note/create',
     name: 'Createnote',
-    component: Createnote
+    component: Createnote,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
 
   {
     path: '/note/detail',
     name: 'Detailnote',
-    component: Detailnote
+    component: Detailnote,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/note/update',
     name: 'Updatenote',
-    component: Updatenote
+    component: Updatenote,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/note/tmpupdate',
     name: 'TmpUpdatenote',
-    component: TmpUpdatenote
+    component: TmpUpdatenote,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   // auth
   {
@@ -169,22 +257,50 @@ Vue.use(VueRouter)
   {
     path: '/group',
     name: 'GroupMain',
-    component: GroupMain
+    component: GroupMain,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/group/detail',
     name: 'GroupDetail',
-    component: GroupDetail
+    component: GroupDetail,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/group/search',
     name: 'GroupSearch',
-    component: GroupSearch
+    component: GroupSearch,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/group/create',
     name: 'GroupCreate',
-    component: GroupCreate
+    component: GroupCreate,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
   },
   // visual
   {

@@ -47,7 +47,7 @@
                         rounded
                         dense
                         type="password"
-                        v-model="password2"
+                        v-model="user.password2"
                         ></v-text-field> 
                     </v-col>     
                 </v-row>
@@ -107,7 +107,7 @@
                         rounded
                         dense
                         type="password"
-                        v-model="password2"
+                        v-model="user.password2"
                         ></v-text-field> 
                     </v-col>     
                 </v-row>
@@ -192,26 +192,34 @@ export default {
   },
   methods: {
     handleRegister() {
-      this.message = '';
-      this.submitted = true;
-      this.$validator.validate().then(isValid => {
-        if (isValid) {
-          this.$store.dispatch('auth/register', this.user).then(
-            data => {
-              this.message = data.message;
-              this.successful = true;
-              this.$router.push('signup/success');
-            },
-            error => {
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-              this.successful = false;
+      if (this.user.password.length < 6) {
+          alert('비밀번호는 6자리 이상이어야 합니다')
+      } else if (this.user.password !== this.user.password2) {
+          console.log(this.user.password)
+          console.log(this.user.password2)
+          alert('비밀번호가 일치하지 않습니다')
+      } else {
+        this.message = '';
+        this.submitted = true;
+        this.$validator.validate().then(isValid => {
+            if (isValid) {
+            this.$store.dispatch('auth/register', this.user).then(
+                data => {
+                this.message = data.message;
+                this.successful = true;
+                this.$router.push('signup/success');
+                },
+                error => {
+                this.message =
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString();
+                this.successful = false;
+                }
+            );
             }
-          );
-        }
-      });
+        });
+      }
     }
   }
 };
