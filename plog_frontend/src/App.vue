@@ -31,7 +31,7 @@
         <v-tabs class="d-flex justify-center">
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">About us</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotosearch">Search</v-tab>
         </v-tabs>
@@ -618,6 +618,11 @@ export default {
     gotonote() {
       if (this.$route.name !== 'Note'){
         this.$router.push('/note')
+      }
+    },
+    gotogroup() {
+      if (this.$route.name !== 'GroupMain'){
+        this.$router.push('/group')
       }
     },
     gotoaboutus() {

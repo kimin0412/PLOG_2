@@ -42,6 +42,12 @@ import Developers from '../views/Developers.vue'
 import Visual1 from '../views/analysis/Visual1.vue'
 import Visual2 from '../views/analysis/Visual2.vue'
 
+// group
+import GroupMain from '../views/group/GroupMain.vue'
+import GroupDetail from '../views/group/GroupDetail.vue'
+import GroupSearch from '../views/group/GroupSearch.vue'
+import GroupCreate from '../views/group/GroupCreate.vue'
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -158,6 +164,27 @@ Vue.use(VueRouter)
     path: '/error',
     name: 'GeneralError',
     component: GeneralError
+  },
+  // club
+  {
+    path: '/group',
+    name: 'GroupMain',
+    component: GroupMain
+  },
+  {
+    path: '/group/detail',
+    name: 'GroupDetail',
+    component: GroupDetail
+  },
+  {
+    path: '/group/search',
+    name: 'GroupSearch',
+    component: GroupSearch
+  },
+  {
+    path: '/group/create',
+    name: 'GroupCreate',
+    component: GroupCreate
   },
   // visual
   {
