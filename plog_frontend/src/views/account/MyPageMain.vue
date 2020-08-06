@@ -39,6 +39,11 @@
                   </template>
                 </v-simple-table>
               </v-col>
+              <v-col col="12">
+                <v-row class="d-flex justify-end mt-5">
+                  <v-btn color="error" dark small @click="logOut">Log Out</v-btn>
+                </v-row>                              
+              </v-col>
             </v-row>
             <v-row>
               <v-col cols="12">
@@ -202,6 +207,11 @@
                   </template>
                 </v-simple-table>              
             </v-col>
+            <v-col cols="12">
+              <v-row class="d-flex justify-end mt-5">
+                <v-btn color="error" dark small @click="logOut">Log Out</v-btn>
+              </v-row>              
+            </v-col>
           </v-row>
         </v-container>
       </div>
@@ -235,6 +245,10 @@ export default {
        })
      },
      methods: {
+      logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/logout');
+    },
        getNote(note) {
             console.log(note)
             this.selected = note

@@ -17,6 +17,7 @@
               dense
               v-model="user.username"
               clearable
+              tabindex = "1"
               autofocus
             ></v-text-field>            
           </v-col>
@@ -29,6 +30,7 @@
               dense
               type="password"
               clearable
+              tabindex = "2"
               v-model="user.password"
             ></v-text-field> 
           </v-col>      

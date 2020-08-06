@@ -32,7 +32,7 @@
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
-          <v-tab v-if="isLoggedin" class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
+          <v-tab v-if="lognow" class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
           <v-tab v-else class="tabinfo navbarlistitemlink" @click="gotologin">Login</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotosearch">Search</v-tab>
         </v-tabs>
@@ -46,7 +46,7 @@
       class="mynav-drawer"
     >
 
-    <v-list-item v-if="isLoggedin" class="drawer-profile">
+    <v-list-item v-if="lognow" class="drawer-profile">
       <router-link to="/mypage" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
@@ -77,6 +77,7 @@
         <v-list-item-group
           active-class="blue--text"
         >
+        <div v-if="lognow">
           <router-link to="/schedule" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-calendar-month</v-icon>
@@ -107,14 +108,16 @@
             <v-list-item-title class="grey--text">Search</v-list-item-title>
           </v-list-item></router-link>
 
-          <router-link to="/special" class="drawer-menu"><v-list-item>
+          <router-link to="/group" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-star</v-icon>
+              <v-icon>mdi-account-group</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="grey--text">Special</v-list-item-title>
+            <v-list-item-title class="grey--text">Group</v-list-item-title>
           </v-list-item></router-link>
 
           <v-divider></v-divider>
+        </div>
+
 
           <router-link to="/aboutus" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
@@ -125,24 +128,18 @@
 
           <v-divider></v-divider>
 
-          <div v-if="isLoggedin">
+          <div v-if="lognow">
             <router-link to="/mypage" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
               <v-list-item-title class="grey--text">My Page</v-list-item-title>
             </v-list-item></router-link>
-            <router-link to="/signup" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="grey--text">Sign up</v-list-item-title>
-            </v-list-item></router-link>
           </div>
           <div v-else>
             <router-link to="/signup" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
+                <v-icon>mdi-account-plus</v-icon>
               </v-list-item-icon>
               <v-list-item-title class="grey--text">Sign up</v-list-item-title>
             </v-list-item></router-link>
@@ -229,25 +226,6 @@
       class="grey lighten-4 black--text text-center"
       width="100vw"
     >
-      <!-- <v-card-text>
-        <v-btn
-          v-for="icon in icons"
-          :key="icon"
-          class="mx-4 grey--text"
-          icon
-        >
-          <v-icon size="24px">{{ icon }}</v-icon>
-        </v-btn>
-      </v-card-text> -->
-
-      <!-- <v-card-text class="grey--text pt-0 px-15">
-        <v-row class="text-left">
-          <v-col cols="8" class="spl-7">PLOG</v-col>
-          <v-col cols="4">NOTE</v-col>
-        </v-row>
-      </v-card-text> -->
-
-      <!-- <v-divider></v-divider> -->
 
       <v-card-text class="grey--text d-flex">
         <div class="footer-logo ml-15 grey--text">PLOG</div>
@@ -355,7 +333,7 @@
         class="mynav-drawer"
       >
 
-        <v-list-item class="drawer-profile">
+        <v-list-item v-if="lognow" class="drawer-profile">
           <router-link to="/mypage" style="text-decoration:none;">
           <v-row>
             <v-col cols="12">
@@ -363,6 +341,17 @@
             </v-col>
             <v-col cols="12" class="text-h6 py-0 white--text">Nickname</v-col>
             <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">email@email.com</v-col>
+          </v-row>
+          </router-link>
+        </v-list-item>
+        <v-list-item v-else class="drawer-profile">
+          <router-link to="/login" style="text-decoration:none;">
+          <v-row>
+            <v-col cols="12">
+              <v-icon class="white--text">mdi-account</v-icon>
+            </v-col>
+            <v-col cols="12" class="text-h6 py-0 white--text">Welcome</v-col>
+            <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">Have a good day :)</v-col>
           </v-row>
           </router-link>
         </v-list-item>
@@ -376,6 +365,7 @@
             active-class="blue--text"
           >
 
+          <div v-if="lognow">
             <router-link to="/schedule" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-calendar-month</v-icon>
@@ -406,13 +396,6 @@
               <v-list-item-title>Search</v-list-item-title>
             </v-list-item></router-link>
 
-            <router-link to="/special" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-star</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Special</v-list-item-title>
-            </v-list-item></router-link>
-
             <v-divider></v-divider>
 
             <router-link to="/mypage" class="drawer-menu"><v-list-item>
@@ -420,6 +403,13 @@
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
               <v-list-item-title>My Page</v-list-item-title>
+            </v-list-item></router-link>
+
+            <router-link to="/logout" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-box</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title >로그아웃</v-list-item-title>
             </v-list-item></router-link>
 
             <router-link to="/aboutus" class="drawer-menu"><v-list-item>
@@ -431,70 +421,49 @@
 
             <v-divider></v-divider>
 
-            <router-link to="/login" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>(임시)로그인</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/signup" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>(임시)회원가입</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/signup/error" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>(임시)회원가입 오류</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/signup/success" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>(임시)회원가입 성공</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/logout" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title >(임시)로그아웃</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/auth" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>로그인필요</v-list-item-title>
-            </v-list-item></router-link>
-
-            <v-divider></v-divider>
-
-            <router-link to="/note/update" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>(임시)노트수정</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/error" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title >일반적인 오류</v-list-item-title>
-            </v-list-item></router-link>
-
             <v-list-item @click="headeroff">
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
               <v-list-item-title >PLOG</v-list-item-title>
             </v-list-item>    
+
+
+          </div>
+          <div v-else>
+
+            <router-link to="/login" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Log in</v-list-item-title>
+            </v-list-item></router-link>
+
+            <router-link to="/signup" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Sign up</v-list-item-title>
+            </v-list-item></router-link>
+
+            <v-divider></v-divider>
+
+            <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-information-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>About us</v-list-item-title>
+            </v-list-item></router-link>
+
+            <v-divider></v-divider>
+            <v-list-item @click="headeroff">
+              <v-list-item-icon>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title >PLOG</v-list-item-title>
+            </v-list-item>    
+
+          </div> 
           </v-list-item-group>
 
         </v-list>
@@ -699,6 +668,9 @@ export default {
     },
     currentUser(){
       return this.$store.state.auth.user;
+    },
+    lognow() {
+      return this.$store.state.auth.status.loggedIn
     }
   },
   watch: {
@@ -714,13 +686,8 @@ export default {
     left (val) {
       this.right = !val
     },
-    // isLoggedin() {
-    //   if (this.$store.state.auth.status.loggedIn === true) {
-    //     this.isLoggedin = true
-    //   } else {
-    //     this.isLoggedin = false
-    //   }
-    // },
+    
+
   }
 };
 </script>
