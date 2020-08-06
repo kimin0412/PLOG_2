@@ -52,8 +52,8 @@
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
         </v-col>
-        <v-col cols="12" class="text-h6 py-0 white--text">Nickname</v-col>
-        <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">email@email.com</v-col>
+        <v-col cols="12" class="text-h6 py-0 white--text">{{currentUser.username}}</v-col>
+        <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">{{currentUser.email}}</v-col>
       </v-row>
       </router-link>
     </v-list-item>
@@ -339,8 +339,8 @@
             <v-col cols="12">
               <v-icon class="white--text">mdi-account</v-icon>
             </v-col>
-            <v-col cols="12" class="text-h6 py-0 white--text">Nickname</v-col>
-            <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">email@email.com</v-col>
+            <v-col cols="12" class="text-h6 py-0 white--text">{{currentUser.username}}</v-col>
+            <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">{{currentUser.email}}</v-col>
           </v-row>
           </router-link>
         </v-list-item>
