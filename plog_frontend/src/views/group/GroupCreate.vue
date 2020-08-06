@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import http from '@/util/http-common.js'
 export default {
     name: 'GroupCreate',
     data() {
@@ -121,8 +122,24 @@ export default {
                 }
             }
             
+            http.post('/club/insert', {
+              clId : this.$store.state.auth.user.id,
+              clName : this.groupname,
+              clInfo : this.groupintro,
+              clColor : this.groupcolor,
+              clPassword : this.entercode
+              // sColor : this.pickColor,
+            })
+            .then(({ data }) => {
+              let msg = '등록 처리시 문제가 발생했습니다.';
+              if (data.data == 'success') {
+                msg = '등록이 완료되었습니다.';
+                alert(msg)
+                this.$router.push("/group");
+              }
+            })
         }
-    }
+  }
 }
 </script>
 

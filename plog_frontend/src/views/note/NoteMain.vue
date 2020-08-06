@@ -693,7 +693,10 @@ export default {
             }
         },
         createCategory() {
-           http.post('/category/insert', {
+          if(this.cName == ""){
+            alert("이름 쓰세요.")
+          } else{
+            http.post('/category/insert', {
               cName : this.cName,
               cUser : this.$store.state.auth.user.id
             })
@@ -704,6 +707,8 @@ export default {
                 this.$router.go();
               }
             });
+          }
+           
         },
 
         startDrag (evt, item) { 

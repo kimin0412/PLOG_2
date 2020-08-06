@@ -9,8 +9,11 @@ public interface ClubService {
 
 	List<Club> getClubList(int uId);
 
-	List<Schedule> getMonthScheduleList(int uId, int clId, String sDate);
+	List<Schedule> getMonthScheduleList(int clId, String sDate);
 
-	
+	void insertClub(Club club);
 
+	Club getClub(int clId);
+
+	String getHost(int clId);
 }

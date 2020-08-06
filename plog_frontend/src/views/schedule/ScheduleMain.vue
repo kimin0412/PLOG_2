@@ -34,7 +34,7 @@
                   </v-btn>
                 </template>
                 <v-list v-for="(item,i) in myClub"  :key="i" >
-                  <v-list-item @click="type = item.id; groupName = item.name">
+                  <v-list-item @click="type = item.id; groupName = item.name, groupColor = item.color, updateRange();">
                     <v-list-item-title>{{ item.name }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -67,8 +67,9 @@
                     </v-col>            
                   </template>
                   <v-card>
-                    <v-card-title>
-                      <span class="headline">New Schedule</span>
+                    <v-card-title >
+                      <span v-if="type < 2" class="headline">New Schedule</span>
+                      <span v-else class="headline">New {{ groupName }} Schedule</span>
                     </v-card-title>
                     <v-card-text>
                       <v-container>
@@ -87,14 +88,17 @@
                               <v-text-field label="Schedule Description*" v-model="sContent" required></v-text-field>
                             </v-col>
                             
-                            <v-col class="d-flex" cols="12">
+                            <v-col class="d-flex" cols="12" v-if="type < 2">
                               <v-select
                                 v-model="pickColor"
                                 :items="colors"
                                 filled
-                                label="Filled style"
+                                label="Pick Color"
                                 full-width
                               ></v-select>
+                            </v-col>
+                            <v-col v-else>
+                              <v-text-field label="color" v-model="groupColor" required></v-text-field>
                             </v-col>
                             <v-col cols="12" class="text-right">
                               <small>*indicates required field</small>
@@ -128,47 +132,7 @@
               @click:date="viewDay"
               @change="updateRange"
             ></v-calendar>
-            <!-- <v-menu
-              v-model="selectedOpen"
-              :close-on-content-click="false"
-              :activator="selectedElement"
-              offset-x
-            >
-              <v-card
-                color="grey lighten-4"
-                min-width="350px"
-                flat
-              >
-                <v-toolbar
-                  :color="selectedEvent.color"
-                  dark
-                >
-                  <v-btn icon>
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <span v-html="selectedEvent.details"></span>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn
-                    text
-                    color="secondary"
-                    @click="selectedOpen = false"
-                  >
-                    Cancel
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-menu> -->
+            
           </v-sheet>
           <v-col cols="12" class="text-center grey--text">
             <small>날짜(숫자)를 클릭하시면, 해당 날짜의 일정과 기록이 하단에 나타납니다 :)</small>
@@ -346,7 +310,7 @@
                                 v-model="pickColor"
                                 :items="colors"
                                 filled
-                                label="color"
+                                label="Pick Color"
                                 full-width
                               >
                               </v-select>
@@ -419,6 +383,7 @@
       typeToLabel: {
         'My Schedule' : 'My Schedule'
       },
+      month : "month",
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -456,10 +421,11 @@
 
       postOfSchedule : [],
       scheduleDetailId : '',
-      pickColor: "",
+      pickColor: "red",
 
       myClub : [],
-      groupName : 'My Schedule'
+      groupName : 'All Schedule',
+      groupColor : '',
     }),
 
     created() {
@@ -487,14 +453,16 @@
         });
       });
 
+      this.myClub = []
       http.get('/club/list', {
         params : {
           uId : this.$store.state.auth.user.id,
         }
       }).then(({ data }) => {
-        this.myClub.push({"name":"My Schedule",  "id": 0});  
+        this.myClub.push({"name":"All Schedule",  "id": 0});  
+        this.myClub.push({"name":"My Schedule",  "id": 1});  
         data.forEach(element => {
-          this.myClub.push({"name":element.clName,  "id": element.clId});  
+          this.myClub.push({"name":element.clName,  "id": element.clId, "color":element.clColor});  
         });
       });
 
@@ -640,7 +608,7 @@
         const events = []
         const allDay = this.rnd(0, 3) === 0
 
-        if(this.type == 0) {
+        if(this.type < 2 ) {
           http.get('/schedule/monthList', {
             params : {
               sId : this.$store.state.auth.user.id,
@@ -650,30 +618,42 @@
           }).then(({ data }) => {
             data.forEach(element => {
               //alert(element.s_startdate)
-
-              events.push({
-                name : element.sName,
-                start : element.sStartdate,
-                end : element.sEnddate,
-                color: element.sColor + " lighten-2",
-                
-                timed: !allDay,
-              })
+              if(this.type == 0){
+                events.push({
+                  name : element.sName,
+                  start : element.sStartdate,
+                  end : element.sEnddate,
+                  color: element.sColor + " lighten-2",
+                  
+                  timed: !allDay,
+                })
+              } else {
+                if(element.sClub < 2){
+                  events.push({
+                    name : element.sName,
+                    start : element.sStartdate,
+                    end : element.sEnddate,
+                    color: element.sColor + " lighten-2",
+                    
+                    timed: !allDay,
+                  })
+                }
+              }
             });
           });
-        }else {
+        }else { //클럽인경우
           http.get('/club/monthList', {
             params : {
-              uId : this.$store.state.auth.user.id,
               clId : this.type,
               sDate : this.$refs.calendar.title
+              
             }
             
           }).then(({ data }) => {
             data.forEach(element => {
               //alert(element.s_startdate)
-
-              events.push({
+              if(element.sClub == this.type){
+                events.push({
                 name : element.sName,
                 start : element.sStartdate,
                 end : element.sEnddate,
@@ -681,6 +661,8 @@
                 
                 timed: !allDay,
               })
+              }
+              
             });
           });
         }
@@ -695,14 +677,16 @@
       createSchedule () {
         this.dialog = false;
         this.dialog2 = false;
-        http
-          .post('/schedule/insert', {
+
+        if(this.type < 2){
+          http.post('/schedule/insert', {
             sName : this.sName,
             sContent : this.sContent,
             sStartdate : this.dates[0],
             sEnddate : this.dates[1],
             sColor : this.pickColor,
             sUser : this.$store.state.auth.user.id,
+            sClub : 1
             // sColor : this.pickColor,
           })
           .then(({ data }) => {
@@ -713,6 +697,26 @@
           }
           alert(msg);
           });
+        }else { //클럽인경우
+          http.post('/schedule/insert', {
+            sName : this.sName,
+            sContent : this.sContent,
+            sStartdate : this.dates[0],
+            sEnddate : this.dates[1],
+            sColor : this.groupColor,
+            sUser : this.$store.state.auth.user.id,
+            sClub : this.type,
+          })
+          .then(({ data }) => {
+          let msg = '등록 처리시 문제가 발생했습니다.';
+          if (data.data == 'success') {
+            msg = '등록이 완료되었습니다.';
+            this.$router.go();
+          }
+          alert(msg);
+          });
+        }
+        
       },
 
       scheduleDetail(val) {

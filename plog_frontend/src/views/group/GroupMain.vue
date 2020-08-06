@@ -84,9 +84,9 @@
             <v-col cols="12 mb-4">
               <div class="text-center display-1 font-weight-light">MY GROUP LIST</div>
             </v-col>
-            <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(n,i) in 4" :key="i">
+            <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(item,i) in myClub" :key="i">
               <v-hover v-slot:default="{ hover }">
-              <router-link to="/group/detail" class="text-decoration-none">
+              <router-link :to="{ path: 'group/detail', query:{clId:item.clId}}" class="text-decoration-none">
               <v-card
                 class="mx-auto"
                 :elevation="hover ? 12 : 2"
@@ -95,11 +95,11 @@
                 <v-card-text>
                   <div>group #{{i+1}}</div>
                   <p class="text-h4 text--primary mb-0">
-                    Group Name
+                    {{ item.clName }}
                   </p>
                   <p>Group host</p>
                   <div class="text--primary text-truncate">
-                    group explanation - name, purpose, to do, members etc
+                    {{ item.clInfo }}
                   </div>
                 </v-card-text>
               </v-card>
@@ -124,12 +124,23 @@
 </template>
 
 <script>
+import http from '@/util/http-common.js'
 export default {
     name: 'GroupMain',
     data() {
       return {
-
+        myClub : [],
       }
+    },
+    created() {
+      this.myClub = []
+      http.get('/club/list', {
+        params : {
+          uId : this.$store.state.auth.user.id,
+        }
+      }).then(({ data }) => {
+        this.myClub = data
+      });
     },
     methods: {
 

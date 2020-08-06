@@ -50,6 +50,11 @@ public class Post {
 	@Column
 	private String pColor;
 	
+	@Column
+	private int pClub;
+	
+
+
 	@Override
 	public String toString() {
 		return "Post [pId=" + pId + ", pTitle=" + pTitle + ", pContent=" + pContent + ", pDate=" + pDate + ", pUser="
@@ -129,6 +134,12 @@ public class Post {
 		this.pColor = pColor;
 	}
 	
-	
+	public int getpClub() {
+		return pClub;
+	}
+
+	public void setpClub(int pClub) {
+		this.pClub = pClub;
+	}
 	
 }
