@@ -32,7 +32,8 @@
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
+          <v-tab v-if="isLoggedin" class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
+          <v-tab v-else class="tabinfo navbarlistitemlink" @click="gotologin">Login</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotosearch">Search</v-tab>
         </v-tabs>
       </template>
@@ -45,7 +46,7 @@
       class="mynav-drawer"
     >
 
-    <v-list-item class="drawer-profile">
+    <v-list-item v-if="isLoggedin" class="drawer-profile">
       <router-link to="/mypage" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
@@ -53,6 +54,17 @@
         </v-col>
         <v-col cols="12" class="text-h6 py-0 white--text">Nickname</v-col>
         <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">email@email.com</v-col>
+      </v-row>
+      </router-link>
+    </v-list-item>
+    <v-list-item v-else class="drawer-profile">
+      <router-link to="/mypage" style="text-decoration:none;">
+      <v-row>
+        <v-col cols="12">
+          <v-icon class="white--text">mdi-account</v-icon>
+        </v-col>
+        <v-col cols="12" class="text-h6 py-0 white--text">WELCOME :)</v-col>
+        <v-col cols="12" class="text-subtitle-2 py-0 grey--text text--lighten-1">좋은 하루 되세요</v-col>
       </v-row>
       </router-link>
     </v-list-item>
@@ -104,13 +116,6 @@
 
           <v-divider></v-divider>
 
-          <router-link to="/mypage" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account-circle</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">My Page</v-list-item-title>
-          </v-list-item></router-link>
-
           <router-link to="/aboutus" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-information-outline</v-icon>
@@ -120,56 +125,71 @@
 
           <v-divider></v-divider>
 
-          <router-link to="/login" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)로그인</v-list-item-title>
-          </v-list-item></router-link>
+          <div v-if="isLoggedin">
+            <router-link to="/mypage" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account-circle</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">My Page</v-list-item-title>
+            </v-list-item></router-link>
+            <router-link to="/signup" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-box</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">Sign up</v-list-item-title>
+            </v-list-item></router-link>
+          </div>
+          <div v-else>
+            <router-link to="/signup" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-box</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">Sign up</v-list-item-title>
+            </v-list-item></router-link>
+            <router-link to="/login" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account-circle</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">Log in</v-list-item-title>
+            </v-list-item></router-link>          
+          </div>
 
-          <router-link to="/signup" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)회원가입</v-list-item-title>
-          </v-list-item></router-link>
-
-          <router-link to="/signup/error" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="/signup/error" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">(임시)가입오류</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
-          <router-link to="/signup/success" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="/signup/success" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">(임시)가입성공</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
-          <router-link to="/auth" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="/auth" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">로그인 필요</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
-          <router-link to="/note/update" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="/note/update" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">(임시)노트수정</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
-          <router-link to="error" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="error" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">(임시)전반적 에러</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
-          <router-link to="/v1" class="drawer-menu"><v-list-item>
+          <!-- <router-link to="/v1" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
@@ -181,7 +201,7 @@
               <v-icon>mdi-box</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">v2</v-list-item-title>
-          </v-list-item></router-link>
+          </v-list-item></router-link> -->
 
           <v-list-item @click="headeroff">
             <v-list-item-icon>
@@ -574,8 +594,14 @@ export default {
     } else {
       sessionStorage.setItem('visit', 1)
     }
+    // 로그인 여부 확인 후 데이터 수정해주기
+    if (this.$store.state.auth.status.loggedIn) {
+      this.isLoggedin = true
+    }
   },
   data: () => ({
+    // 로그인 여부
+    isLoggedin : false,
     btnShow : window.scrollY > 1,
     drawer: false,
     activeBtn: 1,
@@ -640,6 +666,11 @@ export default {
         this.$router.push('/search')
       }
     },
+    gotologin() {
+      if (this.$route.name !== 'Login'){
+        this.$router.push('/login')
+      }
+    },
     // 맨위로 버튼 + 노트 생성 버튼
     handleScroll() {
       this.btnShow = window.scrollY > 0;
@@ -666,6 +697,9 @@ export default {
         default: return {}
       }
     },
+    currentUser(){
+      return this.$store.state.auth.user;
+    }
   },
   watch: {
     top (val) {
@@ -680,6 +714,13 @@ export default {
     left (val) {
       this.right = !val
     },
+    // isLoggedin() {
+    //   if (this.$store.state.auth.status.loggedIn === true) {
+    //     this.isLoggedin = true
+    //   } else {
+    //     this.isLoggedin = false
+    //   }
+    // },
   }
 };
 </script>

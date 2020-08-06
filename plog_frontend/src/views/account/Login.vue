@@ -109,7 +109,7 @@ export default {
   },
   created() {
     if (this.$store.state.auth.status.loggedIn) {
-      this.$router.push('/aboutus');
+      this.$router.push('/mypage');
     }
   },
   methods: {
@@ -122,11 +122,10 @@ export default {
         }
 
         if (this.user.username && this.user.password) {
-        //if (this.user.email && this.user.password) {
-
           this.$store.dispatch('auth/login', this.user).then(
             () => {
-              this.$router.push('/mypage');
+              this.$store.state.auth.status.loggedIn = true
+              this.$router.push('/schedule');
             },
             error => {
               this.loading = false;
