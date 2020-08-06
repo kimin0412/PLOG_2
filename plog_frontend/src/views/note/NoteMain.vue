@@ -218,7 +218,7 @@
                     v-for="(note, index) in Notes" :key="index"
                     v-slot:default="{ active, toggle }"
                   >
-                  <div @click="getNote(note)">
+                  <div @click="getNoteInCategory(note)">
                     <v-card
                       v-if="note.pCategory == category.cId"
                       :color="active ? 'grey' : note.pColor"
@@ -264,7 +264,7 @@
                     <v-row
                       class="fill-height"
                     >
-                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected2.pId }}</v-col>
                       <v-flex class="py-0 text-center">
                         <v-btn text icon @click="bookmark()">
                           <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -272,14 +272,14 @@
                       </v-btn>
                       </v-flex>
                       <v-col cols="12" class="py-0 text-center text-h6">
-                      <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
-                        <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
+                      <router-link :to="{ path: 'note/detail', query:{pId:selected2.pId}}" class="py-0 text-center text-h6"> 
+                        <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
                       </router-link>
                       </v-col>
-                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
+                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                         <v-card-text class="d-flex justify-center flex-wrap py-0">
-                          <div v-for="(item,i) in hashtags"  v-bind:key="i" >
+                          <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
                             <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
                               <v-chip
                                 class="ma-2"
@@ -593,6 +593,8 @@ export default {
         updateCategoryDialog : false,
         cUpdateName : '',
         toUpdate : '',
+        selected2 : {},
+        hashtags2 : [],
       }
     },
     created() {
@@ -647,6 +649,23 @@ export default {
                 this.hashtags.push({"name" : element})
               });
             });
+        },
+        getNoteInCategory(note){
+          console.log(note)
+          this.selected2 = note
+          this.hashtags = []
+          this.bmToggle = note.pBookmark
+          http.get('/hashtag/select', {
+            params : {
+              uid : 1,
+              pid : this.selected2.pId,
+            }
+          })
+          .then(({data}) => {
+            data.forEach(element => {
+              this.hashtags2.push({"name" : element})
+            });
+          });
         },
         getTpNote(tpnote) {
             console.log(tpnote)

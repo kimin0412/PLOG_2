@@ -20,6 +20,25 @@
                 {{ $refs.calendar.title }}
               </v-toolbar-title>
               <v-spacer></v-spacer>
+              
+              <v-menu bottom right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    outlined
+                    color="grey darken-2"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <span>{{ groupName }}</span>
+                    <v-icon right>mdi-menu-down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list v-for="(item,i) in myClub"  :key="i" >
+                  <v-list-item @click="type = item.id; groupName = item.name">
+                    <v-list-item-title>{{ item.name }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
               <v-row>
                 <!-- 스케줄 생성 모달 -->
                 <v-dialog v-model="dialog2" persistent max-width="600px">
@@ -103,7 +122,7 @@
               color="primary"
               :events="events"
               :event-color="getEventColor"
-              :type="type"
+              :type="month"
 
               @click:more="viewDay"
               @click:date="viewDay"
@@ -396,12 +415,9 @@
       arrayEvents: null,
       date: new Date().toISOString().substr(0, 10),
       focus: '',
-      type: 'month',
+      type: 0,
       typeToLabel: {
-        month: 'Month',
-        week: 'Week',
-        day: 'Day',
-        '4day': '4 Days',
+        'My Schedule' : 'My Schedule'
       },
       selectedEvent: {},
       selectedElement: null,
@@ -439,42 +455,48 @@
       uDates : [],
 
       postOfSchedule : [],
-
       scheduleDetailId : '',
-
       pickColor: "",
+
+      myClub : [],
+      groupName : 'My Schedule'
     }),
 
     created() {
       //오늘의 일정, 포스트 가져오는 부분
-          this.dailySchedule = []
-          http
-          .get('/schedule/dayList', {
-            params : {
-              sId : 1,
-              sDate : this.date
-            }
-            
-          }).then(({ data }) => {
-            data.forEach(element => {
-              this.dailySchedule.push({"name":element.sName, "content" : element.sContent, "id": element.sId});  
-            });
-            
-          });
+      this.dailySchedule = []
+      http.get('/schedule/dayList', {
+        params : {
+          sId : 1,
+          sDate : this.date
+        }
+      }).then(({ data }) => {
+        data.forEach(element => {
+          this.dailySchedule.push({"name":element.sName, "content" : element.sContent, "id": element.sId});  
+        });
+      });
 
-          http
-          .get('/schedule/dayPost', {
-            params : {
-              sId : 1,
-              sDate : this.date
-            }
-          }).then(({ data }) => {
-            data.forEach(element => {
-              this.dailyPost.push({"name":element.pTitle, "id" : element.pId});             
-            });
-          });
+      http.get('/schedule/dayPost', {
+        params : {
+          sId : 1,
+          sDate : this.date
+        }
+      }).then(({ data }) => {
+        data.forEach(element => {
+          this.dailyPost.push({"name":element.pTitle, "id" : element.pId});             
+        });
+      });
 
-
+      http.get('/club/list', {
+        params : {
+          uId : 1,
+        }
+      }).then(({ data }) => {
+        this.myClub.push({"name":"My Schedule",  "id": 0});  
+        data.forEach(element => {
+          this.myClub.push({"name":element.clName,  "id": element.clId});  
+        });
+      });
 
 
     },
@@ -613,28 +635,13 @@
       next () {
         this.$refs.calendar.next()
       },
-      // showEvent ({ nativeEvent, event }) {
-      //   const open = () => {
-      //     this.selectedEvent = event
-      //     this.selectedElement = nativeEvent.target
-      //     setTimeout(() => this.selectedOpen = true, 10)
-      //   }
 
-      //   if (this.selectedOpen) {
-      //     this.selectedOpen = false
-      //     setTimeout(open, 10)
-      //   } else {
-      //     open()
-      //   }
-
-      //   nativeEvent.stopPropagation()
-      // },
       updateRange () {
         const events = []
         const allDay = this.rnd(0, 3) === 0
 
-        http
-          .get('/schedule/monthList', {
+        if(this.type == 0) {
+          http.get('/schedule/monthList', {
             params : {
               sId : 1,
               sDate : this.$refs.calendar.title
@@ -654,6 +661,30 @@
               })
             });
           });
+        }else {
+          http.get('/club/monthList', {
+            params : {
+              uId : 1,
+              clId : this.type,
+              sDate : this.$refs.calendar.title
+            }
+            
+          }).then(({ data }) => {
+            data.forEach(element => {
+              //alert(element.s_startdate)
+
+              events.push({
+                name : element.sName,
+                start : element.sStartdate,
+                end : element.sEnddate,
+                color: element.sColor + " lighten-2",
+                
+                timed: !allDay,
+              })
+            });
+          });
+        }
+        
 
         this.events = events
       },

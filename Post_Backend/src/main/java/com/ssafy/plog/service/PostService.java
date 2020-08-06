@@ -20,10 +20,17 @@ public interface PostService {
 
 	boolean updatePost(Post post);
 
-	void registPost(Post post);
+	int registPost(Post post);
 
 	List<Post> selectByCategory(int uid, int c_id);
 
 	List<Category> getCategory(int uid);
 
+	public List<Post> selectByWord(int uid, String word, boolean[] checklist);
+
+	boolean bookmarkByPid(int pid);
+
+	List<Post> searchHashtag(int uid, String hName);
+
+	public List<Post> selectByBookmark(int uid);
 }

@@ -1,6 +1,7 @@
 package com.ssafy.plog.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -11,14 +12,22 @@ public interface ScheduleService {
 
 	void insertSchedule(Schedule schedule);
 	
-	List<Schedule> getMonthScheduleList(String date);
+	List<Schedule> getMonthScheduleList(String date, int sId);
 
 	void updateSchedule(Schedule schedule);
 
 	void deleteSchedule(Schedule schedule);
 
-	List<Schedule> getDailyScheduleList(String sDate);
+	List<Schedule> getDailyScheduleList(String sDate, int sId);
 	
-	List<Post> getPost(Schedule schedule);
+	List<Post> getPost(String sDate, int sId);
+
+	List<Integer> getMonthScheduleListPicker(String sDate, int sId);
+
+	List<Integer> getMonthPostListPicker(String sDate, int sId);
+
+	Schedule selectById(String sId, int sUser);
+
+	List<Post> selectPostById(String sId);
 
 }

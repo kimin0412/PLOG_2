@@ -2,6 +2,8 @@ package com.ssafy.plog.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -18,55 +20,60 @@ import lombok.NoArgsConstructor;
 @Data
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Schedule {
+	
 	@Id
-	private int s_Id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int sId;
 	
 	@Column
-	private String s_Name;
-	private String s_Content;
-	private String s_Startdate;
-	private String s_Enddate;
-	private String s_User;
-	public int getS_Id() {
-		return s_Id;
+	private String sName;
+	private String sContent;
+	private String sStartdate;
+	private String sEnddate;
+	private int sUser;
+	private String sColor;
+	
+	public int getsId() {
+		return sId;
 	}
-	public void setS_Id(int s_Id) {
-		this.s_Id = s_Id;
+	public void setsId(int sId) {
+		this.sId = sId;
 	}
-	public String getS_Name() {
-		return s_Name;
+	public String getsName() {
+		return sName;
 	}
-	public void setS_Name(String s_Name) {
-		this.s_Name = s_Name;
+	public void setsName(String sName) {
+		this.sName = sName;
 	}
-	public String getS_Content() {
-		return s_Content;
+	public String getsContent() {
+		return sContent;
 	}
-	public void setS_Content(String s_Content) {
-		this.s_Content = s_Content;
+	public void setsContent(String sContent) {
+		this.sContent = sContent;
 	}
-	public String getS_Startdate() {
-		return s_Startdate;
+	public String getsStartdate() {
+		return sStartdate;
 	}
-	public void setS_Startdate(String s_Startdate) {
-		this.s_Startdate = s_Startdate;
+	public void setsStartdate(String sStartdate) {
+		this.sStartdate = sStartdate;
 	}
-	public String getS_Enddate() {
-		return s_Enddate;
+	public String getsEnddate() {
+		return sEnddate;
 	}
-	public void setS_Enddate(String s_Enddate) {
-		this.s_Enddate = s_Enddate;
+	public void setsEnddate(String sEnddate) {
+		this.sEnddate = sEnddate;
 	}
-	public String getS_User() {
-		return s_User;
+	public int getsUser() {
+		return sUser;
 	}
-	public void setS_User(String s_User) {
-		this.s_User = s_User;
+	public void setsUser(int sUser) {
+		this.sUser = sUser;
 	}
-	@Override
-	public String toString() {
-		return "Schedule [s_Id=" + s_Id + ", s_Name=" + s_Name + ", s_Content=" + s_Content + ", s_Startdate="
-				+ s_Startdate + ", s_Enddate=" + s_Enddate + ", s_User=" + s_User + "]";
+	public String getsColor() {
+		return sColor;
+	}
+	public void setsColor(String sColor) {
+		this.sColor = sColor;
 	}
 	
 	
