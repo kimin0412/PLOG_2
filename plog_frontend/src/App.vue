@@ -24,7 +24,7 @@
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <router-link to="/special"  class="white--text" style="text-decoration: none;"><v-icon>mdi-star</v-icon></router-link>
+        <router-link to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-star</v-icon></router-link>
       </v-btn>
 
       <template v-slot:extension>

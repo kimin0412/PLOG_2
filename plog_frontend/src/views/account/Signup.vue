@@ -7,10 +7,10 @@
                     <v-col cols="12" class="py-1 text-h4 text-center font-weight-bold">Sign up</v-col>
                 </v-row>
                 <v-row justify="center" class="mt-7">
-                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">Username</v-col>
+                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">UserID</v-col>
                     <v-col cols="12" class="py-0">
                         <v-text-field
-                        placeholder="닉네임을 입력해주세요"
+                        placeholder="아이디를 입력해주세요"
                         filled
                         rounded
                         dense
