@@ -421,7 +421,7 @@ export default {
 
     created () {
       if(this.hashtagName != undefined) {
-        alert("search")
+        this.searched = true
         this.pastword = this.searched
         this.searchword = this.hashtagName
         this.op1 = false
