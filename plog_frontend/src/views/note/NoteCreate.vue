@@ -642,7 +642,6 @@ export default {
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-    //   alert(content);
 
       http
         .post("/post/", {
@@ -653,6 +652,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
+          pClub : 1
         })
         .then(({ data }) => {
           if (data.data == "success") {

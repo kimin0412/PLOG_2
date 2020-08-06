@@ -102,7 +102,7 @@
                             <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                             <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                               <v-card-text class="d-flex justify-center py-0">
-                                <div v-for="item in hashtags"  v-bind:key = "item" >
+                                <div v-for="(item,i) in hashtags"  v-bind:key="i" >
                                   <v-btn small color="primary">{{item.name}}</v-btn>
                                 </div>
                               </v-card-text>
@@ -421,7 +421,7 @@ export default {
 
     created () {
       if(this.hashtagName != undefined) {
-        alert("search")
+        this.searched = true
         this.pastword = this.searched
         this.searchword = this.hashtagName
         this.op1 = false
