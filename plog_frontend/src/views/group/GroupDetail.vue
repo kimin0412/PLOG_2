@@ -28,19 +28,19 @@
                               <tbody>
                                 <tr>
                                   <td>Group Name</td>
-                                  <td>싸라밸</td>
+                                  <td>{{ myClub.clName }}</td>
                                 </tr>
                                 <tr>
                                   <td>Group Host</td>
-                                  <td>M.J. Kim</td>
+                                  <td>{{ host }}</td>
                                 </tr>
                                 <tr>
                                   <td>Group Color</td>
-                                  <td>color</td>
+                                  <td>{{ myClub.clColor }}</td>
                                 </tr>
                                 <tr>
                                   <td>Created</td>
-                                  <td>2020.00.00</td>
+                                  <td>{{ regdate }}</td>
                                 </tr>
                               </tbody>
                             </template>
@@ -202,15 +202,38 @@
 </template>
 
 <script>
+import http from '@/util/http-common.js';
 export default {
     name: 'GroupDetail',
     data() {
       return {
-
+        groupId: this.$route.query.clId,
+        myClub : [],
+        host : '',
+        regdate : '',
       }
     },
-    methods: {
 
+    created() {
+      http.get('/club', {
+          params : {
+            clId : this.groupId,
+          }
+        }).then(({ data }) => {
+          this.myClub = data
+          this.regdate = this.myClub.clRegdate.substr(0, 10)
+        });
+
+        http.get('/club/host', {
+          params : {
+            clId : this.groupId,
+          }
+        }).then(({ data }) => {
+          this.host = data
+        });
+    },
+    methods: {
+      
     }
 }
 </script>

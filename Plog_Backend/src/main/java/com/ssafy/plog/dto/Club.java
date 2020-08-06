@@ -33,6 +33,8 @@ public class Club {
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime clRegdate;
 	private String clColor;
+	private String clPassword;
+	
 	public int getClId() {
 		return clId;
 	}
@@ -62,6 +64,12 @@ public class Club {
 	}
 	public void setClColor(String clColor) {
 		this.clColor = clColor;
+	}
+	public String getClPassword() {
+		return clPassword;
+	}
+	public void setClPassword(String clPassword) {
+		this.clPassword = clPassword;
 	}
 	
 	

@@ -420,7 +420,8 @@ export default {
     // },
 
     created () {
-      if(this.hashtagName != null || this.hashtagName != '' || this.hashtagName != undefined){
+      if(this.hashtagName != undefined) {
+        alert("search")
         this.pastword = this.searched
         this.searchword = this.hashtagName
         this.op1 = false
