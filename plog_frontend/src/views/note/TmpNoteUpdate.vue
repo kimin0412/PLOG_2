@@ -321,7 +321,7 @@ export default {
     http
       .get("/hashtag/getnextPostId", {
         params: {
-          uId: 1,
+          uId: this.$store.state.auth.user.id,
         },
       })
       .then(({ data }) => {
@@ -370,7 +370,7 @@ export default {
         .post("/post/", {
           pTitle: this.title,
           pContent: content,
-          pUser: 1,
+          pUser: this.$store.state.auth.user.id,
           pSchedule: this.dialogm1,
           pCategory: 1,
           pColor: this.pickColor,
@@ -430,7 +430,7 @@ export default {
           tpId: this.tpId,
           tpTitle: this.title,
           tpContent: content,
-          tpUser: 1,
+          tpUser: this.$store.state.auth.user.id,
         })
         .then((Response) => {
           if (Response.data === "success") {

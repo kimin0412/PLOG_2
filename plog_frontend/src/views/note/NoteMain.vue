@@ -133,7 +133,7 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col> 
+                    <v-col cols="12" class="py-0 text-center">Note Info.</v-col> 
                     <v-flex class="py-0 text-center">
                       <v-btn text icon @click="bookmark()">
                         <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -264,7 +264,7 @@
                     <v-row
                       class="fill-height"
                     >
-                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                      <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
                       <v-flex class="py-0 text-center">
                         <v-btn text icon @click="bookmark()">
                           <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -370,7 +370,7 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>                    
+                    <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>                    
                     <v-col cols="12" class="py-0 text-center text-h6">
                     <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                       <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -456,7 +456,7 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                    <v-col cols="12" class="py-0 text-center">Note Info</v-col>
                     <v-flex xs12 sm3 class="text-center">
                       <v-btn text icon @click="bookmark()">
                         <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
@@ -550,7 +550,7 @@
                   <v-row
                     class="fill-height"
                   >
-                    <v-col cols="12" class="py-0 text-center">Note . {{ tpselected.tpId }}</v-col>
+                    <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
                     <v-col cols="12" class="py-0 text-center text-h6">
                     <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                       <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -599,7 +599,7 @@ export default {
       window.scrollTo(0, 0);
       http.get('/category/listAll', {
         params : {
-          uid : 1,
+          uid : this.$store.state.auth.user.id,
         }
       })
       .then(({data}) => {
@@ -608,7 +608,7 @@ export default {
 
       http.get('/post/list/all', {
         params : {
-          uid : 1,
+          uid : this.$store.state.auth.user.id,
         }
       })
       .then(({data}) => {
@@ -620,7 +620,7 @@ export default {
       });
       http.get('/tp/list/all', {
         params : {
-          uId : 1,
+          uId : this.$store.state.auth.user.id,
         }
       })
       .then(({data}) => {
@@ -638,7 +638,7 @@ export default {
             this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -656,7 +656,7 @@ export default {
         bookmark(){
           http.get('/post/bookmark', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -676,7 +676,7 @@ export default {
         createCategory() {
            http.post('/category/insert', {
               cName : this.cName,
-              cUser : 1
+              cUser : this.$store.state.auth.user.id
             })
             .then(({data}) => {
               if(data.data == 'success'){

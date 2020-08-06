@@ -88,7 +88,7 @@ public class TmppostController {
 	    }
 	 
 	 
-		@GetMapping("/list/search")
+		@GetMapping("/list/search/sample")
 		public Object selectByTitle(@RequestParam final String searchword) {
 			List<Post> posts = service.selectByTitle(searchword);
 	    	return new ResponseEntity<>(posts, HttpStatus.OK);
