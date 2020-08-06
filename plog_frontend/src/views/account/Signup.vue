@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="d-none d-sm-block pt-12">
+        <div class="d-none d-sm-block">
             <div class="centercontent mx-auto">
             <v-container>
                 <v-row>
@@ -14,7 +14,7 @@
                         filled
                         rounded
                         dense
-                        v-model="username"
+                        v-model="user.username"
                         autofocus
                         ></v-text-field>            
                     </v-col>
@@ -25,7 +25,7 @@
                         filled
                         rounded
                         dense
-                        v-model="useremail"
+                        v-model="user.email"
                         ></v-text-field>            
                     </v-col>
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password</v-col>
@@ -36,7 +36,7 @@
                         rounded
                         dense
                         type="password"
-                        v-model="userpassword"
+                        v-model="user.password"
                         ></v-text-field> 
                     </v-col>    
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password 확인</v-col>
@@ -47,12 +47,12 @@
                         rounded
                         dense
                         type="password"
-                        v-model="userpassword2"
+                        v-model="password2"
                         ></v-text-field> 
                     </v-col>     
                 </v-row>
                 <v-row class="px-3">
-                    <v-btn @click="sendSignupData" rounded color="blue" dark block>Sign up</v-btn>
+                    <v-btn @click="handleRegister" rounded color="blue" dark block>Sign up</v-btn>
                 </v-row>
                 <v-row class="px-5 mt-2">
                     <v-col cols="8" class="py-0 grey--text text-caption pt-1">이미 계정이 있으신가요?</v-col>
@@ -74,7 +74,7 @@
                         filled
                         rounded
                         dense
-                        v-model="username"
+                        v-model="user.username"
                         autofocus
                         ></v-text-field>            
                     </v-col>
@@ -85,7 +85,7 @@
                         filled
                         rounded
                         dense
-                        v-model="useremail"
+                        v-model="user.email"
                         ></v-text-field>            
                     </v-col>
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password</v-col>
@@ -96,7 +96,7 @@
                         rounded
                         dense
                         type="password"
-                        v-model="userpassword"
+                        v-model="user.password"
                         ></v-text-field> 
                     </v-col>    
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password 확인</v-col>
@@ -107,12 +107,12 @@
                         rounded
                         dense
                         type="password"
-                        v-model="userpassword2"
+                        v-model="password2"
                         ></v-text-field> 
                     </v-col>     
                 </v-row>
                 <v-row class="px-3">
-                    <v-btn @click="sendSignupData" rounded color="blue" dark block>Sign up</v-btn>
+                    <v-btn @click="handleRegister" rounded color="blue" dark block>Sign up</v-btn>
                 </v-row>
                 <v-row class="px-5 mt-2">
                     <v-col cols="8" class="py-0 grey--text text-caption pt-1">이미 계정이 있으신가요?</v-col>
@@ -122,7 +122,7 @@
         </div>
     </div>
 </template>
-
+<!--
 <script>
 export default {
     name: 'signup',
@@ -164,7 +164,58 @@ export default {
     }
 }
 </script>
+-->
 
+<script>
+import User from '../../models/user';
+
+export default {
+  name: 'Register',
+  data() {
+    return {
+      user: new User('', '', ''),
+      submitted: false,
+      successful: false,
+      password2:'',
+      message: '',
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.push('/logout');
+    }
+  },
+  methods: {
+    handleRegister() {
+      this.message = '';
+      this.submitted = true;
+      this.$validator.validate().then(isValid => {
+        if (isValid) {
+          this.$store.dispatch('auth/register', this.user).then(
+            data => {
+              this.message = data.message;
+              this.successful = true;
+              this.$router.push('signup/success');
+            },
+            error => {
+              this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+              this.successful = false;
+            }
+          );
+        }
+      });
+    }
+  }
+};
+</script>
 <style scoped>
 .linkto {
   text-decoration: none;

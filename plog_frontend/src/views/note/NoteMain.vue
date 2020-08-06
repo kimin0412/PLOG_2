@@ -18,6 +18,8 @@
           </v-col>
         </v-row>
         <v-row class=" mb-4">
+          
+          <!-- 카테고리 생성 모달 -->
           <v-menu
             v-model="categoryDialog"
             :close-on-content-click="false"
@@ -43,6 +45,34 @@
             </v-card-actions>
           </v-card>
           </v-menu>
+
+          <!-- 카테고리 수정 모달 -->
+          <v-menu
+            v-model="updateCategoryDialog"
+            :close-on-content-click="false"
+            offset-x
+          >
+          <v-card>
+            <v-card-title>
+              <span class="headline">Update Category</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field label="Category Name*" v-model="cUpdateName" required></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="updateCategory">수정하기</v-btn>
+              <v-btn color="blue darken-1" text @click="updateCategoryDialog = false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+          </v-menu>
+
 
           <v-sheet
               class="mx-auto mysheet"
@@ -116,22 +146,24 @@
                     </router-link>
                     </v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
-                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                      <v-card-text class="d-flex justify-center py-0">
+                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
+                      <v-card-text class="d-flex justify-center flex-wrap py-0">
                         <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                          <v-chip
-                            class="ma-2"
-                            color="teal"
-                            text-color="white"
-                          >
-                            <v-avatar left>
-                              <v-icon>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>
-                            {{item.name}}
-                          </v-chip>
+                          <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
+                              <v-chip
+                                class="ma-2"
+                                color="teal"
+                                text-color="white"
+                                small
+                              >
+                                <v-avatar left>
+                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                </v-avatar>
+                                {{item.name}}
+                              </v-chip>
+                            </router-link>
                         </div>
                       </v-card-text>
-                    </v-col>
                   </v-row>
                 </v-sheet>
               </v-expand-transition>
@@ -163,7 +195,7 @@
                           key="0"
                         >
                           <v-icon color="red" class="mr-2" @click="deleteCategory( category.cId )">mdi-delete</v-icon>
-                          <v-icon dark color="blue" class="mr-2">mdi-wrench</v-icon>
+                          <v-icon dark color="blue" class="mr-2" @click="openUpdateDialog( category.cId, category.cName )" >mdi-wrench</v-icon>
                         </span>
                       </v-fade-transition>
                     </v-col>
@@ -226,7 +258,7 @@
                   <v-sheet
                     v-if="modelInCategory != null"
                     color="grey lighten-4"
-                    height="200"
+                    height="250"
                     tile
                   >
                     <v-row
@@ -246,18 +278,22 @@
                       </v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                        <v-card-text class="d-flex justify-center py-0">
+                        <v-card-text class="d-flex justify-center flex-wrap py-0">
                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                            <v-chip
-                              class="ma-2"
-                              color="teal"
-                              text-color="white"
-                            >
-                              <v-avatar left>
-                                <v-icon>mdi-checkbox-marked-circle</v-icon>
-                              </v-avatar>
-                              {{item.name}}
-                            </v-chip>
+                            <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
+                              <v-chip
+                                class="ma-2"
+                                color="teal"
+                                text-color="white"
+                                small
+                              >
+                                <v-avatar left>
+                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                </v-avatar>
+                                {{item.name}}
+                              </v-chip>
+                            </router-link>
+                            
                           </div>
                         </v-card-text>
                       </v-col>
@@ -436,16 +472,19 @@
                     <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                       <v-card-text class="d-flex justify-center py-0">
                         <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                          <v-chip
-                            class="ma-2"
-                            color="teal"
-                            text-color="white"
-                          >
-                            <v-avatar left>
-                              <v-icon>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>
-                            {{item.name}}
-                          </v-chip>
+                          <router-link :to="{ path: 'search', query:{hId:item.name}}" class="py-0 text-center text-h6"> 
+                            <v-chip
+                              class="ma-2"
+                              color="teal"
+                              text-color="white"
+                            >
+                              <v-avatar left>
+                                <v-icon>mdi-checkbox-marked-circle</v-icon>
+                              </v-avatar>
+                              {{item.name}}
+                            </v-chip>
+                          </router-link>
+                          
                         </div>
                       </v-card-text>
                     </v-col>
@@ -551,6 +590,9 @@ export default {
         categories : [],
         modelInCategory : null,
         panel : true,
+        updateCategoryDialog : false,
+        cUpdateName : '',
+        toUpdate : '',
       }
     },
     created() {
@@ -688,7 +730,25 @@ export default {
               }
             });
           }
-        }
+        },
+
+        openUpdateDialog( cId, cName ) {
+          this.updateCategoryDialog = true
+          this.cUpdateName = cName
+          this.toUpdate = cId
+        },
+
+        updateCategory () {
+          http.put('/category/update', {
+              cId : this.toUpdate,
+              cName : this.cUpdateName
+          })
+            .then(({data}) => {
+              if(data.data == 'success'){
+                this.$router.go();
+              }
+            });
+        },
     },
 }
 </script>

@@ -56,22 +56,31 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" class="px-0">
               <div id="emoDiv">
-                <input type="hidden" id="hidden-area" :value="hiddenArea" />
-                <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">👀</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💩</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💬</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💭</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💯</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📝</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📢</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📷</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                <v-sheet
+                  class="mx-0"
+                >
+                  <v-slide-group show-arrows mandatory>
+                    <input type="hidden" id="hidden-area" :value="hiddenArea" />
+                    <v-slide-item
+                      v-for="(emo,i) in emojiall"
+                      :key="i"
+                      v-slot:default="{ active, toggle }"
+                    >
+                      <v-btn
+                        class="mx-1 px-1"
+                        :input-value="active"
+                        active-class="yellow darken-2 white--text"
+                        depressed
+                        rounded
+                        @click="toggle"
+                      >
+                        <v-btn class="emoji transparent" elevation="0" rounded @click="addEmoji">{{emo}}</v-btn>
+                      </v-btn>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-sheet>
               </div>
             </v-col>
             <v-col cols="12">
@@ -319,29 +328,6 @@
             </v-container>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12" class="py-1 text-h6 my-2">Emoji</v-col>
-          <v-col cols="12">
-            <div id="emoDiv">
-              <input type="hidden" id="hidden-area2" :value="hiddenArea2" />
-              <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
-              <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
-              <v-btn class="emoji" @click="addEmoji">👀</v-btn>
-              <v-btn class="emoji" @click="addEmoji">💩</v-btn>
-              <v-btn class="emoji" @click="addEmoji">💬</v-btn>
-              <v-btn class="emoji" @click="addEmoji">💭</v-btn>
-              <v-btn class="emoji" @click="addEmoji">💯</v-btn>
-              <v-btn class="emoji" @click="addEmoji">📝</v-btn>
-              <v-btn class="emoji" @click="addEmoji">📞</v-btn>
-              <v-btn class="emoji" @click="addEmoji">📢</v-btn>
-              <v-btn class="emoji" @click="addEmoji">📷</v-btn>
-              <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
-              <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
-            </div>
-            <br />
-            <br />
-          </v-col>
-        </v-row>
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
@@ -563,8 +549,10 @@ export default {
   },
   data() {
     return {
+      emojiall: [
+        '⏰','🌞','👀','💩','💬','💭','💯','📝','📞','📢','📷','🔞','🔥',
+      ],
       hiddenArea: "",
-      hiddenArea2: "",
       title: "",
       content: "",
       chip2: true,
