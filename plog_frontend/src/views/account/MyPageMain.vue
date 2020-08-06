@@ -223,6 +223,9 @@ export default {
       }
     },
     created() {
+      // if (!this.$store.state.auth.status.loggedIn) {
+      //   this.$router.push('/login');
+      // }
        http.get('/post/list/bookmark',{
          params : {
            uid : this.$store.state.auth.user.id,
