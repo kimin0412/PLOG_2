@@ -33,7 +33,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public void insertSchedule(Schedule schedule) {
-		System.out.println(schedule.toString());
 		sdao.save(schedule);
 	}
 
@@ -73,7 +72,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}
 		
 		int[] dayofMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-		boolean[] isAnySchedule = new boolean[dayofMonth[curMonth]+1];
+		boolean[] isAnySchedule = new boolean[dayofMonth[curMonth-1]+1];
 		int sMonth, eMonth, sDay, eDay;
 		Schedule cur;
 		

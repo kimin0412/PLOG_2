@@ -233,3 +233,8 @@ branch : master > develop > feature-main
   - 민재
     - 스케쥴, POST, 해시태그 CRUD등 백단 최종 점검
     - 검색 기능 백단과 연결해서 구현
+
+
+
+## day 12
+ 

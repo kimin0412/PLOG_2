@@ -8,15 +8,16 @@
           <v-col cols="12" class="py-1 text-h4 font-weight-bold text-center">Log in</v-col>
         </v-row>
         <v-row justify="center" class="mt-7">
-          <v-col cols="12" class="py-1 text-subtitle-2 grey--text">E-mail</v-col>
+          <v-col cols="12" class="py-1 text-subtitle-2 grey--text">ID</v-col>
           <v-col cols="12" class="py-0 px-0">
             <v-text-field
-              placeholder="이메일을 입력해주세요"
+              placeholder="ID를 입력해주세요"
               filled
               rounded
               dense
-              v-model="useremail"
+              v-model="user.username"
               clearable
+              tabindex = "1"
               autofocus
             ></v-text-field>            
           </v-col>
@@ -29,12 +30,13 @@
               dense
               type="password"
               clearable
-              v-model="userpassword"
+              tabindex = "2"
+              v-model="user.password"
             ></v-text-field> 
           </v-col>      
         </v-row>
         <v-row>
-          <v-btn @click="sendLoginData" rounded color="blue" dark block>Log in</v-btn>
+          <v-btn @click="handleLogin" rounded color="blue" dark block>Log in</v-btn>
         </v-row>
         <v-row class="mt-2">
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">비밀번호를 잊었습니까?</v-col>
@@ -60,7 +62,7 @@
               filled
               rounded
               dense
-              v-model="useremail"
+              v-model="user.username"
               autofocus
             ></v-text-field>            
           </v-col>
@@ -72,12 +74,12 @@
               rounded
               dense
               type="password"
-              v-model="userpassword"
+              v-model="user.password"
             ></v-text-field> 
           </v-col>      
         </v-row>
         <v-row class="px-3">
-          <v-btn  @click="sendLoginData" rounded color="blue" dark block>Log in</v-btn>
+          <v-btn  @click="handleLogin" rounded color="blue" dark block>Log in</v-btn>
         </v-row>
         <v-row class="px-5 mt-2">
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">비밀번호를 잊었습니까?</v-col>
@@ -91,33 +93,82 @@
 </template>
 
 <script>
+import User from '../../models/user';
+
 export default {
-  name: 'login',
+  name: 'Login',
   data() {
     return {
-      useremail:'',
-      userpassword:'',
-      errmessage1: '',
-      errmessage2: '',
+      user: new User('', ''),
+      loading: false,
+      message: ''
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.$store.state.auth.status.loggedIn) {
+      this.$router.push('/mypage');
     }
   },
   methods: {
-    sendLoginData() {
-      if (!this.useremail || !this.userpassword) {
-        alert('모든 항목을 입력해야 합니다')
-      } else {
-        if (!/.+@.+\..+/.test(this.useremail)) {
-          alert('이메일 형식으로 입력해주세요. 예시) example@example.com')
-          } else {
-            alert('성공') //요청
-            // 요청보내면 됨
-            // 성공하면 => 쿠키 세팅하고 스케쥴 페이지로 렌더링
-            // 실패하면 => 오류 페이지로 렌더링
-          }
-      }
+    handleLogin() {
+      this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+
+        if (this.user.username && this.user.password) {
+          this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              this.$store.state.auth.status.loggedIn = true
+              this.$router.push('/schedule');
+            },
+            error => {
+              this.loading = false;
+              this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            }
+          );
+        }
+      });
     }
   }
-}
+};
+// export default {
+//   name: 'login',
+//   data() {
+//     return {
+//       useremail:'',
+//       userpassword:'',
+//       errmessage1: '',
+//       errmessage2: '',
+//     }
+//   },
+//   methods: {
+//     sendLoginData() {
+//       if (!this.useremail || !this.userpassword) {
+//         alert('모든 항목을 입력해야 합니다')
+//       } else {
+//         if (!/.+@.+\..+/.test(this.useremail)) {
+//           alert('이메일 형식으로 입력해주세요. 예시) example@example.com')
+//           } else {
+//             alert('성공') //요청
+//             // 요청보내면 됨
+//             // 성공하면 => 쿠키 세팅하고 스케쥴 페이지로 렌더링
+//             // 실패하면 => 오류 페이지로 렌더링
+//           }
+//       }
+//     }
+//   }
+// }
 </script>
 
 <style scoped>

@@ -1,15 +1,12 @@
 package com.ssafy.plog.controller;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.plog.dto.BasicResponse;
 import com.ssafy.plog.dto.Hashtag;
-import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.service.HashTagService;
 
 @CrossOrigin("*")
@@ -35,7 +31,7 @@ public class HashTagController {
     	
     	if(!hashtag.gethName().equals("")) {
             String[] tags = hashtag.gethName().split(" ");
-            hService.insertHashTag(tags, hashtag.gethId());
+            hService.insertHashTag(tags, hashtag.gethId()%1000, hashtag.gethId()/1000);
          }
     	
     	result.status = true;
@@ -59,4 +55,21 @@ public class HashTagController {
     	ht.sethId(no+1);
 		return ht;
 	}
+    
+    @DeleteMapping("/hashtag/delete")
+    @ResponseBody
+    public Object deleteHashtag(@RequestParam int pId) { 
+    	hService.deletePostHashtag(pId);
+    	
+    	final BasicResponse result = new BasicResponse();
+    	
+    	result.status = true;
+        result.data = "success";	
+    		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+    
+    
+    
 }

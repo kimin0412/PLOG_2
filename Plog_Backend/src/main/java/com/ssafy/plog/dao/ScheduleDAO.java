@@ -34,4 +34,7 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 	@Transactional
 	@Query(value = "UPDATE schedule SET s_name = ?2 , s_content = ?3 , s_startdate = ?4 , s_enddate = ?5 WHERE s_user = ?6 and s_id = ?1 ", nativeQuery=true)
 	public int update(int s_Id, String s_Name, String s_Content, String s_Startdate, String s_Enddate, int s_user);
+
+	@Query(value = "select * from schedule where (s_Startdate like %?1% or s_Enddate like %?1% ) and s_club = ?2 ", nativeQuery=true)
+	public List<Schedule> selectByGroupMonth(String monthAndYear, int clId);
 }

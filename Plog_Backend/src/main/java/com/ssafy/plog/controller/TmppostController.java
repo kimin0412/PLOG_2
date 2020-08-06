@@ -44,8 +44,12 @@ public class TmppostController {
     }
 	
 	@GetMapping("/list/search")
-	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword) {	//@RequestParam final String searchType,
-		List<Tmppost> posts = service.selectByTitle(uid, searchword);
+	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword,
+			@RequestParam final Boolean c1, @RequestParam final Boolean c2) {
+		boolean[] checklist = new boolean[3];
+		checklist[0] = c1;
+		checklist[1] = c2;
+		List<Tmppost> posts = service.selectByWord(uid, searchword, checklist);
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
@@ -84,5 +88,18 @@ public class TmppostController {
 	    }
 	 
 	 
+		@GetMapping("/list/search/sample")
+		public Object selectByTitle(@RequestParam final String searchword) {
+			List<Post> posts = service.selectByTitle(searchword);
+	    	return new ResponseEntity<>(posts, HttpStatus.OK);
+	    }
+		
+		@GetMapping("join")
+		public Object joinClub(@RequestParam final int uId, @RequestParam final int clId, @RequestParam final String password) {
+			if(service.joinClub(uId, clId, password))
+				return new ResponseEntity<>("success", HttpStatus.OK);
+			else
+				return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+	    }
 			 
 }

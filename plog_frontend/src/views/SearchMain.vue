@@ -87,7 +87,13 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
+                            <v-flex class="py-0 text-center">
+                              <v-btn text icon @click="bookmark()">
+                                <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                                <v-icon large color="gray" v-else>mdi-star</v-icon>
+                              </v-btn>
+                            </v-flex>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -166,7 +172,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -208,9 +214,9 @@
             </v-col>
           </v-row>
           <v-row>
-              <v-col cols="4" class="py-0"><v-switch v-model="op4" :label="`제목${op4.toString()}`"></v-switch></v-col>
-              <v-col cols="4" class="py-0"><v-switch v-model="op5" :label="`내용${op5.toString()}`"></v-switch></v-col>
-              <v-col cols="4" class="py-0"><v-switch v-model="op6" :label="`#${op6.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op1" :label="`제목${op1.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op2" :label="`내용${op2.toString()}`"></v-switch></v-col>
+              <v-col cols="4" class="py-0"><v-switch v-model="op3" :label="`#${op3.toString()}`"></v-switch></v-col>
           </v-row>
           <v-row v-if="searched" class="mt-3">
             <v-col cols="12" class="py-1 text-subtitle-2 text-center grey--text">'{{ searchword }}' 에 대한 검색결과입니다.</v-col>
@@ -234,7 +240,7 @@
                         center-active
                       >
                         <v-slide-item
-                          v-for="(note, index) in this.Notes" :key="index"
+                          v-for="(note, index) in Notes" :key="index"
                           v-slot:default="{ active, toggle }"
                         >
                         <div @click="getNote(note)">
@@ -277,7 +283,13 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ selected.pId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
+                            <v-flex class="py-0 text-center">
+                             <v-btn text icon @click="bookmark()">
+                                <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                                <v-icon large color="gray" v-else>mdi-star</v-icon>
+                              </v-btn>
+                            </v-flex>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
@@ -356,7 +368,7 @@
                           <v-row
                             class="fill-height"
                           >
-                            <v-col cols="12" class="py-0 text-center">Note no. {{ tpselected.tpId }}</v-col>
+                            <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
                             <v-col cols="12" class="py-0 text-center text-h6">
                             <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
                               <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
@@ -399,40 +411,72 @@ export default {
         selected: {},
         tpselected: {},
         hashtags: [],
+        bmToggle : 0,
+        hashtagName : this.$route.query.name,
       }
     },
     // watch() {
     //   searchagain
     // },
+
+    created () {
+      if(this.hashtagName != undefined) {
+        alert("search")
+        this.pastword = this.searched
+        this.searchword = this.hashtagName
+        this.op1 = false
+        this.op2 = false
+        this.op3 = true
+        http.get('/post/list/search/hashtag', {
+          params : {
+            uid : this.$store.state.auth.user.id,
+            hName : this.hashtagName
+          }
+        })
+        .then(({data}) => {
+          //console.log(data);
+          this.Notes = data;
+          //this.selected = null;
+        });
+      }
+      
+    },
     methods: {
       complete() {
         this.searched = true
         this.pastword = this.searched
-        console.log(this.searchword)
+        //console.log(this.searchword)
         http.get('/post/list/search', {
           params : {
-            uid : 1,
+            uid : this.$store.state.auth.user.id,
             searchword : this.searchword,
+            c1 : this.op1,
+            c2 : this.op2,
+            c3 : this.op3,
           }
         })
         .then(({data}) => {
-          console.log(data);
+          //console.log(data);
           this.Notes = data;
+          //this.selected = null;
         });
         http.get('/tp/list/search', {
           params : {
-            uid : 1,
+            uid : this.$store.state.auth.user.id,
             searchword : this.searchword,
+            c1 : this.op1,
+            c2 : this.op2,
           }
         })
         .then(({data}) => {
           this.tmpNotes = data;
+          //this.tpselected = null;
         });
       },
       complete2() {
         this.searched = true
         this.pastword = this.searched
-        console.log(this.searchword)
+        //console.log(this.searchword)
       },
       getFormatDate(regtime) {
             return moment(new Date(regtime)).format('YYYY.MM.DD');
@@ -441,10 +485,10 @@ export default {
             console.log(note)
             this.selected = note
             this.hashtags = []
-
+            this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -459,7 +503,28 @@ export default {
             this.tpselected = tpnote
             
         },
-      },      
+        bookmark(){
+          http.get('/post/bookmark', {
+              params : {
+                uid : this.$store.state.auth.user.id,
+                pid : this.selected.pId,
+              }
+            })
+            .then((response) => {
+              if(response === 'success'){
+                console.log("success");
+              }              
+            });
+            if(this.bmToggle == 1){
+                this.bmToggle = 0;
+                this.selected.pBookmark = 0;
+            } else {
+                this.bmToggle = 1;
+                this.selected.pBookmark = 1;
+            }
+        },    
+      },  
+      
 }
 </script>
 

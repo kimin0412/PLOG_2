@@ -44,9 +44,20 @@ public class PostController {
     }
 	
 	@GetMapping("/list/search")
-	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword) {
-		List<Post> posts = service.selectByTitle(uid, searchword);
+	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword,
+			@RequestParam final Boolean c1, @RequestParam final Boolean c2, @RequestParam final Boolean c3) {
+		boolean[] checklist = new boolean[3];
+		checklist[0] = c1;
+		checklist[1] = c2;
+		checklist[2] = c3;
+		List<Post> posts = service.selectByWord(uid, searchword, checklist);
     	return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+	
+	@GetMapping("/list/bookmark")
+	public Object selectByBookmark(@RequestParam(required = false) final int uid) {
+		List<Post> posts = service.selectByBookmark(uid);
+    	return posts;
     }
 	
 	@GetMapping("category")
@@ -89,6 +100,11 @@ public class PostController {
 		if(post.getpSchedule() == 0) {
 			post.setpSchedule(1);
 		}
+		
+		if(post.getpCategory() == 0) {
+			post.setpCategory(1);
+		}
+		
 		result.temp = service.registPost(post);
 		result.data = "success";
 		
@@ -123,5 +139,20 @@ public class PostController {
 	    }
 	 
 	 
+	 @GetMapping("/bookmark")
+	 public Object bookmark(@RequestParam final int uid, @RequestParam final int pid) {
+		 ResponseEntity response = null;
+	    	if(service.bookmarkByPid(pid)) {
+	    	    response = new ResponseEntity<String>("success", HttpStatus.OK);
+	    	} else {
+	    		response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	    	}    	
+	    	return response;
+	 }
+	 
+	 @GetMapping("/list/search/hashtag")
+	 public List<Post> searchHashtag(@RequestParam final int uid, @RequestParam final String hName) {
+		 return service.searchHashtag(uid, hName);
+	 }
 			 
 }

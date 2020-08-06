@@ -10,13 +10,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class Category {
 
 	
@@ -26,9 +28,35 @@ public class Category {
 	private int cId;
 	
 	@Column
-	private String c_name;
+	private String cName;
 	
 	@Column
-	private String c_member;
+	private int cUser;
+
+	public int getcId() {
+		return cId;
+	}
+
+	public void setcId(int cId) {
+		this.cId = cId;
+	}
+
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+
+	public int getcUser() {
+		return cUser;
+	}
+
+	public void setcUser(int cUser) {
+		this.cUser = cUser;
+	}
+	
+	
 		
 }

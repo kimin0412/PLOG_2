@@ -31,6 +31,8 @@ public class Schedule {
 	private String sStartdate;
 	private String sEnddate;
 	private int sUser;
+	private String sColor;
+	private int sClub;
 	
 	public int getsId() {
 		return sId;
@@ -67,6 +69,18 @@ public class Schedule {
 	}
 	public void setsUser(int sUser) {
 		this.sUser = sUser;
+	}
+	public String getsColor() {
+		return sColor;
+	}
+	public void setsColor(String sColor) {
+		this.sColor = sColor;
+	}
+	public int getsClub() {
+		return sClub;
+	}
+	public void setsClub(int sClub) {
+		this.sClub = sClub;
 	}
 	
 	

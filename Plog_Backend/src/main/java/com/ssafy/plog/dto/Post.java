@@ -44,10 +44,22 @@ public class Post {
 	@Column
 	private int pCategory;
 	
+	@Column
+	private int pBookmark;
+	
+	@Column
+	private String pColor;
+	
+	@Column
+	private int pClub;
+	
+
+
 	@Override
 	public String toString() {
 		return "Post [pId=" + pId + ", pTitle=" + pTitle + ", pContent=" + pContent + ", pDate=" + pDate + ", pUser="
-				+ pUser + ", pSchedule=" + pSchedule + ", pCategory=" + pCategory + "]";
+				+ pUser + ", pSchedule=" + pSchedule + ", pCategory=" + pCategory + ", pBookmark=" + pBookmark
+				+ ", pColor=" + pColor + "]";
 	}
 
 	public int getpId() {
@@ -105,7 +117,29 @@ public class Post {
 	public void setpCategory(int pCategory) {
 		this.pCategory = pCategory;
 	}
+
+	public int getpBookmark() {
+		return pBookmark;
+	}
+
+	public void setpBookmark(int pBookmark) {
+		this.pBookmark = pBookmark;
+	}
+
+	public String getpColor() {
+		return pColor;
+	}
+
+	public void setpColor(String pColor) {
+		this.pColor = pColor;
+	}
 	
-	
+	public int getpClub() {
+		return pClub;
+	}
+
+	public void setpClub(int pClub) {
+		this.pClub = pClub;
+	}
 	
 }
