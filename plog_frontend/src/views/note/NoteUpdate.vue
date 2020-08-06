@@ -350,7 +350,7 @@ export default {
       .get("/schedule/dayList", {
         params: {
           sDate: moment(new Date()).format("YYYY-MM-DD"),
-          sId: 1,
+          sId: this.$store.state.auth.user.id,
         },
       })
       .then(({ data }) => {

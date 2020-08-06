@@ -35,7 +35,7 @@ public class HashTagServiceImpl implements HashTagService {
 
 	@Override
 	@Transactional
-	public void insertHashTag(String[] tags, int pid, int uid) {
+	public void insertHashTag(String[] tags, int pid) {
 		//post의 id를 찾는다.;
 		
 		int size = tags.length;
@@ -56,7 +56,7 @@ public class HashTagServiceImpl implements HashTagService {
 			Post_Hashtag ph = new Post_Hashtag();
 			ph.setPhPost(pid);
 			ph.setPhHashtag(tmp.gethId());
-			ph.setPhUser(uid);
+			ph.setPhUser(1);
 			phdao.save(ph);
 		}
 	}
@@ -77,7 +77,7 @@ public class HashTagServiceImpl implements HashTagService {
 
 	@Override
 	public int getNextPId(int sId) {
-		return pdao.getLatelyPId();
+		return pdao.getLatelyPId(sId);
 	}
 
 	@Override

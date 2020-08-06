@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface HashTagService {
 
-	void insertHashTag(String[] tags, int pid, int uid);
+	void insertHashTag(String[] tags, int pid);
 
 	List<String> selectByIds(int uid, int pid);
 

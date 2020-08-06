@@ -31,7 +31,7 @@ public class HashTagController {
     	
     	if(!hashtag.gethName().equals("")) {
             String[] tags = hashtag.gethName().split(" ");
-            hService.insertHashTag(tags, hashtag.gethId()%1000, hashtag.gethId()/1000);
+            hService.insertHashTag(tags, hashtag.gethId());
          }
     	
     	result.status = true;

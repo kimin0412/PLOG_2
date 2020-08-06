@@ -600,7 +600,7 @@ export default {
     http
       .get("/schedule/dayList", {
         params: {
-          sId: 1,
+          sId: this.$store.state.auth.user.id,
           sDate: moment(new Date()).format("YYYY-MM-DD"),
         },
       })
@@ -672,7 +672,7 @@ export default {
 
       http
         .post("/hashtag/insert", {
-          hId: this.nextPId,
+          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
           hName: this.hashtags,
         })
         .then(({ data }) => {
