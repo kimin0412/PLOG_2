@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 큰 화면 -->
-    <div class="d-none d-sm-block pt-12">
+    <div class="d-none d-sm-block">
       <div class="centercontent mx-auto">
       <v-container>
         <v-row>
@@ -11,6 +11,7 @@
           <v-col cols="12" class="py-0 text-subtitle-2 text-center">처리 되었습니다.</v-col>
         </v-row>
         <v-row class="d-flex justify-center mt-5">
+          <v-btn color="error" dark large @click="logOut">Log Out</v-btn>
           <router-link to="/aboutus" class="movebtn"><v-btn rounded color="blue" dark block small><v-icon small>mdi-home</v-icon>HOME</v-btn></router-link>
         </v-row>
       </v-container>
@@ -41,6 +42,12 @@ export default {
   name: 'Logout',
   data() {
     return {
+    }
+  },
+  methods :{
+      logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     }
   }
 }

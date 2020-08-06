@@ -350,7 +350,7 @@ export default {
       .get("/schedule/dayList", {
         params: {
           sDate: moment(new Date()).format("YYYY-MM-DD"),
-          sId: 1,
+          sId: this.$store.state.auth.user.id,
         },
       })
       .then(({ data }) => {
@@ -385,7 +385,7 @@ export default {
 
       http.get('/hashtag/select', {
         params : {
-          uid : 1,
+          uid : this.$store.state.auth.user.id,
           pid : this.pId,
         }
       })
@@ -397,7 +397,7 @@ export default {
       http
       .get("/category/listAll", {
         params: {
-          uid: 1,
+          uid: this.$store.state.auth.user.id,
         },
       })
       .then(({ data }) => {
@@ -429,7 +429,7 @@ export default {
           pId: this.pId,
           pTitle: this.title,
           pContent: content,
-          pUser: 1,
+          pUser: this.$store.state.auth.user.id,
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,

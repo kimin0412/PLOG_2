@@ -29,7 +29,6 @@ public class ScheduleController {
 	public Object insert(@RequestBody Schedule schedule) {
     	
     	final BasicResponse result = new BasicResponse();
-    	schedule.setsUser(1);
     	sService.insertSchedule(schedule);
     	result.status = true;
         result.data = "success";	

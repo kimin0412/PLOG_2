@@ -69,7 +69,7 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	@Override
 	public int registPost(Post post) {
-		dao.insertPost(post.getpId(), post.getpTitle(), post.getpContent(), 1, post.getpSchedule(), post.getpCategory(), post.getpColor());
+		dao.insertPost(post.getpId(), post.getpTitle(), post.getpContent(), post.getpUser(), post.getpSchedule(), post.getpCategory(), post.getpColor());
 		
 		return 0;
 	}

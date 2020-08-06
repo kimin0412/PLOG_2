@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="d-none d-sm-block pt-12">
+      <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
           <v-container>
             <v-row>
@@ -18,28 +18,22 @@
                   <template v-slot:default>
                     <tbody>
                       <tr>
-                        <td>Name</td>
-                        <td>Hi</td>
-                      </tr>
-                      <tr>
-                        <td>Nickname</td>
-                        <td>Hello</td>
+                        <td>ID</td>
+                        <td>{{currentUser.username}}</td>
                       </tr>
                       <tr>
                         <td>Email</td>
-                        <td>hello@hello.com</td>
+                        <td>{{currentUser.email}}</td>
                       </tr>
                       <tr>
                         <td>Birthday</td>
-                        <td>2020.07.28</td>
+                        <td v-if="currentUser.birthday">{{currentUser.birthday}}</td>
+                        <td v-else>정보가 없습니다.</td>
                       </tr>
                       <tr>
                         <td>Phone</td>
-                        <td>010-1234-1234</td>
-                      </tr>
-                      <tr>
-                        <td>Info</td>
-                        <td>Student, Developer, Job seeker</td>
+                        <td v-if="currentUser.phone">{{currentUser.phone}}</td>
+                        <td v-else>정보가 없습니다.</td>
                       </tr>
                     </tbody>
                   </template>
@@ -186,29 +180,23 @@
                 <v-simple-table dense>
                   <template v-slot:default>
                     <tbody>
-                      <tr>
-                        <td>Name</td>
-                        <td>Hi</td>
-                      </tr>
-                      <tr>
-                        <td>Nickname</td>
-                        <td>Hello</td>
+                     <tr>
+                        <td>ID</td>
+                        <td>{{currentUser.username}}</td>
                       </tr>
                       <tr>
                         <td>Email</td>
-                        <td>hello@hello.com</td>
+                        <td>{{currentUser.email}}</td>
                       </tr>
                       <tr>
                         <td>Birthday</td>
-                        <td>2020.07.28</td>
+                        <td v-if="currentUser.birthday">{{currentUser.birthday}}</td>
+                        <td v-else>정보가 없습니다.</td>
                       </tr>
                       <tr>
                         <td>Phone</td>
-                        <td>010-1234-1234</td>
-                      </tr>
-                      <tr>
-                        <td>Info</td>
-                        <td>Student, Developer, Job seeker</td>
+                        <td v-if="currentUser.phone">{{currentUser.phone}}</td>
+                        <td v-else>정보가 없습니다.</td>
                       </tr>
                     </tbody>
                   </template>
@@ -234,10 +222,10 @@ export default {
         model: null,
       }
     },
-     created() {
+    created() {
        http.get('/post/list/bookmark',{
          params : {
-           uid : 1,
+           uid : this.$store.state.auth.user.id,
          }
        }).then(({data}) => {
          this.Notes = data;
@@ -251,7 +239,7 @@ export default {
             this.bmToggle = note.pBookmark
             http.get('/hashtag/select', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -264,7 +252,7 @@ export default {
         bookmark(){
           http.get('/post/bookmark', {
               params : {
-                uid : 1,
+                uid : this.$store.state.auth.user.id,
                 pid : this.selected.pId,
               }
             })
@@ -281,8 +269,17 @@ export default {
                 this.selected.pBookmark = 1;
             }
         },
-     }
-
+     },
+    computed: {
+      currentUser(){
+        return this.$store.state.auth.user;
+      }
+    },
+    mounted() {
+    if (!this.currentUser) {
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
 

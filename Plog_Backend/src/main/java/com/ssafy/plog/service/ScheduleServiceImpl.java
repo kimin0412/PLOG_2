@@ -33,7 +33,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public void insertSchedule(Schedule schedule) {
-		System.out.println(schedule.toString());
 		sdao.save(schedule);
 	}
 

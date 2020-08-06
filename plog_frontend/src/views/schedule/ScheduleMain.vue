@@ -467,7 +467,7 @@
       this.dailySchedule = []
       http.get('/schedule/dayList', {
         params : {
-          sId : 1,
+          sId : this.$store.state.auth.user.id,
           sDate : this.date
         }
       }).then(({ data }) => {
@@ -478,7 +478,7 @@
 
       http.get('/schedule/dayPost', {
         params : {
-          sId : 1,
+          sId : this.$store.state.auth.user.id,
           sDate : this.date
         }
       }).then(({ data }) => {
@@ -489,7 +489,7 @@
 
       http.get('/club/list', {
         params : {
-          uId : 1,
+          uId : this.$store.state.auth.user.id,
         }
       }).then(({ data }) => {
         this.myClub.push({"name":"My Schedule",  "id": 0});  
@@ -521,7 +521,7 @@
           http
           .get('/schedule/monthSchedulePicker', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : val
             }
             
@@ -535,7 +535,7 @@
           http
           .get('/schedule/monthPostPicker', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : val
             }
             
@@ -565,7 +565,7 @@
           http
           .get('/schedule/dayList', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : this.date
             }
             
@@ -579,7 +579,7 @@
           http
           .get('/schedule/dayPost', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : this.date
             }
             
@@ -595,7 +595,7 @@
           http
           .get('/schedule/dayList', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : date
             }
             
@@ -612,7 +612,7 @@
           http
           .get('/schedule/dayPost', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : date
             }
           }).then(({ data }) => {
@@ -643,7 +643,7 @@
         if(this.type == 0) {
           http.get('/schedule/monthList', {
             params : {
-              sId : 1,
+              sId : this.$store.state.auth.user.id,
               sDate : this.$refs.calendar.title
             }
             
@@ -664,7 +664,7 @@
         }else {
           http.get('/club/monthList', {
             params : {
-              uId : 1,
+              uId : this.$store.state.auth.user.id,
               clId : this.type,
               sDate : this.$refs.calendar.title
             }
@@ -702,7 +702,7 @@
             sStartdate : this.dates[0],
             sEnddate : this.dates[1],
             sColor : this.pickColor,
-            sUser : 1,
+            sUser : this.$store.state.auth.user.id,
             // sColor : this.pickColor,
           })
           .then(({ data }) => {
@@ -722,7 +722,7 @@
           .get('/schedule/select', {
             params : {
               sId : val,
-              sUser : 1
+              sUser : this.$store.state.auth.user.id,
             }
             
           }).then(({ data }) => {
@@ -765,7 +765,7 @@
           sContent : this.uContent,
           sStartdate : this.uDates[0],
           sEnddate : this.uDates[1],
-          sUser : 1,
+          sUser : this.$store.state.auth.user.id,
           })
           .then(({ data }) => {
           let msg = '수정 처리시 문제가 발생했습니다.';

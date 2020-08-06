@@ -36,5 +36,8 @@ public interface TmppostDao extends JpaRepository<Tmppost, Integer> {
 	int deleteBytpId(int tpId);
 
 	
+	//List<Post> findBytpTitle(String searchword);
+
+	
 	
 }
