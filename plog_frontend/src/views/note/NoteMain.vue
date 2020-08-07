@@ -264,10 +264,10 @@
                     <v-row
                       class="fill-height"
                     >
-                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected2.pId }}</v-col>
+                      <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
                       <v-flex class="py-0 text-center">
-                        <v-btn text icon @click="bookmark()">
-                          <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                        <v-btn text icon @click="bookmark2()">
+                          <v-icon large color="#FDD835" v-if="bmToggle2 == 1">mdi-star</v-icon>
                           <v-icon large color="gray" v-else>mdi-star</v-icon>
                       </v-btn>
                       </v-flex>
@@ -595,6 +595,7 @@ export default {
         toUpdate : '',
         selected2 : {},
         hashtags2 : [],
+        bmToggle2 : 0,
       }
     },
     created() {
@@ -638,6 +639,7 @@ export default {
             this.selected = note
             this.hashtags = []
             this.bmToggle = note.pBookmark
+            this.hashtags = []
             http.get('/hashtag/select', {
               params : {
                 uid : this.$store.state.auth.user.id,
@@ -653,8 +655,8 @@ export default {
         getNoteInCategory(note){
           console.log(note)
           this.selected2 = note
-          this.hashtags = []
-          this.bmToggle = note.pBookmark
+          this.hashtags2 = []
+          this.bmToggle2 = note.pBookmark
           http.get('/hashtag/select', {
             params : {
               uid : this.$store.state.auth.user.id,
@@ -690,6 +692,27 @@ export default {
             } else {
                 this.bmToggle = 1;
                 this.selected.pBookmark = 1;
+            }
+        },
+
+        bookmark2(){
+          http.get('/post/bookmark', {
+              params : {
+                uid : this.$store.state.auth.user.id,
+                pid : this.selected2.pId,
+              }
+            })
+            .then((response) => {
+              if(response === 'success'){
+                console.log("success");
+              }              
+            });
+            if(this.bmToggle == 1){
+                this.bmToggle = 0;
+                this.selected2.pBookmark = 0;
+            } else {
+                this.bmToggle = 1;
+                this.selected2.pBookmark = 1;
             }
         },
         createCategory() {

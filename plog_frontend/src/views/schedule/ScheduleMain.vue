@@ -791,19 +791,21 @@
         if(ok){
           http
           .post('/schedule/delete', {
-          sId : this.scheduleDetailId,
-          sName : this.uName,
-          sContent : this.uContent,
-          sStartdate : this.uDates[0],
-          sEnddate : this.uDates[1],
+            sId : this.scheduleDetailId,
+            sName : this.uName,
+            sContent : this.uContent,
+            sStartdate : this.uDates[0],
+            sEnddate : this.uDates[1],
           })
           .then(({ data }) => {
-          let msg = '삭제 처리시 문제가 발생했습니다.';
-          if (data.data == 'success') {
-            msg = '삭제가 완료되었습니다.';
-            this.$router.go();
-          }
+            let msg = '삭제 처리시 문제가 발생했습니다.';
+            if (data.data == 'success') {
+              msg = '삭제가 완료되었습니다.';
+              this.$router.go();
+            }
           alert(msg);
+          }).catch(() => {
+            alert("일정이 있으면 삭제가 안됩니다.")
           });
           this.dialogUpdate = false;
 

@@ -89,7 +89,10 @@
                     </v-container>
                   </v-tab-item>
                   <v-tab-item>
-                    <div>
+                    <v-col cols="12" class="text-center">
+                      아직 서비스 준비중입니다.
+                    </v-col>
+                    <!-- <div>
                       <div class="d-none d-sm-block">
                         <div class="content-center mx-auto">
                           <v-row class="mb-2 justify-end">
@@ -109,7 +112,6 @@
                           </v-row>
                           <v-row class=" mb-4">
                             
-                            <!-- 카테고리 생성 모달 -->
                             <v-menu
                               v-model="categoryDialog"
                               :close-on-content-click="false"
@@ -136,7 +138,6 @@
                             </v-card>
                             </v-menu>
 
-                            <!-- 카테고리 수정 모달 -->
                             <v-menu
                               v-model="updateCategoryDialog"
                               :close-on-content-click="false"
@@ -259,8 +260,6 @@
                                 </v-expand-transition>
                               </v-sheet>
                             
-
-                              <!-- 폴더 부분 -->
 
                               <v-expansion-panels popout focusable>
                               <v-expansion-panel
@@ -656,7 +655,7 @@
                           </v-row>
                         </v-container>
                       </div>
-                    </div>
+                    </div> -->
                   </v-tab-item>
                 </v-tabs>
               </v-card>
