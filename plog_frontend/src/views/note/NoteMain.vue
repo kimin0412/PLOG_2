@@ -93,7 +93,7 @@
                 <div @click="getNote(note)">
                   <v-card
                     v-if="note.pCategory == 1"
-                    :color="active ? 'grey' : note.pColor"
+                    :color="active ? 'grey' : note.pColor + ' lighten-3'"
                     class="ma-4"
                     height="150"
                     width="100"
@@ -221,7 +221,7 @@
                   <div @click="getNoteInCategory(note)">
                     <v-card
                       v-if="note.pCategory == category.cId"
-                      :color="active ? 'grey' : note.pColor"
+                      :color="active ? 'grey' : note.pColor + ' lighten-3'"
                       class="ma-4"
                       height="150"
                       width="100"
@@ -332,7 +332,7 @@
                 >
                 <div @click="getTpNote(tpnote)">
                   <v-card
-                    :color="active ? 'grey' : tpnote.pColor"
+                    :color="active ? 'grey' : tpnote.pColor + ' lighten-3'"
                     class="ma-4"
                     height="150"
                     width="100"
@@ -417,7 +417,7 @@
                 >
                 <div @click="getNote(note)">
                   <v-card
-                    :color="active ? 'grey' : note.pColor"
+                    :color="active ? 'grey' : note.pColor + ' lighten-3'"
                     class="ma-4"
                     height="150"
                     width="100"
@@ -512,7 +512,7 @@
                 >
                 <div @click="getTpNote(tpnote)">
                   <v-card
-                    :color="active ? 'grey' : tpnote.pColor"
+                    :color="active ? 'grey' : tpnote.pColor + ' lighten-3'"
                     class="ma-4"
                     height="150"
                     width="100"
