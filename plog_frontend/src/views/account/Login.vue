@@ -56,7 +56,7 @@
           <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">E-mail</v-col>
           <v-col cols="12" class="py-0">
             <v-text-field
-              placeholder="이메일을 입력해주세요"
+              placeholder="ID를 입력해주세요"
               filled
               rounded
               dense
@@ -121,19 +121,26 @@ export default {
           return;
         }
 
-        if (this.user.username && this.user.password) {
-        //if (this.user.email && this.user.password) {
+        if (!this.user.username || !this.user.password) {
+          alert('모든 항목을 입력해야 합니다')
+        }
 
+        if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
+              console.log(this.$store.state.auth.status.loggedIn);
+
               this.$router.push('/mypage');
             },
             error => {
+              alert('없는 회원이거나 비밀번호가 틀립니다');
+              console.log(this.$store.state.auth.status.loggedIn);
+
               this.loading = false;
               this.message =
                 (error.response && error.response.data) ||
                 error.message ||
-                error.toString();
+                error.toString();        
             }
           );
         }

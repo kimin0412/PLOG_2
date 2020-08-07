@@ -1,6 +1,7 @@
 <template>
   <div>
       <div class="d-none d-sm-block">
+        <v-btn color="error" dark large @click="logOut">Log Out</v-btn>
         <div class="content-center mx-auto">
           <v-container>
             <v-row>
@@ -114,6 +115,13 @@ export default {
     },
     mounted() {
     if (!this.currentUser) {
+      this.$router.push('/login');
+    }
+    
+  },
+  methods :{
+      logOut() {
+      this.$store.dispatch('auth/logout');
       this.$router.push('/login');
     }
   }

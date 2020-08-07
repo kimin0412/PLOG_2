@@ -11,7 +11,6 @@
           <v-col cols="12" class="py-0 text-subtitle-2 text-center">처리 되었습니다.</v-col>
         </v-row>
         <v-row class="d-flex justify-center mt-5">
-          <v-btn color="error" dark large @click="logOut">Log Out</v-btn>
           <router-link to="/aboutus" class="movebtn"><v-btn rounded color="blue" dark block small><v-icon small>mdi-home</v-icon>HOME</v-btn></router-link>
         </v-row>
       </v-container>
@@ -36,7 +35,7 @@
     </div>
   </div>
 </template>
-
+<!--
 <script>
 export default {
   name: 'Logout',
@@ -52,7 +51,7 @@ export default {
   }
 }
 </script>
-
+-->
 <style scoped>
 .submitbtn {
   min-width: 100% !important;

@@ -10,7 +10,7 @@
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">Username</v-col>
                     <v-col cols="12" class="py-0">
                         <v-text-field
-                        placeholder="닉네임을 입력해주세요"
+                        placeholder="ID를 입력해주세요"
                         filled
                         rounded
                         dense
@@ -70,7 +70,7 @@
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">Username</v-col>
                     <v-col cols="12" class="py-0">
                         <v-text-field
-                        placeholder="이름을 입력해주세요"
+                        placeholder="ID를 입력해주세요"
                         filled
                         rounded
                         dense
@@ -191,10 +191,25 @@ export default {
     }
   },
   methods: {
+      
     handleRegister() {
-      this.message = '';
-      this.submitted = true;
-      this.$validator.validate().then(isValid => {
+        this.message = '';
+        if (!this.user.username || !this.user.useremail || !this.user.password || !this.password2) {
+           console.log(this.user.username + " " + this.user.email + " " + this.user.password + " " + this.password2)
+           alert('모든 항목은 필수로 입력해야 합니다.')
+        }
+        else if (this.user.username.length < 4 || this.user.username.length > 15) {
+            alert('이름은 최소 3글자 이상 15글자 미만이어야 합니다')
+        }
+        else if(this.user.password < 6){
+            alert('비밀번호는 최소 6글자 이상이어야합니다.')
+        }
+        else if(this.user.password != this.password2 )  {
+            alert('비밀번호가 일치하지 않습니다.')
+        }
+        else{
+            this.submitted = true;
+this.$validator.validate().then(isValid => {
         if (isValid) {
           this.$store.dispatch('auth/register', this.user).then(
             data => {
@@ -208,10 +223,13 @@ export default {
                 error.message ||
                 error.toString();
               this.successful = false;
+              alert("회원가입 실패. 다시 시도해주세요.");
             }
           );
         }
-      });
+});
+        }
+
     }
   }
 };
