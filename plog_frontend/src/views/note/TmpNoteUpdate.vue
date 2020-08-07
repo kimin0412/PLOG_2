@@ -374,6 +374,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: 1,
           pColor: this.pickColor,
+          pClub:1
         })
         .then((response) => {
           console.log(response);

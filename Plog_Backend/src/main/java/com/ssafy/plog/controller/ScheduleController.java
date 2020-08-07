@@ -60,6 +60,33 @@ public class ScheduleController {
 		return sList;
 	}
     
+    @GetMapping("/schedule/club/dayList")
+	public List<Schedule> dayListInClub(@RequestParam int sClub, String sDate ) { 
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	List<Schedule> sList = sService.getDailyScheduleList(sDate, sClub);
+    	
+		return sList;
+	}
+    
     
     @RequestMapping("/schedule/update")
 	public Object update(@RequestBody Schedule schedule) {
