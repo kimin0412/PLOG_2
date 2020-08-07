@@ -424,10 +424,9 @@ export default {
       content = entities.encode(content);
       console.log(content);
 
-      if (this.category == ''){
+      if(this.category == ''){
         this.category = 1
       }
-
       http
         .put("/post/", {
           pId: this.pId,
@@ -437,7 +436,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub: 1,
+          pClub:1
         })
         .then((Response) => {
           if (Response.data === "success") {
