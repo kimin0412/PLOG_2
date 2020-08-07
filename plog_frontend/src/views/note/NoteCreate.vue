@@ -589,7 +589,7 @@ export default {
   },
 
   created() {
-    if(this.groupId != undefined) { //개인 노트라면
+    if(this.groupId == undefined) { //개인 노트라면
       http
       .get("/hashtag/getnextPostId", {
         params: {
@@ -626,41 +626,7 @@ export default {
         this.categories = data;
       });
     }else { //그룹이라면
-      http
-      .get("/hashtag/getnextPostId", {
-        params: {
-          uId: this.$store.state.auth.user.id,
-        },
-      })
-      .then(({ data }) => {
-        this.nextPId = data.hId;
-      });
-
-      http.get("/schedule/club/dayList", {
-        params: {
-          sClub : this.groupId,
-          sDate: moment(new Date()).format("YYYY-MM-DD"),
-        },
-      })
-      .then(({ data }) => {
-        data.forEach((element) => {
-          this.todaySchedule.push({
-            name: element.sName,
-            startdate: element.sStartdate,
-            enddate: element.sEnddate,
-            id: element.sId,
-          });
-        });
-      });
-
-      http.get("/category/listAll", {
-        params: {
-          uid: this.$store.state.auth.user.id,
-        },
-      })
-      .then(({ data }) => {
-        this.categories = data;
-      });
+      alert("아직 서비스 준비 중입니다.")
     }
     
   },

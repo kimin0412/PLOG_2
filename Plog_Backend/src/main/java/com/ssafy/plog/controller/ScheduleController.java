@@ -56,7 +56,7 @@ public class ScheduleController {
     @GetMapping("/schedule/dayList")
 	public List<Schedule> dayList(@RequestParam String sDate, int sId) { 
     	List<Schedule> sList = sService.getDailyScheduleList(sDate, sId);
-    	
+    	System.out.println(sList.size());
 		return sList;
 	}
     

@@ -294,6 +294,7 @@ export default {
 
       dialogColor: false,
       pickColor: "",
+      hiddenArea : '',
     };
   },
   // created 한 뒤 axios로
@@ -390,9 +391,10 @@ export default {
                 console.log(response);
                 if (response.data === "success") {
                   alert("임시 삭제 완료");
+
+                  this.$router.go();
                 }
               });
-            this.$router.push("/note");
           }
         });
 
