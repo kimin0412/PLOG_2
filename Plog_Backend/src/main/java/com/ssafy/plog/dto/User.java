@@ -20,13 +20,14 @@ public class User {
 	private String uId;
 	
 
-	  private String uBirthday;
-	  private String uEmail;
-	  private String uNickname;
-	  private String uPassword;
-	  private String uPhone;
-	  private String uRegdate;
-	  private String uUsername;
+	private String uBirthday;
+	private String uEmail;
+	private String uNickname;
+	private String uPassword;
+	private String uPhone;
+	private String uRegdate;
+	private String uUsername;
+	
 	public String getuId() {
 		return uId;
 	}

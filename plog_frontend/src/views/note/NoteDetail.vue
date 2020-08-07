@@ -161,6 +161,10 @@ export default {
         console.log(this.Note.pContent);
         this.content = entities.decode(v_content);
         this.bmToggle = data.pBookmark;
+        
+        if(this.Note.pUser != this.$store.state.auth.user.id) {
+          this.$router.push('/error')
+        } 
       });
 
       http.get('/hashtag/select', {
@@ -174,6 +178,10 @@ export default {
           this.hashtags.push({"name" : element})
         });
       });
+    },
+
+    mounted() { 
+      
     },
 
     methods: {

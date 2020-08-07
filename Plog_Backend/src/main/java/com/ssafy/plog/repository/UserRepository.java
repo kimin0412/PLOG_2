@@ -3,6 +3,7 @@ package com.ssafy.plog.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.plog.models.User;
@@ -17,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Boolean existsByUsername(String username);
 
 	Boolean existsByEmail(String email);
+
+	@Query(value = " select * from user where u_id = ?1 ", nativeQuery=true)
+	User findbyClId(int ucUser);
 }
