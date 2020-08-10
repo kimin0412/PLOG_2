@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.plog.dto.BasicResponse;
 import com.ssafy.plog.dto.Club;
+import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.service.ClubService;
 
@@ -56,4 +57,18 @@ public class ClubController {
 	public String getHost(@RequestParam int clId) { 
     	return gService.getHost(clId);
 	}
+	
+	@GetMapping("/club/list/search")
+	public Object selectByTitle(@RequestParam final String searchword , @RequestParam final int uId) {
+		List<Club> clubs = gService.selectByTitle(searchword, uId);
+    	return new ResponseEntity<>(clubs, HttpStatus.OK);
+    }
+	
+	@GetMapping("/club/join")
+	public Object joinClub(@RequestParam final int clId, @RequestParam final String clPassword, @RequestParam final int uId) {
+		if(gService.joinClub(uId, clId, clPassword))
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		else
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+    }
 }

@@ -64,13 +64,5 @@ public class TmppostServiceImpl implements TmppostService {
 		}
 	}
 
-	@Override
-	public List<Post> selectByTitle(String searchword) {
-		return null;//dao.findBytpTitle(searchword);
-	}
-
-	@Override
-	public boolean joinClub(int uId, int clId, String password) {
-		return false;
-	}
+	
 }

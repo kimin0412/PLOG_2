@@ -88,18 +88,6 @@ public class TmppostController {
 	    }
 	 
 	 
-		@GetMapping("/list/search/sample")
-		public Object selectByTitle(@RequestParam final String searchword) {
-			List<Post> posts = service.selectByTitle(searchword);
-	    	return new ResponseEntity<>(posts, HttpStatus.OK);
-	    }
 		
-		@GetMapping("join")
-		public Object joinClub(@RequestParam final int uId, @RequestParam final int clId, @RequestParam final String password) {
-			if(service.joinClub(uId, clId, password))
-				return new ResponseEntity<>("success", HttpStatus.OK);
-			else
-				return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
-	    }
 			 
 }

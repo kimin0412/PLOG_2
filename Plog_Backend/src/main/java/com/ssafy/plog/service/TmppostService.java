@@ -23,7 +23,4 @@ public interface TmppostService {
 
 	List<Tmppost> selectByWord(int uid, String title, boolean[] checklist);
 
-	List<Post> selectByTitle(String searchword);
-
-	boolean joinClub(int uId, int clId, String password);
 }
