@@ -585,6 +585,8 @@ export default {
       pickColor: "",
 
       groupId : this.$route.query.groupId,
+
+      hashtags33 : []
     };
   },
 

@@ -120,7 +120,7 @@
               </v-row>
             </v-toolbar>
           </v-sheet>
-          <v-sheet height="500" min-height="500">
+          <v-sheet height="530">
             <v-calendar
               ref="calendar"
               v-model="focus"
@@ -613,7 +613,7 @@
 
       updateRange () {
         const events = []
-        const allDay = this.rnd(0, 3) === 0
+        // const allDay = this.rnd(0, 3) === 0
 
         if(this.type < 2 ) {
           http.get('/schedule/monthList', {
@@ -627,22 +627,23 @@
               //alert(element.s_startdate)
               if(this.type == 0){
                 events.push({
+                  id : element.sId,
                   name : element.sName,
                   start : element.sStartdate,
                   end : element.sEnddate,
                   color: element.sColor + " lighten-2",
                   
-                  timed: !allDay,
+                  timed: 1,
                 })
               } else {
                 if(element.sClub < 2){
                   events.push({
+                    id : element.sId,
                     name : element.sName,
                     start : element.sStartdate,
                     end : element.sEnddate,
                     color: element.sColor + " lighten-2",
-                    
-                    timed: !allDay,
+                    // timed: !allDay,
                   })
                 }
               }
@@ -661,12 +662,13 @@
               //alert(element.s_startdate)
               if(element.sClub == this.type){
                 events.push({
-                name : element.sName,
-                start : element.sStartdate,
-                end : element.sEnddate,
-                color: element.sColor + " lighten-2",
-                
-                timed: !allDay,
+                  id : element.sId,
+                  name : element.sName,
+                  start : element.sStartdate,
+                  end : element.sEnddate,
+                  color: element.sColor + " lighten-2",
+                  
+                  // timed: !allDay,
               })
               }
               
@@ -835,6 +837,38 @@
           this.dialogUpdate = false;
 
         }
+      },
+
+      viewSchedule({ nativeEvent, event }) {
+        this.scheduleDetailOpen = true;
+
+        http.get('/schedule/select', {
+          params : {
+            sId : event.id,
+            sUser : this.$store.state.auth.user.id,
+          }
+        }).then(({ data }) => {
+          this.detailName = data.sName
+          this.detailContent = data.sContent
+          this.detailSDate = data.sStartdate.substr(0, 10)
+          this.detailEDate = data.sEnddate.substr(0, 10)
+          this.detailDates = this.detailSDate + " ~ " + this.detailEDate
+        });
+
+        this.postOfSchedule = []
+        http.get('/schedule/selectPost', {
+          params : {
+            sId : event.id
+          }
+        }).then(({ data }) => {
+          data.forEach(element => {
+            this.postOfSchedule.push({"name":element.pTitle, "id" : element.pId});             
+          });
+        });
+
+        this.scheduleDetailId = event.id;
+
+        nativeEvent.stopPropagation()
       },
     },
   }

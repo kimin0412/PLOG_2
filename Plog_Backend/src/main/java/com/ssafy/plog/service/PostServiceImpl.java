@@ -134,4 +134,9 @@ public class PostServiceImpl implements PostService {
 		return posts;
 	}
 
+	@Override
+	public List<Post> selectAllClub(int clid) {
+		return dao.findBypClub(clid, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
+	}
+
 }

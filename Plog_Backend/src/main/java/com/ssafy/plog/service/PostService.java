@@ -33,4 +33,6 @@ public interface PostService {
 	List<Post> searchHashtag(int uid, String hName);
 
 	public List<Post> selectByBookmark(int uid);
+
+	List<Post> selectAllClub(int clid);
 }
