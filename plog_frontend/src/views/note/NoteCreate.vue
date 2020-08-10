@@ -661,7 +661,10 @@ export default {
         })
         .then(({ data }) => {
           if (data.data == "success") {
-            alert("등록 완료");
+            this.$dialog.notify.success("노트 등록 완료 😃", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
         });
 
@@ -708,13 +711,19 @@ export default {
         })
         .then((Response) => {
           if (Response.data === "success") {
-            alert("임시 샘플 등록 완료");
+            this.$dialog.notify.info("임시 노트 등록 완료 😚", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.push("/note");
           }
         });
     },
     nospace() {
-      alert("공백 없이 단어로 입력해주세요");
+      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
+        position: "bottom-right",
+        timeout: 3000,
+      });
     },
 
     addEmoji() {

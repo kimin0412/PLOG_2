@@ -718,7 +718,10 @@ export default {
         },
         createCategory() {
           if(this.cName == ""){
-            alert("이름 쓰세요.")
+            this.$dialog.notify.warning("카테고리 이름을 쓰세요 😤", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           } else{
             http.post('/category/insert', {
               cName : this.cName,
@@ -726,7 +729,10 @@ export default {
             })
             .then(({data}) => {
               if(data.data == 'success'){
-                alert("새 폴더가 생성되었습니다.")
+                this.$dialog.notify.success("새 폴더가 생성되었습니다 😚", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
                 this.categoryDialog = false;
                 this.$router.go();
               }

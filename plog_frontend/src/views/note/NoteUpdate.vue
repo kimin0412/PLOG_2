@@ -410,7 +410,10 @@ export default {
   methods: {
     wordcomplete() {
       if (this.keywordinput.length < 2) {
-        alert("두 글자 이상 입력해주세요");
+        this.$dialog.notify.warning("두 글자 이상 입력해주세요 😯", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         this.keywords.push(this.keywordinput);
         this.keywordinput = "";
@@ -442,13 +445,19 @@ export default {
         })
         .then((Response) => {
           if (Response.data === "success") {
-            alert("수정 완료");
+            this.$dialog.notify.success("노트 수정 완료 😄", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.push("/note");
           }
         });
     },
     nospace() {
-      alert("공백 없이 단어로 입력해주세요");
+      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
+        position: "bottom-right",
+        timeout: 3000,
+      });
     },
 
     addEmoji() {
