@@ -627,6 +627,7 @@ export default {
       })
       .then(({data}) => {
         this.tmpNotes = data;
+        
       });
     },
     methods: {

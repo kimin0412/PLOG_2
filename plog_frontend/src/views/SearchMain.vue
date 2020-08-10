@@ -103,7 +103,19 @@
                             <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                               <v-card-text class="d-flex justify-center py-0">
                                 <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                                  <v-btn small color="primary">{{item.name}}</v-btn>
+                                  <router-link :to="{ path: 'search', query:{hId:item.name}}" class="py-0 text-center text-h6"> 
+                                    <v-chip
+                                      class="ma-2"
+                                      color="teal"
+                                      text-color="white"
+                                    >
+                                      <v-avatar left>
+                                        <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                      </v-avatar>
+                                      {{item.name}}
+                                    </v-chip>
+                                  </router-link>
+                                  
                                 </div>
                               </v-card-text>
                             </v-col>
@@ -298,8 +310,20 @@
                             <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
                             <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                               <v-card-text class="d-flex justify-center py-0">
-                                <div v-for="item in hashtags"  v-bind:key = "item" >
-                                  <v-btn small color="primary">{{item.name}}</v-btn>
+                                <div v-for="(item,i) in hashtags"  v-bind:key="i" >
+                                  <router-link :to="{ path: 'search', query:{hId:item.name}}" class="py-0 text-center text-h6"> 
+                                    <v-chip
+                                      class="ma-2"
+                                      color="teal"
+                                      text-color="white"
+                                    >
+                                      <v-avatar left>
+                                        <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                      </v-avatar>
+                                      {{item.name}}
+                                    </v-chip>
+                                  </router-link>
+                                  
                                 </div>
                               </v-card-text>
                             </v-col>

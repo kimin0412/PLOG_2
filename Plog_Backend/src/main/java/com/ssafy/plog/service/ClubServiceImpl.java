@@ -10,6 +10,7 @@ import com.ssafy.plog.dao.ClubDao;
 import com.ssafy.plog.dao.ScheduleDAO;
 import com.ssafy.plog.dao.UserClubDao;
 import com.ssafy.plog.dto.Club;
+import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.dto.User_club;
 
@@ -84,6 +85,16 @@ public class ClubServiceImpl implements ClubService {
 	public String getHost(int clId) {	
 		return null;
 		//return ucdao.getHost(clId);
+	}
+	
+	@Override
+	public List<Club> selectByTitle(String searchword) {
+		return cdao.findAll();
+	}
+
+	@Override
+	public boolean joinClub(int uId, int clId, String password) {
+		return false;
 	}
 	
 }

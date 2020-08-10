@@ -390,9 +390,11 @@ export default {
                 console.log(response);
                 if (response.data === "success") {
                   alert("임시 삭제 완료");
+                  this.$router.go();
                 }
-              });
-            this.$router.push("/note");
+              });              
+            
+            //this.$router.push("/note");
           }
         });
 
