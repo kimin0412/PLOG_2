@@ -41,6 +41,9 @@ import Developers from '../views/Developers.vue'
 // visualize
 import Visual1 from '../views/analysis/Visual1.vue'
 import Visual2 from '../views/analysis/Visual2.vue'
+import Visual3 from '../views/analysis/Visual3.vue'
+import Visual4 from '../views/analysis/Visual4.vue'
+import Visual5 from '../views/analysis/Visual5.vue'
 
 // group
 import GroupMain from '../views/group/GroupMain.vue'
@@ -325,6 +328,21 @@ Vue.use(VueRouter)
     path: '/v2',
     name: 'Visual2',
     component: Visual2
+  },
+  {
+    path: '/v3',
+    name: 'Visual3',
+    component: Visual3
+  },
+  {
+    path: '/v4',
+    name: 'Visual4',
+    component: Visual4
+  },
+  {
+    path: '/v5',
+    name: 'Visual5',
+    component: Visual5
   },
   // 404 page not found
   {
