@@ -473,7 +473,13 @@
     computed: {
       dateRangeText () {
         if(this.dates[0] > this.dates[1]){
-          alert("종료날짜를 시작날짜 이후로 정해주세요.")
+          this.$dialog.notify.warning(
+            "종료날짜를 시작날짜 이후로 정해주세요. 😥",
+            {
+              position: "bottom-right",
+              timeout: 3000,
+            }
+          );
           return ''
         }else
           return this.dates.join(' ~ ')
@@ -694,9 +700,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }else { //클럽인경우
           http.post('/schedule/insert', {
@@ -712,9 +727,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }
         

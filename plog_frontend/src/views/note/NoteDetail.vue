@@ -196,7 +196,10 @@ export default {
               })
               .then((response) => {
                 if(response.data === 'success'){
-                    alert('삭제 완료');
+                  this.$dialog.notify.error("노트 삭제 완료 🤗", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
                 }
               });
 
