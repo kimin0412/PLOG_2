@@ -613,7 +613,7 @@
 
       updateRange () {
         const events = []
-        // const allDay = this.rnd(0, 3) === 0
+        const allDay = this.rnd(0, 3) === 0
 
         if(this.type < 2 ) {
           http.get('/schedule/monthList', {
@@ -629,11 +629,9 @@
                 events.push({
                   id : element.sId,
                   name : element.sName,
-                  start : element.sStartdate,
+                  start : element.sStartdate.substr(0, 10),
                   end : element.sEnddate,
                   color: element.sColor + " lighten-2",
-                  
-                  timed: 1,
                 })
               } else {
                 if(element.sClub < 2){
@@ -643,7 +641,7 @@
                     start : element.sStartdate,
                     end : element.sEnddate,
                     color: element.sColor + " lighten-2",
-                    // timed: !allDay,
+                    timed: !allDay,
                   })
                 }
               }
