@@ -56,33 +56,12 @@ public class ScheduleController {
     @GetMapping("/schedule/dayList")
 	public List<Schedule> dayList(@RequestParam String sDate, int sId) { 
     	List<Schedule> sList = sService.getDailyScheduleList(sDate, sId);
-    	System.out.println(sList.size());
 		return sList;
 	}
     
     @GetMapping("/schedule/club/dayList")
 	public List<Schedule> dayListInClub(@RequestParam int sClub, String sDate ) { 
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	List<Schedule> sList = sService.getDailyScheduleList(sDate, sClub);
+    	List<Schedule> sList = sService.getDailyClubScheduleList(sDate, sClub);
     	
 		return sList;
 	}

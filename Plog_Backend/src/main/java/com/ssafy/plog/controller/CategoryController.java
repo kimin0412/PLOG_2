@@ -47,6 +47,12 @@ public class CategoryController {
 		
 	}
     
+    @RequestMapping("/category/club/listAll")
+	public List<Category> getAllClubList(@RequestParam int cClub) {
+    	return cService.getAllClubCategory(cClub);
+		
+	}
+    
     @RequestMapping("/category/update/post")
 	public Object updatePost(@RequestBody Post post) {
     	

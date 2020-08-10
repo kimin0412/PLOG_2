@@ -38,7 +38,7 @@
 <script>
 // https://saigesp.github.io/vue-d3-charts/#/wordscloud
 import { D3WordsCloud } from 'vue-d3-charts';
-
+import http from '@/util/http-common.js';
 export default {
     name: 'Visual2',
     components: {
@@ -83,8 +83,21 @@ export default {
             //     duration: 350,
             //     ease: "easeLinear",
             // },
-            }
+            },
+            hashtags : []
         }
+    },
+    created() {
+      http.get('/hashtag/all', {
+        params : {
+          uid : this.$store.state.auth.user.id,
+        }
+      })
+      .then(({data}) => {
+        data.forEach(element => {
+          this.hashtags.push({"name" : element.hName, "value":element.hId})
+        });
+      });
     }
 
 }
