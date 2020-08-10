@@ -3,7 +3,7 @@
       <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
           <v-row>
-            <v-col cols="12" class="text-center mt-15 pt-5 pb-0">
+            <v-col cols="12" class="text-center">
               <img src="@/assets/us/id.png" alt="introduce developers" width="100">
             </v-col>
             <v-col cols="12" class="text-center py-0 mb-5 grey--text font-weight-light display-1">
@@ -109,6 +109,7 @@ export default {
 <style scoped>
 .content-center {
   width: 85%;
+  margin-top: 15vh;
 }
 
 </style>

@@ -3,7 +3,13 @@
       <div class="d-none d-sm-block">
         <div class="content-center mx-auto">
           <v-container>
-            <v-row class="mt-5">
+            <v-row :class="{beforesearched : !manuallysearched}">
+              <v-col v-if="!manuallysearched" cols="12">
+                <div class="text-center display-1 font-weight-light">Search Group</div>
+              </v-col>
+              <v-col  v-if="!manuallysearched" cols="12" class="text-center grey--text mb-4">
+                찾으려는 그룹의 이름을 검색해주세요 :)
+              </v-col>
               <v-col cols="12" class="py-1 text-h6">
                 <v-text-field
                   prepend-icon="mdi-magnify"
@@ -413,6 +419,7 @@ export default {
         hashtags: [],
         bmToggle : 0,
         hashtagName : this.$route.query.name,
+        manuallysearched: false,
       }
     },
     // watch() {
@@ -443,6 +450,7 @@ export default {
     },
     methods: {
       complete() {
+        this.manuallysearched = true
         this.searched = true
         this.pastword = this.searched
         //console.log(this.searchword)
@@ -531,5 +539,8 @@ export default {
 <style scoped>
 .content-center {
   width: 85%;
+}
+.beforesearched {
+  margin-top: 20vh;
 }
 </style>
