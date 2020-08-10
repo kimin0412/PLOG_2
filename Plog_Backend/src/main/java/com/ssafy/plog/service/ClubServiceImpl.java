@@ -13,6 +13,8 @@ import com.ssafy.plog.dto.Club;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.dto.User_club;
+import com.ssafy.plog.models.User;
+import com.ssafy.plog.repository.UserRepository;
 
 @Service
 public class ClubServiceImpl implements ClubService {
@@ -25,6 +27,9 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Autowired
 	ScheduleDAO sdao;
+	
+	@Autowired 
+	UserRepository ur;
 	
 	@Override
 	public List<Club> getClubList(int uId) {
@@ -82,18 +87,23 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public String getHost(int clId) {	
-		return null;
-		//return ucdao.getHost(clId);
+	public String getHost(int clId) {
+		User_club uc = ucdao.getUCByUcClub(clId);
+		User user = ur.findbyClId(uc.getUcUser());
+		return user.getEmail();
 	}
 	
 	@Override
-	public List<Club> selectByTitle(String searchword) {
-		return cdao.findAll();
+	public List<Club> selectByTitle(String searchword,int uId) {
+		return cdao.findByclName(searchword, uId);
 	}
 
 	@Override
-	public boolean joinClub(int uId, int clId, String password) {
+	public boolean joinClub(int uId, int clId, String clPassword) {
+		if(clPassword.equals(cdao.selectclPasswordByclId(clId))){
+			ucdao.save(new User_club(uId, clId, false));
+			return true;
+		}
 		return false;
 	}
 	

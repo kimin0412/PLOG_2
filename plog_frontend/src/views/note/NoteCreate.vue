@@ -583,11 +583,14 @@ export default {
 
       dialogColor: false,
       pickColor: "",
+
+      groupId : this.$route.query.groupId,
     };
   },
 
   created() {
-    http
+    if(this.groupId == undefined) { //개인 노트라면
+      http
       .get("/hashtag/getnextPostId", {
         params: {
           uId: this.$store.state.auth.user.id,
@@ -597,8 +600,7 @@ export default {
         this.nextPId = data.hId;
       });
 
-    http
-      .get("/schedule/dayList", {
+      http.get("/schedule/dayList", {
         params: {
           sId: this.$store.state.auth.user.id,
           sDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -615,8 +617,7 @@ export default {
         });
       });
 
-    http
-      .get("/category/listAll", {
+      http.get("/category/listAll", {
         params: {
           uid: this.$store.state.auth.user.id,
         },
@@ -624,6 +625,10 @@ export default {
       .then(({ data }) => {
         this.categories = data;
       });
+    }else { //그룹이라면
+      alert("아직 서비스 준비 중입니다.")
+    }
+    
   },
 
   methods: {

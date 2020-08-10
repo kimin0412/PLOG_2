@@ -100,7 +100,7 @@
                     <v-radio-group v-model="dialogm1" column>
                       <div v-if="todaySchedule.length > 0">
                         <v-radio-group v-model="dialogm1" column>
-                          <div v-for="item in todaySchedule" v-bind:key="item">
+                          <div v-for="(item, i) in todaySchedule" v-bind:key="i">
                             <v-radio
                               v-bind:label="item.name"
                               v-bind:value="item.id"
@@ -340,7 +340,9 @@ export default {
       dialogColor: false,
       pickColor: "",
       category : '',
-      dialogCategory : false
+      dialogCategory : false,
+      categories : [],
+      hiddenArea : '',
     };
   },
   // created 한 뒤 axios로
@@ -424,10 +426,9 @@ export default {
       content = entities.encode(content);
       console.log(content);
 
-      if (this.category == ''){
+      if(this.category == ''){
         this.category = 1
       }
-
       http
         .put("/post/", {
           pId: this.pId,
@@ -437,7 +438,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub: 1,
+          pClub:1
         })
         .then((Response) => {
           if (Response.data === "success") {

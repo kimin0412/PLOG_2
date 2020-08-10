@@ -58,17 +58,17 @@ public class ClubController {
     	return gService.getHost(clId);
 	}
 	
-	@GetMapping("/list/search/sample")
-	public Object selectByTitle(@RequestParam final String uId, @RequestParam final String searchword) {
-		List<Club> clubs = gService.selectByTitle(searchword);
+	@GetMapping("/club/list/search")
+	public Object selectByTitle(@RequestParam final String searchword , @RequestParam final int uId) {
+		List<Club> clubs = gService.selectByTitle(searchword, uId);
     	return new ResponseEntity<>(clubs, HttpStatus.OK);
     }
 	
-	@GetMapping("join")
-	public Object joinClub(@RequestParam final int uId, @RequestParam final int clId, @RequestParam final String password) {
-		if(gService.joinClub(uId, clId, password))
+	@GetMapping("/club/join")
+	public Object joinClub(@RequestParam final int clId, @RequestParam final String clPassword, @RequestParam final int uId) {
+		if(gService.joinClub(uId, clId, clPassword))
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		else
-			return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("fail", HttpStatus.OK);
     }
 }

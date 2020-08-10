@@ -29,6 +29,41 @@
             <!-- 검색 결과 -->
             <v-row v-if="searched">
               {{searchgroup}}에 대한 검색결과입니다.
+              <div v-for="(group, index) in groups" :key="index">
+                <v-card-text class="d-flex justify-space-between py-0">
+                  <div class="pt-2"><v-icon small class="mr-1">mdi-check</v-icon> {{group.clName}}</div><v-btn @click="openJoinDialog(group.clId, group.clName)" text color="blue lighten-2  ml-auto">가입하기</v-btn>
+                </v-card-text>
+              </div>
+            </v-row>
+            <v-row class=" mb-4">
+              <v-menu
+                v-model="joinDialog"
+                :close-on-content-click="false"
+                offset-x
+              >
+              <v-card>
+                <v-card-title>
+                  <span class="headline">New Category</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field label="Group Name*" v-model="openName" readonly></v-text-field>
+                      </v-col>
+                       <v-col cols="12">
+                        <v-text-field label="Group Password*" v-model="openPassword" required></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="joinGroup">가입하기</v-btn>
+                  <v-btn color="blue darken-1" text @click="joinDialog = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+              </v-menu>
             </v-row>
           </v-container>
         </div>
@@ -49,7 +84,7 @@
                 rounded
                 clearable
                 autofocus
-                v-model="searchword"
+                v-model="searchgroup"
                 @keyup.enter="complete2"
                 hint="그룹 이름으로 검색해주세요"
               >
@@ -62,12 +97,18 @@
 </template>
 
 <script>
+import http from '@/util/http-common.js'
 export default {
     name: 'GroupSearch',
     data() {
       return {
         searchgroup: '',
         searched: false,
+        groups : [],
+        openId : '',
+        openName : '',
+        openPassword : '',
+        joinDialog : false,
       }
     },
     watch: {
@@ -80,9 +121,50 @@ export default {
     methods: {
       complete() {
         this.searched = true
+        http.get('/club/list/search', {
+          params : {
+            searchword : this.searchgroup,
+            uId : this.$store.state.auth.user.id,
+          }
+        })
+        .then(({data}) => {
+          this.groups = data;
+        });
       },
       complete2() {
         this.searched = true
+        http.get('/club/list/search', {
+          params : {
+            searchword : this.searchgroup,
+            uId : this.$store.state.auth.user.id,
+          }
+        })
+        .then(({data}) => {
+          this.groups = data;
+        });
+      },
+      openJoinDialog(id, name) {
+        this.openId = id;
+        this.openName = name;
+        this.joinDialog = true;
+      },
+      joinGroup() {
+        http.get('/club/join', {
+          params : {
+            clId : this.openId,
+            clPassword : this.openPassword,
+            uId : this.$store.state.auth.user.id,
+          }
+        })
+        .then(({data}) => {
+          if(data === 'success'){
+            alert("그룹에 가입 되었습니다.");
+            this.joinDialog = false;
+            this.$router.push("/group");
+          } else{
+            alert("비밀번호를 확인해 주세요.");
+          }          
+        });
       }
     }
 }

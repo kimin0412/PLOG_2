@@ -18,7 +18,7 @@ public interface ClubService {
 
 	String getHost(int clId);
 	
-	List<Club> selectByTitle(String searchword);
+	List<Club> selectByTitle(String searchword, int uId);
 
 	boolean joinClub(int uId, int clId, String password);
 }

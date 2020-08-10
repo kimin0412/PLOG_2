@@ -3,14 +3,14 @@
     <!-- 큰 화면 -->
     <div class="d-none d-sm-block pt-12">
       <div class="centercontent mx-auto">
-      <v-container>
+      <v-container class="signup-successbox">
         <v-row>
-          <v-col cols="12" class="py-1 text-h4 font-weight-bold text-center">Welcome :)</v-col>
-          <v-col cols="12" class="pt-4 pb-0 text-h6  text-center">성공적으로 PLOG에</v-col>
-          <v-col cols="12" class="py-0 text-h6  text-center">회원가입 되었습니다.</v-col>
+          <v-col cols="12" class="py-1 display-1 font-weight-light text-center">Welcome :)</v-col>
+          <v-col cols="12" class="pt-4 pb-0 text-body-1 text-center">성공적으로 PLOG에</v-col>
+          <v-col cols="12" class="py-0 text-body-1 text-center">회원가입 되었습니다.</v-col>
         </v-row>
         <v-row class="d-flex justify-center mt-5">
-          <router-link to="/schedule" class="movebtn"><v-btn rounded color="blue" dark block small><v-icon small>mdi-home</v-icon>HOME</v-btn></router-link>
+          <router-link to="/login" class="movebtn"><v-btn rounded color="blue" dark block small><v-icon small class="mr-2">mdi-account</v-icon>LOG IN</v-btn></router-link>
         </v-row>
       </v-container>
       </div>
@@ -61,5 +61,8 @@ export default {
 .movebtn {
     text-decoration: none;
     color: white;
+}
+.signup-successbox {
+  margin-top: 20vh;
 }
 </style>

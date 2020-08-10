@@ -294,6 +294,7 @@ export default {
 
       dialogColor: false,
       pickColor: "",
+      hiddenArea : '',
     };
   },
   // created 한 뒤 axios로
@@ -374,7 +375,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: 1,
           pColor: this.pickColor,
-          pClub: 1,
+          pClub:1
         })
         .then((response) => {
           console.log(response);
@@ -392,9 +393,7 @@ export default {
                   alert("임시 삭제 완료");
                   this.$router.go();
                 }
-              });              
-            
-            //this.$router.push("/note");
+              });
           }
         });
 

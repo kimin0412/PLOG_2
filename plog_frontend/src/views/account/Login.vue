@@ -3,9 +3,9 @@
     <!-- 큰 화면 -->
     <div class="d-none d-sm-block">
       <div class="centercontent mx-auto">
-      <v-container>
+      <v-container class="big-loginform">
         <v-row>
-          <v-col cols="12" class="py-1 text-h4 font-weight-bold text-center">Log in</v-col>
+          <v-col cols="12" class="py-1 display-2 font-weight-light text-center">Log in</v-col>
         </v-row>
         <v-row justify="center" class="mt-7">
           <v-col cols="12" class="py-1 text-subtitle-2 grey--text">ID</v-col>
@@ -55,7 +55,7 @@
           <v-col cols="12" class="py-1 text-h4 font-weight-bold blue--text">Log in</v-col>
         </v-row>
         <v-row justify="center" class="mt-7">
-          <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">E-mail</v-col>
+          <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">ID</v-col>
           <v-col cols="12" class="py-0">
             <v-text-field
               placeholder="이메일을 입력해주세요"
@@ -116,29 +116,38 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.loading = true;
-      this.$validator.validateAll().then(isValid => {
-        if (!isValid) {
-          this.loading = false;
-          return;
-        }
-
-        if (this.user.username && this.user.password) {
-          this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              this.$store.state.auth.status.loggedIn = true
-              this.$router.push('/schedule');
-            },
-            error => {
-              this.loading = false;
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-            }
-          );
-        }
-      });
+      if (!this.user.username.trim()) {
+        alert("ID를 입력해주세요")
+      } else if (!this.user.password.trim()) {
+        alert("비밀번호를 입력해주세요")
+      } else {
+        this.loading = true;
+        this.$validator.validateAll().then(isValid => {
+          if (!isValid) {
+            this.loading = false;
+            return;
+          }
+          if (this.user.username && this.user.password) {
+            this.$store.dispatch('auth/login', this.user).then(
+              () => {
+                this.$store.state.auth.status.loggedIn = true
+                this.$router.push('/schedule');
+              },
+              error => {
+                this.loading = false;
+                this.message =
+                  (error.response && error.response.data) ||
+                  error.message ||
+                  error.toString();
+              }
+            )
+            .catch(() => {
+              console.log("에러가 떠야 하는데 안먹히..")
+              this.$router.push("/error")
+            })
+          }
+        });
+      }
     }
   }
 };
@@ -182,6 +191,11 @@ export default {
 }
 
 .centercontent {
-  width: 50%;
+  width: 35%;
+}
+
+
+.big-loginform {
+  margin-top: 17vh; 
 }
 </style>
