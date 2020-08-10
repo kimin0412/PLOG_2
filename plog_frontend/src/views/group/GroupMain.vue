@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="d-none d-sm-block">
-        <div class="content-center mx-auto mt-10">
+        <div :class="{temploca:myClub.length<1}" class="content-center mx-auto mt-10">
           <v-row>
             <v-col cols="12">
               <div class="text-center display-1 font-weight-light">GROUP-LOG</div>
@@ -26,10 +26,10 @@
                       
                       <div
                         v-if="hover"
-                        class="d-flex transition-fast-in-fast-out blue darken-4 v-card--reveal display-2 white--text"
+                        class="d-flex transition-fast-in-fast-out blue darken-4 v-card--reveal display-1 white--text"
                         style="height: 100%;"
                       >
-                        <v-icon class="display-2 white--text mr-2">mdi-magnify</v-icon> Search
+                        <v-icon class="display-1 white--text mr-2">mdi-magnify</v-icon> Search
                       </div>
                       
                     </v-expand-transition>
@@ -60,10 +60,10 @@
                         
                         <div
                           v-if="hover"
-                          class="d-flex transition-fast-in-fast-out blue darken-4  v-card--reveal display-2 white--text"
+                          class="d-flex transition-fast-in-fast-out blue darken-4  v-card--reveal display-1 white--text"
                           style="height: 100%;"
                         >
-                          <v-icon class="display-2 white--text mr-2">mdi-account-multiple-plus</v-icon> Create
+                          <v-icon class="display-1 white--text mr-2">mdi-account-multiple-plus</v-icon> Create
                         </div>
                         
                       </v-expand-transition>
@@ -80,7 +80,7 @@
             </v-col>  
             <v-col cols="2"></v-col>          
           </v-row>
-          <v-row class="mt-10 pt-10">
+          <v-row class="mt-10 pt-10" v-if="myClub.length >= 1">
             <v-col cols="12 mb-4">
               <div class="text-center display-1 font-weight-light">MY GROUP LIST</div>
             </v-col>
@@ -159,5 +159,8 @@ export default {
   opacity: .5;
   position: absolute;
   width: 100%;
+}
+.temploca {
+  padding-top: 10vh;
 }
 </style>

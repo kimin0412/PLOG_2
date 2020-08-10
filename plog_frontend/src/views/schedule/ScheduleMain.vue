@@ -20,30 +20,31 @@
                 {{ $refs.calendar.title }}
               </v-toolbar-title>
               <v-spacer></v-spacer>
-              
-              <v-menu bottom right>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    outlined
-                    color="grey darken-2"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <span>{{ groupName }}</span>
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list v-for="(item,i) in myClub"  :key="i" >
-                  <v-list-item @click="type = item.id; groupName = item.name, groupColor = item.color, updateRange();">
-                    <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
               <v-row>
-                <!-- 스케줄 생성 모달 -->
+                <!-- 스케줄 생성 모달 & 옵션선택지(v-menu) -->
                 <v-dialog v-model="dialog2" persistent max-width="600px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-col cols="12" class="d-none d-sm-block py-1 text-right">
+                    <v-menu bottom right>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          outlined
+                          color="grey darken-2"
+                          v-bind="attrs"
+                          v-on="on"
+                          small
+                          class="mr-4"
+                        >
+                          <span>{{ groupName }}</span>
+                          <v-icon right>mdi-menu-down</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list v-for="(item,i) in myClub"  :key="i" >
+                        <v-list-item @click="type = item.id; groupName = item.name, groupColor = item.color, updateRange();">
+                          <v-list-item-title>{{ item.name }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>                      
                       <v-btn
                         color="blue darken-3"
                         small
@@ -119,7 +120,7 @@
               </v-row>
             </v-toolbar>
           </v-sheet>
-          <v-sheet height="500">
+          <v-sheet height="500" min-height="500">
             <v-calendar
               ref="calendar"
               v-model="focus"
@@ -127,10 +128,10 @@
               :events="events"
               :event-color="getEventColor"
               :type="month"
-
               @click:more="viewDay"
               @click:date="viewDay"
               @change="updateRange"
+              :event-more="true"
             ></v-calendar>
             
           </v-sheet>
@@ -824,4 +825,11 @@
   top: 50vh;
   left: 50vw;
 }
+/* .pl-1 > strong {
+  visibility: hidden !important;
+} */
+.v-event-more .pl-1 {
+  background-color: grey !important;
+}
+
 </style>

@@ -19,7 +19,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title class="logoname px-0 pt-5" @click="headeroff">P L O G</v-toolbar-title>
+      <router-link to="/aboutus" class="text-decoration-none"><v-toolbar-title class="logoname px-0 pt-5">P L O G</v-toolbar-title></router-link>
 
       <v-spacer></v-spacer>
 
@@ -232,11 +232,10 @@
       bottom
       small
       v-model="fab"
-      v-show="btnShow"
       :direction="direction"
       :open-on-hover="hover"
       :transition="transition"
-      class="mb-13"
+      :class="{menuloca:btnShow}"
     >
       <template v-slot:activator>
         <v-btn
@@ -268,7 +267,7 @@
       >
         <v-icon>mdi-pencil-plus</v-icon>
       </v-btn>
-    </v-speed-dial>
+  </v-speed-dial>
 
     <v-btn
       bottom
@@ -278,7 +277,7 @@
       fab
       color="orange"
       small
-      v-show="btnShow"
+      v-if="btnShow"
       @click="$vuetify.goTo('#header')">
         <v-icon class="white--text">mdi-chevron-double-up</v-icon>
     </v-btn>
@@ -859,7 +858,9 @@ export default {
 .tooltip {
   display: none !important;
 }
-
+.menuloca {
+  margin-bottom: 48px;
+}
 #create .v-speed-dial {
   position: absolute;
 }
