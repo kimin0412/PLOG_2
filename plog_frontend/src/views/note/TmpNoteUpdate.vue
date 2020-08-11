@@ -56,30 +56,34 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" class="px-0">
               <div id="emoDiv">
-                <input type="hidden" id="hidden-area" :value="hiddenArea" />
-                <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">👀</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💩</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💬</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💭</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💯</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📝</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📢</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📷</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                <v-sheet
+                  class="mx-0"
+                >
+                  <v-slide-group show-arrows mandatory>
+                    <input type="hidden" id="hidden-area" :value="hiddenArea" />
+                    <v-slide-item
+                      v-for="(emo,i) in emojiall"
+                      :key="i"
+                      v-slot:default="{ active, toggle }"
+                    >
+                      <v-btn
+                        class="mx-1 px-1"
+                        :input-value="active"
+                        active-class="yellow darken-2 white--text"
+                        depressed
+                        rounded
+                        @click="toggle"
+                      >
+                        <v-btn class="emoji transparent" elevation="0" rounded @click="addEmoji">{{emo}}</v-btn>
+                      </v-btn>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-sheet>
               </div>
             </v-col>
-            <!-- <v-col cols="12">
-              <Editor ref="toastuiEditor1" height="500px" />
-            </v-col> -->
-          </v-row>
-          <v-row>
-            <v-col cols="12" class="">
+             <v-col cols="12" class="">
               <Editor
                 ref="toastuiEditor"
                 height="500px"
@@ -210,7 +214,9 @@
                 </v-card>
               </v-dialog>
             </v-col>
-<v-col cols="12" class="d-flex justify-end py-0">
+
+            <!-- 폴더안에 넣기 -->
+            <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -322,6 +328,9 @@ export default {
   },
   data() {
     return {
+      emojiall: [
+        '⏰','🌞','👀','💩','💬','💭','💯','📝','📞','📢','📷','🔞','🔥',
+      ],
       title: "",
       content: "",
       chip2: true,
