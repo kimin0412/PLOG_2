@@ -165,4 +165,9 @@ public class PostController {
 	 public List<Post> searchHashtag(@RequestParam final int uid, @RequestParam final String hName) {
 		 return service.searchHashtag(uid, hName);
 	 }
+	 
+	 @GetMapping("/count")
+	 public List<Post> countPosts(@RequestParam final int uid) {
+		 return service.countPosts(uid);
+	 }
 }

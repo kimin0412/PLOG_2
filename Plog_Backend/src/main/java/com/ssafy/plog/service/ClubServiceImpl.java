@@ -95,6 +95,7 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Override
 	public List<Club> selectByTitle(String searchword,int uId) {
+		System.out.println(searchword);
 		return cdao.findByclName(searchword, uId);
 	}
 

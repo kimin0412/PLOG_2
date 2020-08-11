@@ -40,4 +40,7 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 
 	@Query(value = "select * from schedule where date(?1) between date(s_Startdate) and date(s_EndDate) and s_club = ?2 ", nativeQuery=true)
 	public List<Schedule> getDailyClubSchedule(String sDate, int sClub);
+
+	@Query(value = "select * from schedule where s_user = ?1 ", nativeQuery=true)
+	public List<Schedule> getScheduleBySUser(int uid);
 }

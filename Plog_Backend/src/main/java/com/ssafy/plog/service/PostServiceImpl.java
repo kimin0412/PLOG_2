@@ -1,6 +1,7 @@
 package com.ssafy.plog.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,10 @@ import com.ssafy.plog.dao.CategoryDao;
 import com.ssafy.plog.dao.HashTagDAO;
 import com.ssafy.plog.dao.PostDao;
 import com.ssafy.plog.dao.PostHashtagDAO;
+import com.ssafy.plog.dao.ScheduleDAO;
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Schedule;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -30,6 +33,9 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	PostHashtagDAO phdao;
+	
+	@Autowired
+	ScheduleDAO sdao;
 	
 	public List<Post> selectAll(int uid) {
 		//return dao.findAll();
@@ -139,4 +145,62 @@ public class PostServiceImpl implements PostService {
 		return dao.findBypClub(clid, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
 	}
 
+	@Override
+	public List<Post> countPosts(int uid) {
+		List<Post> posts = dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
+		int[] monthPosts = new int[12];
+		
+		for (int i = 0, size = posts.size(); i < size; i++) {
+			LocalDateTime pDate = posts.get(i).getpDate();
+			int year = pDate.getYear();
+			if(year == 2020) {
+				monthPosts[pDate.getMonthValue()-1]++;
+			}
+		}
+		
+		int[] monthSchedules = new int[12];
+		List<Schedule> schedules = sdao.getScheduleBySUser(uid);
+		for (int i = 0, size = schedules.size(); i < size; i++) {
+			String start = schedules.get(i).getsStartdate();
+			String end = schedules.get(i).getsEnddate();
+			
+			boolean isStart2020 = start.substring(0, 4).equals("2020");
+			boolean isEnd2020 = end.substring(0, 4).equals("2020");
+			
+			int sMonth = Integer.parseInt(start.substring(5,7));
+			int eMonth = Integer.parseInt(end.substring(5,7));
+			
+			if(isStart2020) {
+				if(isEnd2020) {
+					for (int j = eMonth-1; j > sMonth-2; j--) {
+						monthSchedules[j]++;
+					}
+				}else {
+					for (int j = 11; j > sMonth-2; j--) {
+						monthSchedules[j]++;
+					}
+				}
+			}else {
+				if(isEnd2020) {
+					for (int j = 0; j < eMonth; j++) {
+						monthSchedules[j]++;
+					}
+				}else {
+					for (int j = 0; j < 12; j++) {
+						monthSchedules[j]++;
+					}
+				}
+			}
+		}
+		
+		List<Post> toSend = new LinkedList<>();
+		for (int i = 1; i < 13; i++) {
+			Post temp = new Post();
+			temp.setpBookmark(monthPosts[i-1]);
+			temp.setpCategory(monthSchedules[i-1]);
+			temp.setpClub(i);
+			toSend.add(temp);
+		}
+		return toSend;
+	}
 }

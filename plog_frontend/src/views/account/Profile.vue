@@ -121,12 +121,35 @@
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
-                                            <div class="text-h6 front-weight-bold py-5">RANKING</div>
-                                            <div>#1 VUE</div>
-                                            <div>#2 VUE</div>
-                                            <div>#3 VUE</div>
-                                            <div>#4 VUE</div>
-                                            <div>#5 VUE</div>
+                                          <v-card
+                                            class="mx-auto"
+                                            max-width="300"
+                                            tile
+                                          >
+                                            <v-list disabled>
+                                              <v-subheader class="text-h6 front-weight-bold">RANKING</v-subheader>
+                                              <v-list-item-group color="primary">
+                                                <v-list-item
+                                                  v-for="i in 5"  :key="i"
+                                                >
+                                                  <v-list-item-icon>
+                                                    <v-icon v-text="i"></v-icon>
+                                                  </v-list-item-icon>
+                                                  <v-list-item-content>
+                                                    <v-list-item-title v-text="sorted[i-1].keyword"></v-list-item-title>
+                                                  </v-list-item-content>
+                                                </v-list-item>
+                                              </v-list-item-group>
+                                            </v-list>
+                                          </v-card>
+
+
+
+
+                                            <!-- <div class="text-h6 front-weight-bold py-5">RANKING</div>
+                                            <div v-for="(item,i) in sorted"  :key="i">
+                                              <div>#{{i}} {{item.name}}</div>
+                                            </div> -->
                                         </div>
                                     </v-col>
                                 </v-row>
@@ -451,36 +474,80 @@ export default {
         },
 
       },
+      sorted : [
+        {c: 20, keyword: 'lorem'},
+        {c: 28, keyword: 'ipsum'},
+        {c: 35, keyword: 'dolor'},
+        {c: 60, keyword: 'sit'},
+        {c: 65, keyword: 'amet'},
+      ],
+
       }
     },
     created() {
-      // if (!this.$store.state.auth.status.loggedIn) {
-      //   this.$router.push('/login');
-      // }
-       http.get('/post/list/bookmark',{
-         params : {
-           uid : this.$store.state.auth.user.id,
-         }
-       }).then(({data}) => {
+      http.get('/post/list/bookmark',{
+        params : {
+          uid : this.$store.state.auth.user.id,
+        }
+      }).then(({data}) => {
          this.Notes = data;
-       });
-       http.get('/club/list', {
+      });
+      http.get('/club/list', {
         params : {
           uId : this.$store.state.auth.user.id,
-            }
-        }).then(({ data }) => {
-            // this.mygroups = data
-            this.mygroups = data
+        }
+      }).then(({ data }) => {
+        // this.mygroups = data
+        this.mygroups = data
+      });
+
+      this.chart_data_bar = []
+      this.defaultWords = []
+      this.chart_data = []
+      http.get('/hashtag/all', {
+        params : {
+          uid : this.$store.state.auth.user.id,
+        }
+      })
+      .then(({data}) => {
+        data.forEach(element => {
+          this.chart_data_bar.push({"keyword" : element.hName, "c":element.hId})
+          this.defaultWords.push({"name" : element.hName, "value":element.hId})
+          this.chart_data.push({name: element.hName, count:element.hId})
         });
+
+        this.sorted = this.chart_data_bar
+        var sortingField = "c";
+
+        this.sorted.sort((a, b) => {
+          return b[sortingField] - a[sortingField];
+        });
+      });
+
+      //먼슬리
+      this.chart_data_formonth = []
+      http.get('/post/count', {
+        params : {
+          uid : this.$store.state.auth.user.id,
+        }
+      }).then(({data}) => {
+        data.forEach(element => {
+          this.chart_data_formonth.push({"note" : element.pBookmark, "schedule":element.pCategory, "date":element.pClub})
+        });
+
+      });
+
      },
+
+
      methods: {
-    wordClickHandler(name, value, vm) {
-      console.log('wordClickHandler', name, value, vm);
-    },
+      wordClickHandler(name, value, vm) {
+        console.log('wordClickHandler', name, value, vm);
+      },
       logOut() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/logout');
-    },
+        this.$store.dispatch('auth/logout');
+        this.$router.push('/logout');
+      },
        getNote(note) {
             console.log(note)
             this.selected = note

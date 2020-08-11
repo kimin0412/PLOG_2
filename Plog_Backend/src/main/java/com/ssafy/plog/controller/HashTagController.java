@@ -71,8 +71,8 @@ public class HashTagController {
     }
     
     @GetMapping("/hashtag/all")
-	public List<Hashtag> getAllHashtag(@RequestParam int uId) { 
-    	List<Hashtag> hList = hService.getAll(uId);
+	public List<Hashtag> getAllHashtag(@RequestParam int uid) { 
+    	List<Hashtag> hList = hService.getAll(uid);
 		return hList;
 	}
     
