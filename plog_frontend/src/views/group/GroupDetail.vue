@@ -53,10 +53,7 @@
                   <v-tab-item>
                     <v-container fluid>
                       <v-row>
-                        <v-col cols="12" class="text-center">
-                          아직 서비스 준비중입니다.
-                        </v-col>
-                        <!-- <v-col cols="2"></v-col>
+                        <v-col cols="2"></v-col>
                         <v-col cols="3" class="text-center mt-5">
                           <img src="@/assets/group/team.png" alt="" width="120">              
                         </v-col>
@@ -66,25 +63,28 @@
                               <tbody>
                                 <tr>
                                   <td>Group Name</td>
-                                  <td>싸라밸</td>
+                                  <td>{{ myClub.clName }}</td>
                                 </tr>
                                 <tr>
                                   <td>Group Host</td>
-                                  <td>M.J. Kim</td>
+                                  <td>{{ host }}</td>
                                 </tr>
-                                <tr>
-                                  <td>Group Color</td>
-                                  <td>color</td>
-                                </tr>
-                                <tr>
-                                  <td>Created</td>
-                                  <td>2020.00.00</td>
-                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>                          
+                        </v-col>  
+                        <v-col cols="3"></v-col>
+                        <v-col cols="3" class="text-center mt-5">
+                          <v-simple-table dense class="text-left">
+                            <template v-slot:default>
+                              <th>Group Members</th>
+                              <tbody>
+                                <tr><td></td></tr>
+                                <tr v-for="(member,index) in Members" :key="index"><td>{{member}}</td></tr>
                               </tbody>
                             </template>
                           </v-simple-table>
                         </v-col>  
-                        <v-col cols="2"></v-col>           -->
                       </v-row>
                     </v-container>
                   </v-tab-item>
@@ -543,6 +543,7 @@ export default {
         myClub : [],
         host : '',
         regdate : '',
+        Members : [],
         categoryDialog : false,
         updateCategoryDialog : false,
         categories : [],
@@ -575,6 +576,14 @@ export default {
           this.host = data
         });
 
+         http.get('/club/members', {
+          params : {
+            clId : this.groupId,
+          }
+        }).then(({ data }) => {
+          console.log(data);
+          this.Members = data
+        });
       window.scrollTo(0, 0);
       http.get('/category/club/listAll', {
         params : {

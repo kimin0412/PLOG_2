@@ -27,13 +27,18 @@
               </v-col>
             </v-row>
             <!-- 검색 결과 -->
-            <v-row v-if="searched">
+            <v-col cols="12" class="text-center">
               {{searchgroup}}에 대한 검색결과입니다.
+            </v-col>
+            <v-row v-if="searched" class="text-center">              
+              <v-col cols="12" class="text-center">
               <div v-for="(group, index) in groups" :key="index">
                 <v-card-text class="d-flex justify-space-between py-0">
-                  <div class="pt-2"><v-icon small class="mr-1">mdi-check</v-icon> {{group.clName}}</div><v-btn @click="openJoinDialog(group.clId, group.clName)" text color="blue lighten-2  ml-auto">가입하기</v-btn>
+                  <div class="pt-2"><v-icon small class="mr-1">mdi-check</v-icon> <strong>{{group.clName}}</strong> |  {{group.clRegdate}}</div>
+                  <v-btn @click="openJoinDialog(group.clId, group.clName)" text color="blue lighten-2  ml-auto">가입하기</v-btn>
                 </v-card-text>
               </div>
+              </v-col>
             </v-row>
             <v-row class=" mb-4">
               <v-menu

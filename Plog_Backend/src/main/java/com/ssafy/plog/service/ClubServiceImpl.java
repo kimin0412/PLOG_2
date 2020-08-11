@@ -106,5 +106,11 @@ public class ClubServiceImpl implements ClubService {
 		}
 		return false;
 	}
+
+	@Override
+	public List<String> selectMemberbyclId(int clId) {
+		
+		return ucdao.findclMemberByclId(clId);
+	}
 	
 }
