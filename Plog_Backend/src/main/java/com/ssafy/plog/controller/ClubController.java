@@ -16,6 +16,7 @@ import com.ssafy.plog.dto.BasicResponse;
 import com.ssafy.plog.dto.Club;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
+import com.ssafy.plog.models.User;
 import com.ssafy.plog.service.ClubService;
 
 @CrossOrigin("*")
@@ -54,7 +55,7 @@ public class ClubController {
 	}
 	
 	@GetMapping("/club/host")
-	public String getHost(@RequestParam int clId) { 
+	public User getHost(@RequestParam int clId) { 
     	return gService.getHost(clId);
 	}
 	

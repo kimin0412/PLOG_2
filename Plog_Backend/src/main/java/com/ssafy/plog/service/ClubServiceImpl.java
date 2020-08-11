@@ -87,15 +87,14 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public String getHost(int clId) {
+	public User getHost(int clId) {
 		User_club uc = ucdao.getUCByUcClub(clId);
 		User user = ur.findbyClId(uc.getUcUser());
-		return user.getEmail();
+		return user;
 	}
 	
 	@Override
 	public List<Club> selectByTitle(String searchword,int uId) {
-		System.out.println(searchword);
 		return cdao.findByclName(searchword, uId);
 	}
 

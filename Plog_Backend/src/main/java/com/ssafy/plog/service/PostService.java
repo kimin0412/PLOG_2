@@ -37,4 +37,6 @@ public interface PostService {
 	List<Post> selectAllClub(int clid);
 
 	List<Post> countPosts(int uid);
+
+	String getUser(int pid);
 }
