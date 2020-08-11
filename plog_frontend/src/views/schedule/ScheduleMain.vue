@@ -120,7 +120,7 @@
               </v-row>
             </v-toolbar>
           </v-sheet>
-          <v-sheet height="500" min-height="500">
+          <v-sheet height="530">
             <v-calendar
               ref="calendar"
               v-model="focus"
@@ -473,7 +473,13 @@
     computed: {
       dateRangeText () {
         if(this.dates[0] > this.dates[1]){
-          alert("종료날짜를 시작날짜 이후로 정해주세요.")
+          this.$dialog.notify.warning(
+            "종료날짜를 시작날짜 이후로 정해주세요. 😥",
+            {
+              position: "bottom-right",
+              timeout: 3000,
+            }
+          );
           return ''
         }else
           return this.dates.join(' ~ ')
@@ -621,21 +627,20 @@
               //alert(element.s_startdate)
               if(this.type == 0){
                 events.push({
+                  id : element.sId,
                   name : element.sName,
-                  start : element.sStartdate,
+                  start : element.sStartdate.substr(0, 10),
                   end : element.sEnddate,
                   color: element.sColor + " lighten-2",
-                  
-                  timed: !allDay,
                 })
               } else {
                 if(element.sClub < 2){
                   events.push({
+                    id : element.sId,
                     name : element.sName,
                     start : element.sStartdate,
                     end : element.sEnddate,
                     color: element.sColor + " lighten-2",
-                    
                     timed: !allDay,
                   })
                 }
@@ -655,12 +660,13 @@
               //alert(element.s_startdate)
               if(element.sClub == this.type){
                 events.push({
-                name : element.sName,
-                start : element.sStartdate,
-                end : element.sEnddate,
-                color: element.sColor + " lighten-2",
-                
-                timed: !allDay,
+                  id : element.sId,
+                  name : element.sName,
+                  start : element.sStartdate,
+                  end : element.sEnddate,
+                  color: element.sColor + " lighten-2",
+                  
+                  // timed: !allDay,
               })
               }
               
@@ -694,9 +700,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }else { //클럽인경우
           http.post('/schedule/insert', {
@@ -712,9 +727,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }
         
@@ -811,6 +835,38 @@
           this.dialogUpdate = false;
 
         }
+      },
+
+      viewSchedule({ nativeEvent, event }) {
+        this.scheduleDetailOpen = true;
+
+        http.get('/schedule/select', {
+          params : {
+            sId : event.id,
+            sUser : this.$store.state.auth.user.id,
+          }
+        }).then(({ data }) => {
+          this.detailName = data.sName
+          this.detailContent = data.sContent
+          this.detailSDate = data.sStartdate.substr(0, 10)
+          this.detailEDate = data.sEnddate.substr(0, 10)
+          this.detailDates = this.detailSDate + " ~ " + this.detailEDate
+        });
+
+        this.postOfSchedule = []
+        http.get('/schedule/selectPost', {
+          params : {
+            sId : event.id
+          }
+        }).then(({ data }) => {
+          data.forEach(element => {
+            this.postOfSchedule.push({"name":element.pTitle, "id" : element.pId});             
+          });
+        });
+
+        this.scheduleDetailId = event.id;
+
+        nativeEvent.stopPropagation()
       },
     },
   }

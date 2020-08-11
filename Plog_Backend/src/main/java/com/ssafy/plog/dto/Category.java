@@ -32,6 +32,7 @@ public class Category {
 	
 	@Column
 	private int cUser;
+	private int cClub;
 
 	public int getcId() {
 		return cId;
@@ -55,6 +56,14 @@ public class Category {
 
 	public void setcUser(int cUser) {
 		this.cUser = cUser;
+	}
+
+	public int getcClub() {
+		return cClub;
+	}
+
+	public void setcClub(int cClub) {
+		this.cClub = cClub;
 	}
 	
 	
