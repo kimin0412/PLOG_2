@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.plog.dto.Club;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
+import com.ssafy.plog.models.User;
 
 public interface ClubService {
 
@@ -16,7 +17,7 @@ public interface ClubService {
 
 	Club getClub(int clId);
 
-	String getHost(int clId);
+	User getHost(int clId);
 	
 	List<Club> selectByTitle(String searchword, int uId);
 

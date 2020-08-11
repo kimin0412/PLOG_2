@@ -32,7 +32,7 @@
                                 </tr>
                                 <tr>
                                   <td>Group Host</td>
-                                  <td>{{ host }}</td>
+                                  <td>{{ host.email }}</td>
                                 </tr>
                                 <tr>
                                   <td>Group Color</td>
@@ -46,6 +46,12 @@
                             </template>
                           </v-simple-table>
                         </v-col>  
+                        <div class="d-flex justify-end py-0 atag">
+                          <div v-if="host.id == this.$store.state.auth.user.id">
+                            <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">그룹 수정</v-btn>
+                            <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">그룹 삭제</v-btn>
+                          </div>
+                        </div>
                         <v-col cols="2"></v-col>          
                       </v-row>
                     </v-container>
@@ -93,8 +99,8 @@
                       <div class="d-none d-sm-block">
                         <div class="content-center mx-auto">
                           <v-row class="mb-2 justify-end">
-                            <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon mr-3">
-                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block text-decoration-none"><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
+                            <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon mr-3 text-decoration-none">
+                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block "><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
                             </router-link>
                             <router-link to="/search" class="smallicon mr-10">
                               <v-btn small color="grey" dark class="ml-auto d-none d-sm-block text-decoration-none"><v-icon class="mr-3" small>mdi-magnify</v-icon>Search</v-btn>          
@@ -229,11 +235,12 @@
                                         </v-btn>
                                       </v-flex>
                                       <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
+                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
                                       </router-link>
                                       </v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
+                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
                                         <v-card-text class="d-flex justify-center flex-wrap py-0">
                                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
@@ -358,11 +365,12 @@
                                         </v-btn>
                                         </v-flex>
                                         <v-col cols="12" class="py-0 text-center text-h6">
-                                        <router-link :to="{ path: 'note/detail', query:{pId:selected2.pId}}" class="py-0 text-center text-h6"> 
+                                        <router-link :to="{ path: '/group/noteDetail', query:{pId:selected2.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                           <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
                                         </router-link>
                                         </v-col>
                                         <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
+                                        <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName2 }}</strong></v-col>
                                         <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                                           <v-card-text class="d-flex justify-center flex-wrap py-0">
                                             <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
@@ -406,7 +414,7 @@
                             <v-col cols="12" class="py-1 text-h4 font-weight-bold">POSTS</v-col>
                           </v-row>
                           <v-row class="mb-2 justify-end mt-10">
-                            <router-link to="/note/create" class="smallicon mr-3">
+                            <router-link to="/group/noteCreate" class="smallicon mr-3">
                               <v-btn small color="light-green" dark class="ml-auto"><v-icon small>mdi-pencil</v-icon></v-btn>          
                             </router-link>
                             <router-link to="/search" class="smallicon">
@@ -478,11 +486,12 @@
                                         </v-btn>
                                       </v-flex>
                                       <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
+                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
                                       </router-link>
                                       </v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
+                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                                         <v-card-text class="d-flex justify-center py-0">
                                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
@@ -541,7 +550,7 @@ export default {
       return {
         groupId: this.$route.query.clId,
         myClub : [],
-        host : '',
+        host : {},
         regdate : '',
         Members : [],
         categoryDialog : false,
@@ -555,6 +564,12 @@ export default {
         hashtags2 : [],
         bmToggle : 0,
         bmToggle2 : 0,
+        model: null,
+        modelInCategory : null,
+        cName : '',
+        cUpdateName : '',
+        selectedName : '',
+        selectedName2 : '',
       }
     },
 
@@ -581,7 +596,6 @@ export default {
             clId : this.groupId,
           }
         }).then(({ data }) => {
-          console.log(data);
           this.Members = data
         });
       window.scrollTo(0, 0);
@@ -654,7 +668,6 @@ export default {
       },
 
       getNote(note) {
-            console.log(note)
             this.selected = note
             this.hashtags = []
             this.bmToggle = note.pBookmark
@@ -670,9 +683,17 @@ export default {
                 this.hashtags.push({"name" : element})
               });
             });
+
+          http.get('/post/user', {
+            params : {
+              pid : this.selected.pId,
+            }
+          })
+          .then(({data}) => {
+            this.selectedName = data
+          });
         },
         getNoteInCategory(note){
-          console.log(note)
           this.selected2 = note
           this.hashtags2 = []
           this.bmToggle2 = note.pBookmark
@@ -687,6 +708,20 @@ export default {
               this.hashtags2.push({"name" : element})
             });
           });
+
+          http.get('/post/user', {
+            params : {
+              pid : this.selected2.pId,
+            }
+          })
+          .then(({data}) => {
+            this.selectedName2 = data
+          });
+        },
+        openUpdateDialog( cId, cName ) {
+          this.updateCategoryDialog = true
+          this.cUpdateName = cName
+          this.toUpdate = cId
         },
     }
 }

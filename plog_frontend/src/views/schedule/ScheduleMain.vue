@@ -144,24 +144,32 @@
             <v-col cols="12" class="text-h6 py-1">Today's schedule</v-col>
             <v-col cols="12">
               
-                <div v-for="(item,i) in dailySchedule"  :key="i" ><v-card class="mx-auto">
-                  <v-card-text class="d-flex justify-space-between  py-0">
-                    <div class="pt-2"><v-icon class="mr-3 " small>mdi-check</v-icon><span class="text-subtitle-2 font-weight-bold">{{item.name}}</span> : {{item.content}}</div> <v-btn @click=scheduleDetail(item.id) text color="blue lighten-2  ml-auto">DETAIL</v-btn>
-                  </v-card-text><v-divider></v-divider>
-                </v-card></div>        
+                <div v-for="(item,i) in dailySchedule"  :key="i" >
+                  <div v-if="dailySchedule.length != 0">
+                    <v-card class="mx-auto">
+                    <v-card-text class="d-flex justify-space-between  py-0">
+                      <div class="pt-2"><v-icon class="mr-3 " small>mdi-check</v-icon><span class="text-subtitle-2 font-weight-bold">{{item.name}}</span> : {{item.content}}</div> <v-btn @click=scheduleDetail(item.id) text color="blue lighten-2  ml-auto">DETAIL</v-btn>
+                    </v-card-text><v-divider></v-divider>
+                    </v-card></div>
+                  <div v-else><div>
+                    작성한 일정이 없습니다.
+                  </div></div></div>        
               
             </v-col>
           </v-row>
           <v-row class="mt-10">
             <v-col cols="12" class="text-h6 py-1">Daily Logs</v-col>
             <v-col cols="12">
-                <div v-for="(item,i) in dailyPost"  :key="i" ><router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6 text-decoration-none"><v-card class="mx-auto">
+                <div v-for="(item,i) in dailyPost"  :key="i" >
+                  <div v-if="dailyPost.length != 0">
+                  <router-link :to="{ path: 'note/detail', query:{pId:item.id}}" class="py-0 text-center text-h6 text-decoration-none"><v-card class="mx-auto">
                   <v-card-text class="d-flex justify-space-between py-0">
                       <div class="pt-2"><v-icon class="mr-3" small>mdi-pencil</v-icon>{{item.name}} </div>
                           <v-btn text color="blue lighten-2  ml-auto">click</v-btn>
                       
                   </v-card-text><v-divider></v-divider>
                 </v-card></router-link></div>
+                <div v-else><div>작성한 노트가 없습니다.</div></div></div>
             </v-col>
           </v-row>
 

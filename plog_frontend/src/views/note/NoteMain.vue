@@ -92,7 +92,7 @@
                 >
                 <div @click="getNote(note)">
                   <v-card
-                    v-if="note.pCategory == 1"
+                    v-if="note.pCategory == 1 && note.pClub == 1"
                     :color="active ? 'grey' : note.pColor + ' lighten-3'"
                     class="ma-4"
                     height="150"
@@ -220,7 +220,7 @@
                   >
                   <div @click="getNoteInCategory(note)">
                     <v-card
-                      v-if="note.pCategory == category.cId"
+                      v-if="note.pCategory == category.cId && note.pClub == 1"
                       :color="active ? 'grey' : note.pColor + ' lighten-3'"
                       class="ma-4"
                       height="150"
@@ -615,10 +615,6 @@ export default {
         }
       })
       .then(({data}) => {
-        // data.forEach(element => {
-        //   console.log(element);
-        // });
-        // console.log(data)
         this.Notes = data;
       });
       http.get('/tp/list/all', {

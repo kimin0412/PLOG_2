@@ -52,6 +52,8 @@ import GroupDetail from '../views/group/GroupDetail.vue'
 import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
 import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
+import GroupNoteDetail from '../views/group/GroupNoteDetail.vue'
+import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
 
 import { auth } from '@/store/auth.module';
 
@@ -323,6 +325,30 @@ Vue.use(VueRouter)
     path: '/group/noteCreate',
     name: 'GroupNoteCreate',
     component: GroupNoteCreate,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/group/noteDetail',
+    name: 'GroupNoteDetail',
+    component: GroupNoteDetail,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/group/noteUpdate',
+    name: 'GroupNoteUpdate',
+    component: GroupNoteUpdate,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
         next('/auth')
