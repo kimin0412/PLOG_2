@@ -35,4 +35,6 @@ public interface PostService {
 	public List<Post> selectByBookmark(int uid);
 
 	List<Post> selectAllClub(int clid);
+
+	List<Post> countPosts(int uid);
 }

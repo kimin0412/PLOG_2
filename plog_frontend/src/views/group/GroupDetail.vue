@@ -94,12 +94,12 @@
                         <div class="content-center mx-auto">
                           <v-row class="mb-2 justify-end">
                             <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon mr-3">
-                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block"><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
+                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block text-decoration-none"><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
                             </router-link>
                             <router-link to="/search" class="smallicon mr-10">
-                              <v-btn small color="grey" dark class="ml-auto d-none d-sm-block"><v-icon class="mr-3" small>mdi-magnify</v-icon>Search</v-btn>          
+                              <v-btn small color="grey" dark class="ml-auto d-none d-sm-block text-decoration-none"><v-icon class="mr-3" small>mdi-magnify</v-icon>Search</v-btn>          
                             </router-link>
-                            <v-btn small color="blue" dark class="ml-auto d-none d-sm-block" @click="categoryDialog = true"><v-icon class="mr-3" small>mdi-message-text</v-icon>new folder</v-btn>
+                            <v-btn small color="blue" dark class="ml-auto d-none d-sm-block text-decoration-none" @click="categoryDialog = true"><v-icon class="mr-3" small>mdi-message-text</v-icon>new folder</v-btn>
                           </v-row>
                           <v-row class="mt-10">
                             <v-col cols="12" class="py-1 px-0">
