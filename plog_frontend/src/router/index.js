@@ -53,6 +53,11 @@ import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
 import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
 
+//guest
+import Howto from '../views/guest/Howto.vue'
+import Preview from '../views/guest/Preview.vue'
+import Tutorial from '../views/guest/Tutorial.vue'
+
 import { auth } from '@/store/auth.module';
 
 Vue.use(VueRouter)
@@ -142,7 +147,7 @@ Vue.use(VueRouter)
     component: Profile,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
-        next('/login')
+        next('/auth')
       } else {
         next()
       }
@@ -155,7 +160,7 @@ Vue.use(VueRouter)
     beforeEnter(from, to, next) {
       if (auth.state.status.loggedIn) {
         alert('이미 PLOG의 유저이시군요 :)')
-        next('/mypage')
+        next('/profile')
       } else {
         next()
       }
@@ -357,6 +362,23 @@ Vue.use(VueRouter)
     name: 'Visual5',
     component: Visual5
   },
+  // guest
+  {
+    path: '/preview',
+    name: 'Preview',
+    component: Preview
+  },
+  {
+    path: '/howto',
+    name: 'Howto',
+    component: Howto
+  },
+  {
+    path: '/tutorial',
+    name: 'Tutorial',
+    component: Tutorial
+  },
+
   // 404 page not found
   {
     path: '/404',
