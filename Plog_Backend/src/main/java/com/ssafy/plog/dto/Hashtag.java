@@ -28,6 +28,15 @@ public class Hashtag {
 	@Column
 	private String hName;
 
+	public Hashtag(int hid, String hName) {
+		this.hId = hid;
+		this.hName = hName;
+	}
+
+	public Hashtag() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int gethId() {
 		return hId;
 	}

@@ -116,28 +116,25 @@ export default {
                     if (this.groupintro.trim() === ''){
                         alert("짧은 소개 부탁드립니다 :)")
                     } else {
-                        console.log("여기서 axios 성공하면 해당 그룹 상세페이지로, 아니면 general에러페이지로")
-
+                        http.post('/club/insert', {
+                          clId : this.$store.state.auth.user.id,
+                          clName : this.groupname,
+                          clInfo : this.groupintro,
+                          clColor : this.groupcolor,
+                          clPassword : this.entercode
+                          // sColor : this.pickColor,
+                        })
+                        .then(({ data }) => {
+                          let msg = '등록 처리시 문제가 발생했습니다.';
+                          if (data.data == 'success') {
+                            msg = '등록이 완료되었습니다.';
+                            alert(msg)
+                            this.$router.push("/group");
+                          }
+                        })                        
                     }
                 }
             }
-            
-            http.post('/club/insert', {
-              clId : this.$store.state.auth.user.id,
-              clName : this.groupname,
-              clInfo : this.groupintro,
-              clColor : this.groupcolor,
-              clPassword : this.entercode
-              // sColor : this.pickColor,
-            })
-            .then(({ data }) => {
-              let msg = '등록 처리시 문제가 발생했습니다.';
-              if (data.data == 'success') {
-                msg = '등록이 완료되었습니다.';
-                alert(msg)
-                this.$router.push("/group");
-              }
-            })
         }
   }
 }

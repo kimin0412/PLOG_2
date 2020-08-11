@@ -15,6 +15,7 @@ import Editprofile from '../views/account/Editprofile.vue'
 import SignupSuccess from '../views/account/Success.vue'
 import SignupError from '../views/account/Error.vue'
 import Logout from '../views/account/Logout.vue'
+import Profile from '../views/account/Profile.vue'
 
 // special
 import Special from '../views/Special.vue'
@@ -41,12 +42,16 @@ import Developers from '../views/Developers.vue'
 // visualize
 import Visual1 from '../views/analysis/Visual1.vue'
 import Visual2 from '../views/analysis/Visual2.vue'
+import Visual3 from '../views/analysis/Visual3.vue'
+import Visual4 from '../views/analysis/Visual4.vue'
+import Visual5 from '../views/analysis/Visual5.vue'
 
 // group
 import GroupMain from '../views/group/GroupMain.vue'
 import GroupDetail from '../views/group/GroupDetail.vue'
 import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
+import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
 
 import { auth } from '@/store/auth.module';
 
@@ -126,6 +131,18 @@ Vue.use(VueRouter)
       if (auth.state.status.loggedIn) {
         alert('이미 로그인 상태입니다.')
         next('/mypage')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/login')
       } else {
         next()
       }
@@ -302,6 +319,18 @@ Vue.use(VueRouter)
       }
     }
   },
+  {
+    path: '/group/noteCreate',
+    name: 'GroupNoteCreate',
+    component: GroupNoteCreate,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
   // visual
   {
     path: '/v1',
@@ -312,6 +341,21 @@ Vue.use(VueRouter)
     path: '/v2',
     name: 'Visual2',
     component: Visual2
+  },
+  {
+    path: '/v3',
+    name: 'Visual3',
+    component: Visual3
+  },
+  {
+    path: '/v4',
+    name: 'Visual4',
+    component: Visual4
+  },
+  {
+    path: '/v5',
+    name: 'Visual5',
+    component: Visual5
   },
   // 404 page not found
   {

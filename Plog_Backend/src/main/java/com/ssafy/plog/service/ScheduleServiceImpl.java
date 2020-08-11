@@ -205,4 +205,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Post> selectPostById(String sId) {
 		return pdao.selectPostsbySchedule(sId);
 	}
+
+	@Override
+	public List<Schedule> getDailyClubScheduleList(String sDate, int sClub) {
+		return sdao.getDailyClubSchedule(sDate, sClub);
+	}
 }

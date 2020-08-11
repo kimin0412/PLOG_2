@@ -89,14 +89,11 @@
                     </v-container>
                   </v-tab-item>
                   <v-tab-item>
-                    <v-col cols="12" class="text-center">
-                      아직 서비스 준비중입니다.
-                    </v-col>
-                    <!-- <div>
+                    <div>
                       <div class="d-none d-sm-block">
                         <div class="content-center mx-auto">
                           <v-row class="mb-2 justify-end">
-                            <router-link :to="{ path: 'note/create', query:{groupId:groupId}}" class="smallicon mr-3">
+                            <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon mr-3">
                               <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block"><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
                             </router-link>
                             <router-link to="/search" class="smallicon mr-10">
@@ -399,79 +396,7 @@
                             </v-expansion-panels>
                             
                           </v-row>
-                          <v-row class="mt-10 pt-15">
-                            <v-col cols="12" class="py-1 px-0">
-                              <div class="mr-3" style="width: 70px; border-top: 3px solid #bdbdbd; border-left: 2px solid #bdbdbd;"></div>
-                              <div class="ml-1 grey--text text--lighten-1 py-1 text-subtitle-1 font-weight-bold">Temp. notes</div>
-                            </v-col>
-                          </v-row>
-                          <v-row class=" mb-4">
-                            <v-sheet
-                                class="mx-auto mysheet"
-                              >
-                                <v-slide-group
-                                  v-model="tpmodel"
-                                  class="pa-4 px-0"
-                                  show-arrows
-                                  center-active
-                                >
-                                  <v-slide-item
-                                    v-for="(tpnote, index) in tmpNotes" :key="index"
-                                    v-slot:default="{ active, toggle }"
-                                  >
-                                  <div @click="getTpNote(tpnote)">
-                                    <v-card
-                                      :color="active ? 'grey' : tpnote.pColor"
-                                      class="ma-4"
-                                      height="150"
-                                      width="100"
-                                      @click="toggle"
-                                    >
-                                      <div class="text-center">
-                                        {{ tpnote.tpTitle }}
-                                      </div>
-                                      <v-row
-                                        class="fill-height"
-                                        align="center"
-                                        justify="center"
-                                      >
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card>
-                                    </div>
-                                  </v-slide-item>
-                                </v-slide-group>
-
-                                <v-expand-transition>
-                                  <v-sheet
-                                    v-if="tpmodel != null"
-                                    color="grey lighten-4"
-                                    height="200"
-                                    tile
-                                  >
-                                    <v-row
-                                      class="fill-height"
-                                    >
-                                      <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>                    
-                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
-                                        <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
-                                      </router-link>
-                                      </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.tpDate }}</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                    </v-row>
-                                  </v-sheet>
-                                </v-expand-transition>
-                              </v-sheet>          
-                          </v-row>
+                         
                         </div>
                       </div>
                       <div class="d-block d-sm-none">
@@ -583,170 +508,15 @@
                               </v-sheet>          
                             </v-col>
                           </v-row>
-                          <v-row class="mt-5">
-                            <v-col cols="12" class="py-1 text-h6">Temporary</v-col>
-                            <v-col cols="12">
-                              <v-sheet
-                                class="mx-auto mysheet"
-                              >
-                                <v-slide-group
-                                  v-model="tpmodel"
-                                  class="pa-4 px-0"
-                                  show-arrows
-                                  center-active
-                                >
-                                  <v-slide-item
-                                    v-for="(tpnote, index) in tmpNotes" :key="index"
-                                    v-slot:default="{ active, toggle }"
-                                  >
-                                  <div @click="getTpNote(tpnote)">
-                                    <v-card
-                                      :color="active ? 'grey' : tpnote.pColor"
-                                      class="ma-4"
-                                      height="150"
-                                      width="100"
-                                      @click="toggle"
-                                    >
-                                      <div class="text-center">
-                                        {{ tpnote.tpTilte }}
-                                      </div>
-                                      <v-row
-                                        class="fill-height"
-                                        align="center"
-                                        justify="center"
-                                      >
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card>
-                                    </div>
-                                  </v-slide-item>
-                                </v-slide-group>
-
-                                <v-expand-transition>
-                                  <v-sheet
-                                    v-if="tpmodel != null"
-                                    color="grey lighten-4"
-                                    height="200"
-                                    tile
-                                  >
-                                    <v-row
-                                      class="fill-height"
-                                    >
-                                      <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
-                                        <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
-                                      </router-link>
-                                      </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.tpDate }}</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                    </v-row>
-                                  </v-sheet>
-                                </v-expand-transition>
-                              </v-sheet>          
-                            </v-col>
-                          </v-row>
                         </v-container>
                       </div>
-                    </div> -->
+                    </div>
                   </v-tab-item>
                 </v-tabs>
               </v-card>
             </v-col>
           </v-row>
-          <!-- <v-row>
-            <v-col cols="12">
-              <div class="text-center display-1 font-weight-light">Group Info.</div>
-            </v-col>
-            <v-col cols="2"></v-col>
-            <v-col cols="3" class="text-center mt-5">
-              <img src="@/assets/group/team.png" alt="" width="120">              
-            </v-col>
-            <v-col cols="5" class="text-center mt-5">
-              <v-simple-table dense class="text-left">
-                <template v-slot:default>
-                  <tbody>
-                    <tr>
-                      <td>Group Name</td>
-                      <td>싸라밸</td>
-                    </tr>
-                    <tr>
-                      <td>Group Host</td>
-                      <td>M.J. Kim</td>
-                    </tr>
-                    <tr>
-                      <td>Group Color</td>
-                      <td>color</td>
-                    </tr>
-                    <tr>
-                      <td>Created</td>
-                      <td>2020.00.00</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-col>  
-            <v-col cols="2"></v-col>          
-          </v-row>
-          <v-row class="mt-10">
-            <v-col cols="1"></v-col>
-            <v-col cols="10" class="text-center text-h6 grey--text mb-4 px-15">
-              SSAFY 3기 5반 2팀 싸라밸(민지/민섭/지식/민재/혜민)
-            </v-col>
-            <v-col cols="1"></v-col>
-          </v-row>
-          <v-row class="mt-10 pt-10">
-            <v-col cols="12 mb-4">
-              <div class="text-center display-1 font-weight-light">Group Posts</div>
-            </v-col>
-            <v-col cols="12">
-              <v-item-group>
-              <v-container>
-                <v-row>
-                  <v-col
-                    v-for="n in 4"
-                    :key="n"
-                    cols="3"
-                  >
-                    <v-item v-slot:default="{ active, toggle }">
-                      <v-card
-                        :color="active ? 'primary' : 'transparent'"
-                        class="d-flex align-center justify-center"
-                        height="200"
-                        @click="toggle"
-                        elevation="0"
-                      >
-                        <v-scroll-y-transition>
-                          <div
-                            v-if="active"
-                            class="text-h4 flex-grow-1 text-center"
-                          >
-                            <div class="display-1">title</div>
-                            <div class="grey--text text--lighten-3 text-subtitle-2">writer</div>
-                            <div class="grey--text text--lighten-3 text-subtitle-2">2020.00.00</div>
-                            <router-link to="/note/detail" class="text-decoration-none"> <v-btn>보러가기</v-btn></router-link>
-                          </div>
-                          <div v-else class="text-center">
-                            <div><img src="@/assets/group/file.png" alt="" width="50"></div>
-                            <div class="text-h6">post title</div>
-                            <div>20.00.00</div>
-                          </div>
-                        </v-scroll-y-transition>
-                      </v-card>
-                    </v-item>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-item-group>
-            </v-col>
-          </v-row> -->
+          
         </div>
       </div>
       <div class="d-block d-sm-none">
@@ -774,6 +544,17 @@ export default {
         host : '',
         regdate : '',
         Members : [],
+        categoryDialog : false,
+        updateCategoryDialog : false,
+        categories : [],
+        Notes : [],
+
+        selected: {},
+        selected2 : {},
+        hashtags : [],
+        hashtags2 : [],
+        bmToggle : 0,
+        bmToggle2 : 0,
       }
     },
 
@@ -803,9 +584,110 @@ export default {
           console.log(data);
           this.Members = data
         });
+      window.scrollTo(0, 0);
+      http.get('/category/club/listAll', {
+        params : {
+          cClub : this.groupId,
+        }
+      })
+      .then(({data}) => {
+        this.categories = data;
+      });
+
+      http.get('post/list/all/club', {
+        params : {
+          clid : this.groupId,
+        }
+      })
+      .then(({data}) => {
+        this.Notes = data;
+      });
     },
     methods: {
-      
+      createCategory() {
+        if(this.cName == ""){
+          alert("이름 쓰세요.")
+        } else{
+          http.post('/category/insert', {
+            cName : this.cName,
+            cUser : 1,
+            cClub : this.groupId,
+          })
+          .then(({data}) => {
+            if(data.data == 'success'){
+              alert("새 폴더가 생성되었습니다.")
+              this.categoryDialog = false;
+              this.$router.go();
+            }
+          });
+        }
+           
+      },
+      updateCategory () {
+        http.put('/category/update', {
+          cId : this.toUpdate,
+          cName : this.cUpdateName
+        })
+        .then(({data}) => {
+          if(data.data == 'success'){
+            this.$router.go();
+          }
+        });
+      },
+
+      startDrag (evt, item) { 
+        evt.dataTransfer.dropEffect = 'move'
+        evt.dataTransfer.effectAllowed = 'move'
+        evt.dataTransfer.setData('ID', item.pId)
+      },
+      onDrop (evt, cId) {
+        const itemID = evt.dataTransfer.getData('ID')
+        http.post('/category/update/post', {
+          pId : itemID,
+          pCategory : cId
+        })
+        .then(({data}) => {
+          if(data.data == 'success'){
+            this.$router.go();
+          }
+        });
+      },
+
+      getNote(note) {
+            console.log(note)
+            this.selected = note
+            this.hashtags = []
+            this.bmToggle = note.pBookmark
+            this.hashtags = []
+            http.get('/hashtag/select', {
+              params : {
+                uid : this.$store.state.auth.user.id,
+                pid : this.selected.pId,
+              }
+            })
+            .then(({data}) => {
+              data.forEach(element => {
+                this.hashtags.push({"name" : element})
+              });
+            });
+        },
+        getNoteInCategory(note){
+          console.log(note)
+          this.selected2 = note
+          this.hashtags2 = []
+          this.bmToggle2 = note.pBookmark
+          http.get('/hashtag/select', {
+            params : {
+              uid : this.$store.state.auth.user.id,
+              pid : this.selected2.pId,
+            }
+          })
+          .then(({data}) => {
+            data.forEach(element => {
+              this.hashtags2.push({"name" : element})
+            });
+          });
+        },
     }
 }
 </script>

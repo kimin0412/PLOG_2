@@ -20,30 +20,31 @@
                 {{ $refs.calendar.title }}
               </v-toolbar-title>
               <v-spacer></v-spacer>
-              
-              <v-menu bottom right>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    outlined
-                    color="grey darken-2"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <span>{{ groupName }}</span>
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list v-for="(item,i) in myClub"  :key="i" >
-                  <v-list-item @click="type = item.id; groupName = item.name, groupColor = item.color, updateRange();">
-                    <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
               <v-row>
-                <!-- 스케줄 생성 모달 -->
+                <!-- 스케줄 생성 모달 & 옵션선택지(v-menu) -->
                 <v-dialog v-model="dialog2" persistent max-width="600px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-col cols="12" class="d-none d-sm-block py-1 text-right">
+                    <v-menu bottom right>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          outlined
+                          color="grey darken-2"
+                          v-bind="attrs"
+                          v-on="on"
+                          small
+                          class="mr-4"
+                        >
+                          <span>{{ groupName }}</span>
+                          <v-icon right>mdi-menu-down</v-icon>
+                        </v-btn>
+                      </template>
+                      <v-list v-for="(item,i) in myClub"  :key="i" >
+                        <v-list-item @click="type = item.id; groupName = item.name, groupColor = item.color, updateRange();">
+                          <v-list-item-title>{{ item.name }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>                      
                       <v-btn
                         color="blue darken-3"
                         small
@@ -119,7 +120,7 @@
               </v-row>
             </v-toolbar>
           </v-sheet>
-          <v-sheet height="500">
+          <v-sheet height="530">
             <v-calendar
               ref="calendar"
               v-model="focus"
@@ -127,10 +128,10 @@
               :events="events"
               :event-color="getEventColor"
               :type="month"
-
               @click:more="viewDay"
               @click:date="viewDay"
               @change="updateRange"
+              :event-more="true"
             ></v-calendar>
             
           </v-sheet>
@@ -472,7 +473,13 @@
     computed: {
       dateRangeText () {
         if(this.dates[0] > this.dates[1]){
-          alert("종료날짜를 시작날짜 이후로 정해주세요.")
+          this.$dialog.notify.warning(
+            "종료날짜를 시작날짜 이후로 정해주세요. 😥",
+            {
+              position: "bottom-right",
+              timeout: 3000,
+            }
+          );
           return ''
         }else
           return this.dates.join(' ~ ')
@@ -620,21 +627,20 @@
               //alert(element.s_startdate)
               if(this.type == 0){
                 events.push({
+                  id : element.sId,
                   name : element.sName,
-                  start : element.sStartdate,
+                  start : element.sStartdate.substr(0, 10),
                   end : element.sEnddate,
                   color: element.sColor + " lighten-2",
-                  
-                  timed: !allDay,
                 })
               } else {
                 if(element.sClub < 2){
                   events.push({
+                    id : element.sId,
                     name : element.sName,
                     start : element.sStartdate,
                     end : element.sEnddate,
                     color: element.sColor + " lighten-2",
-                    
                     timed: !allDay,
                   })
                 }
@@ -654,12 +660,13 @@
               //alert(element.s_startdate)
               if(element.sClub == this.type){
                 events.push({
-                name : element.sName,
-                start : element.sStartdate,
-                end : element.sEnddate,
-                color: element.sColor + " lighten-2",
-                
-                timed: !allDay,
+                  id : element.sId,
+                  name : element.sName,
+                  start : element.sStartdate,
+                  end : element.sEnddate,
+                  color: element.sColor + " lighten-2",
+                  
+                  // timed: !allDay,
               })
               }
               
@@ -693,9 +700,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }else { //클럽인경우
           http.post('/schedule/insert', {
@@ -711,9 +727,18 @@
           let msg = '등록 처리시 문제가 발생했습니다.';
           if (data.data == 'success') {
             msg = '등록이 완료되었습니다.';
+            this.$dialog.notify.success(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.go();
+          } else {
+            this.$dialog.notify.error(msg + " 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }
-          alert(msg);
+          // alert(msg);
           });
         }
         
@@ -811,6 +836,38 @@
 
         }
       },
+
+      viewSchedule({ nativeEvent, event }) {
+        this.scheduleDetailOpen = true;
+
+        http.get('/schedule/select', {
+          params : {
+            sId : event.id,
+            sUser : this.$store.state.auth.user.id,
+          }
+        }).then(({ data }) => {
+          this.detailName = data.sName
+          this.detailContent = data.sContent
+          this.detailSDate = data.sStartdate.substr(0, 10)
+          this.detailEDate = data.sEnddate.substr(0, 10)
+          this.detailDates = this.detailSDate + " ~ " + this.detailEDate
+        });
+
+        this.postOfSchedule = []
+        http.get('/schedule/selectPost', {
+          params : {
+            sId : event.id
+          }
+        }).then(({ data }) => {
+          data.forEach(element => {
+            this.postOfSchedule.push({"name":element.pTitle, "id" : element.pId});             
+          });
+        });
+
+        this.scheduleDetailId = event.id;
+
+        nativeEvent.stopPropagation()
+      },
     },
   }
 </script>
@@ -824,4 +881,11 @@
   top: 50vh;
   left: 50vw;
 }
+/* .pl-1 > strong {
+  visibility: hidden !important;
+} */
+.v-event-more .pl-1 {
+  background-color: grey !important;
+}
+
 </style>

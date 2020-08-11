@@ -62,7 +62,7 @@
                             @click="toggle"
                           >
                             <div class="text-center">
-                              note {{ note.pId }}
+                              {{ note.pTitle }}
                             </div>
                             <v-row
                               class="fill-height"
@@ -159,7 +159,7 @@
                             @click="toggle"
                           >
                             <div class="text-center">
-                              note {{ tpnote.tpId }}
+                              {{ tpnote.tpTitle }}
                             </div>
                             <v-row
                               class="fill-height"
@@ -270,7 +270,7 @@
                             @click="toggle"
                           >
                             <div class="text-center">
-                              note {{ note.pId }}
+                              {{ note.pTitle }}
                             </div>
                             <v-row
                               class="fill-height"
@@ -367,7 +367,7 @@
                             @click="toggle"
                           >
                             <div class="text-center">
-                              note {{ tpnote.tpId }}
+                              {{ tpnote.tpTitle }}
                             </div>
                             <v-row
                               class="fill-height"

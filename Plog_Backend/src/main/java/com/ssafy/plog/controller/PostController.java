@@ -43,6 +43,12 @@ public class PostController {
     	return posts;
     }
 	
+	@GetMapping("/list/all/club")
+	public List<Post> selectAllClub(@RequestParam(required = false) final int clid) {
+		List<Post> posts = service.selectAllClub(clid);
+    	return posts;
+    }
+	
 	@GetMapping("/list/search")
 	public Object selectByTitle(@RequestParam(required = false) final int uid, @RequestParam final String searchword,
 			@RequestParam final Boolean c1, @RequestParam final Boolean c2, @RequestParam final Boolean c3) {
@@ -106,6 +112,10 @@ public class PostController {
 			post.setpCategory(1);
 		}
 		
+		if(post.getpClub() == 0) {
+			post.setpClub(1);
+		}
+		
 		result.temp = service.registPost(post);
 		result.data = "success";
 		
@@ -155,5 +165,4 @@ public class PostController {
 	 public List<Post> searchHashtag(@RequestParam final int uid, @RequestParam final String hName) {
 		 return service.searchHashtag(uid, hName);
 	 }
-			 
 }

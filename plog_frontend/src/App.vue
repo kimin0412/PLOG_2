@@ -19,7 +19,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title class="logoname px-0 pt-5" @click="headeroff">P L O G</v-toolbar-title>
+      <router-link to="/aboutus" class="text-decoration-none"><v-toolbar-title class="logoname px-0 pt-5">P L O G</v-toolbar-title></router-link>
 
       <v-spacer></v-spacer>
 
@@ -32,7 +32,7 @@
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotomypage">Profile</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotosearch">Search</v-tab>
         </v-tabs>
       </template>
@@ -55,7 +55,7 @@
     >
 
     <v-list-item v-if="lognow" class="drawer-profile">
-      <router-link to="/mypage" style="text-decoration:none;">
+      <router-link to="/profile" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
@@ -66,7 +66,7 @@
       </router-link>
     </v-list-item>
     <v-list-item v-else class="drawer-profile">
-      <router-link to="/mypage" style="text-decoration:none;">
+      <router-link to="/profile" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
@@ -140,7 +140,7 @@
 
           <v-subheader class="mt-3">Account</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/mypage" class="drawer-menu"><v-list-item>
+          <router-link to="/profile" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account-circle</v-icon>
             </v-list-item-icon>
@@ -232,11 +232,10 @@
       bottom
       small
       v-model="fab"
-      v-show="btnShow"
       :direction="direction"
       :open-on-hover="hover"
       :transition="transition"
-      class="mb-13"
+      :class="{menuloca:btnShow}"
     >
       <template v-slot:activator>
         <v-btn
@@ -268,7 +267,7 @@
       >
         <v-icon>mdi-pencil-plus</v-icon>
       </v-btn>
-    </v-speed-dial>
+  </v-speed-dial>
 
     <v-btn
       bottom
@@ -278,7 +277,7 @@
       fab
       color="orange"
       small
-      v-show="btnShow"
+      v-if="btnShow"
       @click="$vuetify.goTo('#header')">
         <v-icon class="white--text">mdi-chevron-double-up</v-icon>
     </v-btn>
@@ -324,7 +323,7 @@
       >
 
         <v-list-item v-if="lognow" class="drawer-profile">
-          <router-link to="/mypage" style="text-decoration:none;">
+          <router-link to="/profile" style="text-decoration:none;">
           <v-row>
             <v-col cols="12">
               <v-icon class="white--text">mdi-account</v-icon>
@@ -409,7 +408,7 @@
 
             <v-subheader class="mt-3">Account</v-subheader>
             <v-divider></v-divider>
-            <router-link to="/mypage" class="drawer-menu"><v-list-item>
+            <router-link to="/profile" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
@@ -502,7 +501,7 @@
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/mypage" class="drawer-menu">
+        <router-link to="/profile" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-account</v-icon></div>
         </router-link>
       </v-btn>
@@ -657,8 +656,8 @@ export default {
       }
     },
     gotomypage() {
-      if (this.$route.name !== 'Mypage'){
-        this.$router.push('/mypage')
+      if (this.$route.name !== 'Profile'){
+        this.$router.push('/profile')
       }
     },
     gotosearch() {
@@ -859,7 +858,9 @@ export default {
 .tooltip {
   display: none !important;
 }
-
+.menuloca {
+  margin-bottom: 48px;
+}
 #create .v-speed-dial {
   position: absolute;
 }
