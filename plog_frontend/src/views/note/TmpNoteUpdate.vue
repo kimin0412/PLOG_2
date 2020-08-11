@@ -210,7 +210,61 @@
                 </v-card>
               </v-dialog>
             </v-col>
-
+<v-col cols="12" class="d-flex justify-end py-0">
+              <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="primary darken-1"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-5 d-none d-sm-block"
+                    small
+                  >
+                    Category
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>Categories</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text style="height: 300px;">
+                    <div v-if="categories.length > 0">
+                      <v-radio-group v-model="category" column>
+                        <div v-for="(item, i) in categories" v-bind:key="i">
+                          <v-radio
+                            v-bind:label="item.cName"
+                            v-bind:value="item.cId"
+                          ></v-radio>
+                        </div>
+                      </v-radio-group>
+                    </div>
+                    <div v-else>
+                      <div>
+                        생성된 폴더가 없습니다.
+                      </div>
+                    </div>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-actions class="d-flex justify-end">
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialogCategory = false"
+                      >Save</v-btn
+                    >
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="
+                        category = 1;
+                        dialogCategory = false;
+                      "
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-col>
             <v-col cols="12" class="text-end">
               <v-btn
                 @click="createAction"
@@ -295,6 +349,10 @@ export default {
       dialogColor: false,
       pickColor: "",
       hiddenArea : '',
+
+      dialogCategory: false,
+      category: "",
+      categories: [],
     };
   },
   // created 한 뒤 axios로
@@ -332,7 +390,7 @@ export default {
     http
       .get("/schedule/dayList", {
         params: {
-          sId: 1,
+          sId: this.$store.state.auth.user.id,
           sDate: moment(new Date()).format("YYYY-MM-DD"),
         },
       })
@@ -345,6 +403,14 @@ export default {
             id: element.sId,
           });
         });
+      });
+      http.get("/category/listAll", {
+        params: {
+          uid: this.$store.state.auth.user.id,
+        },
+      })
+      .then(({ data }) => {
+        this.categories = data;
       });
   },
 
@@ -373,7 +439,7 @@ export default {
           pContent: content,
           pUser: this.$store.state.auth.user.id,
           pSchedule: this.dialogm1,
-          pCategory: 1,
+          pCategory: this.category,
           pColor: this.pickColor,
           pClub:1
         })
@@ -410,7 +476,7 @@ export default {
 
       http
         .post("/hashtag/insert", {
-          hId: this.nextPId,
+          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
           hName: this.hashtags,
         })
         .then(({ data }) => {

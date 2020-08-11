@@ -71,4 +71,12 @@ public class ClubController {
 		else
 			return new ResponseEntity<>("fail", HttpStatus.OK);
     }
+	
+	@GetMapping("/club/members")
+	public Object selectMemberbyclId(@RequestParam final int clId) {
+		List<String> members = gService.selectMemberbyclId(clId);
+		return new ResponseEntity<>(members, HttpStatus.OK);
+	}
+	
+	
 }

@@ -21,4 +21,6 @@ public interface ClubService {
 	List<Club> selectByTitle(String searchword, int uId);
 
 	boolean joinClub(int uId, int clId, String password);
+	
+	List<String> selectMemberbyclId(int clId);
 }
