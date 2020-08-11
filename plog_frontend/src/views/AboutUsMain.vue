@@ -37,7 +37,7 @@
               <img src="@/assets/us/note.jpg" alt="user-image" class="about-intro">
             </v-col> 
           </v-row>
-          <v-row class="mt-15 pt-15">
+          <v-row class="my-15 py-15">
             <v-col cols="3">
               <router-link to="/login" class="link-tag">
                 <div><img src="@/assets/icon/monitor.png" alt="user-image" class="link-icon "></div>
@@ -62,7 +62,53 @@
                 <div class="mt-5">Write</div>
               </router-link>              
             </v-col>
-          </v-row>       
+          </v-row> 
+          <v-row class="mt-5">
+            <v-col cols="4">
+              <img src="@/assets/us/people.jpg" alt="people-image" class="about-intro">
+            </v-col>
+            <v-col cols="8" class="text-right mb-2" align-self="end">
+              <div class="display-2 font-weight-thin">GROUP-Log</div>
+              <div class="text-subtitle-2 grey--text">스터디, 팀 프로젝트 등 그룹원들과 함께</div>
+              <div class="text-subtitle-2 grey--text">일정과 기록을 공유할 수 있는 Group-log 서비스</div>
+            </v-col>    
+          </v-row>
+          <v-row class="mt-5">
+            <v-col cols="8" class="text-left mb-2" align-self="end">
+              <div class="display-2 font-weight-thin">ANALYSIS</div>
+              <div class="text-subtitle-2 grey--text">PLOG 사용과 해시태그 현황을</div>
+              <div class="text-subtitle-2 grey--text">마이페이지에서 시각화로 볼 수 있는 서비스</div>
+            </v-col> 
+            <v-col cols="4">
+              <img src="@/assets/us/analysis.jpg" alt="user-image" class="about-intro">
+            </v-col> 
+          </v-row> 
+          <v-row class="my-15 pt-15">
+            <v-col cols="3">
+              <router-link to="/group" class="link-tag">
+                <div><img src="@/assets/icon/network.png" alt="user-image" class="link-icon "></div>
+                <div class="mt-5">Group</div>
+              </router-link>
+            </v-col>
+            <v-col cols="3">
+              <router-link to="/profile" class="link-tag">
+                <div><img src="@/assets/icon/analytics.png" alt="user-image" class="link-icon "></div>
+                <div class="mt-5">Statistics</div>
+              </router-link>
+            </v-col>
+            <v-col cols="3">
+              <router-link to="/howto" class="link-tag">
+                <div><img src="@/assets/icon/question.png" alt="user-image" class="link-icon "></div>
+                <div class="mt-5">How to</div>
+              </router-link>              
+            </v-col>
+            <v-col cols="3">
+              <router-link to="/preview" class="link-tag">
+                <div><img src="@/assets/icon/openbook.png" alt="user-image" class="link-icon "></div>
+                <div class="mt-5">Preview</div>
+              </router-link>              
+            </v-col>
+          </v-row>      
         </div>
       </div>
       <div class="d-block d-sm-none">
@@ -123,6 +169,46 @@
                   <router-link to="/note/create" class="link-tag">
                     <div><img src="@/assets/icon/writing.png" alt="user-image" class="link-icon "></div>
                     <div class="mt-4 font-weight-light text-button">Write</div>
+                  </router-link>              
+                </v-col>
+              </v-row>       
+              <v-row class="mt-8 pt-5">
+                <v-col cols="12" class="text-center mb-2" align-self="end">
+                  <div class="display-1 font-weight-thin">GROUP</div>
+                  <div class="text-caption grey--text">스터디, 팀 프로젝트 등 그룹원들과 함께</div>
+                  <div class="text-caption grey--text">일정과 노트를 공유할 수 있는 Group-log 서비스</div>
+                </v-col>    
+              </v-row>
+              <v-row class="mt-5">
+                <v-col cols="12" class="text-center mb-2" align-self="end">
+                  <div class="display-1 font-weight-thin">ANALYSIS</div>
+                  <div class="text-caption grey--text">PLOG 사용 내역과 해시태그 현황을</div>
+                  <div class="text-caption grey--text">마이페이지에서 시각화로 볼 수 있는 서비스</div>
+                </v-col> 
+              </v-row>
+              <v-row class="mt-15 px-10">
+                <v-col cols="6" class="mb-5">
+                  <router-link to="/group" class="link-tag">
+                    <div><img src="@/assets/icon/network.png" alt="user-image" class="link-icon "></div>
+                    <div class="mt-4 font-weight-light text-button">Group</div>
+                  </router-link>
+                </v-col>
+                <v-col cols="6" class="mb-5">
+                  <router-link to="/mypage" class="link-tag">
+                    <div><img src="@/assets/icon/analytics.png" alt="user-image" class="link-icon "></div>
+                    <div class="mt-4 font-weight-light text-button">Statistics</div>
+                  </router-link>
+                </v-col>
+                <v-col cols="6">
+                  <router-link to="/howto" class="link-tag">
+                    <div><img src="@/assets/icon/question.png" alt="user-image" class="link-icon "></div>
+                    <div class="mt-4 font-weight-light text-button">How To</div>
+                  </router-link>              
+                </v-col>
+                <v-col cols="6">
+                  <router-link to="/preview" class="link-tag">
+                    <div><img src="@/assets/icon/openbook.png" alt="user-image" class="link-icon "></div>
+                    <div class="mt-4 font-weight-light text-button">Preview</div>
                   </router-link>              
                 </v-col>
               </v-row>       
