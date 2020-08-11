@@ -79,10 +79,10 @@ export default {
                 bottom: 30,
                 left: 30,
             },
-            // transition: {
-            //     duration: 350,
-            //     ease: "easeLinear",
-            // },
+            transition: {
+                duration: 350,
+                ease: "easeLinear",
+            },
             }
         }
     }

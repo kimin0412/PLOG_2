@@ -15,6 +15,7 @@ import Editprofile from '../views/account/Editprofile.vue'
 import SignupSuccess from '../views/account/Success.vue'
 import SignupError from '../views/account/Error.vue'
 import Logout from '../views/account/Logout.vue'
+import Profile from '../views/account/Profile.vue'
 
 // special
 import Special from '../views/Special.vue'
@@ -129,6 +130,18 @@ Vue.use(VueRouter)
       if (auth.state.status.loggedIn) {
         alert('이미 로그인 상태입니다.')
         next('/mypage')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/login')
       } else {
         next()
       }
