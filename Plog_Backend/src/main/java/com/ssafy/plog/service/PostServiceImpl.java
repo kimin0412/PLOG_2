@@ -30,6 +30,8 @@ import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.sun.xml.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
+import com.ssafy.plog.models.User;
+import com.ssafy.plog.repository.UserRepository;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -48,6 +50,9 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	ScheduleDAO sdao;
+	
+	@Autowired 
+	UserRepository ur;
 	
 	public List<Post> selectAll(int uid) {
 		//return dao.findAll();
@@ -288,5 +293,12 @@ public class PostServiceImpl implements PostService {
 			toSend.add(temp);
 		}
 		return toSend;
+	}
+
+	@Override
+	public String getUser(int pid) {
+		int uid = dao.getPUser(pid);
+		User user = ur.findbyClId(uid);
+		return user.getEmail();
 	}
 }

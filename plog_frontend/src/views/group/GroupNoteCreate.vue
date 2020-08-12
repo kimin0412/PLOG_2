@@ -268,13 +268,6 @@
                 class="white--text mr-3"
                 >SAVE</v-btn
               >
-              <v-btn
-                @click="tmpcreateAction"
-                small
-                color="grey"
-                class="white--text"
-                >TEMP SAVE</v-btn
-              >
             </v-col>
           </v-row>
         </v-container>
@@ -522,13 +515,6 @@
               class="white--text mr-3"
               >SAVE</v-btn
             >
-            <v-btn
-              @click="tmpcreateAction"
-              small
-              color="grey"
-              class="white--text"
-              >TEMP SAVE</v-btn
-            >
           </v-col>
         </v-row>
       </v-container>
@@ -644,7 +630,7 @@ export default {
       content = entities.encode(content);
 
       http
-        .post("/post", {
+        .post("/post/", {
           pId: this.nextPId,
           pTitle: this.title,
           pContent: content,

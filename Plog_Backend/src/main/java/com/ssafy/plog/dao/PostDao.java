@@ -90,5 +90,13 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 
 	List<Post> findBypClub(int pClub, Sort sort);
 
+	@Query(value = "select p_user from post where p_id = ?1 ", nativeQuery = true)
+	int getPUser(int pid);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update post set p_user = ?2 where p_user = ?1 ", nativeQuery=true)
+	void updatePUser(int uId, int hostId);
+
 
 }

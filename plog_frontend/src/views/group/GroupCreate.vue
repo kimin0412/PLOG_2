@@ -71,7 +71,6 @@
                     </v-row>
                 </v-container>
             </v-col>
-
           </v-row>
         </div>
       </div>
@@ -81,8 +80,72 @@
             <v-col cols="12" class="py-1 text-h5">GROUP</v-col>
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">Make group</v-col>
           </v-row>
-          <v-row class="mt-10">
-            
+          <v-row class="mt-5">
+            <v-col cols="12" class="text-center grey--text mb-4">
+                <v-container>
+                    <v-row justify="center">
+                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text">Group Name</v-col>
+                    <v-col cols="12" class="py-0 px-0">
+                        <v-text-field
+                        placeholder="그룹명"
+                        filled
+                        rounded
+                        dense
+                        v-model="groupname"
+                        clearable
+                        autofocus
+                        ></v-text-field>            
+                    </v-col>
+                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text mt-n3">Enter Code</v-col>
+                    <v-col cols="12" class="py-0 px-0">
+                        <v-text-field
+                        placeholder="입장 코드"
+                        filled
+                        rounded
+                        dense
+                        clearable
+                        v-model="entercode"
+                        ></v-text-field> 
+                    </v-col>      
+                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text mt-n3">Introduction</v-col>
+                    <v-col cols="12" class="py-0 px-0">
+                        <v-textarea
+                        filled
+                        auto-grow
+                        rows="4"
+                        row-height="20"
+                        v-model="groupintro"
+                        placeholder="150자 이내"
+                        :rules="[rules.counter]"
+                        counter
+                        rounded
+                        maxlength="150"
+                        ></v-textarea>
+                    </v-col>   
+                    </v-row>
+                    <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="groupcolor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="groupcolor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="그룹을 대표하는 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                    <v-btn @click="createGroup" small rounded color="blue" dark block>Create Group</v-btn>
+                    </v-row>
+                    <v-row class="mt-2">
+                    <v-col cols="8"></v-col>
+                    <v-col cols="4" class="py-0 text-right"><router-link to="/group" class="text-decoration-none blue-darken-2--text text-caption linkto">◀ 돌아가기</router-link></v-col>
+                    </v-row>
+                </v-container>
+            </v-col>
           </v-row>
         </v-container>
       </div>

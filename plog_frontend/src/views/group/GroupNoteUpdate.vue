@@ -56,39 +56,29 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12" class="px-0">
+            <v-col cols="12">
               <div id="emoDiv">
-                <v-sheet
-                  class="mx-0"
-                >
-                  <v-slide-group show-arrows mandatory>
-                    <input type="hidden" id="hidden-area" :value="hiddenArea" />
-                    <v-slide-item
-                      v-for="(emo,i) in emojiall"
-                      :key="i"
-                      v-slot:default="{ active, toggle }"
-                    >
-                      <v-btn
-                        class="mx-1 px-1"
-                        :input-value="active"
-                        active-class="yellow darken-2 white--text"
-                        depressed
-                        rounded
-                        @click="toggle"
-                      >
-                        <v-btn class="emoji transparent" elevation="0" rounded @click="addEmoji">{{emo}}</v-btn>
-                      </v-btn>
-                    </v-slide-item>
-                  </v-slide-group>
-                </v-sheet>
+                <input type="hidden" id="hidden-area" :value="hiddenArea" />
+                <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
+                <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
+                <v-btn class="emoji" @click="addEmoji">👀</v-btn>
+                <v-btn class="emoji" @click="addEmoji">💩</v-btn>
+                <v-btn class="emoji" @click="addEmoji">💬</v-btn>
+                <v-btn class="emoji" @click="addEmoji">💭</v-btn>
+                <v-btn class="emoji" @click="addEmoji">💯</v-btn>
+                <v-btn class="emoji" @click="addEmoji">📝</v-btn>
+                <v-btn class="emoji" @click="addEmoji">📞</v-btn>
+                <v-btn class="emoji" @click="addEmoji">📢</v-btn>
+                <v-btn class="emoji" @click="addEmoji">📷</v-btn>
+                <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
+                <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
               </div>
             </v-col>
             <v-col cols="12">
-              <Editor ref="toastuiEditor" :initialValue="editorText" height="500px"/>
+              <Editor ref="toastuiEditor" :initialValue="editorText" />
             </v-col>
           </v-row>
           <v-row>
-            <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
@@ -213,7 +203,6 @@
               </v-dialog>
             </v-col>
 
-            <!-- 폴더안에 넣기 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
@@ -324,9 +313,6 @@ export default {
   },
   data() {
     return {
-      emojiall: [
-        '⏰','🌞','👀','💩','💬','💭','💯','📝','📞','📢','📷','🔞','🔥',
-      ],
       title: "",
       content: "",
       chip2: true,
@@ -357,6 +343,7 @@ export default {
       dialogCategory : false,
       categories : [],
       hiddenArea : '',
+      groupId: this.$route.query.clId,
     };
   },
   // created 한 뒤 axios로
@@ -387,14 +374,11 @@ export default {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         this.title = data.pTitle;
-        //this.model = data.model;
         const Entities = require("html-entities").XmlEntities;
         const entities = new Entities();
         var v_content = data.pContent;
         this.content = entities.decode(v_content);
-        console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
       });
@@ -441,7 +425,6 @@ export default {
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      console.log(content);
 
       if(this.category == ''){
         this.category = 1
@@ -455,7 +438,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:1
+          pClub:this.groupId
         })
         .then((Response) => {
           if (Response.data === "success") {
@@ -486,7 +469,7 @@ export default {
               timeout: 3000,
               
             });
-            this.$router.push("/note");
+            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
           }
         });
     },

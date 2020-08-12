@@ -24,7 +24,7 @@
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <router-link to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-star</v-icon></router-link>
+        <router-link to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-home</v-icon></router-link>
       </v-btn>
 
       <template v-if="lognow" v-slot:extension>
@@ -39,10 +39,10 @@
       <template v-else v-slot:extension>
         <v-tabs class="d-flex justify-center">
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">About us</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">How to</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotohowto">How to</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotologin">Log in</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">Tutorial</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">Preview</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gototutorial">Tutorial</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotopreview">Preview</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -178,23 +178,23 @@
           </v-list-item-icon>
           <v-list-item-title class="grey--text">About us</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+        <router-link to="/preview" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-information-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">Preview</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+        <router-link to="/tutorial" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-information-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+        <router-link to="/howto" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-information-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="grey--text">License</v-list-item-title>
+          <v-list-item-title class="grey--text">How to</v-list-item-title>
         </v-list-item></router-link>
 
         </v-list-item-group>       
@@ -240,7 +240,7 @@
       <template v-slot:activator>
         <v-btn
           v-model="fab"
-          color="light-green"
+          color="blue darken-2"
           dark
           small
           fab
@@ -253,7 +253,7 @@
         fab
         dark
         small
-        color="brown"
+        color="blue"
         @click="gotoaboutus"
       >
         <v-icon>mdi-home</v-icon>
@@ -262,7 +262,7 @@
         fab
         dark
         small
-        color="teal"
+        color="indigo"
         @click="gotonotecreate"
       >
         <v-icon>mdi-pencil-plus</v-icon>
@@ -275,7 +275,7 @@
       fixed
       dark
       fab
-      color="orange"
+      color="grey darken-3"
       small
       v-if="btnShow"
       @click="$vuetify.goTo('#header')">
@@ -447,23 +447,23 @@
             </v-list-item-icon>
             <v-list-item-title class="grey--text">About us</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+          <router-link to="/preview" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-information-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Preview</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+          <router-link to="/tutorial" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-information-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+          <router-link to="/howto" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-information-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="grey--text">License</v-list-item-title>
+            <v-list-item-title class="grey--text">How to</v-list-item-title>
           </v-list-item></router-link>
 
           </v-list-item-group>
@@ -518,7 +518,7 @@
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/aboutus" class="drawer-menu">
+        <router-link to="/howto" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-sign-direction</v-icon></div>
         </router-link>
       </v-btn>
@@ -528,12 +528,12 @@
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/aboutus" class="drawer-menu">
+        <router-link to="/tutorial" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-television-play</v-icon></div>
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/aboutus" class="drawer-menu">
+        <router-link to="/preview" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-book-open-page-variant</v-icon></div>
         </router-link>
       </v-btn>
@@ -544,7 +544,7 @@
       fixed
       dark
       fab
-      color="brown lighten-1"
+      color="blue darken-3"
       small
       class="mb-12"
       v-show="btnShow"
@@ -670,6 +670,22 @@ export default {
         this.$router.push('/login')
       }
     },
+    // guest
+    gotopreview() {
+      if (this.$route.name !== 'Preview'){
+        this.$router.push('/preview')
+      }
+    },
+    gotohowto() {
+      if (this.$route.name !== 'Howto'){
+        this.$router.push('/howto')
+      }
+    },
+    gototutorial() {
+      if (this.$route.name !== 'Tutorial'){
+        this.$router.push('/tutorial')
+      }
+    },    
     // 맨위로 버튼 + 노트 생성 버튼
     handleScroll() {
       this.btnShow = window.scrollY > 0;
@@ -681,7 +697,8 @@ export default {
     },
     logOut() {
       this.$store.dispatch('auth/logout');
-      this.$router.push('/logout');
+      // this.$router.push('/logout');
+      this.$router.go();
     },
   },
   // 맨위로 버튼

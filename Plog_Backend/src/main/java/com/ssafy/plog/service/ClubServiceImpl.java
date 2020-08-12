@@ -4,9 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.plog.dao.CategoryDao;
 import com.ssafy.plog.dao.ClubDao;
+import com.ssafy.plog.dao.PostDao;
+import com.ssafy.plog.dao.PostHashtagDAO;
 import com.ssafy.plog.dao.ScheduleDAO;
 import com.ssafy.plog.dao.UserClubDao;
 import com.ssafy.plog.dto.Club;
@@ -30,6 +34,15 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Autowired 
 	UserRepository ur;
+	
+	@Autowired
+	PostDao pdao;
+	
+	@Autowired
+	PostHashtagDAO phdao;
+	
+	@Autowired
+	CategoryDao ctdao;
 	
 	@Override
 	public List<Club> getClubList(int uId) {
@@ -87,15 +100,14 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public String getHost(int clId) {
+	public User getHost(int clId) {
 		User_club uc = ucdao.getUCByUcClub(clId);
 		User user = ur.findbyClId(uc.getUcUser());
-		return user.getEmail();
+		return user;
 	}
 	
 	@Override
 	public List<Club> selectByTitle(String searchword,int uId) {
-		System.out.println(searchword);
 		return cdao.findByclName(searchword, uId);
 	}
 
@@ -109,9 +121,51 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public List<String> selectMemberbyclId(int clId) {
+	public List<User> selectMemberbyclId(int clId) {
+		return ur.findclMemberByclId(clId);
+	}
+
+	@Override
+	public void updateClub(Club club) {
+		cdao.save(club);
+	}
+
+	@Override
+	public void deleteMember(int uId, int hostId, int groupId) {
+		// post들의 pUser 바꾸기 -> post_hashtag의 phUser 바꾸기 -> schedule들의 sUser 바꾸기 -> user_club에서 삭제하기
+		pdao.updatePUser(uId, hostId);
 		
-		return ucdao.findclMemberByclId(clId);
+		phdao.updatePhUser(uId, hostId);
+		
+		sdao.updateSUser(uId, hostId);
+		
+		ctdao.updateByCUser(uId, hostId);
+		
+		ucdao.deleteByUserAndClub(uId, groupId);
+		
+	}
+
+	@Override
+	public void deleteClub(int groupId) {
+		//pid들 찾기 -> post_hashtag 삭제 -> post 삭제 -> category 삭제 -> schedule 삭제 -> user_club 삭제 -> club 삭제
+		List<Post> posts = pdao.findBypClub(groupId, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
+		
+		for (int i = 0, size = posts.size(); i < size; i++) {
+			phdao.deleteAllInPost(posts.get(i).getpId());
+		}
+		
+		for (int i = 0, size = posts.size(); i < size; i++) {
+			pdao.deleteBypId(posts.get(i).getpId());
+		}
+		
+		ctdao.deleteByClub(groupId);
+		
+		sdao.deleteByClub(groupId);
+		
+		ucdao.deleteByClub(groupId);
+		
+		cdao.deleteById(groupId);
+		
 	}
 	
 }

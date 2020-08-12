@@ -31,7 +31,45 @@
                             <v-divider></v-divider>
                         </v-card-text>
                         <v-card-actions class="d-flex justify-end pt-0">
-                            <v-btn color="blue" text small class="font-weight-bold">update</v-btn>
+                            <v-btn color="blue" text small class="font-weight-bold" @click.stop="dialog = true">update</v-btn>
+                            <!-- 수정모달 -->
+                            <v-dialog v-model="dialog" max-width="400">
+                                  <v-card>
+                                    <v-card-title class="headline">Edit Profile</v-card-title>
+                                    <v-card-text class="pb-0">
+                                      <v-col cols="12" class="py-0 mt-10">
+                                        <v-text-field
+                                          label="Username" :placeholder="U.username" v-model="U.username"
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="E-mail" :placeholder="U.useremail" v-model="U.useremail"
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="Birthday" :placeholder="U.userbirthday" v-model="U.userbirthday"
+                                          hint="YYYY-MM-DD 의 형식으로 입력해주세요"
+                                          persistent-hint
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="Phone" :placeholder="U.userphone" v-model="U.userphone"
+                                          hint="000-0000-0000 의 형식으로 입력해주세요"
+                                          persistent-hint                                          
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                    </v-card-text>
+
+                                    <v-card-actions class="pt-5">
+                                      <v-spacer></v-spacer>
+                                      <v-btn color="orange" text @click="sendData" >Edit</v-btn>
+                                      <v-btn color="grey" text @click="dialog = false" >Close</v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
                         </v-card-actions>
                     </v-card>
                     <v-card class="mx-auto mt-5">
@@ -85,6 +123,9 @@
                             <v-expansion-panel-header>more...</v-expansion-panel-header>
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
+                                    <v-col cols="12" class="py-0">
+                                        <v-btn small color="orange" @click="logOut" block dark>Log out</v-btn>                                   
+                                    </v-col>
                                     <v-col cols="12">
                                         <v-btn small color="red" block dark>withdraw</v-btn>                                   
                                     </v-col>
@@ -129,16 +170,30 @@
                                             <v-list disabled>
                                               <v-subheader class="text-h6 front-weight-bold">RANKING</v-subheader>
                                               <v-list-item-group color="primary">
-                                                <v-list-item
-                                                  v-for="i in 5"  :key="i"
-                                                >
-                                                  <v-list-item-icon>
-                                                    <v-icon v-text="i"></v-icon>
-                                                  </v-list-item-icon>
-                                                  <v-list-item-content>
-                                                    <v-list-item-title v-text="sorted[i-1].keyword"></v-list-item-title>
-                                                  </v-list-item-content>
-                                                </v-list-item>
+                                                <div v-if="sorted.length > 5">
+                                                  <v-list-item
+                                                    v-for="i in 5"  :key="i"
+                                                  >
+                                                    <v-list-item-icon>
+                                                      <v-icon v-text="i"></v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title v-text="sorted[i-1].keyword"></v-list-item-title>
+                                                    </v-list-item-content>
+                                                  </v-list-item>
+                                                </div>
+                                                <div v-else>
+                                                  <v-list-item
+                                                    v-for="(item, i) in sorted" :key="i"
+                                                  >
+                                                    <v-list-item-icon>
+                                                      <v-icon v-text="i+1"></v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title v-text="item.keyword"></v-list-item-title>
+                                                    </v-list-item-content>
+                                                  </v-list-item>
+                                                </div>
                                               </v-list-item-group>
                                             </v-list>
                                           </v-card>
@@ -355,6 +410,7 @@ export default {
     },
     data() {
       return {
+        dialog: false,
         benched: 0,
         mygroups: [],
         Notes : [],
@@ -363,6 +419,14 @@ export default {
         hashtags : [],
         panel : true,
         model: null,
+        // 프로필 수정
+        U: {
+          username: '',
+          userbirthday: '',
+          useremail: '',
+          userpassword: '',
+          userphone: '',
+        },
         // 먼슬리 통계
         chart_data_formonth: [
             {schedule: 7, note: 2, date: 1},
@@ -485,6 +549,13 @@ export default {
       }
     },
     created() {
+      // 수정페이지 관련
+      this.U.username = this.$store.state.auth.user.username
+      this.U.userbirthday = this.$store.state.auth.user.birthday
+      this.U.useremail= this.$store.state.auth.user.email
+      this.U.userpassword= this.$store.state.auth.user.password
+      this.U.userphone= this.$store.state.auth.user.phone
+      // 북마크
       http.get('/post/list/bookmark',{
         params : {
           uid : this.$store.state.auth.user.id,
@@ -546,7 +617,7 @@ export default {
       },
       logOut() {
         this.$store.dispatch('auth/logout');
-        this.$router.push('/logout');
+        this.$router.go();
       },
        getNote(note) {
             console.log(note)
@@ -584,6 +655,9 @@ export default {
                 this.bmToggle = 1;
                 this.selected.pBookmark = 1;
             }
+        },
+        sendData() {
+          // 여기서 검증한 뒤에 axios 쏘기
         },
      },
     computed: {

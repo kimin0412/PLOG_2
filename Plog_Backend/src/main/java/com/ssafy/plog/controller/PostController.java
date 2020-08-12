@@ -97,10 +97,13 @@ public class PostController {
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
+	@GetMapping("/user")
+	public String getWriter(@RequestParam(required = false) final int pid) {
+		return service.getUser(pid);
+    }
+	
 	@PostMapping("/")
     public Object registPost(@RequestBody Post post) {
-		
-		//System.out.println(post.getpId());
 		final BasicResponse result = new BasicResponse();
 		//System.out.println(post.getpSchedule());
 		
