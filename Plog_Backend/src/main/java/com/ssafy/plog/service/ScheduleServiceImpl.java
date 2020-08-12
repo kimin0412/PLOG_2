@@ -117,7 +117,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 						isAnySchedule[j] = true;
 					}
 				}else {
-					for (int j = sDay; j < dayofMonth[curMonth]+1; j++) {
+					for (int j = sDay; j < dayofMonth[curMonth-1]+1; j++) {
 						isAnySchedule[j] = true;
 					}
 				}
@@ -127,7 +127,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 						isAnySchedule[j] = true;
 					}
 				}else {
-					for (int j = 1; j < dayofMonth[curMonth]+1; j++) {
+					for (int j = 1; j < dayofMonth[curMonth-1]+1; j++) {
 						isAnySchedule[j] = true;
 					}
 				}
@@ -136,7 +136,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		List<Integer> scheduleDayNumber = new LinkedList<>();
 		
-		for (int i = 1; i < dayofMonth[curMonth]+1; i++) {
+		for (int i = 1; i < dayofMonth[curMonth-1]+1; i++) {
 			if(isAnySchedule[i]) {
 				scheduleDayNumber.add(i);
 			}

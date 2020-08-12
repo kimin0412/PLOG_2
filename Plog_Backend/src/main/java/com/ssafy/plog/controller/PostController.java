@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.plog.dto.BasicResponse;
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Post_NoJPA;
 import com.ssafy.plog.service.PostService;
 
 @RestController
@@ -103,21 +104,9 @@ public class PostController {
     }
 	
 	@PostMapping("/")
-    public Object registPost(@RequestBody Post post) {
+    public Object registPost(@RequestBody Post_NoJPA post) {
 		final BasicResponse result = new BasicResponse();
 		//System.out.println(post.getpSchedule());
-		
-		if(post.getpSchedule() == 0) {
-			post.setpSchedule(1);
-		}
-		
-		if(post.getpCategory() == 0) {
-			post.setpCategory(1);
-		}
-		
-		if(post.getpClub() == 0) {
-			post.setpClub(1);
-		}
 		
 		result.temp = service.registPost(post);
 		result.data = "success";

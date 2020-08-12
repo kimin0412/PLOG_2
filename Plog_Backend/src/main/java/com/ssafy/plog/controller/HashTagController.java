@@ -24,22 +24,6 @@ public class HashTagController {
 	
 	@Autowired
 	HashTagService hService;
-	
-    @RequestMapping("/hashtag/insert")
-	public Object insert(@RequestBody Hashtag hashtag) {
-    	
-    	final BasicResponse result = new BasicResponse();
-    	
-    	if(!hashtag.gethName().equals("")) {
-            String[] tags = hashtag.gethName().split(" ");
-            hService.insertHashTag(tags, hashtag.gethId()%1000, hashtag.gethId()/1000);
-         }
-    	
-    	result.status = true;
-        result.data = "success";	
-    		
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
     
     @RequestMapping("/hashtag/select")
     @ResponseBody

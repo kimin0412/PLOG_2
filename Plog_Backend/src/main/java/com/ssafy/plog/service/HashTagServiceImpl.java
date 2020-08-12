@@ -27,37 +27,6 @@ public class HashTagServiceImpl implements HashTagService {
 	
 	@Autowired
 	PostHashtagDAO phdao;
-	
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Override
-	@Transactional
-	public void insertHashTag(String[] tags, int pid, int uid) {
-		//post의 id를 찾는다.;
-		
-		int size = tags.length;
-		//태그들이 존재하는지 확인하고 없으면 만들어준다.		
-		Hashtag tmp;
-		for (int i = 0; i < size; i++) {
-			tmp = hdao.findByName(tags[i]);
-			if(tmp == null) {
-				Hashtag toCreate = new Hashtag();
-				toCreate.sethName(tags[i]);
-				hdao.save(toCreate);
-			}
-		}
-		
-		//tmppost에 넣어준다.
-		for (int i = 0; i < size; i++) {
-			tmp = hdao.findByName(tags[i]);
-			Post_Hashtag ph = new Post_Hashtag();
-			ph.setPhPost(pid);
-			ph.setPhHashtag(tmp.gethId());
-			ph.setPhUser(uid);
-			phdao.save(ph);
-		}
-	}
 
 	@Override
 	public List<String> selectByIds(int uid, int pid) {
