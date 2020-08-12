@@ -1,7 +1,18 @@
 package com.ssafy.plog.service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+
+import javax.imageio.ImageIO;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +29,7 @@ import com.ssafy.plog.dao.ScheduleDAO;
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
+import com.sun.xml.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -69,12 +81,86 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public boolean updatePost(Post post) {
+		
+		String content = post.getpContent();
+		if(content.contains(";base64,")) {
+			int start = content.indexOf("base64,");
+			start = content.indexOf(",",start) + 1;
+			int end = content.indexOf("&quot;", start);
+			
+			int estart = content.indexOf("data:image");
+			estart = content.indexOf("/", estart) + 1;
+			int eend = content.indexOf(";",estart);
+			String extend = content.substring(estart, eend);
+			
+			File file = new File("src/main/resources/static/upload/" + post.getpId() + "." + extend);
+									
+			try {			
+				String image = content.substring(start, end);
+								
+				byte[] bImage = image.getBytes("UTF-8");
+				Decoder decoder = Base64.getDecoder();
+				
+				byte[] dImage = decoder.decode(bImage);
+				BufferedImage bufImage = ImageIO.read(new ByteArrayInputStream(dImage));
+				ImageIO.write(bufImage, extend, file);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			String path = "http://localhost:8080/api/upload/" + post.getpId() + "." + extend;
+			int cstart = content.indexOf("img src=&quot");
+			cstart = content.indexOf(";",cstart) + 1;
+			String con = content.substring(0, cstart);
+			con = con + path + content.substring(end);
+			post.setpContent(con);
+			
+		}
+		
 		return dao.save(post) != null;
 	}
 
 	@Transactional
 	@Override
 	public int registPost(Post post) {
+		
+		String content = post.getpContent();
+		if(content.contains(";base64,")) {
+			int start = content.indexOf("base64,");
+			start = content.indexOf(",",start) + 1;
+			int end = content.indexOf("&quot;", start);
+			
+			int estart = content.indexOf("data:image");
+			estart = content.indexOf("/", estart) + 1;
+			int eend = content.indexOf(";",estart);
+			String extend = content.substring(estart, eend);
+			
+			File file = new File("src/main/resources/static/upload/" + post.getpId() + "." + extend);
+									
+			try {			
+				String image = content.substring(start, end);
+								
+				byte[] bImage = image.getBytes("UTF-8");
+				Decoder decoder = Base64.getDecoder();
+				
+				byte[] dImage = decoder.decode(bImage);
+				BufferedImage bufImage = ImageIO.read(new ByteArrayInputStream(dImage));
+				ImageIO.write(bufImage, extend, file);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			String path = "http://localhost:8080/api/upload/" + post.getpId() + "." + extend;
+			int cstart = content.indexOf("img src=&quot");
+			cstart = content.indexOf(";",cstart) + 1;
+			String con = content.substring(0, cstart);
+			con = con + path + content.substring(end);
+			post.setpContent(con);
+			
+		}
+		
 		dao.insertPost(post.getpId(), post.getpTitle(), post.getpContent(), post.getpUser(), post.getpSchedule(), post.getpCategory(), post.getpColor(), post.getpClub());
 		
 		return 0;
