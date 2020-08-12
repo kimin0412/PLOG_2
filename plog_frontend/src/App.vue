@@ -180,19 +180,19 @@
         </v-list-item></router-link>
         <router-link to="/preview" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
-            <v-icon>mdi-information-outline</v-icon>
+            <v-icon>mdi-book-open-page-variant</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">Preview</v-list-item-title>
         </v-list-item></router-link>
         <router-link to="/tutorial" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
-            <v-icon>mdi-information-outline</v-icon>
+            <v-icon>mdi-television-play</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
         </v-list-item></router-link>
         <router-link to="/howto" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
-            <v-icon>mdi-information-outline</v-icon>
+            <v-icon>mdi-sign-direction</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">How to</v-list-item-title>
         </v-list-item></router-link>
@@ -449,19 +449,19 @@
           </v-list-item></router-link>
           <router-link to="/preview" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-information-outline</v-icon>
+              <v-icon>mdi-book-open-page-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Preview</v-list-item-title>
           </v-list-item></router-link>
           <router-link to="/tutorial" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-information-outline</v-icon>
+              <v-icon>mdi-television-play</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
           </v-list-item></router-link>
           <router-link to="/howto" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-information-outline</v-icon>
+              <v-icon>mdi-sign-direction</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">How to</v-list-item-title>
           </v-list-item></router-link>

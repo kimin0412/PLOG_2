@@ -57,7 +57,7 @@ import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
 
 //guest
 import Howto from '../views/guest/Howto.vue'
-import Preview from '../views/guest/preview.vue'
+import Preview from '../views/guest/Preview.vue'
 import Tutorial from '../views/guest/Tutorial.vue'
 
 import { auth } from '@/store/auth.module';

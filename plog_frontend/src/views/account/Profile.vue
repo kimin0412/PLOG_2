@@ -127,8 +127,28 @@
                                         <v-btn small color="orange" @click="logOut" block dark>Log out</v-btn>                                   
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-btn small color="red" block dark>withdraw</v-btn>                                   
+                                        <v-btn small color="red" block dark @click.stop="dialogforwithdraw = true">withdraw</v-btn>                                   
                                     </v-col>
+                                    <v-dialog v-model="dialogforwithdraw" max-width="290" >
+                                          <v-card>
+                                            <v-card-title class="headline">Alert</v-card-title>
+                                            <v-card-text>
+                                              정말 탈퇴하시겠습니까?
+                                            </v-card-text>
+
+                                            <v-card-actions>
+                                              <v-spacer></v-spacer>
+
+                                              <v-btn color="red" text @click="confirmwithdraw" >
+                                                Yes
+                                              </v-btn>
+
+                                              <v-btn color="grey" text @click="dialogforwithdraw = false" >
+                                                No
+                                              </v-btn>
+                                            </v-card-actions>
+                                          </v-card>
+                                        </v-dialog>
                                 </v-row>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
@@ -419,6 +439,7 @@ export default {
         hashtags : [],
         panel : true,
         model: null,
+        dialogforwithdraw: false,
         // 프로필 수정
         U: {
           username: '',
@@ -659,6 +680,9 @@ export default {
         sendData() {
           // 여기서 검증한 뒤에 axios 쏘기
         },
+        confirmwithdraw() {
+          console.log("탈퇴시켜야함")
+        }
      },
     computed: {
       currentUser(){
