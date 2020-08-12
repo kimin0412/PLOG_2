@@ -39,15 +39,107 @@
           <v-btn @click="handleLogin" rounded color="blue" dark block>Log in</v-btn>
         </v-row>
         <v-row class="mt-2">
+          <v-col cols="8" class="py-0 grey--text text-caption pt-1">ID를 잊었습니까?</v-col>
+          <v-col cols="4" class="clicktarget py-0 mt-1 text-center blue-darken-2--text text-caption linkto" @click.stop="dialogtofind = true">찾기</v-col>
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">비밀번호를 잊었습니까?</v-col>
-          <v-col cols="4" class="py-0 text-center"><a href="#" class="blue-darken-2--text text-caption linkto">찾기</a></v-col>
+          <v-col cols="4" class="clicktarget py-0 mt-1 text-center blue-darken-2--text text-caption linkto" @click.stop="dialogtofind2 = true">찾기</v-col>
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">아직 회원이 아니십니까?</v-col>
           <v-col cols="4" class="py-0 text-center"><router-link to="/signup" class="text-caption linkto">회원 가입</router-link></v-col>
         </v-row>
       </v-container>
       </div>
     </div>
+    <v-dialog
+          v-model="dialogtofind2"
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline">비밀번호 찾기</v-card-title>
 
+            <v-card-text class="pb-0">
+              <v-col cols="12" class="text-caption pt-5 text-center">ID를 입력해주세요</v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="ID"
+                    hint="ID를 입력해주세요"
+                    v-model="findmyid"
+                    dense
+                    outlined
+                  ></v-text-field>
+                </v-col>  
+              <v-col cols="12" class="text-caption text-center">회원 가입 시 입력한 <br> 이메일을 입력해주세요</v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Email"
+                    hint="email@email.com 형식으로 입력해주세요"
+                    v-model="findemail"
+                    dense
+                    outlined
+                  ></v-text-field>
+                </v-col>              
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color="blue"
+                text
+                @click="findpw"
+              >
+                Send
+              </v-btn>
+
+              <v-btn
+                color="grey"
+                text
+                @click="dialogtofind2 = false"
+              >
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+    </v-dialog>
+    <v-dialog
+          v-model="dialogtofind"
+          max-width="500"
+        >
+          <v-card>
+            <v-card-title class="headline">ID 찾기</v-card-title>
+
+            <v-card-text class="pb-0">
+              <v-col cols="12" class="text-caption pt-5 text-center">회원 가입 시 입력한 <br> 이메일을 입력해주세요</v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Email"
+                    hint="email@email.com 형식으로 입력해주세요"
+                    v-model="findemail2"
+                    outlined
+                  ></v-text-field>
+                </v-col>                
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                color="blue"
+                text
+                @click="findid"
+              >
+                Send
+              </v-btn>
+
+              <v-btn
+                color="grey"
+                text
+                @click="dialogtofind = false"
+              >
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+    </v-dialog>
     <!-- 작은화면 -->
     <div class="d-block d-sm-none">
       <v-container>
@@ -82,8 +174,10 @@
           <v-btn  @click="handleLogin" rounded color="blue" dark block>Log in</v-btn>
         </v-row>
         <v-row class="px-5 mt-2">
+          <v-col cols="8" class="py-0 grey--text text-caption pt-1">ID를 잊었습니까?</v-col>
+          <v-col cols="4" class="clicktarget mt-1 py-0 text-center blue-darken-2--text text-caption linkto" @click.stop="dialogtofind = true">찾기</v-col>
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">비밀번호를 잊었습니까?</v-col>
-          <v-col cols="4" class="py-0 text-center"><a href="#" class="blue-darken-2--text text-caption linkto">찾기</a></v-col>
+          <v-col cols="4" class="clicktarget mt-1 py-0 text-center blue-darken-2--text text-caption linkto" @click.stop="dialogtofind2 = true">찾기</v-col>
           <v-col cols="8" class="py-0 grey--text text-caption pt-1">아직 회원이 아니십니까?</v-col>
           <v-col cols="4" class="py-0 text-center"><router-link to="/signup" class="text-caption linkto">회원 가입</router-link></v-col>
         </v-row>
@@ -99,9 +193,14 @@ export default {
   name: 'Login',
   data() {
     return {
+      dialogtofind: false,
+      dialogtofind2: false,
       user: new User('', ''),
       loading: false,
-      message: ''
+      message: '',
+      findemail: '',
+      findemail2: '',
+      findmyid: '',
     };
   },
   computed: {
@@ -147,6 +246,24 @@ export default {
             })
           }
         });
+      }
+    },
+    findid() {
+      if (!this.findemail2) {
+        alert("이메일을 입력해주세요")
+      } else if (!/.+@.+\..+/.test(this.findemail2)) {
+        alert("이메일 형식으로 입력해주시기 바랍니다.")
+      } else {
+        console.log("axios보내자")
+      }
+    },
+    findpw() {
+      if (!this.findemail || !this.findmyid) {
+        alert("빈칸을 채워주세요 :)")
+      } else if (!/.+@.+\..+/.test(this.findemail)) {
+        alert("이메일 형식으로 입력해주시기 바랍니다.")
+      } else {
+        console.log("axios보내자")
       }
     }
   }
@@ -197,5 +314,9 @@ export default {
 
 .big-loginform {
   margin-top: 17vh; 
+}
+
+.clicktarget:hover {
+  cursor: pointer;
 }
 </style>
