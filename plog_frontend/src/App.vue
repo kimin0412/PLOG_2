@@ -544,7 +544,7 @@
       fixed
       dark
       fab
-      color="brown lighten-1"
+      color="blue darken-3"
       small
       class="mb-12"
       v-show="btnShow"
@@ -697,7 +697,8 @@ export default {
     },
     logOut() {
       this.$store.dispatch('auth/logout');
-      this.$router.push('/logout');
+      // this.$router.push('/logout');
+      this.$router.go();
     },
   },
   // 맨위로 버튼

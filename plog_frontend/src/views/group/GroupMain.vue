@@ -113,10 +113,50 @@
         <v-container>
           <v-row>
             <v-col cols="12" class="py-1 text-h5">GROUP</v-col>
-            <v-col cols="12" class="py-1 text-h4 font-weight-bold">My Group :)</v-col>
+            <v-col cols="12" class="py-1 text-h4 font-weight-bold">My Group</v-col>
           </v-row>
           <v-row class="mt-10">
-            
+          <v-row>
+            <v-col cols="6" class="pr-0 pl-10">
+              <router-link to="/group/search" class="link-tag">
+                <div><img src="@/assets/icon/gsearch.png" alt="user-image" class="link-icon"></div>
+                <div class="mt-2">Search</div>
+              </router-link>
+            </v-col>
+            <v-col cols="6" class="pl-0 pr-10">
+              <router-link to="/group/create" class="link-tag">
+                <div><img src="@/assets/icon/gcreate.png" alt="user-image" class="link-icon "></div>
+                <div class="mt-2">Create</div>
+              </router-link>
+            </v-col>
+          </v-row>
+          <!-- <v-row class="mt-10 pt-10" v-if="myClub.length >= 1">
+            <v-col cols="12 mb-4">
+              <div class="text-center display-1 font-weight-light">MY GROUP LIST</div>
+            </v-col>
+            <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(item,i) in myClub" :key="i">
+              <v-hover v-slot:default="{ hover }">
+              <router-link :to="{ path: 'group/detail', query:{clId:item.clId}}" class="text-decoration-none">
+              <v-card
+                class="mx-auto"
+                :elevation="hover ? 12 : 2"
+                :class="{ 'on-hover': hover }"
+              >
+                <v-card-text>
+                  <div>group #{{i+1}}</div>
+                  <p class="text-h4 text--primary mb-0">
+                    {{ item.clName }}
+                  </p>
+                  <p>Group host</p>
+                  <div class="text--primary text-truncate">
+                    {{ item.clInfo }}
+                  </div>
+                </v-card-text>
+              </v-card>
+              </router-link>
+              </v-hover>
+            </v-col>
+          </v-row> -->
           </v-row>
         </v-container>
       </div>
@@ -162,5 +202,15 @@ export default {
 }
 .temploca {
   padding-top: 10vh;
+}
+
+.link-icon {
+  width: 30%;
+
+}
+.link-tag {
+  text-decoration: none;
+  color: #c7c7c7;
+  text-align: center;
 }
 </style>
