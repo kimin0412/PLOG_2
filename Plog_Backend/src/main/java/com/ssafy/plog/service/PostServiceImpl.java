@@ -27,7 +27,10 @@ import com.ssafy.plog.dao.PostDao;
 import com.ssafy.plog.dao.PostHashtagDAO;
 import com.ssafy.plog.dao.ScheduleDAO;
 import com.ssafy.plog.dto.Category;
+import com.ssafy.plog.dto.Hashtag;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Post_Hashtag;
+import com.ssafy.plog.dto.Post_NoJPA;
 import com.ssafy.plog.dto.Schedule;
 import com.sun.xml.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
 import com.ssafy.plog.models.User;
@@ -128,7 +131,24 @@ public class PostServiceImpl implements PostService {
 
 	@Transactional
 	@Override
-	public int registPost(Post post) {
+	public int registPost(Post_NoJPA temp) {
+		Post post = new Post();
+		
+		post.setpTitle(temp.getpTitle());
+		post.setpUser(temp.getpUser());
+		post.setpContent(temp.getpContent());
+		
+		if(temp.getpSchedule() == 0) {
+			post.setpSchedule(1);
+		}else post.setpSchedule(temp.getpSchedule());
+		
+		if(temp.getpCategory() == 0) {
+			post.setpCategory(1);
+		}else post.setpCategory(temp.getpCategory());
+		
+		if(temp.getpClub() == 0) {
+			post.setpClub(1);
+		}else post.setpClub(temp.getpClub());
 		
 		String content = post.getpContent();
 		if(content.contains(";base64,")) {
@@ -166,7 +186,34 @@ public class PostServiceImpl implements PostService {
 			
 		}
 		
-		dao.insertPost(post.getpId(), post.getpTitle(), post.getpContent(), post.getpUser(), post.getpSchedule(), post.getpCategory(), post.getpColor(), post.getpClub());
+		dao.saveAndFlush(post);
+		
+		int pid = dao.getLatelyPId();
+		
+		if(!temp.getpHashtag().equals("")) {
+            String[] tags = temp.getpHashtag().split(" ");
+            int size = tags.length;
+    		//태그들이 존재하는지 확인하고 없으면 만들어준다.		
+    		Hashtag tmp;
+    		for (int i = 0; i < size; i++) {
+    			tmp = hdao.findByName(tags[i]);
+    			if(tmp == null) {
+    				Hashtag toCreate = new Hashtag();
+    				toCreate.sethName(tags[i]);
+    				hdao.save(toCreate);
+    			}
+    		}
+    		
+    		//tmppost에 넣어준다.
+    		for (int i = 0; i < size; i++) {
+    			tmp = hdao.findByName(tags[i]);
+    			Post_Hashtag ph = new Post_Hashtag();
+    			ph.setPhPost(pid);
+    			ph.setPhHashtag(tmp.gethId());
+    			ph.setPhUser(post.getpUser());
+    			phdao.save(ph);
+    		}
+         }
 		
 		return 0;
 	}

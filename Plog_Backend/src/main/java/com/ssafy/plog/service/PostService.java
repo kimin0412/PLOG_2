@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Post_NoJPA;
 
 public interface PostService {
 
@@ -20,7 +21,7 @@ public interface PostService {
 
 	boolean updatePost(Post post);
 
-	int registPost(Post post);
+	int registPost(Post_NoJPA post);
 
 	List<Post> selectByCategory(int uid, int c_id);
 
