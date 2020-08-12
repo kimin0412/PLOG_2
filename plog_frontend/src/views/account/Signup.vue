@@ -187,7 +187,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/logout');
+      this.$router.push('/profile');
     }
   },
   methods: {

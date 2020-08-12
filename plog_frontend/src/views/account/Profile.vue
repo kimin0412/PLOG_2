@@ -617,7 +617,7 @@ export default {
       },
       logOut() {
         this.$store.dispatch('auth/logout');
-        this.$router.push('/logout');
+        this.$router.go();
       },
        getNote(note) {
             console.log(note)

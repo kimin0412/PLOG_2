@@ -80,7 +80,7 @@
             <v-col cols="12" class="py-1 text-h5">GROUP</v-col>
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">Make group</v-col>
           </v-row>
-          <v-row class="mt-10">
+          <v-row class="mt-5">
             <v-col cols="12" class="text-center grey--text mb-4">
                 <v-container>
                     <v-row justify="center">
@@ -138,7 +138,7 @@
                         </v-col>
                     </v-row>
                     <v-row>
-                    <v-btn @click="createGroup" rounded color="blue" dark block>Create Group</v-btn>
+                    <v-btn @click="createGroup" small rounded color="blue" dark block>Create Group</v-btn>
                     </v-row>
                     <v-row class="mt-2">
                     <v-col cols="8"></v-col>
