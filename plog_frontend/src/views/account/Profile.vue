@@ -170,16 +170,30 @@
                                             <v-list disabled>
                                               <v-subheader class="text-h6 front-weight-bold">RANKING</v-subheader>
                                               <v-list-item-group color="primary">
-                                                <v-list-item
-                                                  v-for="i in 5"  :key="i"
-                                                >
-                                                  <v-list-item-icon>
-                                                    <v-icon v-text="i"></v-icon>
-                                                  </v-list-item-icon>
-                                                  <v-list-item-content>
-                                                    <v-list-item-title v-text="sorted[i-1].keyword"></v-list-item-title>
-                                                  </v-list-item-content>
-                                                </v-list-item>
+                                                <div v-if="sorted.length > 5">
+                                                  <v-list-item
+                                                    v-for="i in 5"  :key="i"
+                                                  >
+                                                    <v-list-item-icon>
+                                                      <v-icon v-text="i"></v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title v-text="sorted[i-1].keyword"></v-list-item-title>
+                                                    </v-list-item-content>
+                                                  </v-list-item>
+                                                </div>
+                                                <div v-else>
+                                                  <v-list-item
+                                                    v-for="(item, i) in sorted" :key="i"
+                                                  >
+                                                    <v-list-item-icon>
+                                                      <v-icon v-text="i+1"></v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title v-text="item.keyword"></v-list-item-title>
+                                                    </v-list-item-content>
+                                                  </v-list-item>
+                                                </div>
                                               </v-list-item-group>
                                             </v-list>
                                           </v-card>

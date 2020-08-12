@@ -28,4 +28,9 @@ public interface PostHashtagDAO extends JpaRepository<Post_Hashtag, Integer>{
 	@Query(value = "delete from post_hashtag where ph_post = ?1 ", nativeQuery=true)
 	void deleteAllInPost(int pid);
 
+	@Modifying
+	@Transactional
+	@Query(value = "update post_hashtag set ph_user = ?2 where ph_user = ?1 ", nativeQuery=true)
+	void updatePhUser(int uId, int hostId);
+
 }

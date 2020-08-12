@@ -1,5 +1,6 @@
 package com.ssafy.plog.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = " select * from user where u_id = ?1 ", nativeQuery=true)
 	User findbyClId(int ucUser);
+	
+	@Query(value = " select * from user where u_id in (select uc_user from user_club where uc_club = ?1 order by uc_user)", nativeQuery=true)
+	List<User> findclMemberByclId(int clId);
 }

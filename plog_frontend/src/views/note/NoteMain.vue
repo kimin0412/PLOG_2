@@ -868,6 +868,7 @@ export default {
           .post("/category/insert", {
             cName: this.cName,
             cUser: this.$store.state.auth.user.id,
+            cClub:1
           })
           .then(({ data }) => {
             if (data.data == "success") {
