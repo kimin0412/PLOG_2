@@ -43,4 +43,14 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 
 	@Query(value = "select * from schedule where s_user = ?1 ", nativeQuery=true)
 	public List<Schedule> getScheduleBySUser(int uid);
+
+	@Modifying
+	@Transactional
+	@Query(value = "update schedule set s_user = ?2 where s_user = ?1 ", nativeQuery=true)
+	public void updateSUser(int uId, int hostId);
+
+	@Modifying
+	@Transactional
+	@Query(value = "delete from schedule where s_club = ?1 ", nativeQuery=true)
+	public void deleteByClub(int groupId);
 }

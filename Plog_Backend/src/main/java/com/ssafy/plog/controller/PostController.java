@@ -104,8 +104,6 @@ public class PostController {
 	
 	@PostMapping("/")
     public Object registPost(@RequestBody Post post) {
-		
-		System.out.println(post.getpId());
 		final BasicResponse result = new BasicResponse();
 		//System.out.println(post.getpSchedule());
 		

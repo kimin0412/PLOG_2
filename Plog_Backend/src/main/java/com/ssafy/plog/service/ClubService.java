@@ -23,5 +23,11 @@ public interface ClubService {
 
 	boolean joinClub(int uId, int clId, String password);
 	
-	List<String> selectMemberbyclId(int clId);
+	List<User> selectMemberbyclId(int clId);
+
+	void updateClub(Club club);
+
+	void deleteMember(int uId, int hostId, int groupId);
+
+	void deleteClub(int groupId);
 }
