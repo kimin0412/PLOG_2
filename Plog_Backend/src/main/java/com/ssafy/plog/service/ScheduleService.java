@@ -30,4 +30,6 @@ public interface ScheduleService {
 
 	List<Post> selectPostById(String sId);
 
+	List<Schedule> getDailyClubScheduleList(String sDate, int sClub);
+
 }

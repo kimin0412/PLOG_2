@@ -336,7 +336,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" class="d-flex justify-end py-0">
-            <v-dialog v-model="dialog" scrollable max-width="300px">
+            <v-dialog v-model="dialog2" scrollable max-width="300px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="amber darken-2"
@@ -382,7 +382,7 @@
             </v-dialog>
           </v-col>
           <v-col cols="12" class="d-flex justify-end">
-              <v-dialog v-model="dialogColor" scrollable max-width="300px">
+              <v-dialog v-model="dialogColor2" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="pink lighten-2"
@@ -458,7 +458,7 @@
 
             <!-- 폴더안에 넣기 -->
             <v-col cols="12" class="d-flex justify-end py-0">
-              <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+              <v-dialog v-model="dialogCategory2" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary darken-1"
@@ -498,7 +498,7 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="dialogCategory = false"
+                      @click="dialogCategory2 = false"
                       >Save</v-btn
                     >
                     <v-btn
@@ -506,7 +506,7 @@
                       text
                       @click="
                         category = 1;
-                        dialogCategory = false;
+                        dialogCategory2 = false;
                       "
                       >Close</v-btn
                     >
@@ -585,6 +585,10 @@ export default {
       pickColor: "",
 
       groupId : this.$route.query.groupId,
+
+      dialogCategory2 : false,
+      dialogColor2: false,
+      dialog2:false,
     };
   },
 
@@ -648,6 +652,12 @@ export default {
       const entities = new Entities();
       content = entities.encode(content);
 
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
       http
         .post("/post/", {
           pId: this.nextPId,
@@ -657,31 +667,16 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub : 1
+          pClub : 1,
+          pHashtag : this.hashtags
+
         })
         .then(({ data }) => {
           if (data.data == "success") {
-            alert("등록 완료");
-          }
-        });
-
-      this.createTags();
-    },
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
-
-      http
-        .post("/hashtag/insert", {
-          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
+            this.$dialog.notify.success("노트 등록 완료 😃", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.push("/note");
           }
         });
@@ -708,13 +703,28 @@ export default {
         })
         .then((Response) => {
           if (Response.data === "success") {
-            alert("임시 샘플 등록 완료");
+            this.$dialog.notify.info("임시 노트 등록 완료 😚", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
-    },
+      },
     nospace() {
-      alert("공백 없이 단어로 입력해주세요");
+      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
+        position: "bottom-right",
+        timeout: 3000,
+      });
     },
 
     addEmoji() {

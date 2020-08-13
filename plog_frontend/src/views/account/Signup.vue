@@ -2,9 +2,9 @@
     <div>
         <div class="d-none d-sm-block">
             <div class="centercontent mx-auto">
-            <v-container>
+            <v-container class="big-signupform">
                 <v-row>
-                    <v-col cols="12" class="py-1 text-h4 text-center font-weight-bold">Sign up</v-col>
+                    <v-col cols="12" class="py-1 display-2 font-weight-light text-center">Sign up</v-col>
                 </v-row>
                 <v-row justify="center" class="mt-7">
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">UserID</v-col>
@@ -56,7 +56,7 @@
                 </v-row>
                 <v-row class="px-5 mt-2">
                     <v-col cols="8" class="py-0 grey--text text-caption pt-1">이미 계정이 있으신가요?</v-col>
-                    <v-col cols="4" class="py-0 text-right"><router-link to="/login" class="text-caption linkto">로그인 하기</router-link></v-col>
+                    <v-col cols="4" class="py-0 text-right"><router-link to="/login" class="text-caption linkto">Log in</router-link></v-col>
                 </v-row>
             </v-container>
             </div>
@@ -187,7 +187,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/logout');
+      this.$router.push('/profile');
     }
   },
   methods: {
@@ -230,6 +230,9 @@ export default {
   color: rgb(67, 119, 196);
 }
 .centercontent {
-  width: 50%;
+  width: 35%;
+}
+.big-signupform {
+  margin-top: 15vh; 
 }
 </style>

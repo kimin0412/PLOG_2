@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.plog.dto.BasicResponse;
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Post_NoJPA;
 import com.ssafy.plog.service.PostService;
 
 @RestController
@@ -40,6 +41,12 @@ public class PostController {
 	@GetMapping("/list/all")
 	public List<Post> selectAll(@RequestParam(required = false) final int uid) {
 		List<Post> posts = service.selectAll(uid);
+    	return posts;
+    }
+	
+	@GetMapping("/list/all/club")
+	public List<Post> selectAllClub(@RequestParam(required = false) final int clid) {
+		List<Post> posts = service.selectAllClub(clid);
     	return posts;
     }
 	
@@ -91,20 +98,15 @@ public class PostController {
     	return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 	
+	@GetMapping("/user")
+	public String getWriter(@RequestParam(required = false) final int pid) {
+		return service.getUser(pid);
+    }
+	
 	@PostMapping("/")
-    public Object registPost(@RequestBody Post post) {
-		
-		System.out.println(post.getpId());
+    public Object registPost(@RequestBody Post_NoJPA post) {
 		final BasicResponse result = new BasicResponse();
 		//System.out.println(post.getpSchedule());
-		
-		if(post.getpSchedule() == 0) {
-			post.setpSchedule(1);
-		}
-		
-		if(post.getpCategory() == 0) {
-			post.setpCategory(1);
-		}
 		
 		result.temp = service.registPost(post);
 		result.data = "success";
@@ -113,7 +115,7 @@ public class PostController {
     }
 	
 	 @PutMapping("/")
-	 public Object updatePost(@RequestBody Post post) {
+	 public Object updatePost(@RequestBody Post_NoJPA post) {
 		 	if(post.getpSchedule() == 0) {
 				post.setpSchedule(1);
 			}
@@ -155,5 +157,9 @@ public class PostController {
 	 public List<Post> searchHashtag(@RequestParam final int uid, @RequestParam final String hName) {
 		 return service.searchHashtag(uid, hName);
 	 }
-			 
+	 
+	 @GetMapping("/count")
+	 public List<Post> countPosts(@RequestParam final int uid) {
+		 return service.countPosts(uid);
+	 }
 }

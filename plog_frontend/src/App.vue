@@ -19,22 +19,31 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title class="logoname px-0 pt-5" @click="headeroff">P L O G</v-toolbar-title>
+      <router-link to="/aboutus" class="text-decoration-none"><v-toolbar-title class="logoname px-0 pt-5">P L O G</v-toolbar-title></router-link>
 
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <router-link to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-star</v-icon></router-link>
+        <router-link v-if="lognow" to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-home</v-icon></router-link>
+        <router-link v-else to="/login"  class="white--text" style="text-decoration: none;"><v-icon>mdi-account</v-icon></router-link>
       </v-btn>
 
-      <template v-slot:extension>
+      <template v-if="lognow" v-slot:extension>
         <v-tabs class="d-flex justify-center">
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
-          <v-tab v-if="lognow" class="tabinfo navbarlistitemlink" @click="gotomypage">MyPage</v-tab>
-          <v-tab v-else class="tabinfo navbarlistitemlink" @click="gotologin">Login</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotomypage">Profile</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotosearch">Search</v-tab>
+        </v-tabs>
+      </template>
+      <template v-else v-slot:extension>
+        <v-tabs class="d-flex justify-center">
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">About us</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotohowto">How to</v-tab>
+          <!-- <v-tab class="tabinfo navbarlistitemlink" @click="gotologin">Log in</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gototutorial">Tutorial</v-tab> -->
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotogallery">Gallery</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -47,7 +56,7 @@
     >
 
     <v-list-item v-if="lognow" class="drawer-profile">
-      <router-link to="/mypage" style="text-decoration:none;">
+      <router-link to="/profile" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
@@ -58,7 +67,7 @@
       </router-link>
     </v-list-item>
     <v-list-item v-else class="drawer-profile">
-      <router-link to="/mypage" style="text-decoration:none;">
+      <router-link to="/profile" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
@@ -76,8 +85,11 @@
       >
         <v-list-item-group
           active-class="blue--text"
+          class="mb-5"
         >
         <div v-if="lognow">
+          <v-subheader>Schedule</v-subheader>
+          <v-divider></v-divider>
           <router-link to="/schedule" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-calendar-month</v-icon>
@@ -85,22 +97,20 @@
             <v-list-item-title class="grey--text">Schedule</v-list-item-title>
           </v-list-item></router-link>
 
+          <v-subheader class="mt-3">Note</v-subheader>
+          <v-divider></v-divider>
           <router-link to="/note" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-post</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Note</v-list-item-title>
           </v-list-item></router-link>
-
           <router-link to="/note/create" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-pencil-plus</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">New note</v-list-item-title>
           </v-list-item></router-link>
-
-          <v-divider></v-divider>
-
           <router-link to="/search" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-magnify</v-icon>
@@ -108,105 +118,85 @@
             <v-list-item-title class="grey--text">Search</v-list-item-title>
           </v-list-item></router-link>
 
+          <v-subheader class="mt-3">Group</v-subheader>
+          <v-divider></v-divider>
           <router-link to="/group" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-account-group</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Group</v-list-item-title>
           </v-list-item></router-link>
+          <router-link to="/group/create" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-multiple-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">New Group</v-list-item-title>
+          </v-list-item></router-link>
+          <router-link to="/group/search" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-magnify</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Search</v-list-item-title>
+          </v-list-item></router-link>
 
+          <v-subheader class="mt-3">Account</v-subheader>
           <v-divider></v-divider>
+          <router-link to="/profile" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">My Page</v-list-item-title>
+          </v-list-item></router-link>
+          <v-list-item @click="logOut">
+            <v-list-item-icon>
+              <v-icon>mdi-account-arrow-right</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">logout</v-list-item-title>
+          </v-list-item>
+        </div>
+        <div v-else>
+          <v-subheader class="mt-3">Account</v-subheader>
+          <v-divider></v-divider>
+          <router-link to="/signup" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Sign up</v-list-item-title>
+          </v-list-item></router-link>
+          <router-link to="/login" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Log in</v-list-item-title>
+          </v-list-item></router-link>     
         </div>
 
-
-          <router-link to="/aboutus" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-information-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">About us</v-list-item-title>
-          </v-list-item></router-link>
-
-          <v-divider></v-divider>
-
-          <div v-if="lognow">
-            <router-link to="/mypage" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="grey--text">My Page</v-list-item-title>
-            </v-list-item></router-link>
-          </div>
-          <div v-else>
-            <router-link to="/signup" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-account-plus</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="grey--text">Sign up</v-list-item-title>
-            </v-list-item></router-link>
-            <router-link to="/login" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title class="grey--text">Log in</v-list-item-title>
-            </v-list-item></router-link>          
-          </div>
-
-          <!-- <router-link to="/signup/error" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)가입오류</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <!-- <router-link to="/signup/success" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)가입성공</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <!-- <router-link to="/auth" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">로그인 필요</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <!-- <router-link to="/note/update" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)노트수정</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <!-- <router-link to="error" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">(임시)전반적 에러</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <!-- <router-link to="/v1" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">v1</v-list-item-title>
-          </v-list-item></router-link>
-
-          <router-link to="/v2" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-box</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">v2</v-list-item-title>
-          </v-list-item></router-link> -->
-
-          <v-list-item @click="headeroff">
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">PLOG</v-list-item-title>
-          </v-list-item>    
-
+        <v-subheader class="mt-3">PLOG</v-subheader>
+        <v-divider></v-divider>
+        <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-information-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">About us</v-list-item-title>
+        </v-list-item></router-link>
+        <router-link to="/howto" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-sign-direction</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">How to</v-list-item-title>
+        </v-list-item></router-link>
+        <router-link to="/gallery" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-book-open-page-variant</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">Gallery</v-list-item-title>
+        </v-list-item></router-link>
+        <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-television-play</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
+        </v-list-item></router-link> -->
         </v-list-item-group>       
       </v-list>
     </v-navigation-drawer>
@@ -242,16 +232,15 @@
       bottom
       small
       v-model="fab"
-      v-show="btnShow"
       :direction="direction"
       :open-on-hover="hover"
       :transition="transition"
-      class="mb-13"
+      :class="{menuloca:btnShow}"
     >
       <template v-slot:activator>
         <v-btn
           v-model="fab"
-          color="light-green"
+          color="blue darken-2"
           dark
           small
           fab
@@ -264,21 +253,22 @@
         fab
         dark
         small
-        color="brown"
+        color="blue"
         @click="gotoaboutus"
       >
         <v-icon>mdi-home</v-icon>
       </v-btn>
       <v-btn
+        v-if="lognow"
         fab
         dark
         small
-        color="teal"
+        color="indigo"
         @click="gotonotecreate"
       >
         <v-icon>mdi-pencil-plus</v-icon>
       </v-btn>
-    </v-speed-dial>
+  </v-speed-dial>
 
     <v-btn
       bottom
@@ -286,9 +276,9 @@
       fixed
       dark
       fab
-      color="orange"
+      color="grey darken-3"
       small
-      v-show="btnShow"
+      v-if="btnShow"
       @click="$vuetify.goTo('#header')">
         <v-icon class="white--text">mdi-chevron-double-up</v-icon>
     </v-btn>
@@ -308,7 +298,7 @@
 
         <v-spacer></v-spacer>
 
-        <router-link to="/special" class="drawer-menu">
+        <router-link v-if="lognow" to="/profile" class="drawer-menu">
           <v-btn icon class="d-felx justify-end" @click="noalarm">
           <v-badge
             v-if="todo"
@@ -323,7 +313,11 @@
           <v-icon v-else class="blue--text">mdi-bell-outline</v-icon>
           </v-btn>        
         </router-link>
-
+        <router-link v-else to="/login" class="drawer-menu">
+          <v-btn icon class="d-felx justify-end">
+          <v-icon class="blue--text">mdi-account</v-icon>
+          </v-btn>        
+        </router-link>
       </v-app-bar>
     </div>
     <v-navigation-drawer
@@ -334,7 +328,7 @@
       >
 
         <v-list-item v-if="lognow" class="drawer-profile">
-          <router-link to="/mypage" style="text-decoration:none;">
+          <router-link to="/profile" style="text-decoration:none;">
           <v-row>
             <v-col cols="12">
               <v-icon class="white--text">mdi-account</v-icon>
@@ -366,147 +360,187 @@
           >
 
           <div v-if="lognow">
+            <v-subheader>Schedule</v-subheader>
+            <v-divider></v-divider>
             <router-link to="/schedule" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-calendar-month</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Schedule</v-list-item-title>
+              <v-list-item-title class="grey--text">Schedule</v-list-item-title>
             </v-list-item></router-link>
 
+            <v-subheader class="mt-3">Note</v-subheader>
+            <v-divider></v-divider>
             <router-link to="/note" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-post</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Note</v-list-item-title>
+              <v-list-item-title class="grey--text">Note</v-list-item-title>
             </v-list-item></router-link>
-
             <router-link to="/note/create" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
-                <v-icon>mdi-pen</v-icon>
+                <v-icon>mdi-pencil-plus</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>New note</v-list-item-title>
+              <v-list-item-title class="grey--text">New note</v-list-item-title>
             </v-list-item></router-link>
-
-            <v-divider></v-divider>
-
             <router-link to="/search" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-magnify</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Search</v-list-item-title>
+              <v-list-item-title class="grey--text">Search</v-list-item-title>
             </v-list-item></router-link>
 
+            <v-subheader class="mt-3">Group</v-subheader>
             <v-divider></v-divider>
+            <router-link to="/group" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account-group</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">Group</v-list-item-title>
+            </v-list-item></router-link>
+            <router-link to="/group/create" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-account-multiple-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">New Group</v-list-item-title>
+            </v-list-item></router-link>
+            <router-link to="/group/search" class="drawer-menu"><v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-magnify</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title class="grey--text">Search</v-list-item-title>
+            </v-list-item></router-link>
 
-            <router-link to="/mypage" class="drawer-menu"><v-list-item>
+            <v-subheader class="mt-3">Account</v-subheader>
+            <v-divider></v-divider>
+            <router-link to="/profile" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>My Page</v-list-item-title>
+              <v-list-item-title class="grey--text">My Page</v-list-item-title>
             </v-list-item></router-link>
-
-            <router-link to="/logout" class="drawer-menu"><v-list-item>
+            <v-list-item @click="logOut">
               <v-list-item-icon>
-                <v-icon>mdi-box</v-icon>
+                <v-icon>mdi-account-arrow-right</v-icon>
               </v-list-item-icon>
-              <v-list-item-title >로그아웃</v-list-item-title>
-            </v-list-item></router-link>
-
-            <router-link to="/aboutus" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-information-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>About us</v-list-item-title>
-            </v-list-item></router-link>
-
-            <v-divider></v-divider>
-
-            <v-list-item @click="headeroff">
-              <v-list-item-icon>
-                <v-icon>mdi-home</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title >PLOG</v-list-item-title>
-            </v-list-item>    
-
-
+              <v-list-item-title class="grey--text">logout</v-list-item-title>
+            </v-list-item>
           </div>
-          <div v-else>
 
-            <router-link to="/login" class="drawer-menu"><v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-account</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Log in</v-list-item-title>
-            </v-list-item></router-link>
+          <div v-else>
+            <v-subheader>Account</v-subheader>
+            <v-divider></v-divider>
 
             <router-link to="/signup" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
                 <v-icon>mdi-account-plus</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Sign up</v-list-item-title>
+              <v-list-item-title class="grey--text">Sign up</v-list-item-title>
             </v-list-item></router-link>
-
-            <v-divider></v-divider>
-
-            <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+            <router-link to="/login" class="drawer-menu"><v-list-item>
               <v-list-item-icon>
-                <v-icon>mdi-information-outline</v-icon>
+                <v-icon>mdi-account-circle</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>About us</v-list-item-title>
-            </v-list-item></router-link>
-
-            <v-divider></v-divider>
-            <v-list-item @click="headeroff">
-              <v-list-item-icon>
-                <v-icon>mdi-home</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title >PLOG</v-list-item-title>
-            </v-list-item>    
-
+              <v-list-item-title class="grey--text">Log in</v-list-item-title>
+            </v-list-item></router-link>  
           </div> 
+          <v-subheader class="mt-3">PLOG</v-subheader>
+          <v-divider></v-divider>
+          <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-information-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">About us</v-list-item-title>
+          </v-list-item></router-link>
+          <router-link to="/howto" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-sign-direction</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">How to</v-list-item-title>
+          </v-list-item></router-link>
+          <router-link to="/gallery" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-book-open-page-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Gallery</v-list-item-title>
+          </v-list-item></router-link>
+          <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-television-play</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
+          </v-list-item></router-link> -->
           </v-list-item-group>
 
         </v-list>
       </v-navigation-drawer>
+
     <v-container style="padding-bottom: 60px; padding-top:60px;">
       <router-view/>
     </v-container>
     <v-bottom-navigation
+      v-if="lognow"
       color="blue"
       class="bottomnav d-flex justify-space-around px-4"
       elevation="0"
     >
-
       <v-btn class="px-0 bottomnavbtn">
         <router-link to="/schedule" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-calendar-month</v-icon></div>
         </router-link>
       </v-btn>
-
       <v-btn class="px-0 bottomnavbtn">
         <router-link to="/note" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-post</v-icon></div>
         </router-link>
       </v-btn>
-
       <v-btn class="px-0 bottomnavbtn">
         <router-link to="/note/create" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-pencil-plus</v-icon></div>
         </router-link>
       </v-btn>
-
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/search" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-magnify</v-icon></div>
+        <router-link to="/group" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-account-group</v-icon></div>
         </router-link>
       </v-btn>
-      
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/mypage" class="drawer-menu">
+        <router-link to="/profile" class="drawer-menu">
           <div class="py-0 px-0"><v-icon>mdi-account</v-icon></div>
         </router-link>
       </v-btn>
-
+    </v-bottom-navigation>
+    <v-bottom-navigation
+      v-else
+      color="blue"
+      class="bottomnav d-flex justify-space-around px-4"
+      elevation="0"
+    >
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/howto" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-sign-direction</v-icon></div>
+        </router-link>
+      </v-btn>
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/gallery" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-tooltip-image</v-icon></div>
+        </router-link>
+      </v-btn>
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/aboutus" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-information-outline</v-icon></div>
+        </router-link>
+      </v-btn>
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/login" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-account</v-icon></div>
+        </router-link>
+      </v-btn>
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/signup" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-account-plus</v-icon></div>
+        </router-link>
+      </v-btn>
     </v-bottom-navigation>
         <v-btn
       bottom
@@ -514,7 +548,7 @@
       fixed
       dark
       fab
-      color="brown darken-1"
+      color="blue darken-3"
       small
       class="mb-12"
       v-show="btnShow"
@@ -626,8 +660,8 @@ export default {
       }
     },
     gotomypage() {
-      if (this.$route.name !== 'Mypage'){
-        this.$router.push('/mypage')
+      if (this.$route.name !== 'Profile'){
+        this.$router.push('/profile')
       }
     },
     gotosearch() {
@@ -640,6 +674,22 @@ export default {
         this.$router.push('/login')
       }
     },
+    // guest
+    gotogallery() {
+      if (this.$route.name !== 'Gallery'){
+        this.$router.push('/gallery')
+      }
+    },
+    gotohowto() {
+      if (this.$route.name !== 'Howto'){
+        this.$router.push('/howto')
+      }
+    },
+    gototutorial() {
+      if (this.$route.name !== 'Tutorial'){
+        this.$router.push('/tutorial')
+      }
+    },    
     // 맨위로 버튼 + 노트 생성 버튼
     handleScroll() {
       this.btnShow = window.scrollY > 0;
@@ -648,7 +698,12 @@ export default {
       if (this.$route.name !== 'Createnote'){
         this.$router.push('/note/create')
       }
-    }
+    },
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      // this.$router.push('/logout');
+      this.$router.go();
+    },
   },
   // 맨위로 버튼
   beforeMount() {
@@ -824,7 +879,9 @@ export default {
 .tooltip {
   display: none !important;
 }
-
+.menuloca {
+  margin-bottom: 48px;
+}
 #create .v-speed-dial {
   position: absolute;
 }

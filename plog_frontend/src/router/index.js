@@ -15,6 +15,7 @@ import Editprofile from '../views/account/Editprofile.vue'
 import SignupSuccess from '../views/account/Success.vue'
 import SignupError from '../views/account/Error.vue'
 import Logout from '../views/account/Logout.vue'
+import Profile from '../views/account/Profile.vue'
 
 // special
 import Special from '../views/Special.vue'
@@ -32,8 +33,10 @@ import TmpUpdatenote from '../views/note/TmpNoteUpdate.vue'
 import NeedAuth from '../views/auth/NeedAuth.vue'
 
 // Error
-import GeneralError from '../views/GeneralError.vue'
-import PageNotFound from '../views/PageNotFound.vue'
+import GeneralError from '../views/error/GeneralError.vue'
+import PageNotFound from '../views/error/PageNotFound.vue'
+import ServerError from '../views/error/ServerError.vue'
+import ClientError from '../views/error/ClientError.vue'
 
 // developers
 import Developers from '../views/Developers.vue'
@@ -41,12 +44,23 @@ import Developers from '../views/Developers.vue'
 // visualize
 import Visual1 from '../views/analysis/Visual1.vue'
 import Visual2 from '../views/analysis/Visual2.vue'
+import Visual3 from '../views/analysis/Visual3.vue'
+import Visual4 from '../views/analysis/Visual4.vue'
+import Visual5 from '../views/analysis/Visual5.vue'
 
 // group
 import GroupMain from '../views/group/GroupMain.vue'
 import GroupDetail from '../views/group/GroupDetail.vue'
 import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
+import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
+import GroupNoteDetail from '../views/group/GroupNoteDetail.vue'
+import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
+
+//guest
+import Howto from '../views/guest/Howto.vue'
+import Gallery from '../views/guest/Gallery.vue'
+import Tutorial from '../views/guest/Tutorial.vue'
 
 import { auth } from '@/store/auth.module';
 
@@ -132,13 +146,25 @@ Vue.use(VueRouter)
     }
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
     path: '/signup',
     name: 'Signup',
     component: Signup,
     beforeEnter(from, to, next) {
       if (auth.state.status.loggedIn) {
         alert('이미 PLOG의 유저이시군요 :)')
-        next('/mypage')
+        next('/profile')
       } else {
         next()
       }
@@ -247,12 +273,6 @@ Vue.use(VueRouter)
     name: 'NeedAuth',
     component: NeedAuth
   },
-  // error
-  {
-    path: '/error',
-    name: 'GeneralError',
-    component: GeneralError
-  },
   // club
   {
     path: '/group',
@@ -302,6 +322,42 @@ Vue.use(VueRouter)
       }
     }
   },
+  {
+    path: '/group/noteCreate',
+    name: 'GroupNoteCreate',
+    component: GroupNoteCreate,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/group/noteDetail',
+    name: 'GroupNoteDetail',
+    component: GroupNoteDetail,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/group/noteUpdate',
+    name: 'GroupNoteUpdate',
+    component: GroupNoteUpdate,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
   // visual
   {
     path: '/v1',
@@ -312,6 +368,53 @@ Vue.use(VueRouter)
     path: '/v2',
     name: 'Visual2',
     component: Visual2
+  },
+  {
+    path: '/v3',
+    name: 'Visual3',
+    component: Visual3
+  },
+  {
+    path: '/v4',
+    name: 'Visual4',
+    component: Visual4
+  },
+  {
+    path: '/v5',
+    name: 'Visual5',
+    component: Visual5
+  },
+  // guest
+  {
+    path: '/gallery',
+    name: 'Gallery',
+    component: Gallery
+  },
+  {
+    path: '/howto',
+    name: 'Howto',
+    component: Howto
+  },
+  {
+    path: '/tutorial',
+    name: 'Tutorial',
+    component: Tutorial
+  },
+  // error
+  {
+    path: '/error',
+    name: 'GeneralError',
+    component: GeneralError
+  },
+  {
+    path: '/servererror',
+    name: 'ServerError',
+    component: ServerError
+  },
+  {
+    path: '/clienterror',
+    name: 'ClientError',
+    component: ClientError
   },
   // 404 page not found
   {

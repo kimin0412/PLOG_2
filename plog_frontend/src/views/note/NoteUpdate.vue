@@ -56,29 +56,39 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" class="px-0">
               <div id="emoDiv">
-                <input type="hidden" id="hidden-area" :value="hiddenArea" />
-                <v-btn class="emoji" @click="addEmoji">⏰</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🌞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">👀</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💩</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💬</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💭</v-btn>
-                <v-btn class="emoji" @click="addEmoji">💯</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📝</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📢</v-btn>
-                <v-btn class="emoji" @click="addEmoji">📷</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔞</v-btn>
-                <v-btn class="emoji" @click="addEmoji">🔥</v-btn>
+                <v-sheet
+                  class="mx-0"
+                >
+                  <v-slide-group show-arrows mandatory>
+                    <input type="hidden" id="hidden-area" :value="hiddenArea" />
+                    <v-slide-item
+                      v-for="(emo,i) in emojiall"
+                      :key="i"
+                      v-slot:default="{ active, toggle }"
+                    >
+                      <v-btn
+                        class="mx-1 px-1"
+                        :input-value="active"
+                        active-class="yellow darken-2 white--text"
+                        depressed
+                        rounded
+                        @click="toggle"
+                      >
+                        <v-btn class="emoji transparent" elevation="0" rounded @click="addEmoji">{{emo}}</v-btn>
+                      </v-btn>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-sheet>
               </div>
             </v-col>
             <v-col cols="12">
-              <Editor ref="toastuiEditor" :initialValue="editorText" />
+              <Editor ref="toastuiEditor" :initialValue="editorText" height="500px"/>
             </v-col>
           </v-row>
           <v-row>
+            <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
@@ -203,6 +213,7 @@
               </v-dialog>
             </v-col>
 
+            <!-- 폴더안에 넣기 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
@@ -313,6 +324,9 @@ export default {
   },
   data() {
     return {
+      emojiall: [
+        '⏰','🌞','👀','💩','💬','💭','💯','📝','📞','📢','📷','🔞','🔥',
+      ],
       title: "",
       content: "",
       chip2: true,
@@ -364,7 +378,16 @@ export default {
             id: element.sId,
           });
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
     http
       .get("/post/", {
@@ -383,7 +406,16 @@ export default {
         console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get('/hashtag/select', {
         params : {
@@ -395,7 +427,17 @@ export default {
         data.forEach(element => {
           this.model.push(element)
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
       http
       .get("/category/listAll", {
         params: {
@@ -404,13 +446,25 @@ export default {
       })
       .then(({ data }) => {
         this.categories = data;
-      });    
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
   },
 
   methods: {
     wordcomplete() {
       if (this.keywordinput.length < 2) {
-        alert("두 글자 이상 입력해주세요");
+        this.$dialog.notify.warning("두 글자 이상 입력해주세요 😯", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         this.keywords.push(this.keywordinput);
         this.keywordinput = "";
@@ -429,6 +483,13 @@ export default {
       if(this.category == ''){
         this.category = 1
       }
+
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
       http
         .put("/post/", {
           pId: this.pId,
@@ -438,17 +499,36 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:1
+          pClub:1,
+          pHashtag: this.hashtags,
         })
         .then((Response) => {
           if (Response.data === "success") {
-            alert("수정 완료");
+            this.$dialog.notify.success("노트 수정 완료 😄", {
+              position: "bottom-right",
+              timeout: 3000,
+              
+            });
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+        
     },
+
     nospace() {
-      alert("공백 없이 단어로 입력해주세요");
+      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
+        position: "bottom-right",
+        timeout: 3000,
+      });
     },
 
     addEmoji() {
