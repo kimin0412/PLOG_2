@@ -629,6 +629,12 @@ export default {
       const entities = new Entities();
       content = entities.encode(content);
 
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
       http
         .post("/post/", {
           pId: this.nextPId,
@@ -638,34 +644,16 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub : this.groupId
+          pClub : this.groupId,
+          pHashtag : this.hashtags,
         })
         .then(({ data }) => {
           if (data.data == "success") {
             alert("등록 완료");
-          }
-        });
-
-      this.createTags();
-    },
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
-
-      http
-        .post("/hashtag/insert", {
-          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
             this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
           }
         });
+
     },
 
     nospace() {

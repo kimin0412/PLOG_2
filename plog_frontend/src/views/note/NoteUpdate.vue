@@ -446,6 +446,13 @@ export default {
       if(this.category == ''){
         this.category = 1
       }
+
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
       http
         .put("/post/", {
           pId: this.pId,
@@ -455,32 +462,11 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:1
+          pClub:1,
+          pHashtag: this.hashtags,
         })
         .then((Response) => {
           if (Response.data === "success") {
-            this.createTags();
-          }
-        });
-        
-    },
-
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      var pid = Number(this.pId)
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
-
-      http
-        .post("/hashtag/update", {
-          hId: pid + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
             this.$dialog.notify.success("노트 수정 완료 😄", {
               position: "bottom-right",
               timeout: 3000,
@@ -489,6 +475,7 @@ export default {
             this.$router.push("/note");
           }
         });
+        
     },
 
     nospace() {

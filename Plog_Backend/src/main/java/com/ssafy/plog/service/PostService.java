@@ -19,7 +19,7 @@ public interface PostService {
 	
 	boolean deleteByPid(int p_id);
 
-	boolean updatePost(Post post);
+	boolean updatePost(Post_NoJPA post);
 
 	int registPost(Post_NoJPA post);
 
