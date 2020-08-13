@@ -277,6 +277,7 @@
                       class="pa-4 px-0"
                       show-arrows
                       center-active
+                      :selected2="null"
                     >
                       <v-slide-item
                         v-for="(note, index) in Notes"
