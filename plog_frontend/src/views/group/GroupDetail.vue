@@ -723,6 +723,15 @@ export default {
           this.groupName = data.clName
           this.groupIntro = data.clInfo
           this.groupColor = data.clColor
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
 
         http.get('/club/host', {
@@ -731,6 +740,15 @@ export default {
           }
         }).then(({ data }) => {
           this.host = data
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
 
          http.get('/club/members', {
@@ -739,7 +757,17 @@ export default {
           }
         }).then(({ data }) => {
           this.Members = data
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+
       window.scrollTo(0, 0);
       http.get('/category/club/listAll', {
         params : {
@@ -748,7 +776,16 @@ export default {
       })
       .then(({data}) => {
         this.categories = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get('post/list/all/club', {
         params : {
@@ -757,7 +794,16 @@ export default {
       })
       .then(({data}) => {
         this.Notes = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
     },
 
     filters: {
@@ -782,7 +828,16 @@ export default {
               this.categoryDialog = false;
               this.$router.go();
             }
-          });
+          })
+          .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
         }
            
       },
@@ -795,6 +850,15 @@ export default {
           if(data.data == 'success'){
             this.$router.go();
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
 
@@ -813,6 +877,15 @@ export default {
           if(data.data == 'success'){
             this.$router.go();
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
 
@@ -831,6 +904,15 @@ export default {
               data.forEach(element => {
                 this.hashtags.push({"name" : element})
               });
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
 
           http.get('/post/user', {
@@ -840,7 +922,16 @@ export default {
           })
           .then(({data}) => {
             this.selectedName = data
-          });
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+          }                          
+        });
         },
         getNoteInCategory(note){
           this.selected2 = note
@@ -856,6 +947,15 @@ export default {
             data.forEach(element => {
               this.hashtags2.push({"name" : element})
             });
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
           });
 
           http.get('/post/user', {
@@ -865,7 +965,16 @@ export default {
           })
           .then(({data}) => {
             this.selectedName2 = data
-          });
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
+          }); 
         },
         openUpdateDialog( cId, cName ) {
           this.updateCategoryDialog = true
@@ -897,7 +1006,16 @@ export default {
                             alert(msg)
                             this.$router.push("/group");
                           }
-                        })                        
+                        })
+                        .catch((error) => {
+                          if(error.response) {
+                            this.$router.push("servererror")
+                          } else if(error.request) {
+                            this.$router.push("clienterror")
+                          } else{
+                            this.$router.push("/404");
+                          }                          
+                        });                        
                     }
                 }
             }
@@ -919,6 +1037,15 @@ export default {
                 this.$router.push("/group");
               }
             })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
           this.$router.push("/group");
         },
 
@@ -935,6 +1062,15 @@ export default {
                 this.$router.push("/group");
               }
             })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
           this.$router.push("/group");
         },
 
@@ -953,6 +1089,15 @@ export default {
                 this.$router.push("/group");
               }
             })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
         }
     }
 }

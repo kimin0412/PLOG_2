@@ -32,7 +32,7 @@ public class TmppostController {
 	TmppostService service;
 	
 	@GetMapping("/")
-	public Tmppost selectBypId(@RequestParam(required = false) final int tpId) {
+	public Tmppost selectBypId(@RequestParam(required = true) final int tpId) {
 		Tmppost tmppost = service.selectByTpid(tpId);
     	return tmppost;
     }

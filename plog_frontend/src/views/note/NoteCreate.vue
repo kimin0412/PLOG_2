@@ -719,8 +719,17 @@ export default {
             });
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
-    },
+      },
     nospace() {
       this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
         position: "bottom-right",

@@ -199,6 +199,15 @@ export default {
         })
         .then(({data}) => {
           this.groups = data;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
       complete2() {
@@ -211,6 +220,15 @@ export default {
         })
         .then(({data}) => {
           this.groups2 = data;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
       openJoinDialog(id, name) {
@@ -239,6 +257,15 @@ export default {
           } else{
             alert("비밀번호를 확인해 주세요.");
           }          
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
       joinGroup2() {
@@ -257,6 +284,15 @@ export default {
           } else{
             alert("비밀번호를 확인해 주세요.");
           }          
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       }
     }
