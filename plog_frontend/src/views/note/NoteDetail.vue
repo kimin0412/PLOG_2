@@ -165,7 +165,16 @@ export default {
         if(this.Note.pUser != this.$store.state.auth.user.id) {
           this.$router.push('/error')
         } 
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get('/hashtag/select', {
         params : {
@@ -177,7 +186,16 @@ export default {
         data.forEach(element => {
           this.hashtags.push({"name" : element})
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
     },
 
     mounted() { 
@@ -201,6 +219,15 @@ export default {
                     timeout: 3000,
                   });
                 }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("clienterror")
+                } else{
+                  this.$router.push("/404");
+                }                          
               });
 
               http.delete('/hashtag/delete', {
@@ -256,6 +283,15 @@ export default {
               if(response === 'success'){
                 console.log("success");
               }              
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
             if(this.bmToggle == 1){
                 this.bmToggle = 0;

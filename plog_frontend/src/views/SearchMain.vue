@@ -476,6 +476,15 @@ export default {
           //console.log(data);
           this.Notes = data;
           //this.selected = null;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       }
       
@@ -499,7 +508,17 @@ export default {
           //console.log(data);
           this.Notes = data;
           //this.selected = null;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+
         http.get('/tp/list/search', {
           params : {
             uid : this.$store.state.auth.user.id,
@@ -512,7 +531,17 @@ export default {
           this.manuallysearched = true
           this.tmpNotes = data;
           //this.tpselected = null;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+
       },
       complete2() {
         this.searched = true
@@ -533,6 +562,15 @@ export default {
           this.manuallysearched = true
           this.Notes = data;
           //this.selected = null;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
         http.get('/tp/list/search', {
           params : {
@@ -546,6 +584,15 @@ export default {
           this.manuallysearched = true
           this.tmpNotes = data;
           //this.tpselected = null;
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       },
       getFormatDate(regtime) {
@@ -566,6 +613,15 @@ export default {
               data.forEach(element => {
                 this.hashtags.push({"name" : element})
               });
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
         },
         getTpNote(tpnote) {
@@ -584,6 +640,15 @@ export default {
               if(response === 'success'){
                 console.log("success");
               }              
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
             if(this.bmToggle == 1){
                 this.bmToggle = 0;

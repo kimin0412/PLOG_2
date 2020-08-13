@@ -33,8 +33,10 @@ import TmpUpdatenote from '../views/note/TmpNoteUpdate.vue'
 import NeedAuth from '../views/auth/NeedAuth.vue'
 
 // Error
-import GeneralError from '../views/GeneralError.vue'
-import PageNotFound from '../views/PageNotFound.vue'
+import GeneralError from '../views/error/GeneralError.vue'
+import PageNotFound from '../views/error/PageNotFound.vue'
+import ServerError from '../views/error/ServerError.vue'
+import ClientError from '../views/error/ClientError.vue'
 
 // developers
 import Developers from '../views/Developers.vue'
@@ -57,7 +59,7 @@ import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
 
 //guest
 import Howto from '../views/guest/Howto.vue'
-import Preview from '../views/guest/preview.vue'
+import Gallery from '../views/guest/Gallery.vue'
 import Tutorial from '../views/guest/Tutorial.vue'
 
 import { auth } from '@/store/auth.module';
@@ -271,12 +273,6 @@ Vue.use(VueRouter)
     name: 'NeedAuth',
     component: NeedAuth
   },
-  // error
-  {
-    path: '/error',
-    name: 'GeneralError',
-    component: GeneralError
-  },
   // club
   {
     path: '/group',
@@ -390,9 +386,9 @@ Vue.use(VueRouter)
   },
   // guest
   {
-    path: '/preview',
-    name: 'Preview',
-    component: Preview
+    path: '/gallery',
+    name: 'Gallery',
+    component: Gallery
   },
   {
     path: '/howto',
@@ -404,7 +400,22 @@ Vue.use(VueRouter)
     name: 'Tutorial',
     component: Tutorial
   },
-
+  // error
+  {
+    path: '/error',
+    name: 'GeneralError',
+    component: GeneralError
+  },
+  {
+    path: '/servererror',
+    name: 'ServerError',
+    component: ServerError
+  },
+  {
+    path: '/clienterror',
+    name: 'ClientError',
+    component: ClientError
+  },
   // 404 page not found
   {
     path: '/404',

@@ -384,7 +384,16 @@ export default {
         console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
     http
       .get("/hashtag/getnextPostId", {
@@ -394,7 +403,16 @@ export default {
       })
       .then(({ data }) => {
         this.nextPId = data.hId;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
     http
       .get("/schedule/dayList", {
@@ -412,7 +430,17 @@ export default {
             id: element.sId,
           });
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
       http.get("/category/listAll", {
         params: {
           uid: this.$store.state.auth.user.id,
@@ -468,8 +496,26 @@ export default {
                   alert("임시 삭제 완료");
                   this.$router.go();
                 }
-              });
+              })
+              .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
 
       this.createTags();
@@ -492,6 +538,15 @@ export default {
           if (data.data == "success") {
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
 
@@ -514,6 +569,15 @@ export default {
             alert("임시 수정 완료");
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
     nospace() {

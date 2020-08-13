@@ -584,7 +584,16 @@ export default {
       })
       .then(({ data }) => {
         this.nextPId = data.hId;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get("/schedule/club/dayList", {
         params: {
@@ -600,6 +609,15 @@ export default {
             enddate: element.sEnddate,
             id: element.sId,
           });
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
       });
 
@@ -610,7 +628,16 @@ export default {
       })
       .then(({ data }) => {
         this.categories = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
     }
     
   },
@@ -652,6 +679,15 @@ export default {
             alert("등록 완료");
             this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
 
     },
