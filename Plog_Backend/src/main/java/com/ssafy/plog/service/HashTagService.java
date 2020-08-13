@@ -12,7 +12,5 @@ public interface HashTagService {
 	void deletePostHashtag(int pId);
 
 	List<Hashtag> getAll(int uId);
-
-	void updateHashTag(String[] tags, int pid, int uid);
 	
 }

@@ -88,7 +88,26 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public boolean updatePost(Post post) {
+	public boolean updatePost(Post_NoJPA temp) { 
+		Post post = new Post();
+		
+		post.setpId(temp.getpId());
+		post.setpTitle(temp.getpTitle());
+		post.setpUser(temp.getpUser());
+		post.setpContent(temp.getpContent());
+		
+		if(temp.getpSchedule() == 0) {
+			post.setpSchedule(1);
+		}else post.setpSchedule(temp.getpSchedule());
+		
+		if(temp.getpCategory() == 0) {
+			post.setpCategory(1);
+		}else post.setpCategory(temp.getpCategory());
+		
+		if(temp.getpClub() == 0) {
+			post.setpClub(1);
+		}else post.setpClub(temp.getpClub());
+		
 		
 		String content = post.getpContent();
 		if(content.contains(";base64,")) {
@@ -126,7 +145,36 @@ public class PostServiceImpl implements PostService {
 			
 		}
 		
-		return dao.save(post) != null;
+		boolean ok = dao.save(post) != null;
+		
+		if(!temp.getpHashtag().equals("")) {
+       		String[] tags = temp.getpHashtag().split(" ");
+       		int size = tags.length;
+    		//태그들이 존재하는지 확인하고 없으면 만들어준다.		
+    		Hashtag tmp;
+    		for (int i = 0; i < size; i++) {
+    			tmp = hdao.findByName(tags[i]);
+    			if(tmp == null) {
+    				Hashtag toCreate = new Hashtag();
+    				toCreate.sethName(tags[i]);
+    				hdao.save(toCreate);
+    			}
+    		}
+    		
+    		//이미 있던 태그들을 삭제해준다.
+    		phdao.deleteAllInPost(post.getpId());
+    		
+    		for (int i = 0; i < size; i++) {
+    			tmp = hdao.findByName(tags[i]);
+    			Post_Hashtag ph = new Post_Hashtag();
+    			ph.setPhPost(post.getpId());
+    			ph.setPhHashtag(tmp.gethId());
+    			ph.setPhUser(post.getpUser());
+    			phdao.save(ph);
+    		}
+        }
+		
+		return ok;
 	}
 
 	@Transactional

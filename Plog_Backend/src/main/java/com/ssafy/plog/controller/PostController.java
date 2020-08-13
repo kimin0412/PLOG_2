@@ -115,7 +115,7 @@ public class PostController {
     }
 	
 	 @PutMapping("/")
-	 public Object updatePost(@RequestBody Post post) {
+	 public Object updatePost(@RequestBody Post_NoJPA post) {
 		 	if(post.getpSchedule() == 0) {
 				post.setpSchedule(1);
 			}

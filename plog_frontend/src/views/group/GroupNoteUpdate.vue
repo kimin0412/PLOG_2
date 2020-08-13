@@ -465,6 +465,13 @@ export default {
       if(this.category == ''){
         this.category = 1
       }
+
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
       http
         .put("/post/", {
           pId: this.pId,
@@ -474,11 +481,16 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:this.groupId
+          pClub:this.groupId,
+          pHashtag : this.hashtags,
         })
         .then((Response) => {
           if (Response.data === "success") {
-            this.createTags();
+              this.$dialog.notify.success("노트 수정 완료 😄", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
           }
         })
         .catch((error) => {
@@ -493,40 +505,7 @@ export default {
         
     },
 
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      var pid = Number(this.pId)
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
-
-      http
-        .post("/hashtag/update", {
-          hId: pid + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
-            this.$dialog.notify.success("노트 수정 완료 😄", {
-              position: "bottom-right",
-              timeout: 3000,
-              
-            });
-            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
-          }
-        })
-        .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
-        });
-    },
+ 
 
     nospace() {
       this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
