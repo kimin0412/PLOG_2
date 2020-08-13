@@ -57,7 +57,7 @@ import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
 
 //guest
 import Howto from '../views/guest/Howto.vue'
-import Preview from '../views/guest/Preview.vue'
+import Gallery from '../views/guest/Gallery.vue'
 import Tutorial from '../views/guest/Tutorial.vue'
 
 import { auth } from '@/store/auth.module';
@@ -390,9 +390,9 @@ Vue.use(VueRouter)
   },
   // guest
   {
-    path: '/preview',
-    name: 'Preview',
-    component: Preview
+    path: '/gallery',
+    name: 'Gallery',
+    component: Gallery
   },
   {
     path: '/howto',

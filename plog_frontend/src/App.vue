@@ -24,7 +24,8 @@
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <router-link to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-home</v-icon></router-link>
+        <router-link v-if="lognow" to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-home</v-icon></router-link>
+        <router-link v-else to="/login"  class="white--text" style="text-decoration: none;"><v-icon>mdi-account</v-icon></router-link>
       </v-btn>
 
       <template v-if="lognow" v-slot:extension>
@@ -40,9 +41,9 @@
         <v-tabs class="d-flex justify-center">
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">About us</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotohowto">How to</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotologin">Log in</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gototutorial">Tutorial</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gotopreview">Preview</v-tab>
+          <!-- <v-tab class="tabinfo navbarlistitemlink" @click="gotologin">Log in</v-tab>
+          <v-tab class="tabinfo navbarlistitemlink" @click="gototutorial">Tutorial</v-tab> -->
+          <v-tab class="tabinfo navbarlistitemlink" @click="gotogallery">Gallery</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -178,25 +179,24 @@
           </v-list-item-icon>
           <v-list-item-title class="grey--text">About us</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/preview" class="drawer-menu"><v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-book-open-page-variant</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title class="grey--text">Preview</v-list-item-title>
-        </v-list-item></router-link>
-        <router-link to="/tutorial" class="drawer-menu"><v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-television-play</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
-        </v-list-item></router-link>
         <router-link to="/howto" class="drawer-menu"><v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-sign-direction</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">How to</v-list-item-title>
         </v-list-item></router-link>
-
+        <router-link to="/gallery" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-book-open-page-variant</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">Gallery</v-list-item-title>
+        </v-list-item></router-link>
+        <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-television-play</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
+        </v-list-item></router-link> -->
         </v-list-item-group>       
       </v-list>
     </v-navigation-drawer>
@@ -259,6 +259,7 @@
         <v-icon>mdi-home</v-icon>
       </v-btn>
       <v-btn
+        v-if="lognow"
         fab
         dark
         small
@@ -297,7 +298,7 @@
 
         <v-spacer></v-spacer>
 
-        <router-link to="/special" class="drawer-menu">
+        <router-link v-if="lognow" to="/profile" class="drawer-menu">
           <v-btn icon class="d-felx justify-end" @click="noalarm">
           <v-badge
             v-if="todo"
@@ -312,7 +313,11 @@
           <v-icon v-else class="blue--text">mdi-bell-outline</v-icon>
           </v-btn>        
         </router-link>
-
+        <router-link v-else to="/login" class="drawer-menu">
+          <v-btn icon class="d-felx justify-end">
+          <v-icon class="blue--text">mdi-account</v-icon>
+          </v-btn>        
+        </router-link>
       </v-app-bar>
     </div>
     <v-navigation-drawer
@@ -447,25 +452,24 @@
             </v-list-item-icon>
             <v-list-item-title class="grey--text">About us</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/preview" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-book-open-page-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">Preview</v-list-item-title>
-          </v-list-item></router-link>
-          <router-link to="/tutorial" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-television-play</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
-          </v-list-item></router-link>
           <router-link to="/howto" class="drawer-menu"><v-list-item>
             <v-list-item-icon>
               <v-icon>mdi-sign-direction</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">How to</v-list-item-title>
           </v-list-item></router-link>
-
+          <router-link to="/gallery" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-book-open-page-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Gallery</v-list-item-title>
+          </v-list-item></router-link>
+          <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-television-play</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
+          </v-list-item></router-link> -->
           </v-list-item-group>
 
         </v-list>
@@ -496,8 +500,8 @@
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/search" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-magnify</v-icon></div>
+        <router-link to="/group" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-account-group</v-icon></div>
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
@@ -513,13 +517,18 @@
       elevation="0"
     >
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/aboutus" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-information-outline</v-icon></div>
+        <router-link to="/howto" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-sign-direction</v-icon></div>
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/howto" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-sign-direction</v-icon></div>
+        <router-link to="/gallery" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-tooltip-image</v-icon></div>
+        </router-link>
+      </v-btn>
+      <v-btn class="px-0 bottomnavbtn">
+        <router-link to="/aboutus" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-information-outline</v-icon></div>
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
@@ -528,13 +537,8 @@
         </router-link>
       </v-btn>
       <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/tutorial" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-television-play</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/preview" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-book-open-page-variant</v-icon></div>
+        <router-link to="/signup" class="drawer-menu">
+          <div class="py-0 px-0"><v-icon>mdi-account-plus</v-icon></div>
         </router-link>
       </v-btn>
     </v-bottom-navigation>
@@ -671,9 +675,9 @@ export default {
       }
     },
     // guest
-    gotopreview() {
-      if (this.$route.name !== 'Preview'){
-        this.$router.push('/preview')
+    gotogallery() {
+      if (this.$route.name !== 'Gallery'){
+        this.$router.push('/gallery')
       }
     },
     gotohowto() {
