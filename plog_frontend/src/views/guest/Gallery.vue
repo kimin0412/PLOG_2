@@ -12,7 +12,7 @@
       <div class="d-block d-sm-none">
         <v-container>
           <v-row>
-            <v-col cols="12" class="py-1 text-h5">PREVIEW</v-col>
+            <v-col cols="12" class="py-1 text-h5">Gallery</v-col>
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">PLOGGERS</v-col>
           </v-row>
           <v-row class="mt-10 text-center">
