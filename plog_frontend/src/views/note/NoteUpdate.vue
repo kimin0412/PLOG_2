@@ -378,7 +378,16 @@ export default {
             id: element.sId,
           });
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
     http
       .get("/post/", {
@@ -397,7 +406,16 @@ export default {
         console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get('/hashtag/select', {
         params : {
@@ -409,7 +427,17 @@ export default {
         data.forEach(element => {
           this.model.push(element)
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
       http
       .get("/category/listAll", {
         params: {
@@ -418,7 +446,16 @@ export default {
       })
       .then(({ data }) => {
         this.categories = data;
-      });    
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
   },
 
   methods: {
@@ -461,6 +498,15 @@ export default {
           if (Response.data === "success") {
             this.createTags();
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
         
     },
@@ -488,6 +534,15 @@ export default {
             });
             this.$router.push("/note");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
 

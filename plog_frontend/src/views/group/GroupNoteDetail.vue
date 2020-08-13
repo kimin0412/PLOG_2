@@ -160,7 +160,16 @@ export default {
         var v_content = this.Note.pContent;
         this.content = entities.decode(v_content);
         this.bmToggle = data.pBookmark;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       http.get('/hashtag/select', {
         params : {
@@ -172,7 +181,16 @@ export default {
         data.forEach(element => {
           this.hashtags.push({"name" : element})
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
     },
 
     mounted() { 
@@ -196,6 +214,15 @@ export default {
                     timeout: 3000,
                   });
                 }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("clienterror")
+                } else{
+                  this.$router.push("/404");
+                }                          
               });
 
               http.delete('/hashtag/delete', {
@@ -207,6 +234,15 @@ export default {
                 if(data.data == 'success'){
                     this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
                 }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("clienterror")
+                } else{
+                  this.$router.push("/404");
+                }                          
               });
         },
         makePDF () {
@@ -251,6 +287,15 @@ export default {
               if(response === 'success'){
                 console.log("success");
               }              
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
             if(this.bmToggle == 1){
                 this.bmToggle = 0;

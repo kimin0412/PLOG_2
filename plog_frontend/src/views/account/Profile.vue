@@ -583,7 +583,17 @@ export default {
         }
       }).then(({data}) => {
          this.Notes = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
       http.get('/club/list', {
         params : {
           uId : this.$store.state.auth.user.id,
@@ -591,7 +601,16 @@ export default {
       }).then(({ data }) => {
         // this.mygroups = data
         this.mygroups = data
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       this.chart_data_bar = []
       this.defaultWords = []
@@ -606,7 +625,8 @@ export default {
           this.chart_data_bar.push({"keyword" : element.hName, "c":element.hId})
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
-        });
+        })
+        
 
         this.sorted = this.chart_data_bar
         var sortingField = "c";
@@ -614,7 +634,16 @@ export default {
         this.sorted.sort((a, b) => {
           return b[sortingField] - a[sortingField];
         });
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
       //먼슬리
       this.chart_data_formonth = []
@@ -627,7 +656,16 @@ export default {
           this.chart_data_formonth.push({"note" : element.pBookmark, "schedule":element.pCategory, "date":element.pClub})
         });
 
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
      },
 
@@ -655,6 +693,15 @@ export default {
               data.forEach(element => {
                 this.hashtags.push({"name" : element})
               });
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
         },
         bookmark(){
@@ -668,6 +715,15 @@ export default {
               if(response === 'success'){
                 console.log("success");
               }              
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
             if(this.bmToggle == 1){
                 this.bmToggle = 0;

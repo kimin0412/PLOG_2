@@ -180,7 +180,16 @@ export default {
         }
       }).then(({ data }) => {
         this.myClub = data
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
     },
     methods: {
 

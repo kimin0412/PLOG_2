@@ -748,7 +748,16 @@ export default {
       })
       .then(({ data }) => {
         this.categories = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
 
     http
       .get("/post/list/all", {
@@ -758,7 +767,17 @@ export default {
       })
       .then(({ data }) => {
         this.Notes = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
     http
       .get("/tp/list/all", {
         params: {
@@ -767,7 +786,16 @@ export default {
       })
       .then(({ data }) => {
         this.tmpNotes = data;
-      });
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
   },
   methods: {
     getFormatDate(regtime) {
@@ -790,6 +818,15 @@ export default {
           data.forEach((element) => {
             this.hashtags.push({ name: element });
           });
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
     getNoteInCategory(note) {
@@ -808,6 +845,15 @@ export default {
           data.forEach((element) => {
             this.hashtags2.push({ name: element });
           });
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
     getTpNote(tpnote) {
@@ -826,7 +872,17 @@ export default {
           if (response === "success") {
             console.log("success");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+
       if (this.bmToggle == 1) {
         this.bmToggle = 0;
         this.selected.pBookmark = 0;
@@ -848,7 +904,17 @@ export default {
           if (response === "success") {
             console.log("success");
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
+
       if (this.bmToggle == 1) {
         this.bmToggle = 0;
         this.selected2.pBookmark = 0;
@@ -879,7 +945,16 @@ export default {
               this.categoryDialog = false;
               this.$router.go();
             }
-          });
+          })
+          .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
       }
     },
 
@@ -899,6 +974,15 @@ export default {
           if (data.data == "success") {
             this.$router.go();
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
 
@@ -916,7 +1000,17 @@ export default {
             if (data.data == "success") {
               this.$router.go();
             }
-          });
+          })
+          .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
       } else {
         // 카테고리만 지우고 나머진 pCategory를 1로 변경하기
         http
@@ -929,7 +1023,16 @@ export default {
             if (data.data == "success") {
               this.$router.go();
             }
-          });
+          })
+          .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
       }
     },
 
@@ -949,6 +1052,15 @@ export default {
           if (data.data == "success") {
             this.$router.go();
           }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
   },
