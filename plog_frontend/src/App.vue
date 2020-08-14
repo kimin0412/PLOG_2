@@ -85,7 +85,7 @@
       >
         <v-list-item-group
           active-class="blue--text"
-          class="mb-5"
+          class="mb-15"
         >
         <div v-if="lognow">
           <v-subheader>Schedule</v-subheader>
@@ -204,7 +204,7 @@
 
   <div class="d-none d-sm-block" style="min-height: 100%;">
       <v-container style="padding-bottom: 60px; padding-top:120px; min-height: 100vh;">
-      <router-view :key="$route.fullPath"/>
+      <router-view/>
     </v-container>
     <v-footer
     
@@ -298,7 +298,7 @@
 
         <v-spacer></v-spacer>
 
-        <router-link v-if="lognow" to="/profile" class="drawer-menu">
+        <!-- <router-link v-if="lognow" to="/profile" class="drawer-menu">
           <v-btn icon class="d-felx justify-end" @click="noalarm">
           <v-badge
             v-if="todo"
@@ -311,6 +311,11 @@
           </v-badge>
 
           <v-icon v-else class="blue--text">mdi-bell-outline</v-icon>
+          </v-btn>        
+        </router-link> -->
+        <router-link v-if="lognow" to="/aboutus" class="drawer-menu">
+          <v-btn icon class="d-felx justify-end">
+            <v-icon class="blue--text">mdi-home</v-icon>
           </v-btn>        
         </router-link>
         <router-link v-else to="/login" class="drawer-menu">
@@ -357,6 +362,7 @@
         >
           <v-list-item-group
             active-class="blue--text"
+            class="mb-15"
           >
 
           <div v-if="lognow">
