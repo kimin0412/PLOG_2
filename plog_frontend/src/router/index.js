@@ -57,9 +57,6 @@ import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
 import GroupNoteDetail from '../views/group/GroupNoteDetail.vue'
 import GroupNoteUpdate from '../views/group/GroupNoteUpdate.vue'
 
-import GroupDetail2 from '../views/group/GroupDetail2.vue'
-
-
 //guest
 import Howto from '../views/guest/Howto.vue'
 import Gallery from '../views/guest/Gallery.vue'
@@ -353,18 +350,6 @@ Vue.use(VueRouter)
     path: '/group/noteUpdate',
     name: 'GroupNoteUpdate',
     component: GroupNoteUpdate,
-    beforeEnter(from, to, next) {
-      if (!auth.state.status.loggedIn) {
-        next('/auth')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/group/detail2',
-    name: 'GroupDetail2',
-    component: GroupDetail2,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
         next('/auth')
