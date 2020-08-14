@@ -81,10 +81,48 @@
             <v-col cols="2"></v-col>          
           </v-row>
           <v-row class="mt-10 pt-10" v-if="myClub.length >= 1">
-            <v-col cols="12 mb-4">
+            <v-col cols="12 mb-n10">
               <div class="text-center display-1 font-weight-light">MY GROUP LIST</div>
             </v-col>
-            <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(item,i) in myClub" :key="i">
+            <v-col cols="12">
+              <carousel-3d :controls-visible="true" :controls-prev-html="'&#10092;'" :controls-next-html="'&#10093;'" 
+                          :controls-width="30" :controls-height="60" :clickable="false">
+                <slide v-for="(item, i) in myClub" :index="i" :key="i">
+                  <router-link :to="{ path: 'group/detail2', query:{clId:item.clId}}" class="text-decoration-none">
+                  <v-hover
+                    v-slot:default="{ hover }"
+                  >
+                  <v-card
+                    class="mx-auto mt-15"
+                    max-width="100%"
+                    min-height="15vh"
+                    outlined
+                    :elevation="hover ? 10:5"
+                  >
+                    <v-list-item three-line>
+                      <v-list-item-content>
+                        <div class="overline mb-4">{{item.clRegdate.substr(0,10)}}</div>
+                        <v-list-item-title class="headline mb-1">Name : <strong>{{item.clName}}</strong></v-list-item-title>
+                        <v-list-item-subtitle class="text-truncate">Group intro : {{item.clInfo}}</v-list-item-subtitle>
+                      </v-list-item-content>
+
+                      <v-list-item-avatar
+                        tile
+                        size="30"
+                        color="transparent"
+                      ><v-card :color="item.clColor" style="width: 100%; height: 100%;"></v-card></v-list-item-avatar>
+                    </v-list-item>
+
+                    <v-card-actions class="d-flex justify-end">
+                      <v-btn text class="indigo--text">ENTER</v-btn>
+                    </v-card-actions>
+                  </v-card>   
+                  </v-hover>       
+                  </router-link>          
+                </slide>
+              </carousel-3d>              
+            </v-col>
+            <!-- <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(item,i) in myClub" :key="i">
               <v-hover v-slot:default="{ hover }">
               <router-link :to="{ path: 'group/detail', query:{clId:item.clId}}" class="text-decoration-none">
               <v-card
@@ -105,7 +143,7 @@
               </v-card>
               </router-link>
               </v-hover>
-            </v-col>
+            </v-col> -->
           </v-row>
         </div>
       </div>
@@ -116,47 +154,62 @@
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">My Group</v-col>
           </v-row>
           <v-row class="mt-10">
-          <v-row>
-            <v-col cols="6" class="pr-0 pl-10">
-              <router-link to="/group/search" class="link-tag">
-                <div><img src="@/assets/icon/gsearch.png" alt="user-image" class="link-icon"></div>
-                <div class="mt-2">Search</div>
-              </router-link>
-            </v-col>
-            <v-col cols="6" class="pl-0 pr-10">
-              <router-link to="/group/create" class="link-tag">
-                <div><img src="@/assets/icon/gcreate.png" alt="user-image" class="link-icon "></div>
-                <div class="mt-2">Create</div>
-              </router-link>
-            </v-col>
+            <v-row>
+              <v-col cols="6" class="pr-1 pl-10">
+                <router-link to="/group/search" class="link-tag">
+                <v-card elevation="5 pt-4 pb-3">
+                  <div><img src="@/assets/icon/gsearch.png" alt="user-image" class="link-icon"></div>
+                  <div class="mt-2">Search</div>
+                </v-card>
+                </router-link>
+              </v-col>
+              <v-col cols="6" class="pl-1 pr-10">
+                <router-link to="/group/create" class="link-tag">
+                <v-card elevation="5 pt-4 pb-3">
+                  <div><img src="@/assets/icon/gcreate.png" alt="user-image" class="link-icon "></div>
+                  <div class="mt-2">Create</div>
+                </v-card>
+                </router-link>
+              </v-col>
+            </v-row>
           </v-row>
-          <!-- <v-row class="mt-10 pt-10" v-if="myClub.length >= 1">
-            <v-col cols="12 mb-4">
-              <div class="text-center display-1 font-weight-light">MY GROUP LIST</div>
+          <v-row>
+            <v-col cols="12" class="mt-7 mb-n15 text-center text-subtitle-2">My Group</v-col>
+            <v-col cols="12" class="mb-n10">
+              <carousel-3d :controls-visible="true" :controls-prev-html="'&#10092;'" :controls-next-html="'&#10093;'" 
+                          :controls-width="30" :controls-height="40" :clickable="false">
+                <slide v-for="(item, i) in myClub" :index="i" :key="i">
+                  <router-link :to="{ path: 'group/detail', query:{clId:item.clId}}" class="text-decoration-none">
+                  <v-card
+                    class="mx-auto mt-6"
+                    max-width="70%"
+                  >
+                    <v-card-text class="pb-0">
+                      <v-row>
+                        <v-col cols="4">
+                          <div class="d-inline-block transparent--text mt-3 ml-1" :class="item.clColor" style="width:25px; height:25px;">cl</div>
+                        </v-col>
+                        <v-col cols="8">
+                          <div class="black--text text-left font-weight-bold text-truncate pb-0">{{item.clName}}</div>
+                          <p class="text-caption text-left">{{item.clRegdate.substr(0,10)}}</p>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-actions class="pt-0 d-flex justify-center">
+                      <v-btn
+                        text
+                        small
+                        color="black"
+                        class="text-caption"
+                      >
+                        Enter
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                  </router-link>
+                </slide>
+              </carousel-3d>
             </v-col>
-            <v-col cols="11" class="offset-1 mx-10 mt-2" v-for="(item,i) in myClub" :key="i">
-              <v-hover v-slot:default="{ hover }">
-              <router-link :to="{ path: 'group/detail', query:{clId:item.clId}}" class="text-decoration-none">
-              <v-card
-                class="mx-auto"
-                :elevation="hover ? 12 : 2"
-                :class="{ 'on-hover': hover }"
-              >
-                <v-card-text>
-                  <div>group #{{i+1}}</div>
-                  <p class="text-h4 text--primary mb-0">
-                    {{ item.clName }}
-                  </p>
-                  <p>Group host</p>
-                  <div class="text--primary text-truncate">
-                    {{ item.clInfo }}
-                  </div>
-                </v-card-text>
-              </v-card>
-              </router-link>
-              </v-hover>
-            </v-col>
-          </v-row> -->
           </v-row>
         </v-container>
       </div>
@@ -165,11 +218,18 @@
 
 <script>
 import http from '@/util/http-common.js'
+import { Carousel3d } from 'vue-carousel-3d'
+
 export default {
     name: 'GroupMain',
+    componenet: {
+      'carousel-3d': Carousel3d.Carousel3d,
+    'slide': Carousel3d.Slide
+    },
     data() {
       return {
         myClub : [],
+        slides: 7
       }
     },
     created() {
@@ -193,7 +253,8 @@ export default {
     },
     methods: {
 
-    }
+    },
+
 }
 </script>
 
@@ -222,4 +283,31 @@ export default {
   color: #c7c7c7;
   text-align: center;
 }
+.carousel-3d-container figcaption {
+  position: absolute;
+  color: #fff;
+  bottom: 0;
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  font-size: 12px;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+.carousel-3d-slide {
+  background-color: transparent !important;
+  border: 1px solid transparent;
+}
+
+
+</style>
+<style lang="scss" scoped>
+.carousel-3d-container {
+  .carousel-3d-slide {
+    padding: 20px;
+    
+    .title { font-size: 22px; }
+  }
+}
+
 </style>

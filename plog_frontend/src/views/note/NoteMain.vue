@@ -505,7 +505,7 @@
           <v-col cols="12" class="py-1 text-h5">MY</v-col>
           <v-col cols="12" class="py-1 text-h4 font-weight-bold">POSTS</v-col>
         </v-row>
-        <v-row class="mb-2 justify-end mt-10">
+        <!-- <v-row class="mb-2 justify-end mt-10">
           <router-link to="/note/create" class="smallicon mr-3">
             <v-btn small color="light-green" dark class="ml-auto"
               ><v-icon small>mdi-pencil</v-icon></v-btn
@@ -516,10 +516,18 @@
               ><v-icon small>mdi-magnify</v-icon></v-btn
             >
           </router-link>
-        </v-row>
-        <v-row class="mt-5">
+        </v-row> -->
+        <v-row class="mt-10">
           <v-col cols="12" class="py-1 text-h6">My notes</v-col>
-          <v-col cols="12">
+          <v-col v-if="Notes.length < 1" cols="12" class="mb-5">
+            <v-col cols="12" class="text-center py-0 grey--text text-caption mt-5">
+              아직 작성한 노트가 없습니다 :)
+            </v-col>
+            <v-col cols="12" class="text-center py-0">
+              <router-link to="/note/create" class="text-decoration-none text-center py-0 blue--text text-caption"><v-icon small class="mr-1 blue--text" >mdi-pen-plus</v-icon> 노트 작성하러 가기</router-link>
+            </v-col>
+          </v-col>
+          <v-col v-else cols="12">
             <v-sheet class="mx-auto mysheet">
               <v-slide-group
                 v-model="model"
@@ -626,7 +634,12 @@
         </v-row>
         <v-row class="mt-5">
           <v-col cols="12" class="py-1 text-h6">Temporary</v-col>
-          <v-col cols="12">
+          <v-col v-if="tmpNotes.length < 1" cols="12" class="">
+            <v-col cols="12" class="text-center py-0 grey--text text-caption mt-5">
+              저장한 임시 노트가 없습니다 :)
+            </v-col>
+          </v-col>
+          <v-col v-else cols="12">
             <v-sheet class="mx-auto mysheet">
               <v-slide-group
                 v-model="tpmodel"
