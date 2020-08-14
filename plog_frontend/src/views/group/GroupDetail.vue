@@ -1029,7 +1029,7 @@ export default {
                           let msg = '수정 처리시 문제가 발생했습니다.';
                           if (data.data == 'success') {
                             msg = '수정이 완료되었습니다.';
-                            this.$dialog.notify.info(msg + " 😚", {
+                            this.$dialog.notify.success(msg + " 😚", {
                               position: "bottom-right",
                               timeout: 3000,
                             });
