@@ -637,39 +637,38 @@ export default {
 
   methods: {
     createAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      console.log(content1);
-    //   alert(content1);
-    //   alert(content2);
-      var content = null;
-      if (content1 == "") {
-        content = content2;
+      if (!this.title.trim()) {
+        alert("제목을 입력해주세요")
       } else {
-        content = content1;
-      }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
 
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
+        var numOfHashTag = this.model.length;
+        this.hashtags = "";
+        for (let i = 0; i < numOfHashTag; i++) {
+          this.hashtags += this.model[i] + " ";
+        }
 
-      http
-        .post("/post/", {
-          pId: this.nextPId,
-          pTitle: this.title,
-          pContent: content,
-          pUser: this.$store.state.auth.user.id,
-          pSchedule: this.dialogm1,
-          pCategory: this.category,
-          pColor: this.pickColor,
-          pClub : 1,
-          pHashtag : this.hashtags
-
+        http
+          .post("/post/", {
+            pId: this.nextPId,
+            pTitle: this.title,
+            pContent: content,
+            pUser: this.$store.state.auth.user.id,
+            pSchedule: this.dialogm1,
+            pCategory: this.category,
+            pColor: this.pickColor,
+            pClub : 1,
+            pHashtag : this.hashtags
         })
         .then(({ data }) => {
           if (data.data == "success") {
@@ -680,46 +679,49 @@ export default {
             this.$router.push("/note");
           }
         });
+      }
     },
     tmpcreateAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      var content = null;
-      if (content1 == "") {
-        content = content2;
+      if (!this.title.trim()) {
+        alert("제목을 입력해주세요")
       } else {
-        content = content1;
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
+        http
+          .post("/tp/", {
+            tpTitle: this.title,
+            tpContent: content,
+            tpUser: this.$store.state.auth.user.id,
+          })
+          .then((Response) => {
+            if (Response.data === "success") {
+              this.$dialog.notify.info("임시 노트 등록 완료 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+              this.$router.push("/note");
+            }
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
+          });
       }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
-      console.log(content);
-
-      http
-        .post("/tp/", {
-          tpTitle: this.title,
-          tpContent: content,
-          tpUser: this.$store.state.auth.user.id,
-        })
-        .then((Response) => {
-          if (Response.data === "success") {
-            this.$dialog.notify.info("임시 노트 등록 완료 😚", {
-              position: "bottom-right",
-              timeout: 3000,
-            });
-            this.$router.push("/note");
-          }
-        })
-        .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
-        });
-      },
+    },
     nospace() {
       this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
         position: "bottom-right",
