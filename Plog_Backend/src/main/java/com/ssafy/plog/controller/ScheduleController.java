@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.plog.dto.BasicResponse;
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.service.ScheduleService;
@@ -39,6 +40,12 @@ public class ScheduleController {
     
     @GetMapping("/schedule/monthList")
 	public List<Schedule> monthList(@RequestParam String sDate, int sId) { //date의 s_name에 year, month를 저장해서 온다.
+    	List<Schedule> sList = sService.getMonthScheduleList(sDate, sId);
+		return sList;
+	}
+    
+    @GetMapping("/schedule/monthList/All")
+	public List<Schedule> monthListAll(@RequestParam String sDate, int sId) { //date의 s_name에 year, month를 저장해서 온다.
     	List<Schedule> sList = sService.getMonthScheduleList(sDate, sId);
 		return sList;
 	}
@@ -105,4 +112,9 @@ public class ScheduleController {
 	public List<Post> getPostsById(@RequestParam String sId) {
 		return sService.selectPostById(sId);
 	}
+    
+    @GetMapping("/schedule")
+    public Schedule getSchedule(@RequestParam int pId) {
+    	return sService.getScheduleByPost(pId);
+    }
 }

@@ -9,13 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 
 @Repository
 public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 
-	@Query(value = "select * from schedule where (s_Startdate like %?1% or s_Enddate like %?1% ) and s_user = ?2 ", nativeQuery=true)
+	@Query(value = "select * from schedule where (s_Startdate like %?1% or s_Enddate like %?1% ) and (s_user = ?2 or s_club in (select uc_club from user_club where uc_user = ?2 ) ) ", nativeQuery=true)
 	public List<Schedule> selectByMonth(String monthAndYear, int sId);
 
 	@Query(value = "select * from schedule where date(?1) between date(s_Startdate) and date(s_EndDate) and s_user = ?2 ", nativeQuery=true)
@@ -53,4 +54,7 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 	@Transactional
 	@Query(value = "delete from schedule where s_club = ?1 ", nativeQuery=true)
 	public void deleteByClub(int groupId);
+
+	@Query(value = "select * from schedule where s_id = (select p_schedule from post where p_id = ?1 ) ", nativeQuery=true)
+	public Schedule findScheduleByPost(int pId);
 }

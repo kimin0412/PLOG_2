@@ -466,7 +466,7 @@ export default {
         chart_config_formonth: {
             values: ['schedule', 'note'],
             color : {
-                scheme: ['#795548', '#607D8B'],
+                scheme: ['#F44336', '#009688'],
             },
             date: {
                 key: 'date',

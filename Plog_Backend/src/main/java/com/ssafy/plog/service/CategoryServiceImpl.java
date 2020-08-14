@@ -81,4 +81,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getAllClubCategory(int cClub) {
 		return cdao.findAllByCClub(cClub);
 	}
+
+	@Override
+	public Category getCategory(int pid) {
+		return cdao.findCategoryByPost(pid);
+	}
 }

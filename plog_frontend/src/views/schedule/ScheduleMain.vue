@@ -818,9 +818,8 @@ export default {
       const events = [];
       const allDay = this.rnd(0, 3) === 0;
 
-      if (this.type < 2) {
-        http
-          .get("/schedule/monthList", {
+      if (this.type == 0) {
+        http.get("/schedule/monthList/All", {
             params: {
               sId: this.$store.state.auth.user.id,
               sDate: this.$refs.calendar.title,
@@ -842,7 +841,7 @@ export default {
                   events.push({
                     id: element.sId,
                     name: element.sName,
-                    start: element.sStartdate,
+                    start: element.sStartdate.substr(0, 10),
                     end: element.sEnddate,
                     color: element.sColor + " lighten-2",
                     timed: !allDay,
@@ -867,7 +866,7 @@ export default {
                 events.push({
                   id: element.sId,
                   name: element.sName,
-                  start: element.sStartdate,
+                  start: element.sStartdate.substr(0, 10),
                   end: element.sEnddate,
                   color: element.sColor + " lighten-2",
 

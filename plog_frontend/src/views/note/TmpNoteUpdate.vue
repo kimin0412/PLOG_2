@@ -468,7 +468,12 @@ export default {
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      console.log(content);
+
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
 
       http
         .post("/post/", {
@@ -478,12 +483,13 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:1
+          pClub:1,
+          pHashtag : this.hashtags
         })
         .then((response) => {
-          console.log(response);
           if (response.data.data === "success") {
             alert("등록 완료");
+            this.$router.push("/note");
             http
               .delete("/tp/", {
                 params: {
@@ -491,7 +497,6 @@ export default {
                 },
               })
               .then((response) => {
-                console.log(response);
                 if (response.data === "success") {
                   alert("임시 삭제 완료");
                   this.$router.go();
@@ -506,37 +511,6 @@ export default {
             this.$router.push("/404");
           }                          
         });
-          }
-        })
-        .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
-        });
-
-      this.createTags();
-    },
-
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
-
-      http
-        .post("/hashtag/insert", {
-          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
-            this.$router.push("/note");
           }
         })
         .catch((error) => {

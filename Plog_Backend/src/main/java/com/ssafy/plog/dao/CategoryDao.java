@@ -40,4 +40,7 @@ public interface CategoryDao extends JpaRepository<Category, Integer> {
 	@Transactional
 	@Query(value = "update category set c_user = ?2 where c_user = ?1 ", nativeQuery=true)
 	void updateByCUser(int uId, int hostId);
+
+	@Query(value = "select * from category where c_id = ( select p_category from post where p_id = ?1 ) ", nativeQuery=true)
+	Category findCategoryByPost(int pid);
 }

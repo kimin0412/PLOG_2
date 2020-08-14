@@ -3,59 +3,59 @@
     <div class="d-none d-sm-block">
       <div class="content-center mx-auto">
         <v-row>
-            <v-col cols="2" class="d-flex align-center justify-center pt-5">
-                Title
+            <v-col cols="11" class="d-flex pt-5">
+                <strong> {{ categoryName }}</strong>
             </v-col>
-            <v-col cols="10" class="d-flex align-center pt-5">
-                {{this.Note.pTitle}}
-                <!-- <v-text-field color="brown lighten-3" solo label="제목을 입력해 주세요" v-model="title"></v-text-field> -->
+            <v-col class="d-flex  align-left justify-left pt-5">
+              <v-btn text icon @click="bookmark()">
+                  <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                  <v-icon large color="gray" v-else>mdi-star</v-icon>
+                </v-btn>
             </v-col>
-            <v-flex class="py-0 text-center">
-                <v-btn text icon @click="bookmark()">
-                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                        <v-icon large color="gray" v-else>mdi-star</v-icon>
-                      </v-btn>
-            </v-flex>
         </v-row>
         <v-row>
-            <v-col cols="2" class="d-flex align-center justify-center pb-10">
-                Keyword
+            <v-col cols="6" class="d-flex py-1" style="font-size:30px; color:#455A64">
+              {{ Note.pTitle }}
             </v-col>
-            <v-col cols="10" class="d-flex align-center pb-10">
-                <v-card-text class="d-flex py-0">
-                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                          <v-chip
-                            class="ma-2"
-                            color="teal"
-                            text-color="white"
-                          >
-                            <v-avatar left>
-                              <v-icon>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>
-                            {{item.name}}
-                          </v-chip>
-                        </div>
-                  </v-card-text>
-            </v-col> 
         </v-row>
         <v-row>
-            <v-col cols="2" class="d-flex align-top justify-center ">
-                Content
+            <v-col cols="6" class="d-flex py-2" style="font-size:15px; color:#78909C">
+              {{ writer }} |  {{ Note.pDate | removeTime }} | 
+              <span v-if="scheduleName!=''" class="px-1">{{ scheduleName }} </span>
+              |
+              <span class="chgBtn px-2" @click="makePDF"> PDF </span>
+              |
+              <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
+                <span class="chgBtn px-2"> 수정 </span>
+              </router-link>
+              |
+              <span class="chgBtn px-2" style="color:#F44336" @click="deleteNote"> 삭제 </span>
             </v-col>
+        </v-row>
+        <v-row class="d-flex align-right mb-10">
+          <v-card-text class="d-flex align-right py-2">
+            <div v-for="(item,i) in hashtags"  v-bind:key="i" >
+              <v-chip
+                class="ma-2"
+                color="teal"
+                text-color="white"
+                small
+              >
+                <v-avatar left>
+                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                </v-avatar>
+                {{item.name}}
+              </v-chip>
+            </div>
+          </v-card-text>
+        </v-row>
+        <hr style="color:#78909C">
+        <v-row>
             <v-col cols="10" class="" id="viewer" ref="viewer">
                 <div height="500px" class="tui-editor-contents" v-html="content">
                 </div>
             </v-col> 
-        </v-row>
-        <v-row>
-            <v-col cols="12" class="d-flex justify-end py-0 atag">
-                <v-btn @click="makePDF" small color="green" class="py-0 white--text text-center atag mr-3">PDF</v-btn>
-                <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center" style="text-decoration: none;"> 
-                      <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">수정</v-btn>
-                </router-link>
-                <v-btn @click="deleteNote" small color="red" class="py-0 white--text text-center atag mr-3">삭제</v-btn>
-            </v-col>
-        </v-row>        
+        </v-row>       
       </div>
     </div>
     <div class="d-block d-sm-none">
@@ -142,6 +142,9 @@ export default {
             pId: this.$route.query.pId,
             hashtags: [],
             bmToggle : 0,
+            writer : '',
+            categoryName : '',
+            scheduleName : '',
         }
     },
 
@@ -153,12 +156,10 @@ export default {
         }
       })
       .then(({data}) => {
-        console.log(data);
         this.Note = data;
         const Entities = require('html-entities').XmlEntities;
         const entities = new Entities();
         var v_content = this.Note.pContent;
-        console.log(this.Note.pContent);
         this.content = entities.decode(v_content);
         this.bmToggle = data.pBookmark;
         
@@ -168,6 +169,48 @@ export default {
       })
       .catch((error) => {
           if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+      http.get('/category/', {
+        params : {
+          pId : this.pId,
+        }
+      })
+      .then(({data}) => {
+        if(data.cId != 1){
+          this.categoryName = data.cName
+        }
+        
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+      http.get('/schedule/', {
+        params : {
+          pId : this.pId,
+        }
+      })
+      .then(({data}) => {
+        if(data.sId != 1){
+          this.scheduleName = data.sName
+        }
+        
+      })
+      .catch((error) => {
+        if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
             this.$router.push("clienterror")
@@ -188,6 +231,24 @@ export default {
         });
       })
       .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("clienterror")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+        http.get('/post/user', {
+          params : {
+            pid : this.pId,
+          }
+        })
+        .then(({data}) => {
+          this.writer = data
+        })
+        .catch((error) => {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
@@ -309,6 +370,12 @@ export default {
         }
       },
     },
+
+    filters: {
+      removeTime(val) {
+        return val.substr(0, 10)
+      },
+    },
           
 }
 </script>
@@ -319,5 +386,8 @@ export default {
 }
 .content-center {
   width: 85%;
+}
+.chgBtn:hover {
+  color: #263238;
 }
 </style>
