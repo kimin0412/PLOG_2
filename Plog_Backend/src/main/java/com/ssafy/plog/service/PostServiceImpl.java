@@ -210,6 +210,7 @@ public class PostServiceImpl implements PostService {
 		post.setpTitle(temp.getpTitle());
 		post.setpUser(temp.getpUser());
 		post.setpContent(temp.getpContent());
+		post.setpId(temp.getpId());
 		
 		if(temp.getpSchedule() == 0) {
 			post.setpSchedule(1);

@@ -109,10 +109,10 @@
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
                                     <v-col cols="6" class="text-caption grey--text py-0">Notes</v-col>
-                                    <v-col cols="6" class="text-caption grey--text py-0">Groups</v-col>
+                                    <v-col cols="6" class="text-caption grey--text py-0">Schedules</v-col>
                                     <v-col cols="12" class="py-1"><v-divider></v-divider></v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">50</v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">3</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{noteNum}}</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{schduleNum}}</v-col>
                                 </v-row>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
@@ -179,7 +179,7 @@
                                 <v-container fluid>
                                 <v-row class="pt-10">
                                     <v-col cols="9" class="text-center d-flex justify-center pr-0">
-                                        <D3BarChart :config="chart_config_bar" :datum="chart_data_bar" height="300" style="width: 100%;"></D3BarChart>
+                                        <D3BarChart :config="chart_config_bar" :datum="chart_data_bar" height="300" :tick_y=1 style="width: 100%;"></D3BarChart>
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
@@ -495,6 +495,8 @@ export default {
         panel : true,
         model: null,
         dialogforwithdraw: false,
+        noteNum : 0,
+        schduleNum : 0,
         // 프로필 수정
         U: {
           username: '',
@@ -709,6 +711,8 @@ export default {
         }
       }).then(({data}) => {
         data.forEach(element => {
+          this.noteNum += element.pBookmark;
+          this.schduleNum += element.pCategory;
           this.chart_data_formonth.push({"note" : element.pBookmark, "schedule":element.pCategory, "date":element.pClub})
         });
 
