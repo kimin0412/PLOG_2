@@ -614,9 +614,18 @@ export default {
     myClub: [],
     groupName: "All Schedule",
     groupColor: "",
+
+    pageIndex: 0,
   }),
 
   created() {
+    if(this.$route.query.q == null){
+      console.log("empty");
+      this.pageIndex = 0;
+    }
+    else{
+      this.pageIndex = this.$route.query.q;
+    }
     //오늘의 일정, 포스트 가져오는 부분
     this.dailySchedule = [];
     http
@@ -898,26 +907,22 @@ export default {
             sColor: this.pickColor,
             sUser: this.$store.state.auth.user.id,
             sClub: 1,
-            // sColor : this.pickColor,
           })
           .then(({ data }) => {
             let msg = "등록 처리시 문제가 발생했습니다.";
             if (data.data == "success") {
               msg = "등록이 완료되었습니다.";
-              this.$router.go();
-              alert(msg);
-              this.$dialog.notify.success(msg + " 😥", {
+              this.$dialog.notify.success(msg + " 😃", {
                 position: "bottom-right",
                 timeout: 3000,
               });
-              // this.$router.go();
+              this.$router.push({path:"/schedule", query: { q: ++this.pageIndex }});
             } else {
               this.$dialog.notify.error(msg + " 😥", {
                 position: "bottom-right",
                 timeout: 3000,
               });
             }
-            // alert(msg);
           });
       } else {
         //클럽인경우
@@ -935,11 +940,11 @@ export default {
             let msg = "등록 처리시 문제가 발생했습니다.";
             if (data.data == "success") {
               msg = "등록이 완료되었습니다.";
-              this.$dialog.notify.success(msg + " 😥", {
+              this.$dialog.notify.success(msg + " 😃", {
                 position: "bottom-right",
                 timeout: 3000,
               });
-              this.$router.go();
+              this.$router.push({path:"/schedule", query: { q: ++this.pageIndex }});
             } else {
               this.$dialog.notify.error(msg + " 😥", {
                 position: "bottom-right",
@@ -1007,9 +1012,17 @@ export default {
           let msg = "수정 처리시 문제가 발생했습니다.";
           if (data.data == "success") {
             msg = "수정이 완료되었습니다.";
-            this.$router.go();
+            this.$dialog.notify.success(msg + " 😃", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+            this.$router.push({path:"/schedule", query: { q: ++this.pageIndex }});
+            // this.$router.go();
           }
-          alert(msg);
+          this.$dialog.notify.error(msg + " 😥", {
+            position: "bottom-right",
+            timeout: 3000,
+          });
         });
       this.dialogUpdate = false;
     },
@@ -1018,9 +1031,12 @@ export default {
       this.dialogUpdate = false;
     },
 
-    deleteSchedule() {
-      var ok = confirm("삭제할거에요?");
-      if (ok) {
+    deleteSchedule: async function () {
+      const res = await this.$dialog.warning({
+        text: "일정을 삭제 하시겠습니까?",
+        title: 'Delete Schedule'
+      });
+      if (res) {
         http
           .post("/schedule/delete", {
             sId: this.scheduleDetailId,
@@ -1033,12 +1049,17 @@ export default {
             let msg = "삭제 처리시 문제가 발생했습니다.";
             if (data.data == "success") {
               msg = "삭제가 완료되었습니다.";
-              this.$router.go();
-            }
-            alert(msg);
+              this.$dialog.notify.success(msg + " 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+            this.$router.push({path:"/schedule", query: { q: ++this.pageIndex }});            }
           })
           .catch(() => {
-            alert("일정이 있으면 삭제가 안됩니다.");
+            this.$dialog.notify.error("일정이 있으면 삭제가 안됩니다. 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           });
         this.dialogUpdate = false;
       }
