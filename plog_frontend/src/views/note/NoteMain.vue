@@ -929,11 +929,11 @@ export default {
           }                          
         });
 
-      if (this.bmToggle == 1) {
-        this.bmToggle = 0;
+      if (this.bmToggle2 == 1) {
+        this.bmToggle2 = 0;
         this.selected2.pBookmark = 0;
       } else {
-        this.bmToggle = 1;
+        this.bmToggle2 = 1;
         this.selected2.pBookmark = 1;
       }
     },
