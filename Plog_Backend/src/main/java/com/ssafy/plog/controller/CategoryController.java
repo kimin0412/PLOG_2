@@ -101,4 +101,10 @@ public class CategoryController {
     		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+    
+    @GetMapping("/category")
+    public Category getCategory(@RequestParam int pId) {
+    	return cService.getCategory(pId);
+    }
+    
 }

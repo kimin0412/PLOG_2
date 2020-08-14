@@ -155,7 +155,7 @@ public class PostServiceImpl implements PostService {
                 g.drawImage(resizeImage, 0, 0, null);
                 g.dispose();
 				
-				ImageIO.write(bufImage, extend, file);
+				ImageIO.write(newImage, extend, file);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -267,7 +267,7 @@ public class PostServiceImpl implements PostService {
 				g.drawImage(resizeImage, 0, 0, null);
 				g.dispose();
 				
-				ImageIO.write(bufImage, extend, file);
+				ImageIO.write(newImage, extend, file);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -442,6 +442,6 @@ public class PostServiceImpl implements PostService {
 	public String getUser(int pid) {
 		int uid = dao.getPUser(pid);
 		User user = ur.findbyClId(uid);
-		return user.getEmail();
+		return user.getUsername();
 	}
 }

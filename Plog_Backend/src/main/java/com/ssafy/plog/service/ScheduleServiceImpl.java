@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.plog.dao.PostDao;
 import com.ssafy.plog.dao.ScheduleDAO;
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 
@@ -53,8 +54,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 			monthAndYear = monthDateSplit[1] + "-" + month;
 		}
 		
-		//select * from schedule where s_startdate 
+		//내가 작성
 		List<Schedule> sList = sdao.selectByMonth(monthAndYear, sId);
+		
+		//그룹이 작성
 		
 		return sList;
 	}
@@ -209,5 +212,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Schedule> getDailyClubScheduleList(String sDate, int sClub) {
 		return sdao.getDailyClubSchedule(sDate, sClub);
+	}
+
+	@Override
+	public Schedule getScheduleByPost(int pId) {
+		return sdao.findScheduleByPost(pId);
 	}
 }

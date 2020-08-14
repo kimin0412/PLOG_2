@@ -88,6 +88,20 @@
               <Editor ref="toastuiEditor1" height="500px" />
             </v-col>
           </v-row>
+          <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="groupcolor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="groupcolor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="그룹을 대표하는 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
           <v-row>
             <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">

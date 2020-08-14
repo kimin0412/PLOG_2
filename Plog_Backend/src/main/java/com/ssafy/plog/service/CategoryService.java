@@ -21,4 +21,6 @@ public interface CategoryService {
 	
 	List<Category> getAllClubCategory(int cClub);
 
+	Category getCategory(int pid);
+
 }
