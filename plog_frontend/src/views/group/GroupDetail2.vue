@@ -87,8 +87,11 @@
                             <v-tab-item>
                                 <v-container>
                                 <v-row>
-                                    <v-col cols="12" class="d-flex justify-center mt-5">
-                                        <v-btn small color="blue" dark class="mx-auto d-none d-sm-block text-decoration-none" @click="categoryDialog = true"><v-icon  small>mdi-folder-multiple-plus</v-icon></v-btn>
+                                    <v-col cols="12" class="mt-5 text-center">
+                                      <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon text-decoration-none text-rignt">
+                                        <v-btn small color="transparent" elevation="0" class="ml-auto indigo--text"><v-icon class="mr-2 indigo--text" small>mdi-pencil-plus</v-icon>New note</v-btn>          
+                                      </router-link>
+                                        <v-btn small color="transparent" elevation="0" class="ml-auto grey--text text-decoration-none" @click="categoryDialog = true"><v-icon class="grey--text mr-2" small>mdi-folder-multiple-plus</v-icon>New folder</v-btn>
                                             <v-menu
                                             v-model="categoryDialog"
                                             :close-on-content-click="false"
@@ -140,276 +143,274 @@
                                         </v-menu>
                                     </v-col>
                                     <v-col cols="12">
-                        <v-row class=" mb-4">
-                            <v-sheet
-                                class="mx-auto mysheet"
-                                @drop='onDrop($event, 1)' 
-                                @dragover.prevent
-                                @dragenter.prevent
-                                max-width="100%"
-                              >
-                                <v-slide-group
-                                  v-model="model"
-                                  class="pa-4 px-0"
-                                  show-arrows
-                                  center-active
-                                >
-                                  <v-slide-item
-                                    v-for="(note, index) in Notes" :key="index"
-                                    v-slot:default="{ active, toggle }"
-                                  >
-                                  <div @click="getNote(note)">
-                                    <v-card
-                                      v-if="note.pCategory == 1"
-                                      :color="active ? 'grey lighten-1' : 'grey lighten-2'"
-                                      class="ma-1"
-                                      width="200"
-                                      height="120"
-                                      @click="toggle"
-                                      draggable
-                                      @dragstart='startDrag($event, note)'
-                                    >
-                                      <v-list-item three-line>
-                                        <v-list-item-content>
-                                          <v-list-item-title class="headline mb-1"> {{ note.pTitle }}</v-list-item-title>
-                                          <v-list-item-subtitle>created at</v-list-item-subtitle>
-                                          <v-list-item-subtitle>{{ note.pDate | removeTime }}</v-list-item-subtitle>
-                                        </v-list-item-content>
-
-                                        <v-list-item-avatar
-                                          tile
-                                          size="30"
-                                          v-bind:color=note.pColor
-                                        ></v-list-item-avatar>
-                                      </v-list-item>
-                                      <v-row align="center" justify="center">
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card>
-
-                                    <!-- <v-card
-                                      v-if="note.pCategory == 1"
-                                      :color="active ? 'grey' : note.pColor"
-                                      class="ma-4"
-                                      height="150"
-                                      width="100"
-                                      @click="toggle"
-                                      draggable
-                                      @dragstart='startDrag($event, note)'
-                                    >
-                                      <div class="text-center">
-                                        {{ note.pTitle }}
-                                      </div>
-                                      <v-row
-                                        class="fill-height"
-                                        align="center"
-                                        justify="center"
-                                      >
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card> -->
-                                    </div>
-                                  </v-slide-item>
-                                </v-slide-group>
-
-                                <v-expand-transition>
-                                  <v-sheet
-                                    v-if="model != null"
-                                    color="grey lighten-4"
-                                    height="200"
-                                    tile
-                                  >
-                                    <v-row
-                                      class="fill-height"
-                                    >
-                                      <v-col cols="12" class="py-0 text-center">Note Info.</v-col> 
-                                      <v-flex class="py-0 text-center">
-                                        <v-btn text icon @click="bookmark()">
-                                          <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                                          <v-icon large color="gray" v-else>mdi-star</v-icon>
-                                        </v-btn>
-                                      </v-flex>
-                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
-                                        <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
-                                      </router-link>
-                                      </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate | removeTime }}</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                        <v-card-text class="d-flex justify-center flex-wrap py-0">
-                                          <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                                            <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
-                                                <v-chip
-                                                  class="ma-2"
-                                                  color="teal"
-                                                  text-color="white"
-                                                  small
+                                      <v-row class=" mb-4">
+                                          <v-sheet
+                                              class="mx-auto mysheet"
+                                              @drop='onDrop($event, 1)' 
+                                              @dragover.prevent
+                                              @dragenter.prevent
+                                              max-width="100%"
+                                            >
+                                              <v-slide-group
+                                                v-model="model"
+                                                class="pa-4 px-0"
+                                                show-arrows
+                                                center-active
+                                              >
+                                                <v-slide-item
+                                                  v-for="(note, index) in Notes" :key="index"
+                                                  v-slot:default="{ active, toggle }"
                                                 >
-                                                  <v-avatar left>
-                                                    <v-icon>mdi-checkbox-marked-circle</v-icon>
-                                                  </v-avatar>
-                                                  {{item.name}}
-                                                </v-chip>
-                                              </router-link>
-                                          </div>
-                                        </v-card-text>
-                                    </v-row>
-                                  </v-sheet>
-                                </v-expand-transition>
-                              </v-sheet>
-                            
+                                                <div @click="getNote(note)">
+                                                  <v-card
+                                                    v-if="note.pCategory == 1"
+                                                    :color="active ? 'grey lighten-1' : 'grey lighten-2'"
+                                                    class="ma-1"
+                                                    width="200"
+                                                    height="120"
+                                                    @click="toggle"
+                                                    draggable
+                                                    @dragstart='startDrag($event, note)'
+                                                  >
+                                                    <v-list-item three-line>
+                                                      <v-list-item-content>
+                                                        <v-list-item-title class="headline mb-1"> {{ note.pTitle }}</v-list-item-title>
+                                                        <v-list-item-subtitle>created at</v-list-item-subtitle>
+                                                        <v-list-item-subtitle>{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                                      </v-list-item-content>
 
-                              <v-expansion-panels popout focusable>
-                              <v-expansion-panel
-                                v-for="(category, index) in this.categories" :key="index"
-                              >
-                              <div v-if="category.cId != 1" 
-                                @drop='onDrop($event, category.cId)' 
-                                @dragover.prevent
-                                @dragenter.prevent
-                              >
-                                <v-expansion-panel-header>{{ category.cName }}
-                                  <template v-slot:default="{ open }">
-                                    <v-row no-gutters>
-                                      <v-col cols="4">{{ category.cName }}</v-col>
-                                      <v-col
-                                        cols="8"
-                                        class="d-flex justify-end py-0"
-                                      >
-                                        <v-fade-transition leave-absolute>
-                                          <span
-                                            v-if="open"
-                                            key="0"
-                                          >
-                                            <v-icon color="red" class="mr-2" @click="deleteCategory( category.cId )">mdi-delete</v-icon>
-                                            <v-icon dark color="blue" class="mr-2" @click="openUpdateDialog( category.cId, category.cName )" >mdi-wrench</v-icon>
-                                          </span>
-                                        </v-fade-transition>
-                                      </v-col>
-                                    </v-row>
-                                  </template>
-                                </v-expansion-panel-header>
-                                <v-expansion-panel-content >
-                                  <v-sheet
-                                    class="mx-auto mysheet drop-zone"
-                                    
-                                  >
-                                  <v-slide-group
-                                    v-model="modelInCategory"
-                                    class="pa-4 px-0"
-                                    show-arrows
-                                    center-active
-                                  >
-                                  
-                                    <v-slide-item
-                                      v-for="(note, index) in Notes" :key="index"
-                                      v-slot:default="{ active, toggle }"
-                                    >
-                                    <div @click="getNoteInCategory(note)">
-                                      <v-card
-                                        v-if="note.pCategory == category.cId"
-                                        :color="active ? 'grey' : note.pColor"
-                                        class="ma-4"
-                                        height="150"
-                                        width="100"
-                                        v-bind:id="note.pId"
-                                        @click="toggle"
-                                        draggable
-                                        @dragstart='startDrag($event, note)'
-                                      >
-                                        <div class="text-center">
-                                          {{ note.pTitle }}
-                                        </div>
-                                        <v-row
-                                          class="fill-height"
-                                          align="center"
-                                          justify="center"
-                                        >
-                                          <v-scale-transition>
-                                            <v-icon
-                                              v-if="active"
-                                              color="white"
-                                              size="48"
-                                              v-text="'mdi-close-circle-outline'"
-                                            ></v-icon>
-                                          </v-scale-transition>
-                                        </v-row>
-                                      </v-card>
-                                      </div> 
-                                    </v-slide-item>
-                                  
-                                  </v-slide-group>
-                                  
-                                
-                                  <v-expand-transition>
-                                    <v-sheet
-                                      v-if="modelInCategory != null"
-                                      color="grey lighten-4"
-                                      height="250"
-                                      tile
-                                    >
-                                      <v-row
-                                        class="fill-height"
-                                      >
-                                        <v-col cols="12" class="py-0 text-center">Note no. {{ selected2.pId }}</v-col>
-                                        <v-flex class="py-0 text-center">
-                                          <v-btn text icon @click="bookmark()">
-                                            <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                                            <v-icon large color="gray" v-else>mdi-star</v-icon>
-                                        </v-btn>
-                                        </v-flex>
-                                        <v-col cols="12" class="py-0 text-center text-h6">
-                                        <router-link :to="{ path: '/group/noteDetail', query:{pId:selected2.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
-                                          <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
-                                        </router-link>
-                                        </v-col>
-                                        <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
-                                        <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName2 }}</strong></v-col>
-                                        <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                                          <v-card-text class="d-flex justify-center flex-wrap py-0">
-                                            <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
-                                              <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
-                                                <v-chip
-                                                  class="ma-2"
-                                                  color="teal"
-                                                  text-color="white"
-                                                  small
+                                                      <v-list-item-avatar
+                                                        tile
+                                                        size="30"
+                                                        v-bind:color=note.pColor
+                                                      ></v-list-item-avatar>
+                                                    </v-list-item>
+                                                    <v-row align="center" justify="center">
+                                                      <v-scale-transition>
+                                                        <v-icon
+                                                          v-if="active"
+                                                          color="white"
+                                                          size="30"
+                                                          v-text="'mdi-close-circle-outline'"
+                                                        ></v-icon>
+                                                      </v-scale-transition>
+                                                    </v-row>
+                                                  </v-card>
+
+                                                  <!-- <v-card
+                                                    v-if="note.pCategory == 1"
+                                                    :color="active ? 'grey' : note.pColor"
+                                                    class="ma-4"
+                                                    height="150"
+                                                    width="100"
+                                                    @click="toggle"
+                                                    draggable
+                                                    @dragstart='startDrag($event, note)'
+                                                  >
+                                                    <div class="text-center">
+                                                      {{ note.pTitle }}
+                                                    </div>
+                                                    <v-row
+                                                      class="fill-height"
+                                                      align="center"
+                                                      justify="center"
+                                                    >
+                                                      <v-scale-transition>
+                                                        <v-icon
+                                                          v-if="active"
+                                                          color="white"
+                                                          size="30"
+                                                          v-text="'mdi-close-circle-outline'"
+                                                        ></v-icon>
+                                                      </v-scale-transition>
+                                                    </v-row>
+                                                  </v-card> -->
+                                                  </div>
+                                                </v-slide-item>
+                                              </v-slide-group>
+
+                                              <v-expand-transition>
+                                                <v-sheet
+                                                  v-if="model != null"
+                                                  color="grey lighten-4"
+                                                  height="200"
+                                                  tile
                                                 >
-                                                  <v-avatar left>
-                                                    <v-icon>mdi-checkbox-marked-circle</v-icon>
-                                                  </v-avatar>
-                                                  {{item.name}}
-                                                </v-chip>
-                                              </router-link>
+                                                  <v-row
+                                                    class="fill-height"
+                                                  >
+                                                    <v-col cols="12" class="py-0 text-center">Note Info.</v-col> 
+                                                    <v-flex class="py-0 text-center">
+                                                      <v-btn text icon @click="bookmark()">
+                                                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                                                        <v-icon large color="gray" v-else>mdi-star</v-icon>
+                                                      </v-btn>
+                                                    </v-flex>
+                                                    <v-col cols="12" class="py-0 text-center text-h6">
+                                                    <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
+                                                      <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
+                                                    </router-link>
+                                                    </v-col>
+                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate | removeTime }}</v-col>
+                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
+                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
+                                                      <v-card-text class="d-flex justify-center flex-wrap py-0">
+                                                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
+                                                          <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
+                                                              <v-chip
+                                                                class="ma-2"
+                                                                color="teal"
+                                                                text-color="white"
+                                                                small
+                                                              >
+                                                                <v-avatar left>
+                                                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                                                </v-avatar>
+                                                                {{item.name}}
+                                                              </v-chip>
+                                                            </router-link>
+                                                        </div>
+                                                      </v-card-text>
+                                                  </v-row>
+                                                </v-sheet>
+                                              </v-expand-transition>
+                                            </v-sheet>
+                                          
+
+                                            <v-expansion-panels class="mx-5" focusable>
+                                            <v-expansion-panel
+                                              v-for="(category, index) in this.categories" :key="index"
+                                            >
+                                            <div v-if="category.cId != 1" 
+                                              @drop='onDrop($event, category.cId)' 
+                                              @dragover.prevent
+                                              @dragenter.prevent
+                                            >
+                                              <v-expansion-panel-header>{{ category.cName }}
+                                                <template v-slot:default="{ open }">
+                                                  <v-row no-gutters>
+                                                    <v-col cols="4">{{ category.cName }}</v-col>
+                                                    <v-col
+                                                      cols="8"
+                                                      class="d-flex justify-end py-0"
+                                                    >
+                                                      <v-fade-transition leave-absolute>
+                                                        <span
+                                                          v-if="open"
+                                                          key="0"
+                                                        >
+                                                          <v-icon color="red" small class="mr-2" @click="deleteCategory( category.cId )">mdi-delete</v-icon>
+                                                          <v-icon dark color="grey" small class="mr-2" @click="openUpdateDialog( category.cId, category.cName )" >mdi-wrench</v-icon>
+                                                        </span>
+                                                      </v-fade-transition>
+                                                    </v-col>
+                                                  </v-row>
+                                                </template>
+                                              </v-expansion-panel-header>
+                                              <v-expansion-panel-content >
+                                                <v-sheet
+                                                  class="mx-auto mysheet drop-zone"
+                                                  
+                                                >
+                                                <v-slide-group
+                                                  v-model="modelInCategory"
+                                                  class="pa-4 px-0"
+                                                  show-arrows
+                                                  center-active
+                                                >
+                                                
+                                                  <v-slide-item
+                                                    v-for="(note, index) in Notes" :key="index"
+                                                    v-slot:default="{ active, toggle }"
+                                                  >
+                                                  <div @click="getNoteInCategory(note)">
+                                                    <v-card
+                                                      v-if="note.pCategory == category.cId"
+                                                      :color="active ? 'grey' : note.pColor"
+                                                      class="ma-4"
+                                                      height="150"
+                                                      width="100"
+                                                      v-bind:id="note.pId"
+                                                      @click="toggle"
+                                                      draggable
+                                                      @dragstart='startDrag($event, note)'
+                                                    >
+                                                      <div class="text-center">
+                                                        {{ note.pTitle }}
+                                                      </div>
+                                                      <v-row
+                                                        class="fill-height"
+                                                        align="center"
+                                                        justify="center"
+                                                      >
+                                                        <v-scale-transition>
+                                                          <v-icon
+                                                            v-if="active"
+                                                            color="white"
+                                                            size="48"
+                                                            v-text="'mdi-close-circle-outline'"
+                                                          ></v-icon>
+                                                        </v-scale-transition>
+                                                      </v-row>
+                                                    </v-card>
+                                                    </div> 
+                                                  </v-slide-item>
+                                                
+                                                </v-slide-group>
+                                                
                                               
-                                            </div>
-                                          </v-card-text>
-                                        </v-col>
-                                      </v-row>
-                                    </v-sheet>
-                                  </v-expand-transition>
-                                  </v-sheet>
-                                </v-expansion-panel-content>
-                                </div>
-                              </v-expansion-panel>
-                            </v-expansion-panels>        
-                          </v-row>
-
+                                                <v-expand-transition>
+                                                  <v-sheet
+                                                    v-if="modelInCategory != null"
+                                                    color="grey lighten-4"
+                                                    height="250"
+                                                    tile
+                                                  >
+                                                    <v-row
+                                                      class="fill-height"
+                                                    >
+                                                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected2.pId }}</v-col>
+                                                      <v-flex class="py-0 text-center">
+                                                        <v-btn text icon @click="bookmark()">
+                                                          <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
+                                                          <v-icon large color="gray" v-else>mdi-star</v-icon>
+                                                      </v-btn>
+                                                      </v-flex>
+                                                      <v-col cols="12" class="py-0 text-center text-h6">
+                                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected2.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
+                                                        <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
+                                                      </router-link>
+                                                      </v-col>
+                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
+                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName2 }}</strong></v-col>
+                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
+                                                        <v-card-text class="d-flex justify-center flex-wrap py-0">
+                                                          <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
+                                                            <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
+                                                              <v-chip
+                                                                class="ma-2"
+                                                                color="teal"
+                                                                text-color="white"
+                                                                small
+                                                              >
+                                                                <v-avatar left>
+                                                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
+                                                                </v-avatar>
+                                                                {{item.name}}
+                                                              </v-chip>
+                                                            </router-link>
+                                                          </div>
+                                                        </v-card-text>
+                                                      </v-col>
+                                                    </v-row>
+                                                  </v-sheet>
+                                                </v-expand-transition>
+                                                </v-sheet>
+                                              </v-expansion-panel-content>
+                                              </div>
+                                            </v-expansion-panel>
+                                          </v-expansion-panels>        
+                                        </v-row>
                                     </v-col>
                                 </v-row>
                                 </v-container>
@@ -417,18 +418,36 @@
                             <v-tab-item>
                                 <v-container>
                                     <v-row class="pt-5">
-                                        <v-col cols="12" class="py-0" v-for="(member, index) in Members" :key="index">
-                                            <v-row class="py-0">
-                                                <v-col cols="1"></v-col>
-                                                <v-col cols="3" class="text-center">
-                                                    <div class="text-center"><img  class="text-center" :src="require(`@/assets/users/u`+member.id%13+'.png')" alt="" width="60"></div>
+                                      <v-col cols="12">
+                                        <v-virtual-scroll
+                                          :items="Members"
+                                          :item-height="60"
+                                          max-height="60vh"
+                                        >
+                                          <template v-slot="{ item }">
+                                            <v-list-item>
+
+                                              <v-list-item-content>
+                                                <v-col cols="12" >
+                                                  <v-divider class="mx-5"></v-divider>
+                                                    <v-row class="py-0">
+                                                        <v-col cols="1"></v-col>
+                                                        <v-col cols="3" class="text-center">
+                                                            <div class="text-center"><img  class="text-center" :src="require(`@/assets/users/u`+item.id%13+'.png')" alt="" width="40"></div>
+                                                        </v-col>
+                                                        <v-col cols="7" class="text-center text-caption">
+                                                            <div>이름: <strong class="text-caption font-weight-bold">{{item.username}}</strong></div>
+                                                            <div class=" text-caption">{{item.email}}</div>
+                                                        </v-col>
+                                                        <v-col cols="1"></v-col>
+                                                        <v-divider></v-divider>
+                                                    </v-row>
                                                 </v-col>
-                                                <v-col cols="8" class="text-center">
-                                                    <div><strong>{{member.username}}</strong></div>
-                                                    <div>{{member.email}}</div>
-                                                </v-col>
-                                            </v-row>
-                                        </v-col>
+                                              </v-list-item-content>
+                                            </v-list-item>
+                                          </template>
+                                        </v-virtual-scroll>                                        
+                                      </v-col>
                                     </v-row>
                                     <!-- <v-row>
                                         <v-col cols="12">
@@ -458,45 +477,191 @@
       <div class="d-block d-sm-none">
         <v-container>
           <v-row>
-            <v-col cols="12" class="py-1 text-h5">PROFILE</v-col>
-            <v-col cols="12" class="py-1 text-h4 font-weight-bold">MY PAGE</v-col>
+            <v-col cols="12" class="py-1 text-h5">GROUP</v-col>
+            <v-col cols="12" class="py-1 text-h4 font-weight-bold">Team. {{groupName}}</v-col>
           </v-row>
-          <!-- <v-row class="mt-10">
+          <v-row class="mt-10">
             <v-col cols="4" class="text-right">
-                <img :src="animalimg" alt="user-image" class="profile-image" width="50">
+                <img :src="teamimg" alt="user-image" class="profile-image" width="50">
             </v-col>
             <v-col cols="8" class="text-center">
-              <div><strong>{{currentUser.username}}</strong>님, <br> <span class="text-caption grey--text"> 행복한 하루 되세요 :)</span></div>
+              <div><strong>환영합니다 :)</strong>, <br> <span class="text-caption grey--text">{{groupName}} 팀을 위한 공간입니다</span></div>
             </v-col>
-            <v-col cols="12">
-                <v-simple-table dense>
-                  <template v-slot:default>
-                    <tbody class="text-caption">
-                     <tr>
-                        <td class="text-caption">ID</td>
-                        <td class="text-caption">{{currentUser.username}}</td>
-                      </tr>
-                      <tr>
-                        <td class="text-caption">Email</td>
-                        <td class="text-caption">{{currentUser.email}}</td>
-                      </tr>
-                      <tr>
-                        <td class="text-caption">Birthday</td>
-                        <td class="text-caption" v-if="currentUser.birthday">{{currentUser.birthday}}</td>
-                        <td class="text-caption" v-else>정보가 없습니다.</td>
-                      </tr>
-                      <tr>
-                        <td class="text-caption">Phone</td>
-                        <td  class="text-caption" v-if="currentUser.phone">{{currentUser.phone}}</td>
-                        <td  class="text-caption" v-else>정보가 없습니다.</td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>              
+            <v-col cols="12" class="py-0 mt-5">
+              <v-divider></v-divider>
+              <v-row class="py-0">
+                <v-col cols="4" class="text-caption grey--text text-center py-1">POST</v-col>
+                <v-col cols="4" class="text-caption grey--text text-center py-1">COLOR</v-col>
+                <v-col cols="4" class="text-caption grey--text text-center py-1">MEMBERS</v-col>
+              </v-row>
+              <v-divider></v-divider>
+              <v-row class="py-0">
+                <v-col cols="4" class="text-caption text-center py-2">{{Notes.length}}</v-col>
+                <v-col cols="4" class="text-caption text-center py-2"><v-card :color="myClub.clColor" width="30" height="15" class="my-1 mx-auto transparent--text d-inline-block">c</v-card></v-col>
+                <v-col cols="4" class="text-caption text-center py-2">{{Members.length}}</v-col>
+              </v-row>
+              <v-divider></v-divider>
             </v-col>
+            
             <v-col cols="12" class="text-right py-0">
-              <v-btn @click="logOut" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-account-arrow-right</v-icon> logout</v-btn>             
-              <v-btn class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
+              <v-btn @click="sheet = !sheet" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-plus</v-icon> More...</v-btn>    
+              <v-btn @click="clubDialog = true" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>    
+              <v-dialog
+                v-model="clubDialog"
+                :close-on-content-click="false"
+                offset-x
+                persistent
+                max-width="400px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Update Group</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-text-field
+                            label="Group Name*"
+                            v-model="groupName"
+                            required
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" class="py-0 px-0">
+                          <v-text-field
+                          placeholder="입장 코드를 입력해주세요"
+                          filled
+                          rounded
+                          dense
+                          clearable
+                          v-model="entercode"
+                          ></v-text-field> 
+                      </v-col>      
+                      <v-col cols="12" class="py-1 text-subtitle-2 grey--text mt-n3">Introduction</v-col>
+                      <v-col cols="12" class="py-0 px-0">
+                          <v-textarea
+                          filled
+                          auto-grow
+                          rows="4"
+                          row-height="30"
+                          v-model="groupIntro"
+                          :rules="[rules.counter]"
+                          rounded
+                          maxlength="150"
+                          ></v-textarea>
+                      </v-col>
+                      </v-row>
+                      
+                      <v-row class="my-2">
+                        <v-col cols="1" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="groupColor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="11">
+                            <v-select v-model="groupColor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label=""
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
+                    <v-card class="mx-auto">
+                      <div v-for="(member,index) in Members" :key="index">
+                        <div v-if="member.id != host.id">
+                        <v-card-text class="d-flex justify-center py-0">
+                          <div>
+                            {{ member.email }}
+                              <v-btn
+                                text
+                                color="blue lighten-2  ml-auto"
+                                @click="deleteMember(member.id, member.email)"
+                                >회원 삭제하기</v-btn
+                              >
+                          </div>
+                        </v-card-text>
+                      </div></div>
+                    </v-card>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="orange" text @click="updateClub"
+                      >DONE</v-btn
+                    >
+                    <v-btn
+                      color="grey"
+                      text
+                      @click="clubDialog = false"
+                      >Close</v-btn
+                    >
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>    
+              <div class="text-center">
+                  <v-bottom-sheet v-model="sheet">
+                    <v-sheet class="text-center" height="80vh">
+                      <v-btn
+                        class="mt-6"
+                        text
+                        small
+                        color="red"
+                        @click="sheet = !sheet"
+                      >close  X</v-btn>
+                      <v-row class="mt-5">
+                        <v-col cols="12" class="py-0 font-weight-bold text-caption">
+                          Group Introduction
+                        </v-col>
+                        <v-col cols="12" class="py-0 text-caption grey--text">
+                          {{ groupIntro }}
+                        </v-col>
+                        <v-col cols="12" class="pt-10 pb-0 font-weight-bold text-caption">
+                          Group Members
+                        </v-col>
+                        
+                        <v-col cols="12">
+                          <v-virtual-scroll
+                                :items="Members"
+                                :item-height="60"
+                                max-height="300"
+                              >
+                                <template v-slot="{ item }">
+                                  <v-list-item>
+
+                                    <v-list-item-content>
+                                      <v-col cols="12" >
+                                        <v-divider class="mx-5"></v-divider>
+                                          <v-row class="py-0">
+                                              <v-col cols="1"></v-col>
+                                              <v-col cols="3" class="text-center">
+                                                  <div class="text-center"><img  class="text-center" :src="require(`@/assets/users/u`+item.id%13+'.png')" alt="" width="40"></div>
+                                              </v-col>
+                                              <v-col cols="7" class="text-center text-caption">
+                                                  <div>이름: <strong class="text-caption font-weight-bold">{{item.username}}</strong></div>
+                                                  <div class=" text-caption">{{item.email}}</div>
+                                              </v-col>
+                                              <v-col cols="1"></v-col>
+                                              <v-divider></v-divider>
+                                          </v-row>
+                                      </v-col>
+                                    </v-list-item-content>
+                                  </v-list-item>
+                                </template>
+                              </v-virtual-scroll>
+                        </v-col>
+                        <v-col cols="12" class="mt-5 py-0 font-weight-bold text-caption">
+                          Group Settings
+                        </v-col>
+                        <v-col  cols="12" class="py-0 text-caption grey--text">
+                          <v-btn v-if="currentUser.id == host.id"  small color="orange" class="py-0 white--text text-center atag mr-3" @click="deleteGroup">그룹 삭제</v-btn>
+                        </v-col>
+                        <v-col  cols="12" class="py-0 text-caption grey--text">
+                          <v-btn small color="red" text class="py-0 white--text text-center atag" @click="withDraw">탈퇴하기</v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-sheet>
+                  </v-bottom-sheet>
+                </div>     
             </v-col>
           </v-row>
 
@@ -508,7 +673,7 @@
               <v-col cols="12">
                 
               </v-col>
-          </v-row> -->
+          </v-row>
         </v-container>
       </div>
   </div>
@@ -519,8 +684,10 @@ export default {
     name: 'GroupDetail',
     data() {
       return {
-          teamimg:'',
+        sheet: false,
+        teamimg:'',
         groupId: this.$route.query.clId,
+
         myClub : [],
         host : {},
         regdate : '',
@@ -556,7 +723,9 @@ export default {
     },
 
     created() {
+      
       this.teamimg = require('@/assets/gusers/f'+this.groupId%10+'.png')
+
       http.get('/club', {
           params : {
             clId : this.groupId,
