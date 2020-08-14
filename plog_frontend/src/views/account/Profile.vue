@@ -625,7 +625,7 @@ export default {
       }
     },
     created() {
-      this.animalimg = require('@/assets/users/u'+this.currentUser.id%12+'.png')
+      this.animalimg = require('@/assets/users/u'+this.currentUser.id%13+'.png')
       // 수정페이지 관련
       this.U.username = this.$store.state.auth.user.username
       this.U.userbirthday = this.$store.state.auth.user.birthday

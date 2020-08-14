@@ -103,9 +103,9 @@
               </router-link>              
             </v-col>
             <v-col cols="3">
-              <router-link to="/preview" class="link-tag">
+              <router-link to="/gallery" class="link-tag">
                 <div><img src="@/assets/icon/openbook.png" alt="user-image" class="link-icon "></div>
-                <div class="mt-5">Preview</div>
+                <div class="mt-5">Gallery</div>
               </router-link>              
             </v-col>
           </v-row>      
@@ -206,9 +206,9 @@
                   </router-link>              
                 </v-col>
                 <v-col cols="6">
-                  <router-link to="/preview" class="link-tag">
+                  <router-link to="/gallery" class="link-tag">
                     <div><img src="@/assets/icon/openbook.png" alt="user-image" class="link-icon "></div>
-                    <div class="mt-4 font-weight-light text-button">Preview</div>
+                    <div class="mt-4 font-weight-light text-button">Gallery</div>
                   </router-link>              
                 </v-col>
               </v-row>       
