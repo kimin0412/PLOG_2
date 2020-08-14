@@ -55,6 +55,7 @@
               </v-container>
             </v-col>
           </v-row>
+          
           <v-row>
             <v-col cols="12" class="px-0">
               <div id="emoDiv">
@@ -87,6 +88,20 @@
               <Editor ref="toastuiEditor1" height="500px" />
             </v-col>
           </v-row>
+          <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="groupcolor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="groupcolor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="그룹을 대표하는 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
           <v-row>
             <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">
@@ -118,7 +133,7 @@
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-actions class="d-flex justify-end">
-                    <v-btn color="blue darken-1" text @click="dialog = false"
+                    <v-btn color="blue darken-1" text @click="dialog = false; dialogColor = true;"
                       >Save</v-btn
                     >
                     <v-btn color="blue darken-1" text @click="dialog = false"
@@ -542,6 +557,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/vue-editor";
 import moment from "moment";
+import AWS from 'aws-sdk'
 
 export default {
   components: {
@@ -589,6 +605,10 @@ export default {
       dialogCategory2 : false,
       dialogColor2: false,
       dialog2:false,
+
+      albumBucketName: 'plog-image',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:4985e7e4-3205-4085-8e76-368daf8dc9b7'
     };
   },
 
@@ -636,40 +656,105 @@ export default {
   },
 
   methods: {
+    dataURLtoFile(dataurl, fileName) {
+
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        
+        return new File([u8arr], fileName, {type:mime});
+    },
+
     createAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      console.log(content1);
-    //   alert(content1);
-    //   alert(content2);
-      var content = null;
-      if (content1 == "") {
-        content = content2;
+      if (!this.title.trim()) {
+        alert("제목을 입력해주세요")
       } else {
-        content = content1;
-      }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
+        console.log(content);
+        var images = [];
+        var i = 0;
+        if(content.includes(";base64,")) {
+          var start = content.indexOf("data:image");
+          var end = content.indexOf("&quot;",start);
 
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
-      }
+          var estart = content.indexOf("data:image");
+          estart = content.indexOf("/", estart) + 1;
+          var eend = content.indexOf(";",estart);
+          var extend = content.substring(estart, eend);
 
-      http
-        .post("/post/", {
-          pId: this.nextPId,
-          pTitle: this.title,
-          pContent: content,
-          pUser: this.$store.state.auth.user.id,
-          pSchedule: this.dialogm1,
-          pCategory: this.category,
-          pColor: this.pickColor,
-          pClub : 1,
-          pHashtag : this.hashtags
+          var image = content.substring(start, end);
+          images[i] = image;
+          i++;
+          
+          console.log("image : " + image);
+          console.log("w : " + image.width);
+          console.log("h : " + image.height);
 
+          var file = this.dataURLtoFile(image, "img."+extend);
+          console.log(file);
+
+          AWS.config.update({
+            region : this.bucketRegion,
+            credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: this.IdentityPoolId
+            })
+          }); //s3 configuration
+
+          var s3 = new AWS.S3({
+            apiVersion: '2006-03-01',
+            params: {
+              Bucket: this.albumBucketName
+            }
+          }); //s3 configuration
+
+          let photoKey = file.name;
+          s3.upload({
+            Key: photoKey,
+            Body: file,
+            ACL: 'public-read'
+          }, (err, data) => {
+            if(err) {
+              console.log('image upload err : ' + err);
+              return alert('에러가 있었습니당 : ', err.message);
+            }
+            alert("성공이요!");
+            console.log(data);
+          });
+        }
+
+        var numOfHashTag = this.model.length;
+        this.hashtags = "";
+        for (let i = 0; i < numOfHashTag; i++) {
+          this.hashtags += this.model[i] + " ";
+        }
+
+        http
+          .post("/post/", {
+            pId: this.nextPId,
+            pTitle: this.title,
+            pContent: content,
+            pUser: this.$store.state.auth.user.id,
+            pSchedule: this.dialogm1,
+            pCategory: this.category,
+            pColor: this.pickColor,
+            pClub : 1,
+            pHashtag : this.hashtags
         })
         .then(({ data }) => {
           if (data.data == "success") {
@@ -680,46 +765,49 @@ export default {
             this.$router.push("/note");
           }
         });
+      }
     },
     tmpcreateAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      var content = null;
-      if (content1 == "") {
-        content = content2;
+      if (!this.title.trim()) {
+        alert("제목을 입력해주세요")
       } else {
-        content = content1;
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
+        http
+          .post("/tp/", {
+            tpTitle: this.title,
+            tpContent: content,
+            tpUser: this.$store.state.auth.user.id,
+          })
+          .then((Response) => {
+            if (Response.data === "success") {
+              this.$dialog.notify.info("임시 노트 등록 완료 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+              this.$router.push("/note");
+            }
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
+          });
       }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
-      console.log(content);
-
-      http
-        .post("/tp/", {
-          tpTitle: this.title,
-          tpContent: content,
-          tpUser: this.$store.state.auth.user.id,
-        })
-        .then((Response) => {
-          if (Response.data === "success") {
-            this.$dialog.notify.info("임시 노트 등록 완료 😚", {
-              position: "bottom-right",
-              timeout: 3000,
-            });
-            this.$router.push("/note");
-          }
-        })
-        .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
-        });
-      },
+    },
     nospace() {
       this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
         position: "bottom-right",

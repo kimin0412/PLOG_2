@@ -8,7 +8,8 @@
                     <v-card class="mx-auto">
                         <v-row>
                             <div class="mx-auto mt-10">
-                                <img src="@/assets/profile/user.png" alt="" width="100">
+                                <!-- <img src="@/assets/users/u12.png" alt="" width="100"> -->
+                                <img :src="animalimg" alt="" width="100">
                             </div>
                         </v-row>
                         <v-card-subtitle class="pt-5 pb-0 text-center text-h5">{{currentUser.username}}</v-card-subtitle>
@@ -374,41 +375,94 @@
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">MY PAGE</v-col>
           </v-row>
           <v-row class="mt-10">
-            <v-col cols="12" class="py-1 text-h6">Profile</v-col>
-            <v-col cols="4" class="ml-1 mt-3">
-                <img src="@/assets/profile/user.png" alt="user-image" class="profile-image">
+            <v-col cols="4" class="text-right">
+                <img :src="animalimg" alt="user-image" class="profile-image" width="50">
+            </v-col>
+            <v-col cols="8" class="text-center">
+              <div><strong>{{currentUser.username}}</strong>님, <br> <span class="text-caption grey--text"> 행복한 하루 되세요 :)</span></div>
             </v-col>
             <v-col cols="12">
                 <v-simple-table dense>
                   <template v-slot:default>
-                    <tbody>
+                    <tbody class="text-caption">
                      <tr>
-                        <td>ID</td>
-                        <td>{{currentUser.username}}</td>
+                        <td class="text-caption">ID</td>
+                        <td class="text-caption">{{currentUser.username}}</td>
                       </tr>
                       <tr>
-                        <td>Email</td>
-                        <td>{{currentUser.email}}</td>
+                        <td class="text-caption">Email</td>
+                        <td class="text-caption">{{currentUser.email}}</td>
                       </tr>
                       <tr>
-                        <td>Birthday</td>
-                        <td v-if="currentUser.birthday">{{currentUser.birthday}}</td>
-                        <td v-else>정보가 없습니다.</td>
+                        <td class="text-caption">Birthday</td>
+                        <td class="text-caption" v-if="currentUser.birthday">{{currentUser.birthday}}</td>
+                        <td class="text-caption" v-else>정보가 없습니다.</td>
                       </tr>
                       <tr>
-                        <td>Phone</td>
-                        <td v-if="currentUser.phone">{{currentUser.phone}}</td>
-                        <td v-else>정보가 없습니다.</td>
+                        <td class="text-caption">Phone</td>
+                        <td  class="text-caption" v-if="currentUser.phone">{{currentUser.phone}}</td>
+                        <td  class="text-caption" v-else>정보가 없습니다.</td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>              
             </v-col>
-            <v-col cols="12">
-              <v-row class="d-flex justify-end mt-5">
-                <v-btn color="error" dark small @click="logOut">Log Out</v-btn>
-              </v-row>              
+            <v-col cols="12" class="text-right py-0">
+              <v-btn @click="logOut" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-account-arrow-right</v-icon> logout</v-btn>             
+              <v-btn class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
             </v-col>
+          </v-row>
+          <!-- <v-row class="mt-10">
+            <v-col cols="5">
+              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon>My groups({{mygroups.length}})</div>
+            </v-col>  
+            <v-col cols="7">  
+              <div class="mx-auto">
+                  <div v-if="mygroups.length >= 1">
+                    <v-row  v-for="(item,i) in mygroups" :key="i">
+                      <v-col cols="6" class="d-flex justify-center py-1 pl-5">
+                          <v-card :color="item.clColor" class="transparent--text text-right" height="20" style="width:20px;">색</v-card>
+                      </v-col>
+                      <v-col cols="6" class="text-left text-caption py-1 pr-5 text-truncate pl-0">{{ item.clName }}</v-col>
+                    </v-row>
+                  </div>
+                  <div v-else>
+                    <v-row>
+                        <v-col cols="12" class="grey--text text-caption text-center">그룹이 없습니다 :)</v-col>
+                    </v-row>
+                  </div>
+              </div>
+            </v-col>
+            <v-col cols="5" class="mt-5">
+              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon> My notes</div>
+            </v-col>
+            <v-col cols="7" class="mt-5">
+              <v-row>
+                    <v-col cols="7" class="text-caption text-left grey--text py-0 pl-10">Notes</v-col>
+                    <v-col cols="5" class="text-caption text-left font-weight-bold black--text py-0">50</v-col>
+              </v-row>
+              <v-row>
+                    <v-col cols="7" class="text-caption text-left grey--text py-0 pl-10">hashtags</v-col>
+                    <v-col cols="5" class="text-caption text-left font-weight-bold black--text py-0">3</v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="5" class="mt-5">
+              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon> More...</div>
+            </v-col>
+            <v-col cols="7" class="mt-5">
+              <v-row justify="center">
+                <v-btn class="red--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-2">mdi-account-minus</v-icon>withdraw</v-btn>             
+              </v-row>
+            </v-col>
+          </v-row> -->
+          <v-row class="mt-10">
+              <v-col cols="12" class="text-center text-subtitle-2 font-weight-bold">My P-logs</v-col>
+              <v-col cols="12" class="text-center grey--text text-caption">
+                나의 Plog 이용 통계와 자료는 <br> pc환경에서 확인할 수 있습니다.
+              </v-col>
+              <v-col cols="12">
+                
+              </v-col>
           </v-row>
         </v-container>
       </div>
@@ -430,6 +484,7 @@ export default {
     },
     data() {
       return {
+        animalimg:'',
         dialog: false,
         benched: 0,
         mygroups: [],
@@ -466,7 +521,7 @@ export default {
         chart_config_formonth: {
             values: ['schedule', 'note'],
             color : {
-                scheme: ['#795548', '#607D8B'],
+                scheme: ['#F44336', '#009688'],
             },
             date: {
                 key: 'date',
@@ -570,6 +625,7 @@ export default {
       }
     },
     created() {
+      this.animalimg = require('@/assets/users/u'+this.currentUser.id%13+'.png')
       // 수정페이지 관련
       this.U.username = this.$store.state.auth.user.username
       this.U.userbirthday = this.$store.state.auth.user.birthday
@@ -743,7 +799,7 @@ export default {
     computed: {
       currentUser(){
         return this.$store.state.auth.user;
-      }
+      },
     },
     mounted() {
     if (!this.currentUser) {
