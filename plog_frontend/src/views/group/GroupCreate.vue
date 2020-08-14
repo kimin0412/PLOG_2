@@ -171,22 +171,13 @@ export default {
     methods: {
         createGroup() {
             if (this.groupname.trim() === ''){
-              this.$dialog.notify.warning("그룹명은 필수입니다. 😥", {
-                  position: "bottom-right",
-                  timeout: 3000,
-              });
+                alert("그룹명은 필수입니다.")
             } else {
                 if (this.entercode.trim() === ''){
-                  this.$dialog.notify.warning("입장 확인용 비밀번호를 설정해주세요! 😥", {
-                      position: "bottom-right",
-                      timeout: 3000,
-                  });
+                    alert("입장 확인용 비밀번호를 설정해주세요")
                 } else {
                     if (this.groupintro.trim() === ''){
-                        this.$dialog.notify.warning("짧은 소개 부탁드립니다! 😃", {
-                          position: "bottom-right",
-                          timeout: 3000,
-                      });
+                        alert("짧은 소개 부탁드립니다 :)")
                     } else {
                         http.post('/club/insert', {
                           clId : this.$store.state.auth.user.id,
@@ -197,20 +188,12 @@ export default {
                           // sColor : this.pickColor,
                         })
                         .then(({ data }) => {
-                          let msg = "등록 처리시 문제가 발생했습니다.";
-                            if (data.data == "success") {
-                              msg = "등록이 완료되었습니다.";
-                              this.$dialog.notify.success(msg + " 😃", {
-                                position: "bottom-right",
-                                timeout: 3000,
-                              });
-                            } else {
-                              this.$dialog.notify.error(msg + " 😥", {
-                                position: "bottom-right",
-                                timeout: 3000,
-                              });
-                            }
+                          let msg = '등록 처리시 문제가 발생했습니다.';
+                          if (data.data == 'success') {
+                            msg = '등록이 완료되었습니다.';
+                            alert(msg)
                             this.$router.push("/group");
+                          }
                         })
                         .catch((error) => {
                           if(error.response) {

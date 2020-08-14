@@ -676,10 +676,7 @@ export default {
         })
         .then(({ data }) => {
           if (data.data == "success") {
-            this.$dialog.notify.success("노트 등록 완료 😃", {
-              position: "bottom-right",
-              timeout: 3000,
-            });
+            alert("등록 완료");
             this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
           }
         })
@@ -696,10 +693,7 @@ export default {
     },
 
     nospace() {
-      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
-        position: "bottom-right",
-        timeout: 3000,
-      });
+      alert("공백 없이 단어로 입력해주세요");
     },
 
     addEmoji() {
