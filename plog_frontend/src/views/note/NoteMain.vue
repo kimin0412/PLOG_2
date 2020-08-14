@@ -277,6 +277,7 @@
                       class="pa-4 px-0"
                       show-arrows
                       center-active
+                      :selected2="null"
                     >
                       <v-slide-item
                         v-for="(note, index) in Notes"
@@ -736,10 +737,19 @@ export default {
       selected2: {},
       hashtags2: [],
       bmToggle2: 0,
+
+      pageIndex: 0,
     };
   },
   created() {
     window.scrollTo(0, 0);
+    if(this.$route.query.q == null){
+      console.log("empty");
+      this.pageIndex = 0;
+    }
+    else{
+      this.pageIndex = this.$route.query.q;
+    }
     http
       .get("/category/listAll", {
         params: {
@@ -943,7 +953,7 @@ export default {
                 timeout: 3000,
               });
               this.categoryDialog = false;
-              this.$router.go();
+              this.$router.push({path:"/note", query: { q: ++this.pageIndex }});
             }
           })
           .catch((error) => {
@@ -986,31 +996,33 @@ export default {
         });
     },
 
-    deleteCategory(cId) {
-      var ok = confirm("안에있는 내용들 다 지울겁니까?");
-      if (ok) {
-        // 다 지우기
-        http
-          .delete("/category/delete/all", {
-            params: {
-              cid: cId,
-            },
-          })
-          .then(({ data }) => {
-            if (data.data == "success") {
-              this.$router.go();
-            }
-          })
-          .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
+    deleteCategory: async function (cId){
+        const res = await this.$dialog.warning({
+          text: "안에 있는 내용도 삭제 하시겠습니까?",
+          title: 'Delete Category'
         });
-
+        if(res){
+          // 다 지우기
+          http
+            .delete("/category/delete/all", {
+              params: {
+                cid: cId,
+              },
+            })
+            .then(({ data }) => {
+              if (data.data == "success") {
+                this.$router.go();
+              }
+            })
+            .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
+          });
       } else {
         // 카테고리만 지우고 나머진 pCategory를 1로 변경하기
         http

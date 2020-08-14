@@ -244,6 +244,29 @@ public class PostServiceImpl implements PostService {
 				
 				byte[] dImage = decoder.decode(bImage);
 				BufferedImage bufImage = ImageIO.read(new ByteArrayInputStream(dImage));
+				
+				//////////////////////////////////
+				int imageWidth = bufImage.getWidth(null);
+				int imageHeight = bufImage.getHeight(null);
+				
+				double ratio = (double)400/(double)imageWidth;
+				int w = (int)(imageWidth * ratio);
+				int h = (int)(imageHeight * ratio);
+				
+				// 이미지 리사이즈
+				// Image.SCALE_DEFAULT : 기본 이미지 스케일링 알고리즘 사용
+				// Image.SCALE_FAST    : 이미지 부드러움보다 속도 우선
+				// Image.SCALE_REPLICATE : ReplicateScaleFilter 클래스로 구체화 된 이미지 크기 조절 알고리즘
+				// Image.SCALE_SMOOTH  : 속도보다 이미지 부드러움을 우선
+				// Image.SCALE_AREA_AVERAGING  : 평균 알고리즘 사용
+				Image resizeImage = bufImage.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+				
+				// 새 이미지  저장하기
+				BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+				Graphics g = newImage.getGraphics();
+				g.drawImage(resizeImage, 0, 0, null);
+				g.dispose();
+				
 				ImageIO.write(bufImage, extend, file);
 				
 			} catch (IOException e) {

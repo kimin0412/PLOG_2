@@ -204,7 +204,7 @@
 
   <div class="d-none d-sm-block" style="min-height: 100%;">
       <v-container style="padding-bottom: 60px; padding-top:120px; min-height: 100vh;">
-      <router-view/>
+      <router-view :key="$route.fullPath"/>
     </v-container>
     <v-footer
     
