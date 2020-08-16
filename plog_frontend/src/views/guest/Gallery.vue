@@ -52,7 +52,38 @@
           </v-row>
           <v-row class="mt-10 text-center">
             <v-col cols="12">
-              서비스 준비중입니다.
+              <v-carousel
+                cycle
+                :show-arrows="true"
+                hide-delimiters
+                height="100%"
+              >
+                <v-carousel-item>
+                  <div class="text-center">
+                    <img src="@/assets/gallery/pp1.jpg" alt="plog_image" width="100%" class="ml-3">
+                  </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <div class="text-center">
+                    <img src="@/assets/gallery/pp2.jpg" alt="plog_image" width="100%" class="ml-3">
+                  </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <div class="text-center">
+                    <img src="@/assets/gallery/pp3.jpg" alt="plog_image" width="100%" class="ml-3">
+                  </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <div class="text-center">
+                    <img src="@/assets/gallery/pp4.jpg" alt="plog_image" width="100%" class="ml-3">
+                  </div>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <div class="text-center">
+                    <img src="@/assets/gallery/pp5.jpg" alt="plog_image" width="100%" class="ml-3">
+                  </div>
+                </v-carousel-item>
+              </v-carousel>
             </v-col>
           </v-row>
         </v-container>

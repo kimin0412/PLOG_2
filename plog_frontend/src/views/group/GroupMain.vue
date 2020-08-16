@@ -157,25 +157,74 @@
             <v-row>
               <v-col cols="6" class="pr-1 pl-10">
                 <router-link to="/group/search" class="link-tag">
-                <v-card elevation="5 pt-4 pb-3">
+                <v-card elevation="0 pt-4 pb-3">
                   <div><img src="@/assets/icon/gsearch.png" alt="user-image" class="link-icon"></div>
-                  <div class="mt-2">Search</div>
+                  <div class="mt-2 grey--text">Search</div>
                 </v-card>
                 </router-link>
               </v-col>
               <v-col cols="6" class="pl-1 pr-10">
                 <router-link to="/group/create" class="link-tag">
-                <v-card elevation="5 pt-4 pb-3">
+                <v-card elevation="0 pt-4 pb-3">
                   <div><img src="@/assets/icon/gcreate.png" alt="user-image" class="link-icon "></div>
-                  <div class="mt-2">Create</div>
+                  <div class="mt-2 grey--text">Create</div>
                 </v-card>
                 </router-link>
               </v-col>
             </v-row>
           </v-row>
           <v-row>
-            <v-col cols="12" class="mt-7 mb-n15 text-center text-subtitle-2">My Group</v-col>
-            <v-col cols="12" class="mb-n10">
+            <v-col cols="12" class="mt-7 text-center text-h6 font-weight-bold">My Groups</v-col>
+            <v-col cols="12" class="mt-n5">
+              <v-carousel
+                  cycle
+                  hide-delimiter-background
+                  height="100%"
+                >
+                  <v-carousel-item
+                     v-for="(item, i) in myClub" :index="i" :key="i"
+                     class="pb-5"
+                  >
+                    <v-sheet
+                    light
+                    color="transparent"
+                    >
+                  <router-link :to="{ path: 'group/detail2', query:{clId:item.clId}}" class="text-decoration-none">
+                  <v-card
+                    class="mx-auto mt-6 mb-10"
+                    max-width="70%"
+                  >
+                    <v-card-text class="pb-0">
+                      <v-row class="mr-2" justify="end">
+                        <div class="text-caption grey--text text-right">{{i+1}}/{{myClub.length}}</div>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="4">
+                          <div class="d-inline-block transparent--text mt-3 ml-1" :class="item.clColor" style="width:25px; height:25px;">cl</div>
+                        </v-col>
+                        <v-col cols="8">
+                          <div class="black--text text-left font-weight-bold text-truncate pb-0">{{item.clName}}</div>
+                          <p class="text-caption text-left">{{item.clRegdate.substr(0,10)}}</p>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                    <v-card-actions class="pt-0 d-flex justify-center">
+                      <v-btn
+                        text
+                        small
+                        color="grey"
+                        class="text-caption"
+                      >
+                        Enter
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                  </router-link>
+                    </v-sheet>
+                  </v-carousel-item>
+                </v-carousel>
+            </v-col>
+            <!-- <v-col cols="12" class="mb-n10">
               <carousel-3d :controls-visible="true" :controls-prev-html="'&#10092;'" :controls-next-html="'&#10093;'" 
                           :controls-width="30" :controls-height="40" :clickable="false">
                 <slide v-for="(item, i) in myClub" :index="i" :key="i">
@@ -209,7 +258,7 @@
                   </router-link>
                 </slide>
               </carousel-3d>
-            </v-col>
+            </v-col> -->
           </v-row>
         </v-container>
       </div>
