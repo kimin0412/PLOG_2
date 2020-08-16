@@ -313,7 +313,7 @@ public class PostServiceImpl implements PostService {
     		}
          }
 		
-		return 0;
+		return pid;
 	}
 
 	@Override
