@@ -70,7 +70,106 @@
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
                                     <v-col cols="12">
-                                        <v-btn small color="red" block dark>withdraw</v-btn>                                   
+                                        <div v-if="host.id == this.$store.state.auth.user.id">
+                                          <v-btn small color="orange" class="py-0 white--text text-center atag mb-2" block @click="clubDialog = true">edit group</v-btn>
+                                          <v-dialog
+                                            v-model="clubDialog"
+                                            :close-on-content-click="false"
+                                            offset-x
+                                            persistent
+                                            max-width="400px"
+                                          >
+                                            <v-card>
+                                              <v-card-title>
+                                                <span class="headline">Update Group</span>
+                                              </v-card-title>
+                                              <v-card-text>
+                                                <v-container>
+                                                  <v-row>
+                                                    <v-col cols="12">
+                                                      <v-text-field
+                                                        label="Group Name*"
+                                                        v-model="groupName"
+                                                        required
+                                                      ></v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" class="py-0 px-0">
+                                                      <v-text-field
+                                                      placeholder="입장 코드를 입력해주세요"
+                                                      filled
+                                                      rounded
+                                                      dense
+                                                      clearable
+                                                      v-model="entercode"
+                                                      ></v-text-field> 
+                                                  </v-col>      
+                                                  <v-col cols="12" class="py-1 text-subtitle-2 grey--text mt-n3">Introduction</v-col>
+                                                  <v-col cols="12" class="py-0 px-0">
+                                                      <v-textarea
+                                                      filled
+                                                      auto-grow
+                                                      rows="4"
+                                                      row-height="30"
+                                                      v-model="groupIntro"
+                                                      :rules="[rules.counter]"
+                                                      rounded
+                                                      maxlength="150"
+                                                      ></v-textarea>
+                                                  </v-col>
+                                                  </v-row>
+                                                  
+                                                  <v-row class="my-2">
+                                                    <v-col cols="1" class="px-0 pb-0 mx-0 my-0">
+                                                        <v-card :color="groupColor" class="py-2 transparent--text">색</v-card>
+                                                    </v-col>
+                                                    <v-col cols="11">
+                                                        <v-select v-model="groupColor"
+                                                                    :items="colors"
+                                                                    filled
+                                                                    dense
+                                                                    label=""
+                                                                    full-width>
+                                                        </v-select>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-card class="mx-auto">
+                                                  <div v-for="(member,index) in Members" :key="index">
+                                                    <div v-if="member.id != host.id">
+                                                    <v-card-text class="d-flex justify-center py-0">
+                                                      <div>
+                                                        {{ member.email }}
+                                                          <v-btn
+                                                            text
+                                                            color="blue lighten-2  ml-auto"
+                                                            @click="deleteMember(member.id, member.email)"
+                                                            >회원 삭제하기</v-btn
+                                                          >
+                                                      </div>
+                                                    </v-card-text>
+                                                  </div></div>
+                                                </v-card>
+                                                </v-container>
+                                              </v-card-text>
+                                              <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="blue darken-1" text @click="updateClub"
+                                                  >수정하기</v-btn
+                                                >
+                                                <v-btn
+                                                  color="blue darken-1"
+                                                  text
+                                                  @click="clubDialog = false"
+                                                  >Close</v-btn
+                                                >
+                                              </v-card-actions>
+                                            </v-card>
+                                          </v-dialog>
+                                          
+                                          <v-btn small color="red" class="py-0 white--text text-center atag" block @click="deleteGroup">delete group</v-btn>
+                                        </div>
+                                        <div v-else>
+                                          <v-btn small color="red" class="py-0 white--text text-center atag" block @click="withDraw">exit group</v-btn>
+                                        </div>                              
                                     </v-col>
                                 </v-row>
                             </v-expansion-panel-content>
@@ -79,7 +178,7 @@
                     </v-card>
                 </v-col>
                 <v-col cols="9">
-                    <v-card class="mx-auto" height="71vh">
+                    <v-card class="mx-auto" min-height="71vh">
                         <v-tabs background-color="white" color="grey" centered show-arrows>
                             <v-tab>Group Post</v-tab>
                             <v-tab>Members</v-tab>
@@ -142,277 +241,173 @@
                                         </v-card>
                                         </v-menu>
                                     </v-col>
-                                    <v-col cols="12">
-                                      <v-row class=" mb-4">
-                                          <v-sheet
-                                              class="mx-auto mysheet"
-                                              @drop='onDrop($event, 1)' 
-                                              @dragover.prevent
-                                              @dragenter.prevent
-                                              max-width="100%"
-                                            >
-                                              <v-slide-group
-                                                v-model="model"
-                                                class="pa-4 px-0"
-                                                show-arrows
-                                                center-active
-                                              >
-                                                <v-slide-item
-                                                  v-for="(note, index) in Notes" :key="index"
-                                                  v-slot:default="{ active, toggle }"
-                                                >
-                                                <div @click="getNote(note)">
-                                                  <v-card
-                                                    v-if="note.pCategory == 1"
-                                                    :color="active ? 'grey lighten-1' : 'grey lighten-2'"
-                                                    class="ma-1"
-                                                    width="200"
-                                                    height="120"
-                                                    @click="toggle"
-                                                    draggable
-                                                    @dragstart='startDrag($event, note)'
-                                                  >
-                                                    <v-list-item three-line>
-                                                      <v-list-item-content>
-                                                        <v-list-item-title class="headline mb-1"> {{ note.pTitle }}</v-list-item-title>
-                                                        <v-list-item-subtitle>created at</v-list-item-subtitle>
-                                                        <v-list-item-subtitle>{{ note.pDate | removeTime }}</v-list-item-subtitle>
-                                                      </v-list-item-content>
 
-                                                      <v-list-item-avatar
-                                                        tile
-                                                        size="30"
-                                                        v-bind:color=note.pColor
-                                                      ></v-list-item-avatar>
-                                                    </v-list-item>
-                                                    <v-row align="center" justify="center">
-                                                      <v-scale-transition>
-                                                        <v-icon
-                                                          v-if="active"
-                                                          color="white"
-                                                          size="30"
-                                                          v-text="'mdi-close-circle-outline'"
-                                                        ></v-icon>
-                                                      </v-scale-transition>
-                                                    </v-row>
-                                                  </v-card>
+                                    <v-sheet
+                                      @drop='onDrop($event, 1)' 
+                                      @dragover.prevent
+                                      @dragenter.prevent
+                                      max-width="100%"
+                                    >
+                                      <v-slide-group
+                                        v-model="model"
+                                        class="pa-4"
+                                        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
+                                        :next-icon="nextIcon ? 'mdi-plus' : undefined"
+                                        :multiple="multiple"
+                                        :mandatory="mandatory"
+                                        :show-arrows="showArrows"
+                                        :center-active="centerActive"
+                                        
+                                      >
+                                        <v-slide-item
+                                          v-for="(note, index) in Notes" :key="index"
+                                          @drop='onDrop($event, 1)' 
+                                          @dragover.prevent
+                                          @dragenter.prevent
+                                        >
+                                          <router-link
+                                            :to="{
+                                              path: '/group/notedetail',
+                                              query: { pId: note.pId, clId : groupId },
+                                            }"
+                                            style="text-decoration : none"
+                                          >
+                                          <v-card
+                                            width="140"
+                                            height="180"
+                                            class="mx-2 my-1"
+                                            :color="groupColor+' lighten-5'"
+                                            draggable
+                                            @dragstart='startDrag($event, note)'
+                                            v-if="note.pCategory == 1"
+                                          >
+                                            <v-list-item three-line>
+                                              <v-list-item-content>
+                                                <v-list-item-title class="headline mt-7 mb-5 text-center">{{ note.pTitle }}</v-list-item-title>
+                                                <v-list-item-subtitle class="mt-15">{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                              </v-list-item-content>
 
-                                                  <!-- <v-card
-                                                    v-if="note.pCategory == 1"
-                                                    :color="active ? 'grey' : note.pColor"
-                                                    class="ma-4"
-                                                    height="150"
-                                                    width="100"
-                                                    @click="toggle"
-                                                    draggable
-                                                    @dragstart='startDrag($event, note)'
-                                                  >
-                                                    <div class="text-center">
-                                                      {{ note.pTitle }}
-                                                    </div>
-                                                    <v-row
-                                                      class="fill-height"
-                                                      align="center"
-                                                      justify="center"
-                                                    >
-                                                      <v-scale-transition>
-                                                        <v-icon
-                                                          v-if="active"
-                                                          color="white"
-                                                          size="30"
-                                                          v-text="'mdi-close-circle-outline'"
-                                                        ></v-icon>
-                                                      </v-scale-transition>
-                                                    </v-row>
-                                                  </v-card> -->
-                                                  </div>
-                                                </v-slide-item>
-                                              </v-slide-group>
-
-                                              <v-expand-transition>
-                                                <v-sheet
-                                                  v-if="model != null"
-                                                  color="grey lighten-4"
-                                                  height="200"
-                                                  tile
-                                                >
-                                                  <v-row
-                                                    class="fill-height"
-                                                  >
-                                                    <v-col cols="12" class="py-0 text-center">Note Info.</v-col> 
-                                                    <v-flex class="py-0 text-center">
-                                                      <v-btn text icon @click="bookmark()">
-                                                        <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                                                        <v-icon large color="gray" v-else>mdi-star</v-icon>
-                                                      </v-btn>
-                                                    </v-flex>
-                                                    <v-col cols="12" class="py-0 text-center text-h6">
-                                                    <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
-                                                      <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
-                                                    </router-link>
-                                                    </v-col>
-                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate | removeTime }}</v-col>
-                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
-                                                    <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                                      <v-card-text class="d-flex justify-center flex-wrap py-0">
-                                                        <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                                                          <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
-                                                              <v-chip
-                                                                class="ma-2"
-                                                                color="teal"
-                                                                text-color="white"
-                                                                small
-                                                              >
-                                                                <v-avatar left>
-                                                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
-                                                                </v-avatar>
-                                                                {{item.name}}
-                                                              </v-chip>
-                                                            </router-link>
-                                                        </div>
-                                                      </v-card-text>
-                                                  </v-row>
-                                                </v-sheet>
-                                              </v-expand-transition>
-                                            </v-sheet>
-                                          
-
-                                            <v-expansion-panels class="mx-5" focusable>
-                                            <v-expansion-panel
-                                              v-for="(category, index) in this.categories" :key="index"
-                                            >
-                                            <div v-if="category.cId != 1" 
-                                              @drop='onDrop($event, category.cId)' 
-                                              @dragover.prevent
-                                              @dragenter.prevent
-                                            >
-                                              <v-expansion-panel-header>{{ category.cName }}
-                                                <template v-slot:default="{ open }">
-                                                  <v-row no-gutters>
-                                                    <v-col cols="4">{{ category.cName }}</v-col>
-                                                    <v-col
-                                                      cols="8"
-                                                      class="d-flex justify-end py-0"
-                                                    >
-                                                      <v-fade-transition leave-absolute>
-                                                        <span
-                                                          v-if="open"
-                                                          key="0"
-                                                        >
-                                                          <v-icon color="red" small class="mr-2" @click="deleteCategory( category.cId )">mdi-delete</v-icon>
-                                                          <v-icon dark color="grey" small class="mr-2" @click="openUpdateDialog( category.cId, category.cName )" >mdi-wrench</v-icon>
-                                                        </span>
-                                                      </v-fade-transition>
-                                                    </v-col>
-                                                  </v-row>
-                                                </template>
-                                              </v-expansion-panel-header>
-                                              <v-expansion-panel-content >
-                                                <v-sheet
-                                                  class="mx-auto mysheet drop-zone"
+                                              <v-list-item-avatar
+                                                tile
+                                                size="20"
+                                                :color="note.pColor"
+                                              ></v-list-item-avatar>
                                                   
-                                                >
-                                                <v-slide-group
-                                                  v-model="modelInCategory"
-                                                  class="pa-4 px-0"
-                                                  show-arrows
-                                                  center-active
-                                                >
-                                                
-                                                  <v-slide-item
-                                                    v-for="(note, index) in Notes" :key="index"
-                                                    v-slot:default="{ active, toggle }"
-                                                  >
-                                                  <div @click="getNoteInCategory(note)">
-                                                    <v-card
-                                                      v-if="note.pCategory == category.cId"
-                                                      :color="active ? 'grey' : note.pColor"
-                                                      class="ma-4"
-                                                      height="150"
-                                                      width="100"
-                                                      v-bind:id="note.pId"
-                                                      @click="toggle"
-                                                      draggable
-                                                      @dragstart='startDrag($event, note)'
-                                                    >
-                                                      <div class="text-center">
-                                                        {{ note.pTitle }}
-                                                      </div>
-                                                      <v-row
-                                                        class="fill-height"
-                                                        align="center"
-                                                        justify="center"
-                                                      >
-                                                        <v-scale-transition>
-                                                          <v-icon
-                                                            v-if="active"
-                                                            color="white"
-                                                            size="48"
-                                                            v-text="'mdi-close-circle-outline'"
-                                                          ></v-icon>
-                                                        </v-scale-transition>
-                                                      </v-row>
-                                                    </v-card>
-                                                    </div> 
-                                                  </v-slide-item>
-                                                
-                                                </v-slide-group>
-                                                
-                                              
-                                                <v-expand-transition>
-                                                  <v-sheet
-                                                    v-if="modelInCategory != null"
-                                                    color="grey lighten-4"
-                                                    height="250"
-                                                    tile
-                                                  >
-                                                    <v-row
-                                                      class="fill-height"
-                                                    >
-                                                      <v-col cols="12" class="py-0 text-center">Note no. {{ selected2.pId }}</v-col>
-                                                      <v-flex class="py-0 text-center">
-                                                        <v-btn text icon @click="bookmark()">
-                                                          <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                                                          <v-icon large color="gray" v-else>mdi-star</v-icon>
-                                                      </v-btn>
-                                                      </v-flex>
-                                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected2.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
-                                                        <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
-                                                      </router-link>
-                                                      </v-col>
-                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
-                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName2 }}</strong></v-col>
-                                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                                                        <v-card-text class="d-flex justify-center flex-wrap py-0">
-                                                          <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
-                                                            <router-link :to="{ path: 'search', query:{name:item.name}}" class="py-0 text-center text-h6"> 
-                                                              <v-chip
-                                                                class="ma-2"
-                                                                color="teal"
-                                                                text-color="white"
-                                                                small
-                                                              >
-                                                                <v-avatar left>
-                                                                  <v-icon>mdi-checkbox-marked-circle</v-icon>
-                                                                </v-avatar>
-                                                                {{item.name}}
-                                                              </v-chip>
-                                                            </router-link>
-                                                          </div>
-                                                        </v-card-text>
-                                                      </v-col>
-                                                    </v-row>
-                                                  </v-sheet>
-                                                </v-expand-transition>
-                                                </v-sheet>
-                                              </v-expansion-panel-content>
-                                              </div>
-                                            </v-expansion-panel>
-                                          </v-expansion-panels>        
-                                        </v-row>
-                                    </v-col>
+                                            </v-list-item>
+                                          </v-card>
+                                          </router-link>
+                                        </v-slide-item>
+                                      </v-slide-group>
+                                    </v-sheet>
                                 </v-row>
+
+                                <v-expansion-panels popout focusable>
+                                    <v-expansion-panel
+                                      v-for="(category, index) in this.categories"
+                                      :key="index"
+                                    >
+                                      <div
+                                        v-if="category.cId != 1"
+                                        @drop="onDrop($event, category.cId)"
+                                        @dragover.prevent
+                                        @dragenter.prevent
+                                      >
+                                        <v-expansion-panel-header>
+                                          {{ category.cName }}
+                                          <template v-slot:default="{ open }">
+                                            <v-row no-gutters>
+                                              <v-col cols="4">
+                                                <span>
+                                                    <v-icon class="mx-2">
+                                                      mdi-folder
+                                                    </v-icon>
+                                                  </span>
+                                                {{ category.cName }}
+                                              </v-col>
+                                              <v-col cols="8" class="d-flex justify-end py-0">
+                                                <v-fade-transition leave-absolute>
+                                                  <span v-if="open" key="0">
+                                                    <v-icon
+                                                      color="red"
+                                                      class="mr-2"
+                                                      @click="deleteCategory(category.cId)"
+                                                      >mdi-delete</v-icon
+                                                    >
+                                                    <v-icon
+                                                      dark
+                                                      color="blue"
+                                                      class="mr-2"
+                                                      @click="
+                                                        openUpdateDialog(category.cId, category.cName)
+                                                      "
+                                                      >mdi-wrench</v-icon
+                                                    >
+                                                  </span>
+                                                  
+                                                </v-fade-transition>
+                                              </v-col>
+                                            </v-row>
+                                          </template>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content>
+                                          <v-sheet
+                                            max-width="100%"
+                                          >
+                                            <v-slide-group
+                                              v-model="model"
+                                              class="pa-4"
+                                              :prev-icon="prevIcon ? 'mdi-minus' : undefined"
+                                              :next-icon="nextIcon ? 'mdi-plus' : undefined"
+                                              :multiple="multiple"
+                                              :mandatory="mandatory"
+                                              :show-arrows="showArrows"
+                                              :center-active="centerActive"
+                                              
+                                            >
+                                              <v-slide-item
+                                                v-for="(note, index) in Notes" :key="index"
+                                                @drop='onDrop($event, 1)' 
+                                                @dragover.prevent
+                                                @dragenter.prevent
+                                              >
+                                                <router-link
+                                                  :to="{
+                                                    path: '/group/notedetail',
+                                                    query: { pId: note.pId, clId : groupId },
+                                                  }"
+                                                  style="text-decoration : none"
+                                                >
+                                                <v-card
+                                                  width="140"
+                                                  height="180"
+                                                  class="mx-2 my-1"
+                                                  :color="groupColor+' lighten-5'"
+                                                  draggable
+                                                  @dragstart='startDrag($event, note)'
+                                                  v-if="note.pCategory == category.cId"
+                                                >
+                                                  <v-list-item three-line>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title class="headline mt-7 mb-5 text-center">{{ note.pTitle }}</v-list-item-title>
+                                                      <v-list-item-subtitle class="mt-15">{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                                    </v-list-item-content>
+
+                                                    <v-list-item-avatar
+                                                      tile
+                                                      size="20"
+                                                      :color="note.pColor"
+                                                    ></v-list-item-avatar>
+                                                        
+                                                  </v-list-item>
+                                                </v-card>
+                                                </router-link>
+                                              </v-slide-item>
+                                            </v-slide-group>
+                                          </v-sheet>
+                                        </v-expansion-panel-content>
+                                      </div>
+                                    </v-expansion-panel>
+                                  </v-expansion-panels>
                                 </v-container>
                             </v-tab-item>
                             <v-tab-item>
@@ -719,6 +714,12 @@ export default {
         groupName : '',
         groupIntro : '',
         groupColor : '',
+        multiple: false,
+        mandatory: false,
+        showArrows: true,
+        prevIcon: false,
+        nextIcon: false,
+        centerActive: false,
       }
     },
 
@@ -1006,7 +1007,7 @@ export default {
                         alert("짧은 소개 부탁드립니다 :)")
                     } else {
                         http.post('/club/update', {
-                          clId : this.$store.state.auth.user.id,
+                          clId : this.groupId,
                           clName : this.groupName,
                           clInfo : this.groupIntro,
                           clColor : this.groupColor,
@@ -1017,7 +1018,7 @@ export default {
                           if (data.data == 'success') {
                             msg = '수정이 완료되었습니다.';
                             alert(msg)
-                            this.$router.push("/group");
+                            this.$router.go({query:{clId : this.groupId}}); 
                           }
                         })
                         .catch((error) => {
@@ -1047,7 +1048,7 @@ export default {
               if (data.data == 'success') {
                 msg = '회원 삭제 완료되었습니다.';
                 alert(msg)
-                this.$router.push("/group");
+                this.$router.go({query:{clId : this.groupId}}); 
               }
             })
             .catch((error) => {
@@ -1132,6 +1133,12 @@ export default {
 <style scoped>
 .content-center {
   width: 85%;
+}
+
+.folder {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
 }
 
 </style>

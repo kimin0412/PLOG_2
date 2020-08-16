@@ -102,7 +102,7 @@
                     <v-list-item three-line>
                       <v-list-item-content>
                         <div class="overline mb-4">{{item.clRegdate.substr(0,10)}}</div>
-                        <v-list-item-title class="headline mb-1">Name : <strong>{{item.clName}}</strong></v-list-item-title>
+                        <v-list-item-title class="headline mb-1"><strong>{{item.clName}}</strong></v-list-item-title>
                         <v-list-item-subtitle class="text-truncate">Group intro : {{item.clInfo}}</v-list-item-subtitle>
                       </v-list-item-content>
 

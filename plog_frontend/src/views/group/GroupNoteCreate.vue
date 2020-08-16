@@ -677,7 +677,7 @@ export default {
         .then(({ data }) => {
           if (data.data == "success") {
             alert("등록 완료");
-            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
+            this.$router.push({path:'/group/detail2', query:{clId : this.groupId}}); 
           }
         })
         .catch((error) => {

@@ -207,7 +207,6 @@ export default {
         if(data.sId != 1){
           this.scheduleName = data.sName
         }
-        
       })
       .catch((error) => {
         if(error.response) {
