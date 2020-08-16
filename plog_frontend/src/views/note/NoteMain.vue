@@ -990,9 +990,12 @@ export default {
         });
     },
 
-    deleteCategory(cId) {
-      var ok = confirm("안에있는 내용들 다 지울겁니까?");
-      if (ok) {
+    deleteCategory: async function (cId){
+      const res = await this.$dialog.warning({
+        text: "안에 있는 내용도 삭제 하시겠습니까?",
+        title: 'Delete Category'
+      });
+      if(res){
         // 다 지우기
         http
           .delete("/category/delete/all", {

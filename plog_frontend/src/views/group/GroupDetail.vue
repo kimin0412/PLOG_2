@@ -709,10 +709,20 @@ export default {
         groupName : '',
         groupIntro : '',
         groupColor : '',
+
+        pageIndex: 0,
       }
     },
 
     created() {
+      if(this.$route.query.q == null){
+        // console.log("empty");
+        this.pageIndex = 0;
+      }
+      else{
+        this.pageIndex = this.$route.query.q;
+      }
+
       http.get('/club', {
           params : {
             clId : this.groupId,
@@ -815,7 +825,10 @@ export default {
     methods: {
       createCategory() {
         if(this.cName == ""){
-          alert("이름 쓰세요.")
+          this.$dialog.notify.warning("카테고리 이름을 쓰세요 😤", {
+            position: "bottom-right",
+            timeout: 3000,
+          });
         } else{
           http.post('/category/insert', {
             cName : this.cName,
@@ -824,9 +837,12 @@ export default {
           })
           .then(({data}) => {
             if(data.data == 'success'){
-              alert("새 폴더가 생성되었습니다.")
+              this.$dialog.notify.success("새 폴더가 생성되었습니다 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
               this.categoryDialog = false;
-              this.$router.go();
+              this.$router.push({path:"/group/detail", query: { q: ++this.pageIndex }});
             }
           })
           .catch((error) => {
@@ -984,13 +1000,22 @@ export default {
 
         updateClub() {
           if (this.groupName.trim() === ''){
-                alert("그룹명은 필수입니다.")
+              this.$dialog.notify.warning("그룹명은 필수입니다. 😤", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
             } else {
                 if (this.entercode.trim() === ''){
-                    alert("입장 확인용 비밀번호를 설정해주세요")
+                  this.$dialog.notify.warning("입장 확인용 비밀번호를 설정해주세요! 😥", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
                 } else {
                     if (this.groupIntro.trim() === ''){
-                        alert("짧은 소개 부탁드립니다 :)")
+                      this.$dialog.notify.warning("짧은 소개 부탁드립니다! 😚", {
+                        position: "bottom-right",
+                        timeout: 3000,
+                      });
                     } else {
                         http.post('/club/update', {
                           clId : this.$store.state.auth.user.id,
@@ -1003,7 +1028,10 @@ export default {
                           let msg = '수정 처리시 문제가 발생했습니다.';
                           if (data.data == 'success') {
                             msg = '수정이 완료되었습니다.';
-                            alert(msg)
+                            this.$dialog.notify.success(msg + " 😚", {
+                              position: "bottom-right",
+                              timeout: 3000,
+                            });
                             this.$router.push("/group");
                           }
                         })
@@ -1021,35 +1049,48 @@ export default {
             }
         },
 
-        deleteMember(id, email) {
-          alert(email+"님이 작성한 노트와 일정은 "+this.host.email+"님의 작성으로 수정됩니다.")
-          http.delete('club/delete/member', {
-            params : {
-              uId : id,
-              hostId : this.host.id,
-              groupId : this.groupId
-            }
-          }).then(({ data }) => {
-            let msg = '삭제 처리시 문제가 발생했습니다.';
-              if (data.data == 'success') {
-                msg = '회원 삭제 완료되었습니다.';
-                alert(msg)
-                this.$router.push("/group");
+        deleteMember: async function (id, email) {
+          const res = await this.$dialog.warning({
+            text: email+"님이 작성한 노트와 일정은 "+this.host.email+"님의 작성으로 수정됩니다./n괜찮으신가요?",
+            title: 'Warning'
+          })
+          if(res){
+            http.delete('club/delete/member', {
+              params : {
+                uId : id,
+                hostId : this.host.id,
+                groupId : this.groupId
               }
-            })
-            .catch((error) => {
-              if(error.response) {
-                this.$router.push("servererror")
-              } else if(error.request) {
-                this.$router.push("clienterror")
-              } else{
-                this.$router.push("/404");
-              }                          
-            });
-          this.$router.push("/group");
+            }).then(({ data }) => {
+              let msg = '삭제 처리시 문제가 발생했습니다.';
+                if (data.data == 'success') {
+                  msg = '회원 삭제 완료되었습니다.';
+                  this.$dialog.notify.success(msg + " 😚", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                  this.$router.push("/group");
+                }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("clienterror")
+                } else{
+                  this.$router.push("/404");
+                }                          
+              });
+            this.$router.push("/group");
+          }
         },
 
-        deleteGroup(){
+        deleteGroup: async function (){
+          const res = await this.$dialog.warning({
+            text: "그룹을 삭제 하시겠습니까?",
+            title: 'Delete Group'
+          });
+          if(res){
           http.delete('club/delete', {
             params : {
               groupId : this.groupId
@@ -1058,7 +1099,10 @@ export default {
             let msg = '삭제 처리시 문제가 발생했습니다.';
               if (data.data == 'success') {
                 msg = '삭제 완료되었습니다.';
-                alert(msg)
+                this.$dialog.notify.success(msg + " 😚", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
                 this.$router.push("/group");
               }
             })
@@ -1072,32 +1116,43 @@ export default {
               }                          
             });
           this.$router.push("/group");
+          }
         },
 
-        withDraw() {
-          http.delete('club/delete/member', {
-            params : {
-              groupId : this.groupId,
-              uId : this.$store.state.auth.user.id,
-              hostId : this.host.id,
-            }
-          }).then(({ data }) => {
-            let msg = '탈퇴 처리시 문제가 발생했습니다.';
-              if (data.data == 'success') {
-                msg = '탈퇴 완료되었습니다.';
-                alert(msg)
-                this.$router.push("/group");
+        withDraw: async function () {
+          const res = await this.$dialog.warning({
+            text: "그룹에서 탈퇴 하시겠습니까?",
+            title: 'Withdraw Group'
+          });
+          if(res){
+            http.delete('club/delete/member', {
+              params : {
+                groupId : this.groupId,
+                uId : this.$store.state.auth.user.id,
+                hostId : this.host.id,
               }
-            })
-            .catch((error) => {
-              if(error.response) {
-                this.$router.push("servererror")
-              } else if(error.request) {
-                this.$router.push("clienterror")
-              } else{
-                this.$router.push("/404");
-              }                          
-            });
+            }).then(({ data }) => {
+              let msg = '탈퇴 처리시 문제가 발생했습니다.';
+                if (data.data == 'success') {
+                  msg = '탈퇴 완료되었습니다.';
+                  this.$dialog.notify.success(msg + " 😚", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                  this.$router.push("/group");
+                }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("clienterror")
+                } else{
+                  this.$router.push("/404");
+                }                          
+              });
+            this.$router.push("/group");
+          }
         }
     }
 }

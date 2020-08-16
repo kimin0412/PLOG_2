@@ -251,11 +251,17 @@ export default {
         })
         .then(({data}) => {
           if(data === 'success'){
-            alert("그룹에 가입 되었습니다.");
+            this.$dialog.notify.success("그룹에 가입 되었습니다. 😃", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.joinDialog = false;
             this.$router.push("/group");
           } else{
-            alert("비밀번호를 확인해 주세요.");
+            this.$dialog.notify.error(msg + "비밀번호를 확인해 주세요. 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }          
         })
         .catch((error) => {
@@ -278,11 +284,17 @@ export default {
         })
         .then(({data}) => {
           if(data === 'success'){
-            alert("그룹에 가입 되었습니다.");
+            this.$dialog.notify.success("그룹에 가입 되었습니다. 😃", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.joinDialog2 = false;
             this.$router.push("/group");
           } else{
-            alert("비밀번호를 확인해 주세요.");
+            this.$dialog.notify.error(msg + "비밀번호를 확인해 주세요. 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           }          
         })
         .catch((error) => {
