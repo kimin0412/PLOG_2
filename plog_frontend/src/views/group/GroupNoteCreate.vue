@@ -680,7 +680,7 @@ export default {
               position: "bottom-right",
               timeout: 3000,
             });
-            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
+            this.$router.push({path:'/group/detail2', query:{clId : this.groupId}}); 
           }
         })
         .catch((error) => {

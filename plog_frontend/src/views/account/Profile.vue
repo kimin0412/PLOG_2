@@ -161,7 +161,6 @@
                         <v-tabs background-color="white" color="grey" centered show-arrows>
                             <v-tab>Monthly Logs</v-tab>
                             <v-tab>Ranking</v-tab>
-                            <v-tab>TOP10</v-tab>
                             <v-tab>WordCloud</v-tab>
                             <v-tab>Bookmark</v-tab>
                             <v-tab-item>
@@ -179,16 +178,11 @@
                                 <v-container fluid>
                                 <v-row class="pt-10">
                                     <v-col cols="9" class="text-center d-flex justify-center pr-0">
-                                        <D3BarChart :config="chart_config_bar" :datum="chart_data_bar" height="300" :tick_y=1 style="width: 100%;"></D3BarChart>
+                                        <D3BarChart :config="chart_config_bar" :datum="sorted" height="300" style="width: 100%;"></D3BarChart>
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
-                                          <v-card
-                                            class="mx-auto"
-                                            max-width="300"
-                                            tile
-                                          >
-                                            <v-list disabled>
+                                          <v-list disabled>
                                               <v-subheader class="text-h6 front-weight-bold">RANKING</v-subheader>
                                               <v-list-item-group color="primary">
                                                 <div v-if="sorted.length > 5">
@@ -217,7 +211,6 @@
                                                 </div>
                                               </v-list-item-group>
                                             </v-list>
-                                          </v-card>
 
 
 
@@ -227,17 +220,6 @@
                                               <div>#{{i}} {{item.name}}</div>
                                             </div> -->
                                         </div>
-                                    </v-col>
-                                </v-row>
-                                </v-container>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <v-container fluid>
-                                <v-row>
-                                    <v-col>
-                                    <v-col cols="12" class="d-flex justify-center mt-5">
-                                        <D3PieChart :config="chart_config" :datum="chart_data" height="300" style="width: 90%;"></D3PieChart>
-                                    </v-col>
                                     </v-col>
                                 </v-row>
                                 </v-container>
@@ -471,7 +453,6 @@
 
 <script>
 import { D3LineChart } from 'vue-d3-charts'
-import { D3PieChart } from 'vue-d3-charts'
 import wordcloud from 'vue-wordcloud'
 import { D3BarChart } from 'vue-d3-charts'
 
@@ -480,7 +461,7 @@ import http from '@/util/http-common.js'
 export default {
     name: 'Profile',
     components: {
-        D3LineChart, D3PieChart,wordcloud,D3BarChart,
+        D3LineChart,wordcloud,D3BarChart,
     },
     data() {
       return {
@@ -624,6 +605,8 @@ export default {
         {c: 65, keyword: 'amet'},
       ],
 
+      bar : [],
+
       }
     },
     created() {
@@ -684,11 +667,12 @@ export default {
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
         })
-        
 
-        this.sorted = this.chart_data_bar
+        for (let i = 0; i < 10; i++) {
+          this.sorted[i] = this.chart_data_bar[i]
+        }
+
         var sortingField = "c";
-
         this.sorted.sort((a, b) => {
           return b[sortingField] - a[sortingField];
         });

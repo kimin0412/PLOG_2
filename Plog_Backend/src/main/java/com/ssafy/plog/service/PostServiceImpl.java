@@ -97,6 +97,7 @@ public class PostServiceImpl implements PostService {
 		post.setpTitle(temp.getpTitle());
 		post.setpUser(temp.getpUser());
 		post.setpContent(temp.getpContent());
+		post.setpColor(temp.getpColor());
 		
 		if(temp.getpSchedule() == 0) {
 			post.setpSchedule(1);
@@ -210,7 +211,7 @@ public class PostServiceImpl implements PostService {
 		post.setpTitle(temp.getpTitle());
 		post.setpUser(temp.getpUser());
 		post.setpContent(temp.getpContent());
-		post.setpId(temp.getpId());
+		post.setpColor(temp.getpColor());
 		
 		if(temp.getpSchedule() == 0) {
 			post.setpSchedule(1);

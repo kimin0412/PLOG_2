@@ -57,7 +57,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 		//내가 작성
 		List<Schedule> sList = sdao.selectByMonth(monthAndYear, sId);
 		
-		//그룹이 작성
 		
 		return sList;
 	}

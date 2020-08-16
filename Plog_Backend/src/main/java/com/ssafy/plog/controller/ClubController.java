@@ -53,6 +53,7 @@ public class ClubController {
 	@PostMapping("/club/update")
 	public Object updateClub(@RequestBody Club club) { 
 		final BasicResponse result = new BasicResponse();
+		
     	gService.updateClub(club);
     	
     	result.status = true;
