@@ -418,6 +418,7 @@
                                           :items="Members"
                                           :item-height="60"
                                           max-height="60vh"
+                                          min-height="50vh"
                                         >
                                           <template v-slot="{ item }">
                                             <v-list-item>

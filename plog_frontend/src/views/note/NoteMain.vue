@@ -197,9 +197,7 @@
                       }}</v-col>
                     </router-link>
                   </v-col>
-                  <v-col cols="12" class="py-0 text-center text-subtitle-2"
-                    >created at {{ selected.pDate }}</v-col
-                  >
+                  <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{selected.pDate.substr(0,10)}}</v-col>
                   <v-col cols="12" class="py-0 text-center text-subtitle-2"
                     >KEY WORDS</v-col
                   >
@@ -230,7 +228,7 @@
 
           <!-- 폴더 부분 -->
 
-          <v-expansion-panels popout focusable>
+          <v-expansion-panels popout focusable >
             <v-expansion-panel
               v-for="(category, index) in this.categories"
               :key="index"
@@ -241,7 +239,7 @@
                 @dragover.prevent
                 @dragenter.prevent
               >
-                <v-expansion-panel-header
+                <v-expansion-panel-header @click="setNull()"
                   >{{ category.cName }}
                   <template v-slot:default="{ open }">
                     <v-row no-gutters>
@@ -277,7 +275,7 @@
                       class="pa-4 px-0"
                       show-arrows
                       center-active
-                      :selected2="null"
+                      
                     >
                       <v-slide-item
                         v-for="(note, index) in Notes"
@@ -324,7 +322,7 @@
 
                     <v-expand-transition>
                       <v-sheet
-                        v-if="modelInCategory != null"
+                        v-if="modelInCategory != null && selected2 != null"
                         color="grey lighten-4"
                         height="250"
                         tile
@@ -361,11 +359,7 @@
                               >
                             </router-link>
                           </v-col>
-                          <v-col
-                            cols="12"
-                            class="py-0 text-center text-subtitle-2"
-                            >created at {{ selected2.pDate }}</v-col
-                          >
+                          <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate.substr(0,10) }}</v-col>
                           <v-col
                             cols="12"
                             class="py-0 text-center text-subtitle-2"
@@ -486,9 +480,7 @@
                       }}</v-col>
                     </router-link>
                   </v-col>
-                  <v-col cols="12" class="py-0 text-center text-subtitle-2"
-                    >created at {{ tpselected.tpDate }}</v-col
-                  >
+                  <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.pDate.substr(0,10)}}</v-col>
                   <v-col cols="12" class="py-0 text-center text-subtitle-2"
                     >KEY WORDS</v-col
                   >
@@ -706,9 +698,7 @@
                         }}</v-col>
                       </router-link>
                     </v-col>
-                    <v-col cols="12" class="py-0 text-center text-subtitle-2"
-                      >created at {{ tpselected.tpDate }}</v-col
-                    >
+                    <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.pDate | removeTime }}</v-col>
                     <v-col cols="12" class="py-0 text-center text-subtitle-2"
                       >KEY WORDS</v-col
                     >
@@ -1000,9 +990,12 @@ export default {
         });
     },
 
-    deleteCategory(cId) {
-      var ok = confirm("안에있는 내용들 다 지울겁니까?");
-      if (ok) {
+    deleteCategory: async function (cId){
+      const res = await this.$dialog.warning({
+        text: "안에 있는 내용도 삭제 하시겠습니까?",
+        title: 'Delete Category'
+      });
+      if(res){
         // 다 지우기
         http
           .delete("/category/delete/all", {
@@ -1077,6 +1070,10 @@ export default {
           }                          
         });
     },
+    setNull(){
+      this.selected2 = null;
+      this.modelInCategory = null;
+    }
   },
 };
 </script>

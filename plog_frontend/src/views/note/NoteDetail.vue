@@ -266,7 +266,12 @@ export default {
         getFormatDate(regtime) {
             return moment(new Date(regtime)).format('YYYY.MM.DD');
         },
-        deleteNote() {
+        deleteNote: async function () {
+          const res = await this.$dialog.warning({
+            text:"노트를 삭제 하시겠습니까?",
+            title: 'Delete Note'
+          });
+          if(res){
             http.delete('/post/', {
                 params : {
                   pId : this.pId,
@@ -300,6 +305,7 @@ export default {
                     this.$router.push('/note')
                 }
               });
+          }
         },
         makePDF () {
             var fileName = this.Note.pTitle;

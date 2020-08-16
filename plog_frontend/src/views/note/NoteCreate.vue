@@ -653,7 +653,10 @@ export default {
   methods: {
     createAction() {
       if (!this.title.trim()) {
-        alert("제목을 입력해주세요")
+        this.$dialog.notify.warning("제목을 입력 해주세요 😥", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
         var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
@@ -698,7 +701,10 @@ export default {
     },
     tmpcreateAction() {
       if (!this.title.trim()) {
-        alert("제목을 입력해주세요")
+        this.$dialog.notify.warning("제목을 입력 해주세요 😥", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
         var content2 = this.$refs.toastuiEditor2.invoke("getHtml");

@@ -193,11 +193,17 @@ export default {
   methods: {
     handleRegister() {
       if (this.user.password.length < 6) {
-          alert('비밀번호는 6자리 이상이어야 합니다')
+        this.$dialog.notify.warning("비밀번호는 6자리 이상이어야 합니다 😤", {
+            position: "bottom-right",
+            timeout: 3000,
+        });
       } else if (this.user.password !== this.user.password2) {
           console.log(this.user.password)
           console.log(this.user.password2)
-          alert('비밀번호가 일치하지 않습니다')
+          this.$dialog.notify.error("비밀번호가 일치하지 않습니다 😥", {
+            position: "bottom-right",
+            timeout: 3000,
+            });
       } else {
         this.message = '';
         this.submitted = true;
