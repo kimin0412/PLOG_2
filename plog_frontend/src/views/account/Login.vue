@@ -218,9 +218,15 @@ export default {
   methods: {
     handleLogin() {
       if (!this.user.username.trim()) {
-        alert("ID를 입력해주세요")
+        this.$dialog.notify.warning("ID를 입력해주세요 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else if (!this.user.password.trim()) {
-        alert("비밀번호를 입력해주세요")
+        this.$dialog.notify.warning("비밀번호를 입력해주세요 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         this.loading = true;
         this.$validator.validateAll().then(isValid => {
@@ -250,7 +256,6 @@ export default {
               }
             )
             .catch(() => {
-              //console.log("에러가 떠야 하는데 안먹히..")
               this.$router.push("/error")
             })
           }
@@ -259,9 +264,15 @@ export default {
     },
      findpw() {
       if (!this.findemail || !this.findmyid) {
-        alert("빈칸을 채워주세요 :)")
+        this.$dialog.notify.warning("빈칸을 채워주세요 😚", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else if (!/.+@.+\..+/.test(this.findemail)) {
-        alert("이메일 형식으로 입력해주시기 바랍니다.")
+          this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+          });
       } else {
         console.log("비밀번호 찾기")
         http.get('/findPW', {
@@ -288,9 +299,15 @@ export default {
     },
     findid() {
       if (!this.findemail2) {
-        alert("이메일을 입력해주세요")
+           this.$dialog.notify.warning("이메일을 입력해주세요 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else if (!/.+@.+\..+/.test(this.findemail2)) {
-        alert("이메일 형식으로 입력해주시기 바랍니다.")
+          this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
         console.log("ID찾기")
         http.get('/findID', {
