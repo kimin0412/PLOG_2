@@ -62,11 +62,21 @@
                                           persistent-hint                                          
                                           filled rounded dense></v-text-field>
                                       </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          type="password"
+                                          label="Password" :placeholder="U.userpassword" v-model="U.userpassword"
+                                          hint="이전 비밀번호 혹은 변경할 비밀번호를 입력해주세요(필수)"
+                                          :rules="[v => !!v  || 'Password is required', v => v.length >= 5 || 'Password is too short']"
+                                          required
+                                          persistent-hint                                          
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
                                     </v-card-text>
 
                                     <v-card-actions class="pt-5">
                                       <v-spacer></v-spacer>
-                                      <v-btn color="orange" text @click="sendData" >Edit</v-btn>
+                                      <v-btn color="orange" text @click="editProfile" >Edit</v-btn>
                                       <v-btn color="grey" text @click="dialog = false" >Close</v-btn>
                                     </v-card-actions>
                                   </v-card>
@@ -109,10 +119,10 @@
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
                                     <v-col cols="6" class="text-caption grey--text py-0">Notes</v-col>
-                                    <v-col cols="6" class="text-caption grey--text py-0">Schedules</v-col>
+                                    <v-col cols="6" class="text-caption grey--text py-0">Groups</v-col>
                                     <v-col cols="12" class="py-1"><v-divider></v-divider></v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{noteNum}}</v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{schduleNum}}</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">50</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">3</v-col>
                                 </v-row>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
@@ -161,6 +171,7 @@
                         <v-tabs background-color="white" color="grey" centered show-arrows>
                             <v-tab>Monthly Logs</v-tab>
                             <v-tab>Ranking</v-tab>
+                            <v-tab>TOP10</v-tab>
                             <v-tab>WordCloud</v-tab>
                             <v-tab>Bookmark</v-tab>
                             <v-tab-item>
@@ -178,11 +189,16 @@
                                 <v-container fluid>
                                 <v-row class="pt-10">
                                     <v-col cols="9" class="text-center d-flex justify-center pr-0">
-                                        <D3BarChart :config="chart_config_bar" :datum="sorted" height="300" style="width: 100%;"></D3BarChart>
+                                        <D3BarChart :config="chart_config_bar" :datum="chart_data_bar" height="300" style="width: 100%;"></D3BarChart>
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
-                                          <v-list disabled>
+                                          <v-card
+                                            class="mx-auto"
+                                            max-width="300"
+                                            tile
+                                          >
+                                            <v-list disabled>
                                               <v-subheader class="text-h6 front-weight-bold">RANKING</v-subheader>
                                               <v-list-item-group color="primary">
                                                 <div v-if="sorted.length > 5">
@@ -211,6 +227,7 @@
                                                 </div>
                                               </v-list-item-group>
                                             </v-list>
+                                          </v-card>
 
 
 
@@ -220,6 +237,17 @@
                                               <div>#{{i}} {{item.name}}</div>
                                             </div> -->
                                         </div>
+                                    </v-col>
+                                </v-row>
+                                </v-container>
+                            </v-tab-item>
+                            <v-tab-item>
+                                <v-container fluid>
+                                <v-row>
+                                    <v-col>
+                                    <v-col cols="12" class="d-flex justify-center mt-5">
+                                        <D3PieChart :config="chart_config" :datum="chart_data" height="300" style="width: 90%;"></D3PieChart>
+                                    </v-col>
                                     </v-col>
                                 </v-row>
                                 </v-container>
@@ -350,6 +378,8 @@
           </v-container>
         </div>
       </div>
+
+
       <div class="d-block d-sm-none">
         <v-container>
           <v-row>
@@ -389,11 +419,68 @@
                   </template>
                 </v-simple-table>              
             </v-col>
+            <!-- 반응형 일단 -->
+            <!--
+            <v-card-actions class="d-flex justify-end pt-0">
+                            <v-btn color="blue" text small class="font-weight-bold" @click.stop="dialog = true">update</v-btn>
+                            
+                            <v-dialog v-model="dialog" max-width="300">
+                                  <v-card>
+                                    <v-card-title class="headline">Edit Profile</v-card-title>
+                                    <v-card-text class="pb-0">
+                                      <v-col cols="12" class="py-0 mt-10">
+                                        <v-text-field
+                                          label="Username" :placeholder="U.username" v-model="U.username"
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="E-mail" :placeholder="U.useremail" v-model="U.useremail"
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="Birthday" :placeholder="U.userbirthday" v-model="U.userbirthday"
+                                          hint="YYYY-MM-DD 의 형식으로 입력해주세요"
+                                          persistent-hint
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          label="Phone" :placeholder="U.userphone" v-model="U.userphone"
+                                          hint="000-0000-0000 의 형식으로 입력해주세요"
+                                          persistent-hint                                          
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0">
+                                        <v-text-field
+                                          type="password"
+                                          label="Password" :placeholder="U.userpassword" v-model="U.userpassword"
+                                          hint="이전 비밀번호 혹은 변경할 비밀번호를 입력해주세요(필수)"
+                                          :rules="[v => !!v  || 'Password is required', v => v.length >= 5 || 'Password is too short']"
+                                          required
+                                          persistent-hint                                          
+                                          filled rounded dense></v-text-field>
+                                      </v-col>
+                                    </v-card-text>
+
+                                    <v-card-actions class="pt-5">
+                                      <v-spacer></v-spacer>
+                                      <v-btn color="orange" text @click="editProfile" >Edit</v-btn>
+                                      <v-btn color="grey" text @click="dialog = false" >Close</v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
+                        </v-card-actions>
+
+                         -->
             <v-col cols="12" class="text-right py-0">
               <v-btn @click="logOut" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-account-arrow-right</v-icon> logout</v-btn>             
-              <v-btn class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
+              <v-btn @click="editProfile" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
             </v-col>
           </v-row>
+
+         
           <!-- <v-row class="mt-10">
             <v-col cols="5">
               <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon>My groups({{mygroups.length}})</div>
@@ -453,15 +540,17 @@
 
 <script>
 import { D3LineChart } from 'vue-d3-charts'
+import { D3PieChart } from 'vue-d3-charts'
 import wordcloud from 'vue-wordcloud'
 import { D3BarChart } from 'vue-d3-charts'
-
+//import axios from 'axios';
 import http from '@/util/http-common.js'
+//import User from '../../models/user';
 
 export default {
     name: 'Profile',
     components: {
-        D3LineChart,wordcloud,D3BarChart,
+        D3LineChart, D3PieChart,wordcloud,D3BarChart,
     },
     data() {
       return {
@@ -476,11 +565,9 @@ export default {
         panel : true,
         model: null,
         dialogforwithdraw: false,
-        noteNum : 0,
-        schduleNum : 0,
         // 프로필 수정
         U: {
-          username: '',
+          //user: new User('', '', '', ''),
           userbirthday: '',
           useremail: '',
           userpassword: '',
@@ -605,8 +692,6 @@ export default {
         {c: 65, keyword: 'amet'},
       ],
 
-      bar : [],
-
       }
     },
     created() {
@@ -667,12 +752,11 @@ export default {
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
         })
+        
 
-        for (let i = 0; i < 10; i++) {
-          this.sorted[i] = this.chart_data_bar[i]
-        }
-
+        this.sorted = this.chart_data_bar
         var sortingField = "c";
+
         this.sorted.sort((a, b) => {
           return b[sortingField] - a[sortingField];
         });
@@ -695,8 +779,6 @@ export default {
         }
       }).then(({data}) => {
         data.forEach(element => {
-          this.noteNum += element.pBookmark;
-          this.schduleNum += element.pCategory;
           this.chart_data_formonth.push({"note" : element.pBookmark, "schedule":element.pCategory, "date":element.pClub})
         });
 
@@ -777,12 +859,50 @@ export default {
                 this.selected.pBookmark = 1;
             }
         },
-        sendData() {
+        editProfile() {
           // 여기서 검증한 뒤에 axios 쏘기
+          console.log(this.U.userphone);
+          console.log(this.U.userbirthday);
+
+          http.get('auth/editprofile', {
+            params :{
+              email : this.U.useremail,
+              birthday : this.U.userbirthday,
+              phone : this.U.userphone,
+              password : this.U.userpassword
+            }
+          }).then((response) => {
+              this.$store.state.auth.user.userbirthday = this.U.userbirthday;
+              this.$store.state.auth.user.userphone = this.U.userphone;
+              //console.log(this.$store.state.auth.user.userbirthday);
+              this.$dialog.notify.success("정보가 수정되었습니다.", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+              localStorage.removeItem('user');
+              localStorage.setItem('user', JSON.stringify(response.data));
+              
+              this.$router.push("Profile")
+              this.$router.go();
+          });
         },
         confirmwithdraw() {
-          console.log("탈퇴시켜야함")
-        }
+        //  console.log("탈퇴시켜야함");
+         // console.log(this.$store.state.auth.user.id);
+          http.get('auth/withdraw', {
+              params : {
+                id : this.$store.state.auth.user.id,
+                username : this.$store.state.auth.user.username
+              }
+          }).then(() => {
+            this.$dialog.notify.success("탈퇴되었습니다.", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+            this.$store.dispatch('auth/logout');
+            this.$router.go();             
+          });
+        },
      },
     computed: {
       currentUser(){

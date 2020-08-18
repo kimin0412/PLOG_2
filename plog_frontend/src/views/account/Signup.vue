@@ -15,6 +15,8 @@
                         rounded
                         dense
                         v-model="user.username"
+                        :rules="[v => !!v || 'ID is required']"
+                        required
                         autofocus
                         ></v-text-field>            
                     </v-col>
@@ -26,6 +28,8 @@
                         rounded
                         dense
                         v-model="user.email"
+                        :rules="[v => !!v || 'Email is required', v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Not Vaild Email']"
+                         required
                         ></v-text-field>            
                     </v-col>
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password</v-col>
@@ -37,6 +41,8 @@
                         dense
                         type="password"
                         v-model="user.password"
+                        :rules="[v => !!v  || 'Password is required', v => v.length >= 5 || 'Password is too short']"
+                        required
                         ></v-text-field> 
                     </v-col>    
                     <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5 mt-n3">Password 확인</v-col>
@@ -48,6 +54,8 @@
                         dense
                         type="password"
                         v-model="user.password2"
+                        :rules="[v => !!v || 'Password is required']"
+                        required
                         ></v-text-field> 
                     </v-col>     
                 </v-row>
@@ -193,42 +201,60 @@ export default {
   methods: {
     handleRegister() {
       if (this.user.password.length < 6) {
-        this.$dialog.notify.warning("비밀번호는 6자리 이상이어야 합니다 😤", {
-            position: "bottom-right",
-            timeout: 3000,
-        });
+          alert('비밀번호는 6자리 이상이어야 합니다')
       } else if (this.user.password !== this.user.password2) {
-          console.log(this.user.password)
-          console.log(this.user.password2)
-          this.$dialog.notify.error("비밀번호가 일치하지 않습니다 😥", {
-            position: "bottom-right",
-            timeout: 3000,
-            });
+          //console.log(this.user.password)
+          //console.log(this.user.password2)
+          alert('비밀번호가 일치하지 않습니다')
       } else {
         this.message = '';
         this.submitted = true;
         this.$validator.validate().then(isValid => {
             if (isValid) {
-            this.$store.dispatch('auth/register', this.user).then(
-                data => {
-                this.message = data.message;
-                this.successful = true;
-                this.$router.push('signup/success');
+            // this.$store.dispatch('auth/register', this.user).then(
+            //     data => {
+            //     this.message = data.message;
+            //     this.successful = true;
+            //    // this.$router.push('login');
+            //     this.$dialog.notify.success(this.message.message, {
+            //             position: "bottom-right",
+            //                         timeout: 3000,
+            //                         });
+            //                         this.$router.push('login');
+                //     },
+                this.$store.dispatch('auth/register', this.user).then(
+                    () => {
+                    //this.message = data.message;
+                    this.successful = true;
+                   
                 },
-                error => {
-                this.message =
+                error => {    
+                this.message = 
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-                this.successful = false;
-                }
+                console.log(this.message.message);
+                    if(typeof(this.message.message) != 'undefined'){
+                          this.$dialog.notify.error(this.message.message, {
+                        position: "bottom-right",
+                        timeout: 3000,
+                        });
+                    }
+                    else{
+                     this.$dialog.notify.success("회원가입 완료", {
+                            position: "bottom-right", timeout: 3000, });
+                    this.$router.push('login');
+                    }
+                  
+                    
+                },
             );
-            }
-        });
-      }
-    }
+        }
+        })}
+      },
   }
-};
+}
+
 </script>
 <style scoped>
 .linkto {
