@@ -25,6 +25,17 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header class="font-weight-bold">
+                  Apache-2.0 License
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-row v-for="(item, i) in Apacheitems" :key="i">
+                        <v-col cols="4" class="py-0">- {{item.Name}}</v-col>
+                        <v-col cols="8" class="text-caption grey--text py-0 mb-3">{{item.github}}<br>{{item.copyright}}</v-col>
+                    </v-row>                    
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header class="font-weight-bold">
                   Icons
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -41,13 +52,31 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header class="font-weight-bold">
-                  Apache-2.0 License
+                  Image & Illust
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Apacheitems" :key="i">
+                    <v-row>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/cartoon'>Cartoon vector created by macrovector - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"></v-col>
+                    </v-row>          
+                    <v-row>
+                      <v-col cols="12" class="text-caption py-1">기타 참고사이트</v-col>
+                      <v-col cols="12" class="grey--text text-caption py-1">https://blush.design/</v-col> 
+                      <v-col cols="12" class="grey--text text-caption py-1">https://www.freepik.com/</v-col>  
+                    </v-row>       
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header class="font-weight-bold">
+                  else
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-row v-for="(item, i) in Else" :key="i">
                         <v-col cols="4" class="py-0">- {{item.Name}}</v-col>
                         <v-col cols="8" class="text-caption grey--text py-0 mb-3">{{item.github}}<br>{{item.copyright}}</v-col>
-                    </v-row>                    
+                    </v-row>               
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -76,6 +105,18 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header>
+                  Apache-2.0 License
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-row v-for="(item, i) in Apacheitems" :key="i">
+                        <v-col cols="12" class="py-0">{{item.Name}}</v-col>
+                        <v-col cols="12" class="text-caption grey--text py-0 text-wrap">{{item.github}}</v-col>
+                        <v-col cols="12" class="text-caption grey--text py-0 mb-3 text-wrap">{{item.copyright}}</v-col>
+                    </v-row>                    
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
                   Icons
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -91,11 +132,29 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Apache-2.0 License
+                <v-expansion-panel-header class="font-weight-bold">
+                  Image & Illust
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Apacheitems" :key="i">
+                    <v-row>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/cartoon'>Cartoon vector created by macrovector - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"></v-col>
+                    </v-row>          
+                    <v-row>
+                      <v-col cols="12" class="text-caption py-1">기타 참고사이트</v-col>
+                      <v-col cols="12" class="grey--text text-caption py-1">https://blush.design/</v-col>
+                      <v-col cols="12" class="grey--text text-caption py-1">https://www.freepik.com/</v-col>    
+                    </v-row>       
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  else
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-row v-for="(item, i) in Else" :key="i">
                         <v-col cols="12" class="py-0">{{item.Name}}</v-col>
                         <v-col cols="12" class="text-caption grey--text py-0 text-wrap">{{item.github}}</v-col>
                         <v-col cols="12" class="text-caption grey--text py-0 mb-3 text-wrap">{{item.copyright}}</v-col>
@@ -142,6 +201,13 @@ export default {
             github: 'https://github.com/spring-projects/spring-boot',
             copyright: 'Spring Boot is Open Source software released under the Apache 2.0 license.',
           },
+        ],
+        Else: [
+          {
+            Name:'vue-d3-charts',
+            github: 'https://github.com/Saigesp/vue-d3-charts',
+            copyright: 'Copyright (C) 2007 Free Software Foundation, Inc.',
+          },          
         ],
       }
     }

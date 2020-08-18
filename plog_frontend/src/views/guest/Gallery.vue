@@ -142,6 +142,9 @@ export default {
     mounted () {
       this.asNavFor1.push(this.$refs.thumbnails)
       this.asNavFor2.push(this.$refs.main)
+    },
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
     }
 }
 </script>
