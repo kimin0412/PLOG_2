@@ -17,7 +17,11 @@
                                   vertical
                                   class="font-weight-bold"
                                 >
-                                  <v-tab class="text-left">전체 노트</v-tab>
+                                  <v-tab class="text-left"
+                                  @drop="onDrop($event, 1)"
+                                  @dragover.prevent
+                                  @dragenter.prevent
+                                  >전체 노트</v-tab>
                                   <v-tab class="text-left">임시 저장</v-tab>
                                 <v-col cols="12" class="py-0 mt-5">
                                   <v-subheader class="black--text font-weight-bold">카테고리</v-subheader>
@@ -27,6 +31,10 @@
                                     v-for="(category, index) in this.categories"
                                     :key="index"
                                     class="text-left"
+                                    @click="getNotesInCategory(category.cId)"
+                                    @drop="onDrop($event, category.cId)"
+                                    @dragover.prevent
+                                    @dragenter.prevent
                                   >
                                     {{ category.cName }}
                                   </v-tab>
@@ -56,6 +64,8 @@
                                 :key="index">
                                 <v-hover v-slot:default="{ hover }">
                               <v-card
+                                draggable
+                                @dragstart="startDrag($event, note)"
                               >
                                 <v-row class="mx-3" >
                                   <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
@@ -71,6 +81,7 @@
                                         </v-btn>
                                   </v-col>
                                   <v-col cols="2" class="pr-0 pl-2 mt-4">
+
                                     <img src="@/assets/icon/file.png" width="100%" alt="">
                                     <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
                                   </v-col>
@@ -187,16 +198,18 @@
                               </div>
                               </div>
                             </v-col>
-                            <v-col cols="12" v-if="Notes.length == 0" class="text-center" style="margin-top: 25vh;">
+                            <v-col cols="12" v-if="NotesInFolder.length == 0" class="text-center" style="margin-top: 25vh;">
                               {{category.cName}} 카테고리에 저장한 노트가 없습니다.
                             </v-col>
                             <v-col cols="12" v-else class="px-0">
                               <v-row class="pt-5"  style="overflow: auto; height: 57vh; margin-top: 3vh;">
-                                <div v-for="(note, index) in Notes" :key="index">
-                                <v-col cols="12"
-                                  v-if="note.pCategory == category.cId && note.pClub == 1">
+                                <div>
+                                <v-col cols="6" v-for="(note, index) in NotesInFolder" :key="index">
                                   <v-hover v-slot:default="{ hover }">
-                                  <v-card style="width: 100% !important;">
+                                  <v-card
+                                    draggable
+                                    @dragstart="startDrag($event, note)"
+                                  >
                                     <v-row class="mx-3" >
                                       <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
                                             <v-btn text icon>
@@ -392,6 +405,7 @@ export default {
         selected2: {},
         hashtags2: [],
         bmToggle2: 0,
+        NotesInFolder : [],
 
       }
     },
@@ -460,7 +474,7 @@ export default {
       check(note) {
         console.log(note)
       },
-getFormatDate(regtime) {
+    getFormatDate(regtime) {
       return moment(new Date(regtime)).format("YYYY.MM.DD");
     },
     getNote(note) {
@@ -468,8 +482,7 @@ getFormatDate(regtime) {
       this.hashtags = [];
       this.bmToggle = note.pBookmark;
       this.hashtags = [];
-      http
-        .get("/hashtag/select", {
+      http.get("/hashtag/select", {
           params: {
             uid: this.$store.state.auth.user.id,
             pid: this.selected.pId,
@@ -490,32 +503,24 @@ getFormatDate(regtime) {
           }                          
         });
     },
-    getNoteInCategory(note) {
-      console.log(note);
-      this.selected2 = note;
-      this.hashtags2 = [];
-      this.bmToggle2 = note.pBookmark;
-      http
-        .get("/hashtag/select", {
-          params: {
-            uid: this.$store.state.auth.user.id,
-            pid: this.selected2.pId,
-          },
-        })
-        .then(({ data }) => {
-          data.forEach((element) => {
-            this.hashtags2.push({ name: element });
-          });
-        })
-        .catch((error) => {
-          if(error.response) {
-            this.$router.push("servererror")
-          } else if(error.request) {
-            this.$router.push("clienterror")
-          } else{
-            this.$router.push("/404");
-          }                          
-        });
+    getNotesInCategory(cid) {
+      this.NotesInFolder = []
+      http.get("/post/list/category", {
+        params: {
+          uid : this.$store.state.auth.user.id,
+          cid : cid,
+        },
+      }).then(({ data }) => {
+        this.NotesInFolder = data;
+      }).catch((error) => {
+        if(error.response) {
+          this.$router.push("servererror")
+        } else if(error.request) {
+          this.$router.push("clienterror")
+        } else{
+          this.$router.push("/404");
+        }                          
+      });
     },
     getTpNote(tpnote) {
       console.log(tpnote);

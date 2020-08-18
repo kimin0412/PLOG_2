@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
 	
 	public List<Post> selectAll(int uid) {
 		//return dao.findAll();
-		return dao.findBypUser(uid, Sort.by(Sort.Direction.DESC,"pBookmark","pDate"));
+		return dao.findMineBypUser(uid);
 	}
 
 	@Override
@@ -315,11 +315,6 @@ public class PostServiceImpl implements PostService {
 		
 		return pid;
 	}
-
-	@Override
-	public List<Post> selectByCategory(int uid, int cId) {
-		return dao.findBypCategory(uid, cId);
-	}
 	
 	@Override
 	public List<Category> getCategory(int uid) {
@@ -445,5 +440,16 @@ public class PostServiceImpl implements PostService {
 		int uid = dao.getPUser(pid);
 		User user = ur.findbyClId(uid);
 		return user.getUsername();
+	}
+
+	@Override
+	public Post countClubPosts(int pUser, int pClub) {
+		int all = dao.getCountByPUser(pUser, pClub);
+		return null;
+	}
+
+	@Override
+	public List<Post> selectAllInCategory(int uid, int cid) {
+		return dao.findAllByPUserAndPCategory(uid, cid);
 	}
 }

@@ -44,6 +44,12 @@ public class PostController {
     	return posts;
     }
 	
+	@GetMapping("/list/category")
+	public List<Post> selectAllInCategory(@RequestParam(required = false) final int uid, int cid) {
+		List<Post> posts = service.selectAllInCategory(uid, cid);
+    	return posts;
+    }
+	
 	@GetMapping("/list/all/club")
 	public List<Post> selectAllClub(@RequestParam(required = false) final int clid) {
 		List<Post> posts = service.selectAllClub(clid);
@@ -73,14 +79,6 @@ public class PostController {
 			List<Category> categorys = service.getCategory(uid);
 			return new ResponseEntity<>(categorys, HttpStatus.OK);
 	}
-	
-	@GetMapping("/list/category")
-	public Object selectByCategory(@RequestParam(required = false) final int uid, 
-							  @RequestParam(required = false) final int cId) {
-    	
-    	List<Post> posts = service.selectByCategory(uid, cId);
-    	return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
 	
 	@GetMapping("/list/day")
 	public Object selectByDay(@RequestParam(required = false) final int uid, 
@@ -161,5 +159,10 @@ public class PostController {
 	 @GetMapping("/count")
 	 public List<Post> countPosts(@RequestParam final int uid) {
 		 return service.countPosts(uid);
+	 }
+	 
+	 @GetMapping("/post/count/club")
+	 public Post countClubPosts(@RequestParam final int pUser, int pClub) {
+		 return service.countClubPosts(pUser, pClub);
 	 }
 }
