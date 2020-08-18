@@ -23,8 +23,6 @@ public interface PostService {
 
 	int registPost(Post_NoJPA post);
 
-	List<Post> selectByCategory(int uid, int c_id);
-
 	List<Category> getCategory(int uid);
 
 	public List<Post> selectByWord(int uid, String word, boolean[] checklist);
@@ -40,4 +38,8 @@ public interface PostService {
 	List<Post> countPosts(int uid);
 
 	String getUser(int pid);
+
+	Post countClubPosts(int pUser, int pClub);
+
+	List<Post> selectAllInCategory(int uid, int cid);
 }
