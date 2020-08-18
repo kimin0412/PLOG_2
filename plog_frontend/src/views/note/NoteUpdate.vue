@@ -364,7 +364,6 @@ export default {
       IdentityPoolId: 'ap-northeast-2:4985e7e4-3205-4085-8e76-368daf8dc9b7',
 
       cnt: null,
-
     };
   },
   // created 한 뒤 axios로
@@ -404,7 +403,7 @@ export default {
         },
       })
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         this.title = data.pTitle;
         //this.model = data.model;
         const Entities = require("html-entities").XmlEntities;
@@ -413,7 +412,7 @@ export default {
         this.cnt = v_content.match(/&lt;img src=/g); 
         // console.log(v_content);
         this.content = entities.decode(v_content);
-        console.log(this.content);
+        // console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
       })
@@ -497,11 +496,11 @@ export default {
     },
     updateAction() {
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
-      console.log(content);
+      // console.log(content);
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      console.log(content);
+      // console.log(content);
       var resContent = '';
 
       if(this.category == ''){
@@ -520,10 +519,6 @@ export default {
       if(this.cnt != null) {
         i = this.cnt.length;
       }
-
-      // while(content.includes("&lt;img src=")){
-      //   i++;
-      // }
 
       while(content.includes(";base64,")) {
         var start = content.indexOf("data:image");
