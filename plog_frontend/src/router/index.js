@@ -7,7 +7,6 @@ import Schedule from '../views/schedule/ScheduleMain.vue'
 import Mypage from '../views/account/MyPageMain.vue'
 import Search from '../views/SearchMain.vue'
 import Note from '../views/note/NoteMain.vue'
-import Note2 from '../views/note/NoteMain2.vue'
 
 // account
 import Login from '../views/account/Login.vue'
@@ -103,18 +102,6 @@ Vue.use(VueRouter)
     path: '/note',
     name: 'Note',
     component: Note,
-    beforeEnter(from, to, next) {
-      if (!auth.state.status.loggedIn) {
-        next('/auth')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/note2',
-    name: 'Note2',
-    component: Note2,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
         next('/auth')
