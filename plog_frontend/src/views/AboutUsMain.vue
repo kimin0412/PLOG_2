@@ -194,7 +194,7 @@
                   </router-link>
                 </v-col>
                 <v-col cols="6" class="mb-5">
-                  <router-link to="/mypage" class="link-tag">
+                  <router-link to="/profile" class="link-tag">
                     <div><img src="@/assets/icon/analytics.png" alt="user-image" class="link-icon "></div>
                     <div class="mt-4 font-weight-light text-button">Statistics</div>
                   </router-link>
