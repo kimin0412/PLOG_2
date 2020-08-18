@@ -222,7 +222,7 @@
         <v-spacer></v-spacer>
         <router-link to="/aboutus" class="footer-router">About us</router-link>
         <router-link to="/aboutus/developers" class="footer-router">Developers</router-link>
-        <router-link to="/aboutus" class="footer-router mr-15">License</router-link>
+        <router-link to="/license" class="footer-router mr-15">License</router-link>
       </v-card-text>
     </v-card>
   </v-footer>
