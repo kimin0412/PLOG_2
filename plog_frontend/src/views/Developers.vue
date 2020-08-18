@@ -11,7 +11,7 @@
             </v-col>
           </v-row>
           <v-row justify="center" class="px-10">
-            <v-expansion-panels inset>
+            <v-expansion-panels>
               <v-expansion-panel
                 v-for="(mem,i) in members"
                 :key="i"
@@ -70,35 +70,35 @@ export default {
             role: 'Leader',
             ename: 'M.J. Kim',
             position: 'FRONTEND & BACKEND',
-            intro: '배포는 이렇게 하는거야...',
+            intro: '멤버 소개 문구',
           },
           {
             name:'김민섭',
             role: 'Member',
             ename: 'M.S. Kim', 
             position: 'FRONTEND & BACKEND',
-            intro: 'F.U.L.L - S.T.A.C.K',
+            intro: '멤버 소개 문구',
           },
           {
             name:'이민재',
             role: 'Member',
             ename: 'M.J. Lee',
             position: 'FRONTEND & BACKEND',
-            intro: '일단 구현은 해드릴게...',
+            intro: '멤버 소개 문구',
           },
           {
             name:'신지식',
             role: 'Member',
             ename: 'J.S. Shin',
             position: 'BACKEND',
-            intro: 'jwt 쌉가능',
+            intro: '멤버 소개 문구',
           },
           {
             name:'임혜민',
             role: 'Member',
             ename: 'H.M. Rheem',
             position: 'FRONTEND',
-            intro: '화면에 띄워는 드릴게...',
+            intro: '멤버 소개 문구',
           },
         ]
       }
