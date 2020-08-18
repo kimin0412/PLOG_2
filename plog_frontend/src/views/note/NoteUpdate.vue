@@ -255,6 +255,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/vue-editor";
 import moment from "moment";
+import AWS from 'aws-sdk';
 
 export default {
   name: "NoteUpdate",
@@ -297,6 +298,12 @@ export default {
       dialogCategory : false,
       categories : [],
       hiddenArea : '',
+
+      albumBucketName: 'plog-image',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:4985e7e4-3205-4085-8e76-368daf8dc9b7',
+
+      cnt: null,
     };
   },
   // created 한 뒤 axios로
@@ -336,14 +343,16 @@ export default {
         },
       })
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         this.title = data.pTitle;
         //this.model = data.model;
         const Entities = require("html-entities").XmlEntities;
         const entities = new Entities();
         var v_content = data.pContent;
+        this.cnt = v_content.match(/&lt;img src=/g); 
+        // console.log(v_content);
         this.content = entities.decode(v_content);
-        console.log(this.content);
+        // console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
         this.pickColor = data.pColor;
@@ -400,6 +409,18 @@ export default {
   },
 
   methods: {
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), 
+      n = bstr.length, 
+      u8arr = new Uint8Array(n);
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }        
+      return new File([u8arr], fileName, {type:mime});
+    },
+
     wordcomplete() {
       if (this.keywordinput.length < 2) {
         this.$dialog.notify.warning("두 글자 이상 입력해주세요 😯", {
@@ -416,10 +437,12 @@ export default {
     },
     updateAction() {
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
+      // console.log(content);
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      console.log(content);
+      // console.log(content);
+      var resContent = '';
 
       if(this.category == ''){
         this.category = 1
@@ -430,6 +453,69 @@ export default {
       for (let i = 0; i < numOfHashTag; i++) {
         this.hashtags += this.model[i] + " ";
       }
+
+      var images = [];
+      var i = 0;
+      
+      if(this.cnt != null) {
+        i = this.cnt.length;
+      }
+
+      while(content.includes(";base64,")) {
+        var start = content.indexOf("data:image");
+        var end = content.indexOf("&quot;",start);
+
+        var estart = content.indexOf("data:image");
+        estart = content.indexOf("/", estart) + 1;
+        var eend = content.indexOf(";",estart);
+        var extend = content.substring(estart, eend);
+
+        var image = content.substring(start, end);
+        var fileName = this.pId + "_" + i + "." + extend;
+        var file = this.dataURLtoFile(image, fileName);
+        console.log(file);
+        resContent = content.substring(0, start);
+        resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
+        resContent = resContent + content.substring(end);
+        console.log(resContent);
+        images[i] = file;
+        i++;
+        content = resContent;
+      }
+
+      images.forEach(element => {
+        AWS.config.update({
+          region : this.bucketRegion,
+          credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: this.IdentityPoolId
+          })
+        }); //s3 configuration
+
+        var s3 = new AWS.S3({
+          apiVersion: '2006-03-01',
+          params: {
+            Bucket: this.albumBucketName
+          }
+        }); //s3 configuration
+
+        let photoKey = element.name;
+        s3.upload({
+          Key: photoKey,
+          Body: element,
+          ACL: 'public-read'
+        } , (err) => {
+          if(err){
+            // console.log(err);
+            this.$dialog.notify.error("이미지 업로드 중 에러가 발생하였습니다. 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+            return;
+          }
+          // alert("성공!");
+          // console.log(data);
+        });
+      });
 
       http
         .put("/post/", {

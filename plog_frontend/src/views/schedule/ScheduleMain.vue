@@ -147,7 +147,6 @@
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <small>*indicates required field</small>
                         <v-btn
                           color="blue darken-1"
                           text
@@ -183,7 +182,7 @@
                           <v-row>
                             <v-col cols="12">
                               <v-text-field
-                                label="Schedule Description*"
+                                label="내용"
                                 v-model="detailContent"
                                 readonly
                               ></v-text-field>
@@ -192,7 +191,7 @@
                             <v-col cols="12" sm="6">
                               <v-text-field
                                 v-model="detailDates"
-                                label="Date range"
+                                label="기간"
                                 readonly
                               ></v-text-field>
                             </v-col>
@@ -225,19 +224,19 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
-                          color="blue darken-1"
+                          color="orange"
                           text
                           @click="updateDialogOpen"
-                          >수정하기</v-btn
+                          >Edit</v-btn
                         >
                         <v-btn
-                          color="blue darken-1"
+                          color="red"
                           text
                           @click="deleteSchedule"
-                          >삭제하기</v-btn
+                          >Delete</v-btn
                         >
                         <v-btn
-                          color="blue darken-1"
+                          color="grey"
                           text
                           @click="scheduleDetailOpen = false"
                           >Close</v-btn
@@ -257,7 +256,7 @@
                           <v-row>
                             <v-col cols="12" sm="6" md="4">
                               <v-text-field
-                                label="Schedule Name*"
+                                label="제목*"
                                 v-model="uName"
                                 required
                               ></v-text-field>
@@ -273,32 +272,33 @@
                             <v-col cols="12" sm="6">
                               <v-text-field
                                 v-model="uDateRangeText"
-                                label="Date range"
+                                label="기간*"
                                 readonly
                               ></v-text-field>
                             </v-col>
 
                             <v-col cols="12">
                               <v-text-field
-                                label="Schedule Description*"
+                                label="내용*"
                                 v-model="uContent"
                                 required
                               ></v-text-field>
                             </v-col>
                           </v-row>
+                          <small class="text-right ml-auto">*은 필수항목입니다.</small>
                         </v-container>
-                        <small>*indicates required field</small>
+                        
                       </v-card-text>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="closeUpdate"
+                        <v-btn color="grey" text @click="closeUpdate"
                           >Close</v-btn
                         >
                         <v-btn
                           color="blue darken-1"
                           text
                           @click="updateSchedule"
-                          >수정하기</v-btn
+                          >EDIT</v-btn
                         >
                       </v-card-actions>
                     </v-card>
@@ -328,11 +328,11 @@
             </v-col>
           </v-col>
           <v-col cols="12">
-            <v-row class="mt-10">
+            <v-row class="mt-10" id="bigschedule">
               <v-col cols="12" class="text-h6 py-1">Today's schedule</v-col>
               <v-col cols="12">
-                <div v-for="(item, i) in dailySchedule" :key="i">
-                  <div v-if="dailySchedule.length != 0">
+                <div v-if="dailySchedule.length">
+                  <div v-for="(item, i) in dailySchedule" :key="i">
                     <v-card class="mx-auto">
                       <v-card-text class="d-flex justify-space-between  py-0">
                         <div class="pt-2">
@@ -351,10 +351,10 @@
                       ><v-divider></v-divider>
                     </v-card>
                   </div>
-                  <div v-else>
-                    <div>
-                      작성한 일정이 없습니다.
-                    </div>
+                </div>
+                <div v-else>
+                  <div class="text-caption grey--text">
+                    해당 날짜의 일정이 없습니다.
                   </div>
                 </div>
               </v-col>
@@ -362,24 +362,26 @@
             <v-row class="mt-10">
               <v-col cols="12" class="text-h6 py-1">Daily Logs</v-col>
               <v-col cols="12">
-                <div v-for="(item, i) in dailyPost" :key="i">
-                  <div v-if="dailyPost.length != 0">
-                    <router-link
-                      :to="{ path: 'note/detail', query: { pId: item.id } }"
-                      class="py-0 text-center text-h6 text-decoration-none"
-                      ><v-card class="mx-auto">
-                        <v-card-text class="d-flex justify-space-between py-0">
-                          <div class="pt-2">
-                            <v-icon class="mr-3" small>mdi-pencil</v-icon
-                            >{{ item.name }}
-                          </div>
-                          <v-btn text color="blue lighten-2  ml-auto"
-                            >click</v-btn
-                          > </v-card-text
-                        ><v-divider></v-divider> </v-card
-                    ></router-link>
+                <div v-if="dailyPost.length != 0">
+                  <div v-for="(item, i) in dailyPost" :key="i">
+                      <router-link
+                        :to="{ path: 'note/detail', query: { pId: item.id } }"
+                        class="py-0 text-center text-h6 text-decoration-none"
+                        ><v-card class="mx-auto">
+                          <v-card-text class="d-flex justify-space-between py-0">
+                            <div class="pt-2">
+                              <v-icon class="mr-3" small>mdi-pencil</v-icon
+                              >{{ item.name }}
+                            </div>
+                            <v-btn text color="blue lighten-2  ml-auto"
+                              >click</v-btn
+                            > </v-card-text
+                          ><v-divider></v-divider> </v-card
+                      ></router-link>
                   </div>
-                  <div v-else><div>작성한 노트가 없습니다.</div></div>
+                </div>
+                <div v-else>
+                  <div class="text-caption grey--text">해당 날짜에 작성한 노트가 없습니다.</div>
                 </div>
               </v-col>
             </v-row>
@@ -620,7 +622,6 @@ export default {
 
   created() {
     if(this.$route.query.q == null){
-      console.log("empty");
       this.pageIndex = 0;
     }
     else{
@@ -759,6 +760,7 @@ export default {
               id: element.sId,
             });
           });
+
         });
 
       this.dailyPost = [];
@@ -774,6 +776,7 @@ export default {
             this.dailyPost.push({ name: element.pTitle, id: element.pId });
           });
         });
+    
     },
 
     viewDay({ date }) {
@@ -808,6 +811,7 @@ export default {
             this.dailyPost.push({ name: element.pTitle, id: element.pId });
           });
         });
+        document.getElementById("bigschedule").scrollIntoView({behavior: "smooth"});
     },
 
     getEventColor(event) {

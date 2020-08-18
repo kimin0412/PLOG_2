@@ -6,7 +6,8 @@ import Aboutus from '../views/AboutUsMain.vue'
 import Schedule from '../views/schedule/ScheduleMain.vue'
 import Mypage from '../views/account/MyPageMain.vue'
 import Search from '../views/SearchMain.vue'
-import Note from '../views/note/NoteMain.vue'
+import Note from '../views/note/NoteMain2.vue'
+import Note2 from '../views/note/NoteMain.vue'
 
 // account
 import Login from '../views/account/Login.vue'
@@ -40,6 +41,7 @@ import ClientError from '../views/error/ClientError.vue'
 
 // developers
 import Developers from '../views/Developers.vue'
+import License from '../views/License.vue'
 
 // visualize
 import Visual1 from '../views/analysis/Visual1.vue'
@@ -87,6 +89,11 @@ Vue.use(VueRouter)
     component: Developers
   },
   {
+    path: '/license',
+    name: 'License',
+    component: License
+  },
+  {
     path: '/schedule',
     name: 'Schedule',
     component: Schedule,
@@ -102,6 +109,18 @@ Vue.use(VueRouter)
     path: '/note',
     name: 'Note',
     component: Note,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/note2',
+    name: 'Note2',
+    component: Note2,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
         next('/auth')
