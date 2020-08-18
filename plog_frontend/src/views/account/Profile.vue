@@ -394,58 +394,6 @@
               <v-btn class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
             </v-col>
           </v-row>
-          <!-- <v-row class="mt-10">
-            <v-col cols="5">
-              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon>My groups({{mygroups.length}})</div>
-            </v-col>  
-            <v-col cols="7">  
-              <div class="mx-auto">
-                  <div v-if="mygroups.length >= 1">
-                    <v-row  v-for="(item,i) in mygroups" :key="i">
-                      <v-col cols="6" class="d-flex justify-center py-1 pl-5">
-                          <v-card :color="item.clColor" class="transparent--text text-right" height="20" style="width:20px;">색</v-card>
-                      </v-col>
-                      <v-col cols="6" class="text-left text-caption py-1 pr-5 text-truncate pl-0">{{ item.clName }}</v-col>
-                    </v-row>
-                  </div>
-                  <div v-else>
-                    <v-row>
-                        <v-col cols="12" class="grey--text text-caption text-center">그룹이 없습니다 :)</v-col>
-                    </v-row>
-                  </div>
-              </div>
-            </v-col>
-            <v-col cols="5" class="mt-5">
-              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon> My notes</div>
-            </v-col>
-            <v-col cols="7" class="mt-5">
-              <v-row>
-                    <v-col cols="7" class="text-caption text-left grey--text py-0 pl-10">Notes</v-col>
-                    <v-col cols="5" class="text-caption text-left font-weight-bold black--text py-0">50</v-col>
-              </v-row>
-              <v-row>
-                    <v-col cols="7" class="text-caption text-left grey--text py-0 pl-10">hashtags</v-col>
-                    <v-col cols="5" class="text-caption text-left font-weight-bold black--text py-0">3</v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="5" class="mt-5">
-              <div class="text-left text-subtitle-2 font-weight-bold"><v-icon small class="mr-2">mdi-check</v-icon> More...</div>
-            </v-col>
-            <v-col cols="7" class="mt-5">
-              <v-row justify="center">
-                <v-btn class="red--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-2">mdi-account-minus</v-icon>withdraw</v-btn>             
-              </v-row>
-            </v-col>
-          </v-row> -->
-          <v-row class="mt-10">
-              <v-col cols="12" class="text-center text-subtitle-2 font-weight-bold">My P-logs</v-col>
-              <v-col cols="12" class="text-center grey--text text-caption">
-                나의 Plog 이용 통계와 자료는 <br> pc환경에서 확인할 수 있습니다.
-              </v-col>
-              <v-col cols="12">
-                
-              </v-col>
-          </v-row>
         </v-container>
       </div>
   </div>

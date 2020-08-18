@@ -470,6 +470,7 @@
           </v-container>
         </div>
       </div>
+
       <div class="d-block d-sm-none">
         <v-container>
           <v-row>
@@ -483,7 +484,242 @@
             <v-col cols="8" class="text-center">
               <div><strong>환영합니다 :)</strong>, <br> <span class="text-caption grey--text">{{groupName}} 팀을 위한 공간입니다</span></div>
             </v-col>
+            <!-- 그룹 노트 -->
+            <v-col/>
+            <v-col cols="12" class="text-h6 font-weight-bold">Group Notes</v-col>
             <v-col cols="12" class="py-0 mt-5">
+              <v-container>
+                                <v-row>
+                                    <v-col cols="12" class="mt-5 text-center">
+                                      <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon text-decoration-none text-rignt">
+                                        <v-btn small color="transparent" elevation="0" class="ml-auto indigo--text"><v-icon class="mr-2 indigo--text" small>mdi-pencil-plus</v-icon>New note</v-btn>          
+                                      </router-link>
+                                        <v-btn small color="transparent" elevation="0" class="ml-auto grey--text text-decoration-none" @click="categoryDialog = true"><v-icon class="grey--text mr-2" small>mdi-folder-multiple-plus</v-icon>New folder</v-btn>
+                                            <v-menu
+                                            v-model="categoryDialog"
+                                            :close-on-content-click="false"
+                                            offset-x>
+                                            <v-card>
+                                                <v-card-title>
+                                                    <span class="headline">New Category</span>
+                                                </v-card-title>
+                                                <v-card-text>
+                                                    <v-container>
+                                                    <v-row>
+                                                        <v-col cols="12">
+                                                        <v-text-field label="Category Name*" v-model="cName" required></v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+                                                    </v-container>
+                                                </v-card-text>
+                                                <v-card-actions>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn color="blue darken-1" text @click="createCategory">생성하기</v-btn>
+                                                    <v-btn color="blue darken-1" text @click="categoryDialog = false">Close</v-btn>
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-menu>
+                                        <v-menu
+                                        v-model="updateCategoryDialog"
+                                        :close-on-content-click="false"
+                                        offset-x
+                                        >
+                                        <v-card>
+                                        <v-card-title>
+                                            <span class="headline">Update Category</span>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-container>
+                                            <v-row>
+                                                <v-col cols="12">
+                                                <v-text-field label="Category Name*" v-model="cUpdateName" required></v-text-field>
+                                                </v-col>
+                                            </v-row>
+                                            </v-container>
+                                        </v-card-text>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="blue darken-1" text @click="updateCategory">수정하기</v-btn>
+                                            <v-btn color="blue darken-1" text @click="updateCategoryDialog = false">Close</v-btn>
+                                        </v-card-actions>
+                                        </v-card>
+                                        </v-menu>
+                                    </v-col>
+
+                                    <v-sheet
+                                      @drop='onDrop($event, 1)' 
+                                      @dragover.prevent
+                                      @dragenter.prevent
+                                      max-width="100%"
+                                    >
+                                      <v-slide-group
+                                        v-model="model"
+                                        class="pa-4"
+                                        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
+                                        :next-icon="nextIcon ? 'mdi-plus' : undefined"
+                                        :multiple="multiple"
+                                        :mandatory="mandatory"
+                                        :show-arrows="showArrows"
+                                        :center-active="centerActive"
+                                        
+                                      >
+                                        <v-slide-item
+                                          v-for="(note, index) in Notes" :key="index"
+                                          @drop='onDrop($event, 1)' 
+                                          @dragover.prevent
+                                          @dragenter.prevent
+                                        >
+                                          <router-link
+                                            :to="{
+                                              path: '/group/notedetail',
+                                              query: { pId: note.pId, clId : groupId },
+                                            }"
+                                            style="text-decoration : none"
+                                          >
+                                          <v-card
+                                            width="140"
+                                            height="180"
+                                            class="mx-2 my-1"
+                                            :color="groupColor+' lighten-5'"
+                                            draggable
+                                            @dragstart='startDrag($event, note)'
+                                            v-if="note.pCategory == 1"
+                                          >
+                                            <v-list-item three-line>
+                                              <v-list-item-content>
+                                                <v-list-item-title class="headline mt-7 mb-5 text-center">{{ note.pTitle }}</v-list-item-title>
+                                                <v-list-item-subtitle class="mt-15">{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                              </v-list-item-content>
+
+                                              <v-list-item-avatar
+                                                tile
+                                                size="20"
+                                                :color="note.pColor"
+                                              ></v-list-item-avatar>
+                                                  
+                                            </v-list-item>
+                                          </v-card>
+                                          </router-link>
+                                        </v-slide-item>
+                                      </v-slide-group>
+                                    </v-sheet>
+                                </v-row>
+
+                                <v-expansion-panels popout focusable>
+                                    <v-expansion-panel
+                                      v-for="(category, index) in this.categories"
+                                      :key="index"
+                                    >
+                                      <div
+                                        v-if="category.cId != 1"
+                                        @drop="onDrop($event, category.cId)"
+                                        @dragover.prevent
+                                        @dragenter.prevent
+                                      >
+                                        <v-expansion-panel-header>
+                                          {{ category.cName }}
+                                          <template v-slot:default="{ open }">
+                                            <v-row no-gutters>
+                                              <v-col cols="4">
+                                                <span>
+                                                    <v-icon class="mx-2">
+                                                      mdi-folder
+                                                    </v-icon>
+                                                  </span>
+                                                {{ category.cName }}
+                                              </v-col>
+                                              <v-col cols="8" class="d-flex justify-end py-0">
+                                                <v-fade-transition leave-absolute>
+                                                  <span v-if="open" key="0">
+                                                    <v-icon
+                                                      color="red"
+                                                      class="mr-2"
+                                                      @click="deleteCategory(category.cId)"
+                                                      >mdi-delete</v-icon
+                                                    >
+                                                    <v-icon
+                                                      dark
+                                                      color="blue"
+                                                      class="mr-2"
+                                                      @click="
+                                                        openUpdateDialog(category.cId, category.cName)
+                                                      "
+                                                      >mdi-wrench</v-icon
+                                                    >
+                                                  </span>
+                                                  
+                                                </v-fade-transition>
+                                              </v-col>
+                                            </v-row>
+                                          </template>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content>
+                                          <v-sheet
+                                            max-width="100%"
+                                          >
+                                            <v-slide-group
+                                              v-model="model"
+                                              class="pa-4"
+                                              :prev-icon="prevIcon ? 'mdi-minus' : undefined"
+                                              :next-icon="nextIcon ? 'mdi-plus' : undefined"
+                                              :multiple="multiple"
+                                              :mandatory="mandatory"
+                                              :show-arrows="showArrows"
+                                              :center-active="centerActive"
+                                              
+                                            >
+                                              <v-slide-item
+                                                v-for="(note, index) in Notes" :key="index"
+                                                @drop='onDrop($event, 1)' 
+                                                @dragover.prevent
+                                                @dragenter.prevent
+                                              >
+                                                <router-link
+                                                  :to="{
+                                                    path: '/group/notedetail',
+                                                    query: { pId: note.pId, clId : groupId },
+                                                  }"
+                                                  style="text-decoration : none"
+                                                >
+                                                <v-card
+                                                  width="140"
+                                                  height="180"
+                                                  class="mx-2 my-1"
+                                                  :color="groupColor+' lighten-5'"
+                                                  draggable
+                                                  @dragstart='startDrag($event, note)'
+                                                  v-if="note.pCategory == category.cId"
+                                                >
+                                                  <v-list-item three-line>
+                                                    <v-list-item-content>
+                                                      <v-list-item-title class="headline mt-7 mb-5 text-center">{{ note.pTitle }}</v-list-item-title>
+                                                      <v-list-item-subtitle class="mt-15">{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                                    </v-list-item-content>
+
+                                                    <v-list-item-avatar
+                                                      tile
+                                                      size="20"
+                                                      :color="note.pColor"
+                                                    ></v-list-item-avatar>
+                                                        
+                                                  </v-list-item>
+                                                </v-card>
+                                                </router-link>
+                                              </v-slide-item>
+                                            </v-slide-group>
+                                          </v-sheet>
+                                        </v-expansion-panel-content>
+                                      </div>
+                                    </v-expansion-panel>
+                                  </v-expansion-panels>
+                                </v-container>
+            </v-col>            
+            
+          </v-row>
+
+          <v-row class="mt-10">
+              <v-col cols="12" class="text-subtitle-2 font-weight-bold">{{groupName}}'s P-logs</v-col>
+              <v-col cols="12" class="py-0 mt-5">
               <v-divider></v-divider>
               <v-row class="py-0">
                 <v-col cols="4" class="text-caption grey--text text-center py-1">POST</v-col>
@@ -500,8 +736,7 @@
             </v-col>
             
             <v-col cols="12" class="text-right py-0">
-              <v-btn @click="sheet = !sheet" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-plus</v-icon> More...</v-btn>    
-              <v-btn @click="clubDialog = true" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>    
+              <v-btn @click="sheet = !sheet" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-plus</v-icon> More...</v-btn>        
               <v-dialog
                 v-model="clubDialog"
                 :close-on-content-click="false"
@@ -615,60 +850,38 @@
                           Group Members
                         </v-col>
                         
-                        <v-col cols="12">
-                          <v-virtual-scroll
-                                :items="Members"
-                                :item-height="60"
-                                max-height="300"
-                              >
-                                <template v-slot="{ item }">
-                                  <v-list-item>
-
-                                    <v-list-item-content>
-                                      <v-col cols="12" >
-                                        <v-divider class="mx-5"></v-divider>
-                                          <v-row class="py-0">
-                                              <v-col cols="1"></v-col>
-                                              <v-col cols="3" class="text-center">
-                                                  <div class="text-center"><img  class="text-center" :src="require(`@/assets/users/u`+item.id%13+'.png')" alt="" width="40"></div>
-                                              </v-col>
-                                              <v-col cols="7" class="text-center text-caption">
-                                                  <div>이름: <strong class="text-caption font-weight-bold">{{item.username}}</strong></div>
-                                                  <div class=" text-caption">{{item.email}}</div>
-                                              </v-col>
-                                              <v-col cols="1"></v-col>
-                                              <v-divider></v-divider>
-                                          </v-row>
-                                      </v-col>
-                                    </v-list-item-content>
-                                  </v-list-item>
+                        <v-col cols="12" class="py-0 text-caption grey--text">
+                          <v-container >
+                            <v-col cols="12" >
+                              <v-simple-table>
+                                <template v-slot:default >
+                                  <tbody >
+                                    <tr v-for="(member,index) in Members" :key="index">
+                                      <td class="text-center"><img :src="require(`@/assets/users/u`+member.id%13+'.png')" alt="" width="25">
+                                      {{member.email}}</td>
+                                    </tr>
+                                  </tbody>
                                 </template>
-                              </v-virtual-scroll>
+                              </v-simple-table>                                            
+                            </v-col>
+                          </v-container>
                         </v-col>
                         <v-col cols="12" class="mt-5 py-0 font-weight-bold text-caption">
                           Group Settings
                         </v-col>
                         <v-col  cols="12" class="py-0 text-caption grey--text">
-                          <v-btn v-if="currentUser.id == host.id"  small color="orange" class="py-0 white--text text-center atag mr-3" @click="deleteGroup">그룹 삭제</v-btn>
+                          <v-btn @click="clubDialog = true" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>
+                          <v-btn v-if="currentUser.id == host.id" class="red--text text-caption" color="transparent" elevation="0" small @click="deleteGroup">Delete</v-btn>
+                          <v-btn class="red--text text-caption" color="transparent" elevation="0" small @click="withDraw">Withdraw</v-btn>
                         </v-col>
                         <v-col  cols="12" class="py-0 text-caption grey--text">
-                          <v-btn small color="red" text class="py-0 white--text text-center atag" @click="withDraw">탈퇴하기</v-btn>
+                          
                         </v-col>
                       </v-row>
                     </v-sheet>
                   </v-bottom-sheet>
                 </div>     
             </v-col>
-          </v-row>
-
-          <v-row class="mt-10">
-              <v-col cols="12" class="text-center text-subtitle-2 font-weight-bold">My P-logs</v-col>
-              <v-col cols="12" class="text-center grey--text text-caption">
-                나의 Plog 이용 통계와 자료는 <br> pc환경에서 확인할 수 있습니다.
-              </v-col>
-              <v-col cols="12">
-                
-              </v-col>
           </v-row>
         </v-container>
       </div>

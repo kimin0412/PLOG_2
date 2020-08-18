@@ -87,6 +87,20 @@
               <Editor ref="toastuiEditor" :initialValue="editorText" height="500px"/>
             </v-col>
           </v-row>
+          <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="pickColor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="pickColor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="노트의 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
           <v-row>
             <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">
@@ -137,82 +151,7 @@
                 </v-card>
               </v-dialog>
             </v-col>
-            <!-- 표지 색상 고르는 dialog -->
-            <v-col cols="12" class="d-flex justify-end">
-              <v-dialog v-model="dialogColor" scrollable max-width="300px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="pink lighten-2"
-                    dark
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon left>mdi-heart</v-icon>
-                    Pick Color !
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>Select Color</v-card-title>
-                  <v-divider></v-divider>
-                  <v-card-text style="height: 300px;">
-                    <v-radio-group v-model="pickColor" column>
-                      <v-radio label="red" color="red" value="red"></v-radio>
-                      <v-radio
-                        label="orange"
-                        color="orange"
-                        value="orange"
-                      ></v-radio>
-                      <v-radio
-                        label="amber"
-                        color="amber"
-                        value="amber"
-                      ></v-radio>
-                      <v-radio
-                        label="yellow"
-                        color="yellow"
-                        value="yellow"
-                      ></v-radio>
-                      <v-radio label="lime" color="lime" value="lime"></v-radio>
-                      <v-radio
-                        label="green"
-                        color="green"
-                        value="green"
-                      ></v-radio>
-                      <v-radio label="blue" color="blue" value="blue"></v-radio>
-                      <v-radio
-                        label="purple"
-                        color="purple"
-                        value="purple"
-                      ></v-radio>
-                      <v-radio label="pink" color="pink" value="pink"></v-radio>
-                      <v-radio
-                        label="brown"
-                        color="brown"
-                        value="brown"
-                      ></v-radio>
-                      <v-radio label="grey" color="grey" value="grey"></v-radio>
-                    </v-radio-group>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Save</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Close</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-col>
-
+            
             <!-- 폴더안에 넣기 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
@@ -351,8 +290,9 @@ export default {
       text: "My timeout is set to 1500.",
       timeout: 1500,
 
-      dialogColor: false,
-      pickColor: "",
+      pickColor: 'indigo',
+      colors: ['red', 'pink', 'purple', 'indigo', 'light-blue', 'green', 'lime', 'yellow', 'orange', 'brown', 'grey'],
+    
       category : '',
       dialogCategory : false,
       categories : [],
@@ -406,6 +346,7 @@ export default {
         console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
+        this.pickColor = data.pColor;
       })
       .catch((error) => {
           if(error.response) {
