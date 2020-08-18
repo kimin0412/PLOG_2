@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Hashtag {
 	
