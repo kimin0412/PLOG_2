@@ -258,7 +258,7 @@ export default {
             this.joinDialog = false;
             this.$router.push("/group");
           } else{
-            this.$dialog.notify.error(msg + "비밀번호를 확인해 주세요. 😥", {
+            this.$dialog.notify.error("비밀번호를 확인해 주세요. 😥", {
               position: "bottom-right",
               timeout: 3000,
             });
@@ -291,7 +291,7 @@ export default {
             this.joinDialog2 = false;
             this.$router.push("/group");
           } else{
-            this.$dialog.notify.error(msg + "비밀번호를 확인해 주세요. 😥", {
+            this.$dialog.notify.error("비밀번호를 확인해 주세요. 😥", {
               position: "bottom-right",
               timeout: 3000,
             });

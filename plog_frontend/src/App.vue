@@ -204,7 +204,7 @@
 
   <div class="d-none d-sm-block" style="min-height: 100%;">
       <v-container style="padding-bottom: 60px; padding-top:120px; min-height: 100vh;">
-      <router-view/>
+      <router-view :key="$route.fullPath"/>
     </v-container>
     <v-footer
     
@@ -482,7 +482,7 @@
       </v-navigation-drawer>
 
     <v-container style="padding-bottom: 60px; padding-top:60px;">
-      <router-view/>
+      <router-view :key="$route.fullPath"/>
     </v-container>
     <v-bottom-navigation
       v-if="lognow"

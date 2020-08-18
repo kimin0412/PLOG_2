@@ -9,7 +9,6 @@ import Search from '../views/SearchMain.vue'
 import Note from '../views/note/NoteMain.vue'
 import Note2 from '../views/note/NoteMain2.vue'
 
-
 // account
 import Login from '../views/account/Login.vue'
 import Signup from '../views/account/Signup.vue'
