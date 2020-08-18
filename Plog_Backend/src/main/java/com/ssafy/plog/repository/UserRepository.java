@@ -3,6 +3,8 @@ package com.ssafy.plog.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Boolean existsByEmail(String email);
 
+	@Transactional
+	Optional<User> deleteById(int id);
+	
 	@Query(value = " select * from user where u_id = ?1 ", nativeQuery=true)
 	User findbyClId(int ucUser);
 	

@@ -104,7 +104,7 @@
           v-model="dialogtofind"
           max-width="500"
         >
-          <v-card>
+          <v-card v-if="!sent">
             <v-card-title class="headline">ID 찾기</v-card-title>
 
             <v-card-text class="pb-0">
@@ -188,11 +188,13 @@
 
 <script>
 import User from '../../models/user';
+import http from '@/util/http-common.js'
 
 export default {
   name: 'Login',
   data() {
     return {
+      sent: false,
       dialogtofind: false,
       dialogtofind2: false,
       user: new User('', ''),
@@ -239,55 +241,94 @@ export default {
                 this.$router.push('/schedule');
               },
               error => {
-                this.$dialog.notify.error("아이디와 비밀번호를 확인해주세요! 😤", {
-                  position: "bottom-right",
-                  timeout: 3000,
-                });
                 this.loading = false;
                 this.message =
                   (error.response && error.response.data) ||
                   error.message ||
                   error.toString();
+                this.$dialog.notify.error("없는 유저거나 비밀번호가 틀렸습니다.", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
+
+               this.$router.push("/login")
+
               }
             )
             .catch(() => {
-              console.log("에러가 떠야 하는데 안먹히..")
               this.$router.push("/error")
             })
           }
         });
       }
     },
-    findid() {
-      if (!this.findemail2) {
-        this.$dialog.notify.warning("이메일을 입력해주세요 😤", {
-          position: "bottom-right",
-          timeout: 3000,
-        });
-      } else if (!/.+@.+\..+/.test(this.findemail2)) {
-        this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
-          position: "bottom-right",
-          timeout: 3000,
-        });
-      } else {
-        console.log("axios보내자")
-      }
-    },
-    findpw() {
+     findpw() {
       if (!this.findemail || !this.findmyid) {
         this.$dialog.notify.warning("빈칸을 채워주세요 😚", {
           position: "bottom-right",
           timeout: 3000,
         });
       } else if (!/.+@.+\..+/.test(this.findemail)) {
-        this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
+          this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+          });
+      } else {
+        console.log("비밀번호 찾기")
+        http.get('/findPW', {
+              params : {
+                findmyid : this.findmyid,
+                findemail : this.findemail
+              }
+        }).then(()=>{
+          //alert("Email로 Password가 전송되었습니다.")
+          this.$router.push('/login'); 
+         // this.$router.go();
+
+        });
+        this.findmyid ='';
+        this.findemail ='';
+        this.dialogtofind2 = false;
+        this.$dialog.notify.success("Email로 Password가 전송되었습니다.", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+             this.$router.push('/login');
+            //this.$router.go();
+      }
+    },
+    findid() {
+      if (!this.findemail2) {
+           this.$dialog.notify.warning("이메일을 입력해주세요 😤", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
+      } else if (!/.+@.+\..+/.test(this.findemail2)) {
+          this.$dialog.notify.warning("이메일 형식으로 입력해주시기 바랍니다! 😤", {
           position: "bottom-right",
           timeout: 3000,
         });
       } else {
-        console.log("axios보내자")
+        console.log("ID찾기")
+        http.get('/findID', {
+              params : {
+                findemail2 : this.findemail2,
+              }
+        }).then(()=>{
+           // this.$router.go();
+
+        }).catch(()=>{
+        });
+        this.findemail2=''
+        this.dialogtofind = false
+        this.$dialog.notify.success("Email로 ID가 전송되었습니다.", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+             this.$router.push('/login');
+            //this.$router.go();
       }
-    }
+    },
   }
 };
 // export default {
