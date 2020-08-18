@@ -90,13 +90,13 @@ public class AuthController {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("이미 있는 ID 입니다"));
+					.body(new MessageResponse("이미 있는 ID 입니다😤"));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("이미 있는 Email 입니다"));
+					.body(new MessageResponse("이미 있는 Email 입니다😤"));
 		}
 
 		// 새로운 가입자 생성. 
