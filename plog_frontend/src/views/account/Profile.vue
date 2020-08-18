@@ -19,15 +19,15 @@
                         <v-card-text class="grey--text text-center">
                             <v-divider></v-divider>
                             <v-row>
-                                <v-col cols="7" class="text-left py-1 pl-5">Birth</v-col>
-                                <v-col cols="5" class="text-right py-1 pr-5" v-if="currentUser.birthday">{{currentUser.birthday}}</v-col>
-                                <v-col cols="5" class="text-right py-1 pr-5 font-weight-light" v-else>-</v-col>
+                                <v-col cols="5" class="text-left py-1 pl-5">Birth</v-col>
+                                <v-col cols="7" class="text-right py-1 pr-5" v-if="currentUser.birthday">{{currentUser.birthday}}</v-col>
+                                <v-col cols="7" class="text-right py-1 pr-5 font-weight-light" v-else>-</v-col>
                             </v-row>
                             <v-divider></v-divider>
                             <v-row>
-                                <v-col cols="7" class="text-left py-1 pl-5">Phone</v-col>
-                                <v-col cols="5" class="text-right py-1 pr-5" v-if="currentUser.phone">{{currentUser.phone}}</v-col>
-                                <v-col cols="5" class="text-right py-1 pr-5 font-weight-light" v-else>-</v-col>
+                                <v-col cols="5" class="text-left py-1 pl-5 pr-0">Phone</v-col>
+                                <v-col cols="7" class="text-right py-1 pr-5 pl-0" v-if="currentUser.phone">{{currentUser.phone}}</v-col>
+                                <v-col cols="7" class="text-right py-1 pr-5 pl-0 font-weight-light" v-else>-</v-col>
                             </v-row>
                             <v-divider></v-divider>
                         </v-card-text>
@@ -192,7 +192,6 @@
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
-                                        <v-list disabled>
                                           <v-card
                                             class="mx-auto"
                                             max-width="300"
@@ -241,17 +240,7 @@
                                 </v-row>
                                 </v-container>
                             </v-tab-item>
-                            <v-tab-item>
-                                <v-container fluid>
-                                <v-row>
-                                    <v-col>
-                                    <v-col cols="12" class="d-flex justify-center mt-5">
-                                        <D3PieChart :config="chart_config" :datum="chart_data" height="300" style="width: 90%;"></D3PieChart>
-                                    </v-col>
-                                    </v-col>
-                                </v-row>
-                                </v-container>
-                            </v-tab-item>
+                            
                             <v-tab-item>
                                 <v-container fluid>
                                 <v-row>
@@ -420,11 +409,9 @@
                 </v-simple-table>              
             </v-col>
             <!-- 반응형 일단 -->
-            <!--
+            
             <v-card-actions class="d-flex justify-end pt-0">
-                            <v-btn color="blue" text small class="font-weight-bold" @click.stop="dialog = true">update</v-btn>
-                            
-                            <v-dialog v-model="dialog" max-width="300">
+                            <v-dialog v-model="dialog2" max-width="300">
                                   <v-card>
                                     <v-card-title class="headline">Edit Profile</v-card-title>
                                     <v-card-text class="pb-0">
@@ -467,16 +454,16 @@
                                     <v-card-actions class="pt-5">
                                       <v-spacer></v-spacer>
                                       <v-btn color="orange" text @click="editProfile" >Edit</v-btn>
-                                      <v-btn color="grey" text @click="dialog = false" >Close</v-btn>
+                                      <v-btn color="grey" text @click="dialog2 = false" >Close</v-btn>
                                     </v-card-actions>
                                   </v-card>
                                 </v-dialog>
                         </v-card-actions>
 
-                         -->
+                        
             <v-col cols="12" class="text-right py-0">
               <v-btn @click="logOut" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-account-arrow-right</v-icon> logout</v-btn>             
-              <v-btn @click="editProfile" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
+              <v-btn @click.stop="dialog2 = true" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
             </v-col>
           </v-row>
         </v-container>
@@ -500,6 +487,7 @@ export default {
       return {
         animalimg:'',
         dialog: false,
+        dialog2:false,
         benched: 0,
         mygroups: [],
         Notes : [],

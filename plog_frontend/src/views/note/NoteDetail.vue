@@ -43,11 +43,10 @@
             </div>
           </v-card-text>
         </v-row>
-        <!-- <hr style="color:#78909C" class="mb-10"> -->
-        <v-row>
-            <v-col cols="12" class="mx-10" id="viewer" ref="viewer">
-                <div class="tui-editor-contents text-wrap" v-html="content">
-                </div>
+        <hr style="color:#78909C" class="mb-10">
+        <v-row class="mx-10">
+            <v-col cols="12" class="" id="viewer" ref="viewer">
+              <div class="tui-editor-contents text-wrap" v-html="content"></div>
             </v-col> 
         </v-row>       
       </v-card>

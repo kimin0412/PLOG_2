@@ -437,7 +437,6 @@ export default {
               },
             })
             .then(({ data }) => {
-              console.log(data)
               this.Notes = data;
             })
             .catch((error) => {
@@ -457,7 +456,7 @@ export default {
               },
             })
             .then(({ data }) => {
-              console.log(data)
+              // console.log(data)
               this.tmpNotes = data;
             })
             .catch((error) => {
@@ -471,9 +470,6 @@ export default {
               });
     },
     methods: {
-      check(note) {
-        console.log(note)
-      },
     getFormatDate(regtime) {
       return moment(new Date(regtime)).format("YYYY.MM.DD");
     },
@@ -523,7 +519,7 @@ export default {
       });
     },
     getTpNote(tpnote) {
-      console.log(tpnote);
+      // console.log(tpnote);
       this.tpselected = tpnote;
     },
     bookmark() {
@@ -536,7 +532,7 @@ export default {
         })
         .then((response) => {
           if (response === "success") {
-            console.log("success");
+            // console.log("success");
           }
         })
         .catch((error) => {
@@ -567,7 +563,7 @@ export default {
         })
         .then((response) => {
           if (response === "success") {
-            console.log("success");
+            // console.log("success");
           }
         })
         .catch((error) => {
