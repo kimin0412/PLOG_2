@@ -111,6 +111,18 @@ Vue.use(VueRouter)
     }
   },
   {
+    path: '/note2',
+    name: 'Note2',
+    component: Note2,
+    beforeEnter(from, to, next) {
+      if (!auth.state.status.loggedIn) {
+        next('/auth')
+      } else {
+        next()
+      }
+    }
+  },
+  {
     path: '/mypage',
     name: 'Mypage',
     component: Mypage,
