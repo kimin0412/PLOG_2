@@ -725,7 +725,7 @@ export default {
               var fileName = data.temp + "_" + i + "." + extend;
               var file = this.dataURLtoFile(image, fileName);
               console.log(file);
-              
+
               resContent = content.substring(0, start);
               resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
               resContent = resContent + content.substring(end);
@@ -803,6 +803,7 @@ export default {
         });
       }
     },
+    
     tmpcreateAction() {
       if (!this.title.trim()) {
         this.$dialog.notify.warning("제목을 입력 해주세요 😥", {

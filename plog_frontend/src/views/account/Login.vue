@@ -239,6 +239,10 @@ export default {
                 this.$router.push('/schedule');
               },
               error => {
+                this.$dialog.notify.error("아이디와 비밀번호를 확인해주세요! 😤", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
                 this.loading = false;
                 this.message =
                   (error.response && error.response.data) ||
