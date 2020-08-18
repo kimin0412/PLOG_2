@@ -459,8 +459,6 @@
                                   </v-card>
                                 </v-dialog>
                         </v-card-actions>
-
-                        
             <v-col cols="12" class="text-right py-0">
               <v-btn @click="logOut" class="orange--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-account-arrow-right</v-icon> logout</v-btn>             
               <v-btn @click.stop="dialog2 = true" class="grey--text text-caption" color="transparent" elevation="0" small><v-icon small class="mr-1">mdi-pen</v-icon> Edit</v-btn>             
@@ -539,7 +537,10 @@ export default {
                 yTicks: 2,
                 xTicks: 12,
                 },
-            transition: { ease: "easeBounceOut" }
+            transition: { ease: "easeBounceOut" },
+            tooltip: {
+              labels: false,
+            },
         }, 
         // top10
         chart_data: [
@@ -616,7 +617,7 @@ export default {
             vue: '#3F51B5',
           },
         },
-
+      tooltip: { label: false },
       },
       sorted : [
         {c: 20, keyword: 'lorem'},

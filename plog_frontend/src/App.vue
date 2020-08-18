@@ -67,7 +67,7 @@
       </router-link>
     </v-list-item>
     <v-list-item v-else class="drawer-profile">
-      <router-link to="/profile" style="text-decoration:none;">
+      <router-link to="/login" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
