@@ -119,10 +119,10 @@
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
                                     <v-col cols="6" class="text-caption grey--text py-0">Notes</v-col>
-                                    <v-col cols="6" class="text-caption grey--text py-0">Groups</v-col>
+                                    <v-col cols="6" class="text-caption grey--text py-0">Schedules</v-col>
                                     <v-col cols="12" class="py-1"><v-divider></v-divider></v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">50</v-col>
-                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">3</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{noteNum}}</v-col>
+                                    <v-col cols="6" class="text-caption font-weight-bold black--text py-0">{{schduleNum}}</v-col>
                                 </v-row>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
@@ -171,7 +171,6 @@
                         <v-tabs background-color="white" color="grey" centered show-arrows>
                             <v-tab>Monthly Logs</v-tab>
                             <v-tab>Ranking</v-tab>
-                            <v-tab>TOP10</v-tab>
                             <v-tab>WordCloud</v-tab>
                             <v-tab>Bookmark</v-tab>
                             <v-tab-item>
@@ -189,10 +188,11 @@
                                 <v-container fluid>
                                 <v-row class="pt-10">
                                     <v-col cols="9" class="text-center d-flex justify-center pr-0">
-                                        <D3BarChart :config="chart_config_bar" :datum="chart_data_bar" height="300" style="width: 100%;"></D3BarChart>
+                                        <D3BarChart :config="chart_config_bar" :datum="sorted" height="300" style="width: 100%;"></D3BarChart>
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
                                         <div class="text-center">
+                                        <v-list disabled>
                                           <v-card
                                             class="mx-auto"
                                             max-width="300"
@@ -486,17 +486,15 @@
 
 <script>
 import { D3LineChart } from 'vue-d3-charts'
-import { D3PieChart } from 'vue-d3-charts'
 import wordcloud from 'vue-wordcloud'
 import { D3BarChart } from 'vue-d3-charts'
-//import axios from 'axios';
+
 import http from '@/util/http-common.js'
-//import User from '../../models/user';
 
 export default {
     name: 'Profile',
     components: {
-        D3LineChart, D3PieChart,wordcloud,D3BarChart,
+        D3LineChart,wordcloud,D3BarChart,
     },
     data() {
       return {
@@ -511,9 +509,11 @@ export default {
         panel : true,
         model: null,
         dialogforwithdraw: false,
+        noteNum : 0,
+        schduleNum : 0,
         // 프로필 수정
         U: {
-          //user: new User('', '', '', ''),
+          username: '',
           userbirthday: '',
           useremail: '',
           userpassword: '',
@@ -638,6 +638,8 @@ export default {
         {c: 65, keyword: 'amet'},
       ],
 
+      bar : [],
+
       }
     },
     created() {
@@ -698,11 +700,12 @@ export default {
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
         })
-        
 
-        this.sorted = this.chart_data_bar
+        for (let i = 0; i < 10; i++) {
+          this.sorted[i] = this.chart_data_bar[i]
+        }
+
         var sortingField = "c";
-
         this.sorted.sort((a, b) => {
           return b[sortingField] - a[sortingField];
         });
@@ -725,6 +728,8 @@ export default {
         }
       }).then(({data}) => {
         data.forEach(element => {
+          this.noteNum += element.pBookmark;
+          this.schduleNum += element.pCategory;
           this.chart_data_formonth.push({"note" : element.pBookmark, "schedule":element.pCategory, "date":element.pClub})
         });
 
