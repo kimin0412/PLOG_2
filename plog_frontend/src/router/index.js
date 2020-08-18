@@ -7,6 +7,7 @@ import Schedule from '../views/schedule/ScheduleMain.vue'
 import Mypage from '../views/account/MyPageMain.vue'
 import Search from '../views/SearchMain.vue'
 import Note from '../views/note/NoteMain.vue'
+import Note2 from '../views/note/NoteMain2.vue'
 
 // account
 import Login from '../views/account/Login.vue'
