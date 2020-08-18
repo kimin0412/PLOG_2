@@ -490,31 +490,21 @@
       class="bottomnav d-flex justify-space-around px-4"
       elevation="0"
     >
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/schedule" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-calendar-month</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/note" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-post</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/note/create" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-pencil-plus</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/group" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-account-group</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/profile" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-account</v-icon></div>
-        </router-link>
-      </v-btn>
+      <router-link to="/schedule" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-calendar-month</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/note" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-post</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/note/create" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-pencil-plus</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/group" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-account-group</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/profile" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-account</v-icon></div>
+      </v-btn></router-link>
     </v-bottom-navigation>
     <v-bottom-navigation
       v-else
@@ -522,31 +512,21 @@
       class="bottomnav d-flex justify-space-around px-4"
       elevation="0"
     >
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/howto" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-sign-direction</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/gallery" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-tooltip-image</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/aboutus" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-information-outline</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/login" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-account</v-icon></div>
-        </router-link>
-      </v-btn>
-      <v-btn class="px-0 bottomnavbtn">
-        <router-link to="/signup" class="drawer-menu">
-          <div class="py-0 px-0"><v-icon>mdi-account-plus</v-icon></div>
-        </router-link>
-      </v-btn>
+      <router-link to="/howto" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-sign-direction</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/gallery" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-tooltip-image</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/aboutus" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-information-outline</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/login" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-account</v-icon></div>
+      </v-btn></router-link>
+      <router-link to="/signup" class="drawer-menu d-flex align-center"><v-btn class="px-0 bottomnavbtn" style="height: 100%">
+          <div class="py-0 px-0"><v-icon class="grey--text">mdi-account-plus</v-icon></div>
+      </v-btn></router-link>
     </v-bottom-navigation>
         <v-btn
       bottom
