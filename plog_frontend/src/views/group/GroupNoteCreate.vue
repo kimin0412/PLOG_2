@@ -111,7 +111,7 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
-                    class="px-5 d-none d-sm-block"
+                    class="mb-2 px-5 d-none d-sm-block"
                     small
                   >
                     connect with schedule

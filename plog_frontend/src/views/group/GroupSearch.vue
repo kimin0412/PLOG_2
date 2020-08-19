@@ -45,10 +45,11 @@
               </v-col>
             </v-row>
             <v-row class=" mb-4">
-              <v-menu
+              <v-dialog
                 v-model="joinDialog"
                 :close-on-content-click="false"
                 offset-x
+                max-width="300"
               >
               <v-card>
                 <v-card-title>
@@ -72,7 +73,7 @@
                   <v-btn color="blue darken-1" text @click="joinDialog = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
-              </v-menu>
+              </v-dialog>
             </v-row>
           </v-container>
         </div>
@@ -119,10 +120,11 @@
               </v-col>
             </v-row>
             <v-row class=" mb-4">
-              <v-menu
+              <v-dialog
                 v-model="joinDialog2"
                 :close-on-content-click="false"
                 offset-x
+                max-width="300"
               >
               <v-card>
                 <v-card-title>
@@ -146,7 +148,7 @@
                   <v-btn color="blue darken-1" text @click="joinDialog2 = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
-              </v-menu>
+              </v-dialog>
             </v-row>
         </v-container>
       </div>

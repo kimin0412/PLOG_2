@@ -404,13 +404,6 @@
               class="white--text mr-3"
               >SAVE</v-btn
             >
-            <v-btn
-              @click="tmpcreateAction"
-              small
-              color="grey"
-              class="white--text"
-              >TEMP SAVE</v-btn
-            >
           </v-col>
         </v-row>
       </v-container>

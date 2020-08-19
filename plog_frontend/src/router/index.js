@@ -160,7 +160,7 @@ Vue.use(VueRouter)
     beforeEnter(from, to, next) {
       if (auth.state.status.loggedIn) {
         alert('이미 로그인 상태입니다.')
-        next('/mypage')
+        next('/profile')
       } else {
         next()
       }
