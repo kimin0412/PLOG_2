@@ -1505,7 +1505,7 @@ export default {
             });
           })
 
-          console.log(this.chart_data)
+          //console.log(this.chart_data)
         },
 
         deleteCategory(cId) {

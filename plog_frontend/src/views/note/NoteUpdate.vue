@@ -84,7 +84,8 @@
               </div>
             </v-col>
             <v-col cols="12">
-              <Editor ref="toastuiEditor" :initialValue="editorText" height="500px"/>
+              <Editor ref="toastuiEditor" height="500px"
+              @stateChange="onEditorChange"/>
             </v-col>
           </v-row>
           <v-row class="my-2">
@@ -229,7 +230,7 @@
     <div class="d-block d-sm-none">
       <v-container>
         <v-row>
-          <v-col cols="12" class="py-1 text-h5">NEW</v-col>
+          <v-col cols="12" class="py-1 text-h5">UPDATE</v-col>
           <v-col cols="12" class="py-1 text-h4 font-weight-bold">POST</v-col>
         </v-row>
         <v-row class="mt-10">
@@ -275,7 +276,8 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
-            <Editor ref="toastuiEditor2" height="500px"/>
+            <Editor ref="toastuiEditor2" height="500px"
+            @stateChange="onEditorChange2"/>
           </v-col>
         </v-row>
         <v-row class="my-2">
@@ -440,6 +442,7 @@ export default {
       keywordinput: "",
       keywords: ["디폴트"],
       editorText: "",
+      editorText2: "",
       editorOptions: [
         {
           hideModeSwitch: true,
@@ -521,9 +524,10 @@ export default {
         this.cnt = v_content.match(/&lt;img src=/g); 
         // console.log(v_content);
         this.content = entities.decode(v_content);
-        // console.log(this.content);
+        //console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
+        this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
         this.pickColor = data.pColor;
       })
       .catch((error) => {
@@ -578,6 +582,19 @@ export default {
   },
 
   methods: {
+
+    onEditorChange() {
+      var content = this.$refs.toastuiEditor.invoke("getHtml");
+      this.editorText = content;
+      this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
+    },
+
+    onEditorChange2() {
+      var content = this.$refs.toastuiEditor2.invoke("getHtml");
+      this.editorText2 = content;
+      this.$refs.toastuiEditor.invoke("setHtml", this.editorText2);
+    },
+
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -605,6 +622,7 @@ export default {
       console.log(event.target);
     },
     updateAction() {
+      
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
       // console.log(content);
       const Entities = require("html-entities").XmlEntities;

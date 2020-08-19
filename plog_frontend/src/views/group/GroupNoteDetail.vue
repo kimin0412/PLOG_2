@@ -318,7 +318,7 @@ export default {
             })
             .then((response) => {
               if(response === 'success'){
-                console.log("success");
+                //console.log("success");
               }              
             })
             .catch((error) => {

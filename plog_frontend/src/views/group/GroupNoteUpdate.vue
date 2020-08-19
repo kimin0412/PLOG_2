@@ -75,7 +75,8 @@
               </div>
             </v-col>
             <v-col cols="12">
-              <Editor ref="toastuiEditor" :initialValue="editorText" />
+              <Editor ref="toastuiEditor" :initialValue="editorText" 
+              @stateChange="onEditorChange"/>
             </v-col>
           </v-row>
 
@@ -266,7 +267,8 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
-            <Editor ref="toastuiEditor2" height="500px"/>
+            <Editor ref="toastuiEditor2" height="500px"
+            @stateChange="onEditorChange2"/>
           </v-col>
         </v-row>
 
@@ -429,6 +431,7 @@ export default {
       keywordinput: "",
       keywords: ["디폴트"],
       editorText: "",
+      editorText2: "",
       editorOptions: [
         {
           hideModeSwitch: true,
@@ -506,6 +509,7 @@ export default {
         this.content = entities.decode(v_content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
+        this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
         this.pickColor = data.pColor;
       })
       .catch((error) => {
@@ -559,6 +563,19 @@ export default {
   },
 
   methods: {
+
+    onEditorChange() {
+      var content = this.$refs.toastuiEditor.invoke("getHtml");
+      this.editorText = content;
+      this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
+    },
+
+    onEditorChange2() {
+      var content = this.$refs.toastuiEditor2.invoke("getHtml");
+      this.editorText2 = content;
+      this.$refs.toastuiEditor.invoke("setHtml", this.editorText2);
+    },
+
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -583,7 +600,7 @@ export default {
       }
     },
     deletekeyword() {
-      console.log(event.target);
+      //console.log(event.target);
     },
     updateAction() {
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
@@ -621,11 +638,11 @@ export default {
         var image = content.substring(start, end);
         var fileName = this.pId + "_" + i + "." + extend;
         var file = this.dataURLtoFile(image, fileName);
-        console.log(file);
+        //console.log(file);
         resContent = content.substring(0, start);
         resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
         resContent = resContent + content.substring(end);
-        console.log(resContent);
+        //console.log(resContent);
         images[i] = file;
         i++;
         content = resContent;
