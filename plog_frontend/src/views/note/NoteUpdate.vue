@@ -442,7 +442,7 @@ export default {
       const entities = new Entities();
       content = entities.encode(content);
       // console.log(content);
-      var resContent = '';
+      var resContent = content;
 
       if(this.category == ''){
         this.category = 1

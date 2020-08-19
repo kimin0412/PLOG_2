@@ -333,7 +333,7 @@
                                                     <router-link
                                                       :to="{
                                                         path: '/group/noteDetail',
-                                                        query: { pId: note.pId },
+                                                        query: { pId: note.pId, clId:groupId },
                                                       }"
                                                       class="py-0 text-center text-h6"
                                                     >

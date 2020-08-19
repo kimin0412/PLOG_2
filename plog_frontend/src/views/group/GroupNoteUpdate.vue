@@ -481,7 +481,7 @@ export default {
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      var resContent = '';
+      var resContent = content;
 
       if(this.category == ''){
         this.category = 1
@@ -565,7 +565,7 @@ export default {
           pSchedule: this.dialogm1,
           pCategory: this.category,
           pColor: this.pickColor,
-          pClub:this.groupId,
+          pClub : this.groupId,
           pHashtag : this.hashtags,
         })
         .then((Response) => {
@@ -574,7 +574,7 @@ export default {
               position: "bottom-right",
               timeout: 3000,
             });
-            this.$router.push({path:'/group/detail', query:{clId : this.groupId}}); 
+            this.$router.push({path:'/group/detail2', query:{clId : this.groupId}}); 
           }
         })
         .catch((error) => {

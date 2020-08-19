@@ -21,14 +21,14 @@
             <v-col cols="4">
               <img src="@/assets/us/calendar.jpg" alt="user-image" class="about-intro">
             </v-col>
-            <v-col cols="8" class="text-center mb-2" align-self="center">
+            <v-col cols="8" class="text-right mb-2" align-self="end">
               <div class="display-2 font-weight-thin">SCHEDULE</div>
               <div class="text-subtitle-2 grey--text">대학생, 취준생, 구직자 모두에게 필수적인 일정 관리</div>
               <div class="text-subtitle-2 grey--text">자소서 일정, 글을 기록한 날짜 등 주요 일정을 한 눈에 :)</div>
             </v-col>    
           </v-row>
           <v-row class="mt-5">
-            <v-col cols="8" class="text-center mb-2" align-self="center">
+            <v-col cols="8" class="text-left mb-2" align-self="end">
               <div class="display-2 font-weight-thin">DAILY LOG</div>
               <div class="text-subtitle-2 grey--text">마크다운 형식을 지원하는 에디터로</div>
               <div class="text-subtitle-2 grey--text">필기, 자소서, 블로그 포스트 등을 자유롭게</div>
@@ -67,14 +67,14 @@
             <v-col cols="4">
               <img src="@/assets/us/people.jpg" alt="people-image" class="about-intro">
             </v-col>
-            <v-col cols="8" class="text-center mb-2" align-self="center">
+            <v-col cols="8" class="text-right mb-2" align-self="end">
               <div class="display-2 font-weight-thin">GROUP-Log</div>
               <div class="text-subtitle-2 grey--text">스터디, 팀 프로젝트 등 그룹원들과 함께</div>
               <div class="text-subtitle-2 grey--text">일정과 기록을 공유할 수 있는 Group-log 서비스</div>
             </v-col>    
           </v-row>
           <v-row class="mt-5">
-            <v-col cols="8" class="text-center mb-2" align-self="center">
+            <v-col cols="8" class="text-left mb-2" align-self="end">
               <div class="display-2 font-weight-thin">ANALYSIS</div>
               <div class="text-subtitle-2 grey--text">PLOG 사용과 해시태그 현황을</div>
               <div class="text-subtitle-2 grey--text">마이페이지에서 시각화로 볼 수 있는 서비스</div>
@@ -236,9 +236,6 @@ export default {
         this.$router.push('/aboutus/developers')
       }
       }
-    },
-    created() {
-      window.scrollTo({top:0, left:0, behavior:'smooth'});
     }
 }
 </script>
