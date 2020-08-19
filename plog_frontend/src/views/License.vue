@@ -59,12 +59,17 @@
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/cartoon'>Cartoon vector created by macrovector - www.freepik.com</a></v-col>
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
-                        <v-col cols="12" class="grey--text text-caption py-1"></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@johnschno?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">John Schnobrich</a> on <a href="https://unsplash.com/s/photos/group?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@erothermel?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Eric Rothermel</a> on <a href="https://unsplash.com/s/photos/schedule?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@eliza28diamonds?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Eliza Diamond</a> on <a href="https://unsplash.com/s/photos/calendar?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@glenncarstenspeters?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Glenn Carstens-Peters</a> on <a href="https://unsplash.com/s/photos/blog?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>                  
                     </v-row>          
                     <v-row>
-                      <v-col cols="12" class="text-caption py-1">기타 참고사이트</v-col>
+                      <v-col cols="12" class="text-caption py-1 mt-2">- 기타 참고사이트</v-col>
                       <v-col cols="12" class="grey--text text-caption py-1">https://blush.design/</v-col> 
                       <v-col cols="12" class="grey--text text-caption py-1">https://www.freepik.com/</v-col>  
+                      <v-col cols="12" class="grey--text text-caption py-1">https://unsplash.com/</v-col>
+                      <v-col cols="12" class="grey--text text-caption py-1">https://www.flaticon.com/</v-col>
                     </v-row>       
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -140,12 +145,17 @@
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/cartoon'>Cartoon vector created by macrovector - www.freepik.com</a></v-col>
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
                         <v-col cols="12" class="grey--text text-caption py-1"><a href='https://www.freepik.com/vectors/business'>Business vector created by pikisuperstar - www.freepik.com</a></v-col>
-                        <v-col cols="12" class="grey--text text-caption py-1"></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@johnschno?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">John Schnobrich</a> on <a href="https://unsplash.com/s/photos/group?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@erothermel?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Eric Rothermel</a> on <a href="https://unsplash.com/s/photos/schedule?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@eliza28diamonds?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Eliza Diamond</a> on <a href="https://unsplash.com/s/photos/calendar?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col>
+                        <v-col cols="12" class="grey--text text-caption py-1"><span>Photo by <a href="https://unsplash.com/@glenncarstenspeters?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Glenn Carstens-Peters</a> on <a href="https://unsplash.com/s/photos/blog?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></v-col> 
                     </v-row>          
                     <v-row>
-                      <v-col cols="12" class="text-caption py-1">기타 참고사이트</v-col>
+                      <v-col cols="12" class="text-caption py-1 mt-2">- 기타 참고사이트</v-col>
                       <v-col cols="12" class="grey--text text-caption py-1">https://blush.design/</v-col>
                       <v-col cols="12" class="grey--text text-caption py-1">https://www.freepik.com/</v-col>    
+                      <v-col cols="12" class="grey--text text-caption py-1">https://unsplash.com/</v-col>
+                      <v-col cols="12" class="grey--text text-caption py-1">https://www.flaticon.com/</v-col>
                     </v-row>       
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -194,6 +204,11 @@ export default {
             github: 'https://github.com/lukaszflorczak/vue-agile',
             copyright: 'Copyright (c) 2017 Łukasz Florczak',
           },
+          {
+            Name:'vue-page-transition',
+            github: 'https://github.com/Orlandster/vue-page-transition',
+            copyright: 'Copyright (c) 2018 Orlando Wenzinger',
+          },
         ],
         Apacheitems: [
           {
@@ -201,12 +216,22 @@ export default {
             github: 'https://github.com/spring-projects/spring-boot',
             copyright: 'Spring Boot is Open Source software released under the Apache 2.0 license.',
           },
+          {
+            Name:'Google Material Design Icons',
+            github: 'https://github.com/Templarian/MaterialDesign',
+            copyright: 'Copyright (c) 2014, Google (http://www.google.com/design/)',
+          },
         ],
         Else: [
           {
             Name:'vue-d3-charts',
             github: 'https://github.com/Saigesp/vue-d3-charts',
             copyright: 'Copyright (C) 2007 Free Software Foundation, Inc.',
+          },          
+          {
+            Name:'MatrialDesign',
+            github: 'https://github.com/Templarian/MaterialDesign',
+            copyright: 'Copyright (c) 2014, Austin Andrews (http://materialdesignicons.com/)',
           },          
         ],
       }
