@@ -562,6 +562,198 @@
             <v-col/>
             <v-col cols="12" class="text-h6 font-weight-bold">Group Notes</v-col>
             <v-col cols="12" class="py-0 mt-5">
+
+              <v-container>
+                <v-row>
+                <v-col cols="5"></v-col>
+                <v-col cols="7" class="mt-5 text-right text-caption py-0 ">
+                  <v-btn @click="categoryDialog = true" class="mb-2 mr-2" color="grey lighten-1">
+                    <v-icon class="white--text">mdi-folder-multiple-plus</v-icon>
+                  </v-btn>                 
+                  <v-btn class="mb-2 mr-2" color="grey lighten-1">
+                    <router-link to="/group/create" class="text-decoration-none"><v-icon class="white--text">mdi-pen-plus</v-icon></router-link>                  
+                  </v-btn>
+
+                </v-col>
+                  <v-col cols="12">
+                      <v-tabs
+                        v-model="tab"
+                        background-color="transparent"
+                        class="font-weight-bold"
+                        show-arrows
+                        >
+                        <v-tab class="text-left"
+                        >전체 노트</v-tab>
+                        <v-tab
+                          v-for="(category, index) in this.categories"
+                          :key="index"
+                          class="text-left"
+                          @click="getNotesInCategory(category.cId)"
+                        >
+                          {{ category.cName }}
+                        </v-tab>
+                      </v-tabs>                              
+                  </v-col>
+                  <v-col cols="12" class="pt-0">
+                      <v-card class="mx-auto" min-height="71vh">
+                        <v-tabs-items v-model="tab">
+                          <v-tab-item>
+                            <v-row class="mx-5 pt-5">
+                            <v-col cols="12" v-if="Notes.length == 0" class="text-center pt-5 grey--text text-caption" style="margin-top: 30vh;">
+                                아직 노트가 없습니다.
+                            </v-col>
+                            <v-col cols="12" v-else class="px-0 pt-0">
+                              <v-row class="px-0" style="overflow: auto; min-height: 65vh;">
+                              <v-col cols="12" class="grey--text text-center pt-0 text-caption">즐겨찾기에 추가한 노트가 상단에 배치됩니다.</v-col>
+                              <v-col cols="12"                            
+                                  v-for="(note, index) in Notes"
+                                  :key="index"
+                                  class="py-0">
+                                <router-link
+                                      :to="{
+                                        path: 'note/detail',
+                                        query: { pId: note.pId },
+                                      }"
+                                      class="py-0 text-center text-h6 text-decoration-none"
+                                    >
+                                <v-card>
+                                  <v-row class="mx-3" >
+                                    <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
+                                      <v-btn text icon>
+                                        <v-icon
+                                          color="#FDD835"
+                                          v-if="note.pBookmark ==1">mdi-star</v-icon>
+                                        <v-icon color="grey" v-else>mdi-star</v-icon>
+                                      </v-btn>
+                                    </v-col>
+                                    <v-col cols="2" class="pr-0 pl-2 mt-4">
+                                      <img src="@/assets/icon/file.png" width="100%" alt="">
+                                    </v-col>
+                                    <v-col cols="10" class="pl-0">
+                                      <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
+                                      <v-card-subtitle>
+                                        <div>{{note.pDate.substr(0,10)}}</div>
+                                      </v-card-subtitle>
+                                    </v-col>
+                                  </v-row>
+                                </v-card>
+                                </router-link>
+                                <v-expansion-panels accordion>
+                                  <v-expansion-panel>
+                                    <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
+                                    <v-expansion-panel-content class="pt-4 text-wrap">
+                                      <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
+                                        <router-link
+                                          :to="{ path: 'search', query: { name: item.name } }"
+                                          class="py-0 text-center text-decoration-none">
+                                          <v-chip
+                                            class="ma-1"
+                                          ><v-icon small class="mr-1">mdi-pound</v-icon>
+                                            {{item.name}}
+                                          </v-chip>
+                                        </router-link>
+                                      </div>
+                                    </v-expansion-panel-content>
+                                  </v-expansion-panel>
+                                </v-expansion-panels>
+                              </v-col>
+                            </v-row>
+                            </v-col>
+                            </v-row>
+                          </v-tab-item>
+                  
+                          <div v-if="categories.length >= 1">
+                          <v-tab-item
+                            v-for="(category, i) in categories"
+                            :key="i"
+                          >
+                            <v-row class="mx-5 pt-5">
+                              <v-col cols="12" class="d-flex justify-space-between">
+                                <div class="ml-2 font-weight-bold text-h6">
+                                  {{category.cName}}
+                                </div>
+                                <div>
+                                <div @click="deleteCategory(category.cId)" class="red--text thingstohover d-inline-block">
+                                <v-icon color="red" class="mr-1" small
+                                >mdi-delete</v-icon>
+                                </div>
+                                <div @click="openUpdateDialog(category.cId, category.cName)" class="grey--text thingstohover d-inline-block ml-3">                              
+                                <v-icon color="grey" class="mr-1" small
+                                >mdi-wrench</v-icon>
+                                </div>
+                                </div>
+                              </v-col>
+                              <v-col cols="12" v-if="NotesInFolder.length == 0" class="text-center grey--text text-caption" style="margin-top: 25vh;">
+                                "{{category.cName}}" 카테고리에 <br> 저장한 노트가 없습니다.
+                              </v-col>
+                              <v-col cols="12" v-else class="px-0">
+                                <v-row style="overflow: auto; height: 57vh; margin-top: 3vh;">
+                                  <div>
+                                  <v-col cols="12" v-for="(note, index) in NotesInFolder" :key="index">
+                                    <router-link
+                                          :to="{
+                                            path: 'note/detail',
+                                            query: { pId: note.pId },
+                                          }"
+                                          class="py-0 text-center text-h6 text-decoration-none"
+                                        ><v-card
+                                    >
+                                      <v-row class="mx-3" >
+                                        <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
+                                              <v-btn text icon>
+                                                <v-icon
+                                                  color="#FDD835"
+                                                  v-if="note.pBookmark ==1"
+                                                  >mdi-star</v-icon>
+                                                <v-icon color="grey" v-else
+                                                  >mdi-star</v-icon>
+                                              </v-btn>
+                                        </v-col>
+                                        <v-col cols="2" class="pr-0 pl-2 mt-4">
+                                          <img src="@/assets/icon/file.png" width="100%" alt="">
+                                          <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
+                                        </v-col>
+                                        <v-col cols="10" class="pl-0">
+                                          <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
+                                          <v-card-subtitle>
+                                            <div>{{note.pDate.substr(0,10)}}</div>
+                                          </v-card-subtitle>
+                                        </v-col>
+                                      </v-row>
+                                    </v-card>
+                                    </router-link>
+                                    <v-expansion-panels accordion>
+                                      <v-expansion-panel>
+                                        <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
+                                        <v-expansion-panel-content class="pt-4 text-wrap">
+                                          <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
+                                            <router-link
+                                              :to="{ path: 'search', query: { name: item.name } }"
+                                              class="py-0 text-center text-decoration-none">
+                                              <v-chip
+                                                class="ma-1"
+                                              ><v-icon small class="mr-1">mdi-pound</v-icon>
+                                                {{item.name}}
+                                              </v-chip>
+                                            </router-link>
+                                          </div>
+                                        </v-expansion-panel-content>
+                                      </v-expansion-panel>
+                                    </v-expansion-panels>
+                                  </v-col>
+                                  </div>
+                                </v-row>
+                              </v-col>
+                            </v-row>
+                          </v-tab-item>
+                          </div>
+                        </v-tabs-items>
+                      </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>  
+
+              <!--
               <v-container>
                 <v-row>
                   <v-col cols="12" class="mt-5 text-center">
@@ -788,6 +980,7 @@
                                     </v-expansion-panel>
                                   </v-expansion-panels>
                                 </v-container>
+                                -->
             </v-col>            
             
           </v-row>
