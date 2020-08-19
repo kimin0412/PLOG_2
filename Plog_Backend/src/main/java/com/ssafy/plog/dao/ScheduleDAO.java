@@ -19,7 +19,7 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 	@Query(value = "select * from schedule where (s_Startdate like %?1% or s_Enddate like %?1% ) and (s_user = ?2 or s_club in (select uc_club from user_club where uc_user = ?2 ) ) ", nativeQuery=true)
 	public List<Schedule> selectByMonth(String monthAndYear, int sId);
 
-	@Query(value = "select * from schedule where date(?1) between date(s_Startdate) and date(s_EndDate) and s_user = ?2 ", nativeQuery=true)
+	@Query(value = "select * from schedule where date(?1) between date(s_Startdate) and date(s_EndDate) and ( s_user = ?2 or s_club in (select uc_club from user_club where uc_user = ?2 ) ) ", nativeQuery=true)
 	public List<Schedule> getDailySchedule(String sDate, int sId);
 
 	@Query(value = "select * from post where p_date like %?1% ", nativeQuery=true) //date로 찾아야해
