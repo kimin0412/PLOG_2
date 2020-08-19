@@ -114,9 +114,6 @@ public class PostController {
 	
 	 @PutMapping("/")
 	 public Object updatePost(@RequestBody Post_NoJPA post) {
-		 	if(post.getpSchedule() == 0) {
-				post.setpSchedule(1);
-			}
 	    	ResponseEntity response = null;
 	    	if(service.updatePost(post)) {    	
 	    	    response = new ResponseEntity<String>("success", HttpStatus.OK);

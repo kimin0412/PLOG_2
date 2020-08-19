@@ -91,6 +91,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public boolean updatePost(Post_NoJPA temp) { 
+		
+		System.out.println(temp.toString());
 		Post post = new Post();
 		
 		post.setpId(temp.getpId());
@@ -98,6 +100,7 @@ public class PostServiceImpl implements PostService {
 		post.setpUser(temp.getpUser());
 		post.setpContent(temp.getpContent());
 		post.setpColor(temp.getpColor());
+		System.out.println(post.toString());
 		
 		if(temp.getpSchedule() == 0) {
 			post.setpSchedule(1);

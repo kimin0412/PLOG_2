@@ -679,7 +679,7 @@ export default {
         const Entities = require("html-entities").XmlEntities;
         const entities = new Entities();
         content = entities.encode(content);
-        var resContent = '';
+        var resContent = content;
 
         var numOfHashTag = this.model.length;
         this.hashtags = "";
@@ -759,6 +759,7 @@ export default {
                   // console.log(data);
                 });
               });
+              alert(resContent)
 
               http
               .put("/post/", {
