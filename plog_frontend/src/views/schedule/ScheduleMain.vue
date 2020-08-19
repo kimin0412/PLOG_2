@@ -318,6 +318,7 @@
                 @click:date="viewDay"
                 @change="updateRange"
                 :event-more="true"
+                @click:event="viewSchedule"
               ></v-calendar>
             </v-sheet>
             <v-col cols="12" class="text-center grey--text">

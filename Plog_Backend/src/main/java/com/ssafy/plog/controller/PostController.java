@@ -45,8 +45,8 @@ public class PostController {
     }
 	
 	@GetMapping("/list/category")
-	public List<Post> selectAllInCategory(@RequestParam(required = false) final int uid, int cid) {
-		List<Post> posts = service.selectAllInCategory(uid, cid);
+	public List<Post> selectAllInCategory(@RequestParam(required = false) final int uid, int cid, int clid) {
+		List<Post> posts = service.selectAllInCategory(uid, cid, clid);
     	return posts;
     }
 	
