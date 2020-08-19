@@ -25,7 +25,7 @@
               |
               <span class="chgBtn px-2" @click="makePDF"> PDF </span>
               |
-              <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
+              <router-link :to="{ path: 'noteUpdate', query:{pId:this.pId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
                 <span class="chgBtn px-2"> 수정 </span>
               </router-link>
               |
@@ -166,7 +166,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -187,7 +187,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -207,7 +207,7 @@ export default {
         if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -251,7 +251,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -271,7 +271,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -325,7 +325,7 @@ export default {
               if(error.response) {
                 this.$router.push("servererror")
               } else if(error.request) {
-                this.$router.push("clienterror")
+                this.$router.push("error")
               } else{
                 this.$router.push("/404");
               }                          

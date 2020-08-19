@@ -327,10 +327,10 @@
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions class="d-flex justify-end">
-                  <v-btn color="blue darken-1" text @click="dialog = false"
+                  <v-btn color="blue darken-1" text @click="dialog2 = false"
                     >Save</v-btn
                   >
-                  <v-btn color="blue darken-1" text @click="dialog = false"
+                  <v-btn color="blue darken-1" text @click="dialog2 = false"
                     >Close</v-btn
                   >
                 </v-card-actions>
