@@ -23,13 +23,14 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <v-btn icon  @click="nono3">
         <router-link v-if="lognow" to="/aboutus"  class="white--text" style="text-decoration: none;"><v-icon>mdi-home</v-icon></router-link>
-        <router-link v-else to="/login"  class="white--text" style="text-decoration: none;"><v-icon>mdi-account</v-icon></router-link>
+        <router-link v-else to="/login"  class="white--text" style="text-decoration: none;"><v-icon >mdi-account</v-icon></router-link>
       </v-btn>
 
       <template v-if="lognow" v-slot:extension>
-        <v-tabs class="d-flex justify-center">
+        <v-tabs class="d-flex justify-center" v-model="activeTab" slider-color="transparent">
+          <v-tabs-slider class="blue lighten-3" v-if="!hiddentab||hiddentab==0"></v-tabs-slider>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoschedule">Schedule</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotonote">Note</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogroup">Group</v-tab>
@@ -38,11 +39,10 @@
         </v-tabs>
       </template>
       <template v-else v-slot:extension>
-        <v-tabs class="d-flex justify-center">
+        <v-tabs class="d-flex justify-center" v-model="activeTab2" slider-color="transparent">
+          <v-tabs-slider class="blue lighten-3" v-if="!hiddentab||hiddentab==0"></v-tabs-slider>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotoaboutus">About us</v-tab>
           <v-tab class="tabinfo navbarlistitemlink" @click="gotohowto">How to</v-tab>
-          <!-- <v-tab class="tabinfo navbarlistitemlink" @click="gotologin">Log in</v-tab>
-          <v-tab class="tabinfo navbarlistitemlink" @click="gototutorial">Tutorial</v-tab> -->
           <v-tab class="tabinfo navbarlistitemlink" @click="gotogallery">Gallery</v-tab>
         </v-tabs>
       </template>
@@ -55,7 +55,7 @@
       class="mynav-drawer"
     >
 
-    <v-list-item v-if="lognow" class="drawer-profile">
+    <v-list-item v-if="lognow" class="drawer-profile" @click="propro">
       <router-link to="/profile" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
@@ -66,8 +66,8 @@
       </v-row>
       </router-link>
     </v-list-item>
-    <v-list-item v-else class="drawer-profile">
-      <router-link to="/profile" style="text-decoration:none;">
+    <v-list-item v-else class="drawer-profile" @click="nono2">
+      <router-link to="/login" style="text-decoration:none;">
       <v-row>
         <v-col cols="12">
           <v-icon class="white--text">mdi-account</v-icon>
@@ -90,7 +90,7 @@
         <div v-if="lognow">
           <v-subheader>Schedule</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/schedule" class="drawer-menu"><v-list-item>
+          <router-link to="/schedule" class="drawer-menu"><v-list-item @click="schesche">
             <v-list-item-icon>
               <v-icon>mdi-calendar-month</v-icon>
             </v-list-item-icon>
@@ -99,19 +99,19 @@
 
           <v-subheader class="mt-3">Note</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/note" class="drawer-menu"><v-list-item>
+          <router-link to="/note" class="drawer-menu"><v-list-item @click="notenote">
             <v-list-item-icon>
               <v-icon>mdi-post</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Note</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/note/create" class="drawer-menu"><v-list-item>
+          <router-link to="/note/create" class="drawer-menu"><v-list-item @click="nono">
             <v-list-item-icon>
               <v-icon>mdi-pencil-plus</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">New note</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/search" class="drawer-menu"><v-list-item>
+          <router-link to="/search" class="drawer-menu"><v-list-item @click="searchsearch">
             <v-list-item-icon>
               <v-icon>mdi-magnify</v-icon>
             </v-list-item-icon>
@@ -120,19 +120,19 @@
 
           <v-subheader class="mt-3">Group</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/group" class="drawer-menu"><v-list-item>
+          <router-link to="/group" class="drawer-menu"><v-list-item @click="groupgroup">
             <v-list-item-icon>
               <v-icon>mdi-account-group</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Group</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/group/create" class="drawer-menu"><v-list-item>
+          <router-link to="/group/create" class="drawer-menu"><v-list-item @click="nono">
             <v-list-item-icon>
               <v-icon>mdi-account-multiple-plus</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">New Group</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/group/search" class="drawer-menu"><v-list-item>
+          <router-link to="/group/search" class="drawer-menu"><v-list-item @click="nono">
             <v-list-item-icon>
               <v-icon>mdi-magnify</v-icon>
             </v-list-item-icon>
@@ -141,7 +141,7 @@
 
           <v-subheader class="mt-3">Account</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/profile" class="drawer-menu"><v-list-item>
+          <router-link to="/profile" class="drawer-menu"><v-list-item @click="propro">
             <v-list-item-icon>
               <v-icon>mdi-account-circle</v-icon>
             </v-list-item-icon>
@@ -157,13 +157,13 @@
         <div v-else>
           <v-subheader class="mt-3">Account</v-subheader>
           <v-divider></v-divider>
-          <router-link to="/signup" class="drawer-menu"><v-list-item>
+          <router-link to="/signup" class="drawer-menu"><v-list-item @click="nono2">
             <v-list-item-icon>
               <v-icon>mdi-account-plus</v-icon>
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Sign up</v-list-item-title>
           </v-list-item></router-link>
-          <router-link to="/login" class="drawer-menu"><v-list-item>
+          <router-link to="/login" class="drawer-menu"><v-list-item @click="nono2">
             <v-list-item-icon>
               <v-icon>mdi-account-circle</v-icon>
             </v-list-item-icon>
@@ -173,30 +173,24 @@
 
         <v-subheader class="mt-3">PLOG</v-subheader>
         <v-divider></v-divider>
-        <router-link to="/aboutus" class="drawer-menu"><v-list-item>
+        <router-link to="/aboutus" class="drawer-menu"><v-list-item @click="usus">
           <v-list-item-icon>
             <v-icon>mdi-information-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">About us</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/howto" class="drawer-menu"><v-list-item>
+        <router-link to="/howto" class="drawer-menu"><v-list-item @click="howhow">
           <v-list-item-icon>
             <v-icon>mdi-sign-direction</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">How to</v-list-item-title>
         </v-list-item></router-link>
-        <router-link to="/gallery" class="drawer-menu"><v-list-item>
+        <router-link to="/gallery" class="drawer-menu"><v-list-item @click="galgal">
           <v-list-item-icon>
             <v-icon>mdi-book-open-page-variant</v-icon>
           </v-list-item-icon>
           <v-list-item-title class="grey--text">Gallery</v-list-item-title>
         </v-list-item></router-link>
-        <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
-          <v-list-item-icon>
-            <v-icon>mdi-television-play</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
-        </v-list-item></router-link> -->
         </v-list-item-group>       
       </v-list>
     </v-navigation-drawer>
@@ -204,7 +198,9 @@
 
   <div class="d-none d-sm-block" style="min-height: 100%;">
       <v-container style="padding-bottom: 60px; padding-top:120px; min-height: 100vh;">
+      <vue-page-transition name="fade-in-up">
       <router-view :key="$route.fullPath"/>
+      </vue-page-transition>
     </v-container>
     <v-footer
     
@@ -470,19 +466,15 @@
             </v-list-item-icon>
             <v-list-item-title class="grey--text">Gallery</v-list-item-title>
           </v-list-item></router-link>
-          <!-- <router-link to="/tutorial" class="drawer-menu"><v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-television-play</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="grey--text">Tutorial</v-list-item-title>
-          </v-list-item></router-link> -->
           </v-list-item-group>
 
         </v-list>
       </v-navigation-drawer>
 
     <v-container style="padding-bottom: 60px; padding-top:60px;">
+      <vue-page-transition name="fade-in-up">
       <router-view :key="$route.fullPath"/>
+      </vue-page-transition>
     </v-container>
     <v-bottom-navigation
       v-if="lognow"
@@ -572,7 +564,6 @@
 
 export default {
   name: 'App',
-
   components: {
     
   },
@@ -587,8 +578,13 @@ export default {
     if (this.$store.state.auth.status.loggedIn) {
       this.isLoggedin = true
     }
+    this.hiddentab = false
   },
   data: () => ({
+    activeTab: 0,
+    activeTab2: '',
+    // location: '',
+    hiddentab: false,
     // 로그인 여부
     isLoggedin : false,
     btnShow : window.scrollY > 1,
@@ -626,54 +622,76 @@ export default {
     },
     // 상단 탭 : 클릭 이용성 개선
     gotoschedule() {
+      this.hiddentab = false
       if (this.$route.name !== 'Schedule'){
+        this.activeTab = 1
+        this.activeTab2 = ''
+        this.hiddentab = false
         this.$router.push('/schedule')
       }
     },
     gotonote() {
       if (this.$route.name !== 'Note'){
+        this.hiddentab = false
+        this.activeTab = 1
+        this.activeTab2 = ''
         this.$router.push('/note')
       }
     },
     gotogroup() {
       if (this.$route.name !== 'GroupMain'){
+        this.hiddentab = false
+        this.activeTab = 2
+        this.activeTab2 = ''
         this.$router.push('/group')
       }
     },
     gotoaboutus() {
       if (this.$route.name !== 'Aboutus'){
+        this.hiddentab = false
+        this.activeTab = ''
+        this.activeTab2 = 0
         this.$router.push('/aboutus')
       }
     },
     gotomypage() {
       if (this.$route.name !== 'Profile'){
+        this.hiddentab = false
+        this.activeTab = 3
+        this.activeTab2 = ''
         this.$router.push('/profile')
       }
     },
     gotosearch() {
       if (this.$route.name !== 'Search'){
+        this.hiddentab = false
+        this.activeTab = 4
+        this.activeTab2 = ''
         this.$router.push('/search')
       }
     },
     gotologin() {
       if (this.$route.name !== 'Login'){
+        this.activeTab = ''
+        this.activeTab2 = ''
         this.$router.push('/login')
       }
     },
     // guest
     gotogallery() {
       if (this.$route.name !== 'Gallery'){
+        this.hiddentab = false
+        this.activeTab = ''
+        this.activeTab2 = 2
         this.$router.push('/gallery')
       }
     },
     gotohowto() {
       if (this.$route.name !== 'Howto'){
+        this.hiddentab = false
+        this.activeTab = ''
+        this.activeTab2 = 1
         this.$router.push('/howto')
-      }
-    },
-    gototutorial() {
-      if (this.$route.name !== 'Tutorial'){
-        this.$router.push('/tutorial')
       }
     },    
     // 맨위로 버튼 + 노트 생성 버튼
@@ -682,14 +700,74 @@ export default {
     },
     gotonotecreate() {
       if (this.$route.name !== 'Createnote'){
+        this.activeTab = ''
+        this.activeTab2 = ''
         this.$router.push('/note/create')
       }
     },
     logOut() {
       this.$store.dispatch('auth/logout');
+        this.activeTab = ''
+        this.activeTab2 = ''
       // this.$router.push('/logout');
       this.$router.go();
     },
+    // 탭 위치 조정
+    schesche() {
+      this.activeTab = 0
+      this.activeTab2 = ''
+      this.hiddentab = false
+    },
+      notenote() {
+      this.activeTab = 1
+      this.activeTab2 = ''
+      this.hiddentab = false
+    },
+      nono() {
+      this.activeTab = ''
+      this.activeTab2 = ''
+      this.hiddentab = true
+    },
+      searchsearch() {
+      this.activeTab = 4
+      this.activeTab2 = ''
+      this.hiddentab = false
+    },
+    groupgroup() {
+      this.activeTab = 2
+      this.activeTab2 = ''
+      this.hiddentab = false
+    },
+    propro() {
+      this.activeTab = 3
+      this.activeTab2 = ''
+      this.hiddentab = false
+    },
+    nono2() {
+      this.activeTab = ''
+      this.activeTab2 = ''
+      this.hiddentab = true
+    },
+    usus() {
+      this.activeTab = ''
+      this.activeTab2 = 0
+      this.hiddentab = false
+    },
+    howhow() {
+      this.activeTab = ''
+      this.activeTab2 = 1
+      this.hiddentab = false
+    },
+    galgal() {
+      this.activeTab = ''
+      this.activeTab2 = 2
+      this.hiddentab = false
+    },
+    nono3() {
+      this.activeTab = ''
+      this.activeTab2 = ''
+      this.hiddentab = true
+    }
   },
   // 맨위로 버튼
   beforeMount() {
@@ -712,7 +790,8 @@ export default {
     },
     lognow() {
       return this.$store.state.auth.status.loggedIn
-    }
+    },
+
   },
   watch: {
     top (val) {
@@ -727,9 +806,14 @@ export default {
     left (val) {
       this.right = !val
     },
-    
-
-  }
+    activeTab() {
+      if (this.activeTab == '') {
+        this.hiddentab = true
+      } else {
+        this.hiddentab = false
+      }
+    }
+  },
 };
 </script>
 <style>

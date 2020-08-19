@@ -8,6 +8,7 @@ import 'vuetify-dialog/dist/vuetify-dialog.css'
 import Carousel3d from 'vue-carousel-3d'
 
 import VeeValidate from 'vee-validate';
+import VuePageTransition from 'vue-page-transition'
 
 import store from './store';
 import Vuex from 'vuex';
@@ -24,6 +25,7 @@ Vue.use(VuetifyDialog, {
 })
 
 Vue.use(Carousel3d)
+Vue.use(VuePageTransition)
 
 new Vue({
   router,
