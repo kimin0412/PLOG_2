@@ -12,5 +12,9 @@ public interface HashTagService {
 	void deletePostHashtag(int pId);
 
 	List<Hashtag> getAll(int uId);
+
+	List<Hashtag> getNotesTags(int uid, int clId);
+
+	List<Hashtag> getNotesTagsInCategory(int uid, int clId, int cId);
 	
 }

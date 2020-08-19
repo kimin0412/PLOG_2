@@ -59,4 +59,16 @@ public class HashTagController {
     	List<Hashtag> hList = hService.getAll(uid);
 		return hList;
 	}
+    
+    @GetMapping("/hashtag/notes")
+	public List<Hashtag> getNotesHashtag(@RequestParam int uid, int clId) { 
+    	List<Hashtag> hList = hService.getNotesTags(uid, clId);
+		return hList;
+	}
+    
+    @GetMapping("/hashtag/notes/category")
+	public List<Hashtag> getNotesHashtagInCategory(@RequestParam int uid, int clId, int cId) { 
+    	List<Hashtag> hList = hService.getNotesTagsInCategory(uid, clId, cId);
+		return hList;
+	}
 }

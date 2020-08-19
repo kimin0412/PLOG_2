@@ -347,24 +347,36 @@
                                                   </v-expand-transition>
                                                   </v-card>
                                                   </v-hover>
-                                                  <v-expansion-panels accordion>
-                                                    <v-expansion-panel>
-                                                      <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                                      <v-expansion-panel-content class="pt-4 text-wrap">
-                                                        <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                                          <router-link
-                                                            :to="{ path: 'search', query: { name: item.name } }"
-                                                            class="py-0 text-center text-decoration-none">
-                                                            <v-chip
-                                                              class="ma-1"
-                                                            ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                                              {{item.name}}
-                                                            </v-chip>
-                                                          </router-link>
-                                                        </div>
-                                                      </v-expansion-panel-content>
-                                                    </v-expansion-panel>
-                                                  </v-expansion-panels>
+                                                  <v-card >
+                                                    <v-sheet
+                                                      class="mx-auto"
+                                                      max-width="700"
+                                                      height="6vh"
+                                                      color="grey lighten-5"
+                                                    >
+                                                      <v-slide-group multiple show-arrows>
+                                                        <v-slide-item
+                                                          v-for="(item, i) in hashtags" v-bind:key="i"
+                                                          v-slot:default="{ active, toggle }"
+                                                          class = "mt-2 mb-2"
+                                                        >
+                                                          <v-btn
+                                                            class="mx-1"
+                                                            color="grey lighten-2"
+                                                            :input-value="active"
+                                                            active-class="purple white--text"
+                                                            depressed
+                                                            rounded
+                                                            small
+                                                            @click="toggle"
+                                                            v-if="item.hId == note.pId"
+                                                          >
+                                                            # {{ item.hName }}
+                                                          </v-btn>
+                                                        </v-slide-item>
+                                                      </v-slide-group>
+                                                    </v-sheet>
+                                                    </v-card>
                                                 </v-col>
                                               </v-row>
                                               </v-col>
@@ -430,8 +442,8 @@
                                                         <v-expand-transition>
                                                           <router-link
                                                             :to="{
-                                                              path: 'note/detail',
-                                                              query: { pId: note.pId },
+                                                              path: '/group/notedetail',
+                                                              query: { pId: note.pId, clId:groupId },
                                                             }"
                                                             class="py-0 text-center text-h6"
                                                           >
@@ -445,24 +457,36 @@
                                                         </v-expand-transition>
                                                       </v-card>
                                                       </v-hover>
-                                                      <v-expansion-panels accordion>
-                                                        <v-expansion-panel>
-                                                          <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                                          <v-expansion-panel-content class="pt-4 text-wrap">
-                                                            <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                                              <router-link
-                                                                :to="{ path: 'search', query: { name: item.name } }"
-                                                                class="py-0 text-center text-decoration-none">
-                                                                <v-chip
-                                                                  class="ma-1"
-                                                                ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                                                  {{item.name}}
-                                                                </v-chip>
-                                                              </router-link>
-                                                            </div>
-                                                          </v-expansion-panel-content>
-                                                        </v-expansion-panel>
-                                                      </v-expansion-panels>
+                                                      <v-card >
+                                                    <v-sheet
+                                                      class="mx-auto"
+                                                      max-width="700"
+                                                      height="6vh"
+                                                      color="grey lighten-5"
+                                                    >
+                                                      <v-slide-group multiple show-arrows>
+                                                        <v-slide-item
+                                                          v-for="(item, i) in hashtags" v-bind:key="i"
+                                                          v-slot:default="{ active, toggle }"
+                                                          class = "mt-2 mb-2"
+                                                        >
+                                                          <v-btn
+                                                            class="mx-1"
+                                                            color="grey lighten-2"
+                                                            :input-value="active"
+                                                            active-class="purple white--text"
+                                                            depressed
+                                                            rounded
+                                                            small
+                                                            @click="toggle"
+                                                            v-if="item.hId == note.pId"
+                                                          >
+                                                            # {{ item.hName }}
+                                                          </v-btn>
+                                                        </v-slide-item>
+                                                      </v-slide-group>
+                                                    </v-sheet>
+                                                    </v-card>
                                                     </v-col>
                                                     </div>
                                                   </v-row>
@@ -1170,6 +1194,24 @@ export default {
             this.$router.push("/404");
           }                          
         });
+
+        http.get("/hashtag/notes", {
+        params: {
+          uid: this.$store.state.auth.user.id,
+          clId : 1,
+          cId : this.groupId,
+        },
+      }).then(({ data }) => {
+        this.hashtags = data;
+      }).catch((error) => {
+        if(error.response) {
+          this.$router.push("servererror")
+        } else if(error.request) {
+          this.$router.push("error")
+        } else{
+          this.$router.push("/404");
+        }                          
+      });
     },
 
     filters: {
