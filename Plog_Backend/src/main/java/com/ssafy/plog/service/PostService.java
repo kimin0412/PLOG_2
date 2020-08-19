@@ -41,5 +41,5 @@ public interface PostService {
 
 	Post countClubPosts(int pUser, int pClub);
 
-	List<Post> selectAllInCategory(int uid, int cid);
+	List<Post> selectAllInCategory(int uid, int cid, int clid);
 }

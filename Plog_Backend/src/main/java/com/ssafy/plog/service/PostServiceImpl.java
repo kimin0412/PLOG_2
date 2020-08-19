@@ -449,7 +449,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> selectAllInCategory(int uid, int cid) {
-		return dao.findAllByPUserAndPCategory(uid, cid);
+	public List<Post> selectAllInCategory(int uid, int cid, int clid) {
+		if(clid > 1) {
+			return dao.findAllByPClub(cid, clid);
+		}else
+			return dao.findAllByPUserAndPCategory(uid, cid, clid);
 	}
 }
