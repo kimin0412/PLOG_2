@@ -91,6 +91,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public boolean updatePost(Post_NoJPA temp) { 
+		
+		System.out.println(temp.toString());
 		Post post = new Post();
 		
 		post.setpId(temp.getpId());
@@ -98,6 +100,7 @@ public class PostServiceImpl implements PostService {
 		post.setpUser(temp.getpUser());
 		post.setpContent(temp.getpContent());
 		post.setpColor(temp.getpColor());
+		System.out.println(post.toString());
 		
 		if(temp.getpSchedule() == 0) {
 			post.setpSchedule(1);
@@ -449,7 +452,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> selectAllInCategory(int uid, int cid) {
-		return dao.findAllByPUserAndPCategory(uid, cid);
+	public List<Post> selectAllInCategory(int uid, int cid, int clid) {
+		if(clid > 1) {
+			return dao.findAllByPClub(cid, clid);
+		}else
+			return dao.findAllByPUserAndPCategory(uid, cid, clid);
 	}
 }

@@ -101,8 +101,11 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 	@Query(value = "select * from post where p_user = ?1 and p_club = 1 order by p_bookmark desc, p_date desc", nativeQuery = true)
 	List<Post> findMineBypUser(int uid);
 
-	@Query(value = "select * from post where p_user = ?1 and p_club = 1 and p_category = ?2 order by p_bookmark desc, p_date desc", nativeQuery = true)
-	List<Post> findAllByPUserAndPCategory(int uid, int cid);
+	@Query(value = "select * from post where p_user = ?1 and p_category = ?2 and p_club = ?3 order by p_bookmark desc, p_date desc", nativeQuery = true)
+	List<Post> findAllByPUserAndPCategory(int uid, int cid, int clid);
+
+	@Query(value = "select * from post where p_category = ?1 and p_club = ?2 order by p_bookmark desc, p_date desc", nativeQuery = true)
+	List<Post> findAllByPClub(int cid, int clid);
 
 
 }

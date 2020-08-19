@@ -25,7 +25,7 @@
               |
               <span class="chgBtn px-2" @click="makePDF"> PDF </span>
               |
-              <router-link :to="{ path: 'noteUpdate', query:{pId:this.pId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
+              <router-link :to="{ path: 'noteUpdate', query:{pId:this.pId, clId:this.groupId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
                 <span class="chgBtn px-2"> 수정 </span>
               </router-link>
               |
@@ -100,7 +100,7 @@
         <v-row>
             <v-col cols="12" class="d-flex justify-end py-0 atag">
                 <v-btn @click="makePDF" small color="green" class="py-0 white--text text-center atag mr-3">PDF</v-btn>
-                <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center" style="text-decoration: none;"> 
+                <router-link :to="{ path: 'noteUpdate', query:{pId:this.pId, clId:this.groupId}}" class="py-0 text-center" style="text-decoration: none;"> 
                       <v-btn small color="orange" class="py-0 white--text text-center atag mr-3">수정</v-btn>
                 </router-link>
                 <v-btn @click="deleteNote" small color="red" class="py-0 white--text text-center atag mr-3">삭제</v-btn>

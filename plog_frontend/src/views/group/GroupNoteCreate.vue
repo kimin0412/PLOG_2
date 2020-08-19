@@ -640,6 +640,7 @@ export default {
                   // console.log(data);
                 });
               });
+              alert(resContent)
 
               http
               .put("/post/", {

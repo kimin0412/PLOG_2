@@ -505,6 +505,7 @@ export default {
         params: {
           uid : this.$store.state.auth.user.id,
           cid : cid,
+          clid : 1,
         },
       }).then(({ data }) => {
         this.NotesInFolder = data;
