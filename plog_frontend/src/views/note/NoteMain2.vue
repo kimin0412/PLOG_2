@@ -38,10 +38,10 @@
                                   >
                                     {{ category.cName }}
                                   </v-tab>
-                                  <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text"></v-col>
+                                  <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text text--darken-2">+</v-col>
                                   </div>
-                                  <div v-else class="text-center grey--text font-weight-thin mt-2">카테고리가 없습니다.<br>
-                                    <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text"><v-icon small class="blue--text mr-2">mdi-folder-multiple-plus</v-icon>새 카테고리</v-col>
+                                  <div v-else class="text-center grey--text font-weight-thin mt-2 text-caption">카테고리 없음<br>
+                                    <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text text-caption"><v-icon small class="blue--text mr-2">mdi-folder-multiple-plus</v-icon>추가</v-col>
                                   </div>
                                 </v-tabs>                              
                             </v-row>
@@ -368,8 +368,302 @@
             <v-col cols="12" class="py-1 text-h5">NOTE</v-col>
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">My Notes</v-col>
           </v-row>
-          <v-row class="mt-10">
-          </v-row>
+            <v-row>
+              <v-col cols="5"></v-col>
+              <v-col cols="7" class="mt-5 text-right text-caption py-0 ">
+                <v-btn @click="categoryDialog = true" class="mb-2 mr-2" color="grey lighten-1">
+                  <v-icon class="white--text">mdi-folder-multiple-plus</v-icon>
+                </v-btn>                 
+                <v-btn class="mb-2 mr-2" color="grey lighten-1">
+                  <router-link to="/note/create" class="text-decoration-none"><v-icon class="white--text">mdi-pen-plus</v-icon></router-link>                  
+                </v-btn>
+                <v-btn class="mb-2 mr-2" color="grey lighten-1">
+                  <router-link to="/search" class="text-decoration-none"><v-icon class="white--text">mdi-magnify</v-icon></router-link>
+                </v-btn>
+              </v-col>
+                <v-col cols="12">
+                    <v-tabs
+                      v-model="tab"
+                      background-color="transparent"
+                      class="font-weight-bold"
+                      show-arrows
+                      >
+                      <v-tab class="text-left"
+                      >전체 노트</v-tab>
+                      <v-tab class="text-left">임시 저장</v-tab>
+                      <v-tab
+                        v-for="(category, index) in this.categories"
+                        :key="index"
+                        class="text-left"
+                        @click="getNotesInCategory(category.cId)"
+                      >
+                        {{ category.cName }}
+                      </v-tab>
+                    </v-tabs>                              
+                </v-col>
+                <v-col cols="12" class="pt-0">
+                    <v-card class="mx-auto" min-height="71vh">
+                        <v-tabs-items v-model="tab">
+                        <v-tab-item>
+                          <v-row class="mx-5 pt-5">
+                          <v-col cols="12" v-if="Notes.length == 0" class="text-center pt-5 grey--text text-caption" style="margin-top: 30vh;">
+                              아직 노트가 없습니다.
+                          </v-col>
+                          <v-col cols="12" v-else class="px-0 pt-0">
+                            <v-row class="px-0" style="overflow: auto; min-height: 65vh;">
+                            <v-col cols="12" class="grey--text text-center pt-0 text-caption">즐겨찾기에 추가한 노트가 상단에 배치됩니다.</v-col>
+                            <v-col cols="12"                            
+                                v-for="(note, index) in Notes"
+                                :key="index"
+                                class="py-0">
+                              <router-link
+                                    :to="{
+                                      path: 'note/detail',
+                                      query: { pId: note.pId },
+                                    }"
+                                    class="py-0 text-center text-h6 text-decoration-none"
+                                  >
+                              <v-card>
+                                <v-row class="mx-3" >
+                                  <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
+                                    <v-btn text icon>
+                                      <v-icon
+                                        color="#FDD835"
+                                        v-if="note.pBookmark ==1">mdi-star</v-icon>
+                                      <v-icon color="grey" v-else>mdi-star</v-icon>
+                                    </v-btn>
+                                  </v-col>
+                                  <v-col cols="2" class="pr-0 pl-2 mt-4">
+                                    <img src="@/assets/icon/file.png" width="100%" alt="">
+                                  </v-col>
+                                  <v-col cols="10" class="pl-0">
+                                    <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
+                                    <v-card-subtitle>
+                                      <div>{{note.pDate.substr(0,10)}}</div>
+                                    </v-card-subtitle>
+                                  </v-col>
+                                </v-row>
+                              </v-card>
+                              </router-link>
+                              <v-expansion-panels accordion>
+                                <v-expansion-panel>
+                                  <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
+                                  <v-expansion-panel-content class="pt-4 text-wrap">
+                                    <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
+                                      <router-link
+                                        :to="{ path: 'search', query: { name: item.name } }"
+                                        class="py-0 text-center text-decoration-none">
+                                        <v-chip
+                                          class="ma-1"
+                                        ><v-icon small class="mr-1">mdi-pound</v-icon>
+                                          {{item.name}}
+                                        </v-chip>
+                                      </router-link>
+                                    </div>
+                                  </v-expansion-panel-content>
+                                </v-expansion-panel>
+                              </v-expansion-panels>
+                            </v-col>
+                          </v-row>
+                          </v-col>
+                          </v-row>
+                        </v-tab-item>
+                        <v-tab-item>
+                          <v-row class="mx-5 pt-5" >
+                            <v-col cols="12" v-if="tmpNotes.length == 0" class="text-center pt-5 grey--text text-caption" style="margin-top: 30vh;">
+                              임시 저장한 노트가 없습니다.
+                            </v-col>
+                            <v-col cols="12" v-else class="pt-5">
+                              <v-row justify="center" align="center" min-height="60vh">
+                                <v-col cols="12">
+                                  <v-simple-table fixed-header>
+                                    <template v-slot:default>
+                                      <thead>
+                                        <tr>
+                                          <th class="text-center font-weight-bold">No.</th>
+                                          <th class="text-center font-weight-bold">Title</th>
+                                          <th class="text-center font-weight-bold">Date</th>
+                                          <th class="text-center font-weight-bold"></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr v-for="(tpnote, index) in tmpNotes"
+                                            :key="index">
+                                          <td class="text-center">{{ index+1 }}</td>
+                                          <td class="text-center">{{ tpnote.tpTitle }}</td>
+                                          <td class="text-center">{{ tpnote.tpDate.substr(5,5) }}</td>
+                                          <td class="text-center"><router-link
+                                                :to="{
+                                                  path: 'note/tmpupdate',
+                                                  query: { tpId: tpnote.tpId },
+                                                }"
+                                                class="py-0 text-center text-decoration-none text-center"
+                                              >수정</router-link>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </template>
+                                  </v-simple-table>
+                              </v-col>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-tab-item>
+                        <div v-if="categories.length >= 1">
+                        <v-tab-item
+                          v-for="(category, i) in categories"
+                          :key="i"
+                        >
+                          <v-row class="mx-5 pt-5">
+                            <v-col cols="12" class="d-flex justify-space-between">
+                              <div class="ml-2 font-weight-bold text-h6">
+                                {{category.cName}}
+                              </div>
+                              <div>
+                              <div @click="deleteCategory(category.cId)" class="red--text thingstohover d-inline-block">
+                              <v-icon color="red" class="mr-1" small
+                              >mdi-delete</v-icon>
+                              </div>
+                              <div @click="openUpdateDialog(category.cId, category.cName)" class="grey--text thingstohover d-inline-block ml-3">                              
+                               <v-icon color="grey" class="mr-1" small
+                              >mdi-wrench</v-icon>
+                              </div>
+                              </div>
+                            </v-col>
+                            <v-col cols="12" v-if="NotesInFolder.length == 0" class="text-center grey--text text-caption" style="margin-top: 25vh;">
+                              "{{category.cName}}" 카테고리에 <br> 저장한 노트가 없습니다.
+                            </v-col>
+                            <v-col cols="12" v-else class="px-0">
+                              <v-row style="overflow: auto; height: 57vh; margin-top: 3vh;">
+                                <div>
+                                <v-col cols="12" v-for="(note, index) in NotesInFolder" :key="index">
+                                  <router-link
+                                        :to="{
+                                          path: 'note/detail',
+                                          query: { pId: note.pId },
+                                        }"
+                                        class="py-0 text-center text-h6 text-decoration-none"
+                                      ><v-card
+                                  >
+                                    <v-row class="mx-3" >
+                                      <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
+                                            <v-btn text icon>
+                                              <v-icon
+                                                color="#FDD835"
+                                                v-if="note.pBookmark ==1"
+                                                >mdi-star</v-icon>
+                                              <v-icon color="grey" v-else
+                                                >mdi-star</v-icon>
+                                            </v-btn>
+                                      </v-col>
+                                      <v-col cols="2" class="pr-0 pl-2 mt-4">
+                                        <img src="@/assets/icon/file.png" width="100%" alt="">
+                                        <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
+                                      </v-col>
+                                      <v-col cols="10" class="pl-0">
+                                        <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
+                                        <v-card-subtitle>
+                                          <div>{{note.pDate.substr(0,10)}}</div>
+                                        </v-card-subtitle>
+                                      </v-col>
+                                    </v-row>
+                                  </v-card>
+                                  </router-link>
+                                  <v-expansion-panels accordion>
+                                    <v-expansion-panel>
+                                      <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
+                                      <v-expansion-panel-content class="pt-4 text-wrap">
+                                        <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
+                                          <router-link
+                                            :to="{ path: 'search', query: { name: item.name } }"
+                                            class="py-0 text-center text-decoration-none">
+                                            <v-chip
+                                              class="ma-1"
+                                            ><v-icon small class="mr-1">mdi-pound</v-icon>
+                                              {{item.name}}
+                                            </v-chip>
+                                          </router-link>
+                                        </div>
+                                      </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                  </v-expansion-panels>
+                                </v-col>
+                                </div>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-tab-item>
+                        </div>
+                      </v-tabs-items>
+                    </v-card>
+                </v-col>
+            </v-row>
+            <!--카테고리 생성 모달-->
+            <!-- <v-dialog
+              class="categorymodal"
+              v-model="categoryDialog"
+              :close-on-content-click="false"
+              offset-x
+              max-width="500">
+              <v-card>
+                  <v-card-title>
+                      <span class="headline">New Category</span>
+                  </v-card-title>
+                  <v-card-text>
+                      <v-container>
+                      <v-row>
+                          <v-col cols="12">
+                          <v-text-field placeholder="새로운 카테고리 이름을 입력해주세요" v-model="cName" required></v-text-field>
+                          </v-col>
+                      </v-row>
+                      </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="createCategory">Create</v-btn>
+                      <v-btn color="grey" text @click="categoryDialog = false">Close</v-btn>
+                  </v-card-actions>
+              </v-card>
+          </v-dialog> -->
+          <!-- 카테고리 수정 모달 -->
+            <!-- <v-dialog
+            class="categorymodal"
+            v-model="updateCategoryDialog"
+            :close-on-content-click="false"
+            offset-x
+            max-width="500"
+          >
+            <v-card>
+              <v-card-title>
+                <span class="headline">Update Category</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="Category Name*"
+                        v-model="cUpdateName"
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="updateCategory"
+                  >Done</v-btn
+                >
+                <v-btn
+                  color="grey"
+                  text
+                  @click="updateCategoryDialog = false"
+                  >Close</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog> -->
         </v-container>
       </div>
   </div>
@@ -419,6 +713,7 @@ export default {
             })
             .then(({ data }) => {
               this.categories = data;
+              this.length2 = data.length;
             })
             .catch((error) => {
                 if(error.response) {
@@ -739,6 +1034,11 @@ export default {
     if (!this.currentUser) {
       this.$router.push('/login');
     }
+    },
+    watch: {
+      length (val) {
+        this.tab = val-1
+      }
     }
 }
 </script>

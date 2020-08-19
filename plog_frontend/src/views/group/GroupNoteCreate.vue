@@ -596,12 +596,12 @@ export default {
                 var image = content.substring(start, end);
                 var fileName = data.temp + "_" + i + "." + extend;
                 var file = this.dataURLtoFile(image, fileName);
-                console.log(file);
+                //console.log(file);
 
                 resContent = content.substring(0, start);
                 resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
                 resContent = resContent + content.substring(end);
-                console.log(resContent);
+                //console.log(resContent);
                 images[i] = file;
                 i++;
                 content = resContent;
