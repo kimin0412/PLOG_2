@@ -333,7 +333,7 @@
                                                     <router-link
                                                       :to="{
                                                         path: '/group/noteDetail',
-                                                        query: { pId: note.pId },
+                                                        query: { pId: note.pId, clId:groupId },
                                                       }"
                                                       class="py-0 text-center text-h6"
                                                     >
@@ -1068,7 +1068,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1085,7 +1085,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1102,7 +1102,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1121,7 +1121,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1165,7 +1165,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1205,7 +1205,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1227,7 +1227,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1254,7 +1254,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1281,7 +1281,7 @@ export default {
               if(error.response) {
                 this.$router.push("servererror")
               } else if(error.request) {
-                this.$router.push("clienterror")
+                this.$router.push("error")
               } else{
                 this.$router.push("/404");
               }                          
@@ -1299,7 +1299,7 @@ export default {
             if(error.response) {
               this.$router.push("servererror")
             } else if(error.request) {
-              this.$router.push("clienterror")
+              this.$router.push("error")
             } else{
               this.$router.push("/404");
           }                          
@@ -1319,7 +1319,7 @@ export default {
             if(error.response) {
               this.$router.push("servererror")
             } else if(error.request) {
-              this.$router.push("clienterror")
+              this.$router.push("error")
             } else{
               this.$router.push("/404");
             }                          
@@ -1372,7 +1372,7 @@ export default {
                           if(error.response) {
                             this.$router.push("servererror")
                           } else if(error.request) {
-                            this.$router.push("clienterror")
+                            this.$router.push("error")
                           } else{
                             this.$router.push("/404");
                           }                          
@@ -1409,7 +1409,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -1443,7 +1443,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -1479,7 +1479,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -1505,7 +1505,7 @@ export default {
             });
           })
 
-          console.log(this.chart_data)
+          //console.log(this.chart_data)
         },
 
         deleteCategory(cId) {

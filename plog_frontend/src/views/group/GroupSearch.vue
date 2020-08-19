@@ -45,7 +45,7 @@
               </v-col>
             </v-row>
             <v-row class=" mb-4">
-              <v-dialog
+              <v-menu
                 v-model="joinDialog"
                 :close-on-content-click="false"
                 offset-x
@@ -72,7 +72,7 @@
                   <v-btn color="blue darken-1" text @click="joinDialog = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
-              </v-dialog>
+              </v-menu>
             </v-row>
           </v-container>
         </div>
@@ -119,7 +119,7 @@
               </v-col>
             </v-row>
             <v-row class=" mb-4">
-              <v-dialog
+              <v-menu
                 v-model="joinDialog2"
                 :close-on-content-click="false"
                 offset-x
@@ -146,7 +146,7 @@
                   <v-btn color="blue darken-1" text @click="joinDialog2 = false">Close</v-btn>
                 </v-card-actions>
               </v-card>
-              </v-dialog>
+              </v-menu>
             </v-row>
         </v-container>
       </div>
@@ -204,7 +204,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -225,7 +225,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -268,7 +268,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -301,7 +301,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          

@@ -369,7 +369,18 @@
             <v-col cols="12" class="py-1 text-h4 font-weight-bold">My Notes</v-col>
           </v-row>
             <v-row>
-              <v-col cols="12" class="mt-5 text-right text-caption py-0"><div @click="categoryDialog = true">+ 카테고리 추가</div></v-col>
+              <v-col cols="5"></v-col>
+              <v-col cols="7" class="mt-5 text-right text-caption py-0 ">
+                <v-btn @click="categoryDialog = true" class="mb-2 mr-2" color="grey lighten-1">
+                  <v-icon class="white--text">mdi-folder-multiple-plus</v-icon>
+                </v-btn>                 
+                <v-btn class="mb-2 mr-2" color="grey lighten-1">
+                  <router-link to="/note/create" class="text-decoration-none"><v-icon class="white--text">mdi-pen-plus</v-icon></router-link>                  
+                </v-btn>
+                <v-btn class="mb-2 mr-2" color="grey lighten-1">
+                  <router-link to="/search" class="text-decoration-none"><v-icon class="white--text">mdi-magnify</v-icon></router-link>
+                </v-btn>
+              </v-col>
                 <v-col cols="12">
                     <v-tabs
                       v-model="tab"
@@ -395,7 +406,7 @@
                         <v-tabs-items v-model="tab">
                         <v-tab-item>
                           <v-row class="mx-5 pt-5">
-                          <v-col cols="12" v-if="Notes.length == 0" class="text-center" style="margin-top: 30vh;">
+                          <v-col cols="12" v-if="Notes.length == 0" class="text-center pt-5 grey--text text-caption" style="margin-top: 30vh;">
                               아직 노트가 없습니다.
                           </v-col>
                           <v-col cols="12" v-else class="px-0 pt-0">
@@ -708,7 +719,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -727,7 +738,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -747,7 +758,7 @@ export default {
                 if(error.response) {
                   this.$router.push("servererror")
                 } else if(error.request) {
-                  this.$router.push("clienterror")
+                  this.$router.push("error")
                 } else{
                   this.$router.push("/404");
                 }                          
@@ -777,7 +788,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -797,7 +808,7 @@ export default {
         if(error.response) {
           this.$router.push("servererror")
         } else if(error.request) {
-          this.$router.push("clienterror")
+          this.$router.push("error")
         } else{
           this.$router.push("/404");
         }                          
@@ -824,7 +835,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -855,7 +866,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -896,7 +907,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -925,7 +936,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -951,7 +962,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -974,7 +985,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          
@@ -1003,7 +1014,7 @@ export default {
           if(error.response) {
             this.$router.push("servererror")
           } else if(error.request) {
-            this.$router.push("clienterror")
+            this.$router.push("error")
           } else{
             this.$router.push("/404");
           }                          

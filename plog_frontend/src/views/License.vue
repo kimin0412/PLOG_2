@@ -25,17 +25,6 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header class="font-weight-bold">
-                  Apache-2.0 License
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Apacheitems" :key="i">
-                        <v-col cols="4" class="py-0">- {{item.Name}}</v-col>
-                        <v-col cols="8" class="text-caption grey--text py-0 mb-3">{{item.github}}<br>{{item.copyright}}</v-col>
-                    </v-row>                    
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <v-expansion-panel>
-                <v-expansion-panel-header class="font-weight-bold">
                   Icons
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -78,10 +67,10 @@
                   else
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Else" :key="i">
+                    <v-row v-for="(item, i) in Apacheitems" :key="i">
                         <v-col cols="4" class="py-0">- {{item.Name}}</v-col>
                         <v-col cols="8" class="text-caption grey--text py-0 mb-3">{{item.github}}<br>{{item.copyright}}</v-col>
-                    </v-row>               
+                    </v-row>                    
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -106,18 +95,6 @@
                         <v-col cols="12" class="text-caption grey--text py-0 text-wrap">{{item.github}}</v-col>
                         <v-col cols="12" class="text-caption grey--text py-0 mb-3 text-wrap">{{item.copyright}}</v-col>
                     </v-row>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Apache-2.0 License
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Apacheitems" :key="i">
-                        <v-col cols="12" class="py-0">{{item.Name}}</v-col>
-                        <v-col cols="12" class="text-caption grey--text py-0 text-wrap">{{item.github}}</v-col>
-                        <v-col cols="12" class="text-caption grey--text py-0 mb-3 text-wrap">{{item.copyright}}</v-col>
-                    </v-row>                    
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
@@ -161,10 +138,10 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  else
+                  Apache-2.0 License
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                    <v-row v-for="(item, i) in Else" :key="i">
+                    <v-row v-for="(item, i) in Apacheitems" :key="i">
                         <v-col cols="12" class="py-0">{{item.Name}}</v-col>
                         <v-col cols="12" class="text-caption grey--text py-0 text-wrap">{{item.github}}</v-col>
                         <v-col cols="12" class="text-caption grey--text py-0 mb-3 text-wrap">{{item.copyright}}</v-col>

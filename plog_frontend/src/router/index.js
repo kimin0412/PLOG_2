@@ -37,7 +37,6 @@ import NeedAuth from '../views/auth/NeedAuth.vue'
 import GeneralError from '../views/error/GeneralError.vue'
 import PageNotFound from '../views/error/PageNotFound.vue'
 import ServerError from '../views/error/ServerError.vue'
-import ClientError from '../views/error/ClientError.vue'
 
 // developers
 import Developers from '../views/Developers.vue'
@@ -444,11 +443,6 @@ Vue.use(VueRouter)
     path: '/servererror',
     name: 'ServerError',
     component: ServerError
-  },
-  {
-    path: '/clienterror',
-    name: 'ClientError',
-    component: ClientError
   },
   // 404 page not found
   {
