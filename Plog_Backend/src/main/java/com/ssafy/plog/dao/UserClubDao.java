@@ -30,6 +30,9 @@ public interface UserClubDao extends JpaRepository<User_club, Integer> {
 	@Transactional
 	@Query(value = "delete from user_club where uc_club = ?1 ", nativeQuery=true)
 	void deleteByClub(int groupId);
+	
+	@Query(value = " select uc_user from user_club where uc_club = ?1 ", nativeQuery=true)
+	List<Integer> getUsers(int clId);
 
 	
 	

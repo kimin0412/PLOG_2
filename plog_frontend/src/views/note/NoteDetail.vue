@@ -194,7 +194,6 @@ export default {
         if(data.cId != 1){
           this.categoryName = data.cName
         }
-        
       })
       .catch((error) => {
           if(error.response) {

@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.plog.dao.HashTagDAO;
 import com.ssafy.plog.dao.PostDao;
 import com.ssafy.plog.dao.PostHashtagDAO;
+import com.ssafy.plog.dao.UserClubDao;
 import com.ssafy.plog.dto.Hashtag;
+import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Post_Hashtag;
 
 @Service
@@ -27,6 +29,9 @@ public class HashTagServiceImpl implements HashTagService {
 	
 	@Autowired
 	PostHashtagDAO phdao;
+	
+	@Autowired
+	UserClubDao ucdao;
 
 	@Override
 	public List<String> selectByIds(int uid, int pid) {
@@ -78,5 +83,51 @@ public class HashTagServiceImpl implements HashTagService {
 			}
 		}
 		return hList;
+	}
+
+	@Override
+	public List<Hashtag> getNotesTags(int uid, int clId) {
+		List<Hashtag> hList = new LinkedList<>();
+		if(clId == 1) { //개인
+			List<Post_Hashtag> phs = phdao.getPhbyUser(uid);
+			
+			for (int i = 0, size = phs.size(); i < size; i++) {
+				Post_Hashtag ph = phs.get(i);
+				Hashtag hash = hdao.findByHId(ph.getPhHashtag());
+				hash.sethId(ph.getPhPost());
+				hList.add(hash);
+			}
+		} else { //그룹
+			List<Integer> uids = ucdao.getUsers(clId);
+			for (int i = 0, size = uids.size(); i < size; i++) {
+				List<Post_Hashtag> phs = phdao.getPhbyUser(uids.get(i));
+				
+				for (int j = 0, size2 = phs.size(); j < size2; j++) {
+					Post_Hashtag ph = phs.get(j);
+					Hashtag hash = hdao.findByHId(ph.getPhHashtag());
+					hash.sethId(ph.getPhPost());
+					hList.add(hash);
+				}
+			}
+		}
+		return hList;
+	}
+
+	@Override
+	public List<Hashtag> getNotesTagsInCategory(int uid, int clId, int cId) {
+		List<Post> notes = pdao.findPostByCategory(cId);
+		List<Hashtag> hList = new LinkedList<>();
+
+		for (int i = 0, size = notes.size(); i < size; i++) {
+			List<Post_Hashtag> phs = phdao.getPhById(uid, notes.get(i).getpId());
+			
+			for (int j = 0, size2 = phs.size(); j < size2; j++) {
+				Post_Hashtag ph = phs.get(j);
+				Hashtag hash = hdao.findByHId(ph.getPhHashtag());
+				hash.sethId(ph.getPhPost());
+				hList.add(hash);
+			}
+		}
+		return null;
 	}
 }
