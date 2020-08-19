@@ -572,7 +572,7 @@ export default {
           .post("/post/", {
             pId: this.nextPId,
             pTitle: this.title,
-            pContent: content,
+            pContent: '',
             pUser: this.$store.state.auth.user.id,
             pSchedule: this.dialogm1,
             pCategory: this.category,
