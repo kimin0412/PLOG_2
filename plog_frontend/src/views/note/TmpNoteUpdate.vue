@@ -315,7 +315,6 @@ export default {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         this.title = data.tpTitle;
         //this.model = data.model;
         const Entities = require("html-entities").XmlEntities;
@@ -325,7 +324,6 @@ export default {
         console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
-        this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
       })
       .catch((error) => {
           if(error.response) {
@@ -394,17 +392,6 @@ export default {
   },
 
   methods: {
-    onEditorChange() {
-      var content = this.$refs.toastuiEditor.invoke("getHtml");
-      this.editorText = content;
-      this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
-    },
-
-    onEditorChange2() {
-      var content = this.$refs.toastuiEditor2.invoke("getHtml");
-      this.editorText2 = content;
-      this.$refs.toastuiEditor.invoke("setHtml", this.editorText2);
-    },
     wordcomplete() {
       if (this.keywordinput.length < 2) {
         alert("두 글자 이상 입력해주세요");

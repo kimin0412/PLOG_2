@@ -276,9 +276,7 @@
                                                       </div></v-tab>
                                                       <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text">+</v-col>
                                                       </div>
-                                                      <div v-else class="text-center grey--text font-weight-thin mt-2">카테고리가 없습니다.<br>
-                                                        <v-col cols="12" @click="categoryDialog = true" class="px-0 text-center newfoldericon blue--text"><v-icon small class="blue--text mr-2">mdi-folder-multiple-plus</v-icon>새 카테고리</v-col>
-                                                      </div>
+                                                      
                                                     </v-tabs>                              
                                                 </v-row>
                                             </v-card-text>
@@ -347,7 +345,7 @@
                                                   </v-expand-transition>
                                                   </v-card>
                                                   </v-hover>
-                                                  <v-card >
+                                                  <v-card class="mb-5">
                                                     <v-sheet
                                                       class="mx-auto"
                                                       max-width="700"
@@ -595,7 +593,7 @@
                     <v-icon class="white--text">mdi-folder-multiple-plus</v-icon>
                   </v-btn>                 
                   <v-btn class="mb-2 mr-2" color="grey lighten-1">
-                    <router-link to="/group/create" class="text-decoration-none"><v-icon class="white--text">mdi-pen-plus</v-icon></router-link>                  
+                    <router-link to="/group/noteCreate" class="text-decoration-none"><v-icon class="white--text">mdi-pen-plus</v-icon></router-link>                  
                   </v-btn>
 
                 </v-col>
@@ -662,24 +660,36 @@
                                   </v-row>
                                 </v-card>
                                 </router-link>
-                                <v-expansion-panels accordion>
-                                  <v-expansion-panel>
-                                    <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                    <v-expansion-panel-content class="pt-4 text-wrap">
-                                      <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                        <router-link
-                                          :to="{ path: 'search', query: { name: item.name } }"
-                                          class="py-0 text-center text-decoration-none">
-                                          <v-chip
-                                            class="ma-1"
-                                          ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                            {{item.name}}
-                                          </v-chip>
-                                        </router-link>
-                                      </div>
-                                    </v-expansion-panel-content>
-                                  </v-expansion-panel>
-                                </v-expansion-panels>
+                                <v-card class="mb-5">
+                                                    <v-sheet
+                                                      class="mx-auto"
+                                                      max-width="700"
+                                                      height="6vh"
+                                                      color="grey lighten-5"
+                                                    >
+                                                      <v-slide-group multiple show-arrows>
+                                                        <v-slide-item
+                                                          v-for="(item, i) in hashtags" v-bind:key="i"
+                                                          v-slot:default="{ active, toggle }"
+                                                          class = "mt-2 mb-2"
+                                                        >
+                                                          <v-btn
+                                                            class="mx-1"
+                                                            color="grey lighten-2"
+                                                            :input-value="active"
+                                                            active-class="purple white--text"
+                                                            depressed
+                                                            rounded
+                                                            small
+                                                            @click="toggle"
+                                                            v-if="item.hId == note.pId"
+                                                          >
+                                                            # {{ item.hName }}
+                                                          </v-btn>
+                                                        </v-slide-item>
+                                                      </v-slide-group>
+                                                    </v-sheet>
+                                                    </v-card>
                               </v-col>
                             </v-row>
                             </v-col>
@@ -746,24 +756,36 @@
                                       </v-row>
                                     </v-card>
                                     </router-link>
-                                    <v-expansion-panels accordion>
-                                      <v-expansion-panel>
-                                        <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                        <v-expansion-panel-content class="pt-4 text-wrap">
-                                          <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                            <router-link
-                                              :to="{ path: 'search', query: { name: item.name } }"
-                                              class="py-0 text-center text-decoration-none">
-                                              <v-chip
-                                                class="ma-1"
-                                              ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                                {{item.name}}
-                                              </v-chip>
-                                            </router-link>
-                                          </div>
-                                        </v-expansion-panel-content>
-                                      </v-expansion-panel>
-                                    </v-expansion-panels>
+                                    <v-card class="mb-5">
+                                                    <v-sheet
+                                                      class="mx-auto"
+                                                      max-width="700"
+                                                      height="6vh"
+                                                      color="grey lighten-5"
+                                                    >
+                                                      <v-slide-group multiple show-arrows>
+                                                        <v-slide-item
+                                                          v-for="(item, i) in hashtags" v-bind:key="i"
+                                                          v-slot:default="{ active, toggle }"
+                                                          class = "mt-2 mb-2"
+                                                        >
+                                                          <v-btn
+                                                            class="mx-1"
+                                                            color="grey lighten-2"
+                                                            :input-value="active"
+                                                            active-class="purple white--text"
+                                                            depressed
+                                                            rounded
+                                                            small
+                                                            @click="toggle"
+                                                            v-if="item.hId == note.pId"
+                                                          >
+                                                            # {{ item.hName }}
+                                                          </v-btn>
+                                                        </v-slide-item>
+                                                      </v-slide-group>
+                                                    </v-sheet>
+                                                    </v-card>
                                   </v-col>
                                   </div>
                                 </v-row>
@@ -1743,9 +1765,17 @@ export default {
           //console.log(this.chart_data)
         },
 
-        deleteCategory(cId) {
-          var ok = confirm("안에있는 내용들 다 지울겁니까?");
-          if (ok) {
+        deleteCategory: async function (cId){
+          const res = await this.$dialog.warning({
+            text: "폴더를 삭제 하시겠습니까?",
+            title: 'Delete Category'
+          });
+          if(res){
+            const res2 = await this.$dialog.warning({
+            text: "폴더 안의 모든 내용도 삭제 하시겠습니까?",
+            title: 'Delete All?'
+          });
+          if(res2){
             // 다 지우기
             http
               .delete("/category/delete/all", {
@@ -1790,6 +1820,7 @@ export default {
                 this.$router.push("/404");
               }                          
             });
+          }
           }
         },
     },

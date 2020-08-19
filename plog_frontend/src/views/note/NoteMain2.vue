@@ -414,7 +414,6 @@
                       >
                       <v-tab class="text-left"
                       >전체 노트</v-tab>
-                      <v-tab class="text-left">임시 저장</v-tab>
                       <v-tab
                         v-for="(category, index) in this.categories"
                         :key="index"
@@ -469,68 +468,39 @@
                                 </v-row>
                               </v-card>
                               </router-link>
-                              <v-expansion-panels accordion>
-                                <v-expansion-panel>
-                                  <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                  <v-expansion-panel-content class="pt-4 text-wrap">
-                                    <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                      <router-link
-                                        :to="{ path: 'search', query: { name: item.name } }"
-                                        class="py-0 text-center text-decoration-none">
-                                        <v-chip
-                                          class="ma-1"
-                                        ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                          {{item.name}}
-                                        </v-chip>
-                                      </router-link>
-                                    </div>
-                                  </v-expansion-panel-content>
-                                </v-expansion-panel>
-                              </v-expansion-panels>
+                              <v-card class="mb-5">
+                              <v-sheet
+                                class="mx-auto"
+                                max-width="700"
+                                height="6vh"
+                                color="grey lighten-5"
+                              >
+                                <v-slide-group multiple show-arrows>
+                                  <v-slide-item
+                                    v-for="(item, i) in hashtags" v-bind:key="i"
+                                    v-slot:default="{ active, toggle }"
+                                    class = "mt-2 mb-2"
+                                  >
+                                    <v-btn
+                                      class="mx-1"
+                                      color="grey lighten-2"
+                                      :input-value="active"
+                                      active-class="purple white--text"
+                                      depressed
+                                      rounded
+                                      small
+                                      @click="toggle"
+                                      v-if="item.hId == note.pId"
+                                    >
+                                      # {{ item.hName }}
+                                    </v-btn>
+                                  </v-slide-item>
+                                </v-slide-group>
+                              </v-sheet>
+                              </v-card>
                             </v-col>
                           </v-row>
                           </v-col>
-                          </v-row>
-                        </v-tab-item>
-                        <v-tab-item>
-                          <v-row class="mx-5 pt-5" >
-                            <v-col cols="12" v-if="tmpNotes.length == 0" class="text-center pt-5 grey--text text-caption" style="margin-top: 30vh;">
-                              임시 저장한 노트가 없습니다.
-                            </v-col>
-                            <v-col cols="12" v-else class="pt-5">
-                              <v-row justify="center" align="center" min-height="60vh">
-                                <v-col cols="12">
-                                  <v-simple-table fixed-header>
-                                    <template v-slot:default>
-                                      <thead>
-                                        <tr>
-                                          <th class="text-center font-weight-bold">No.</th>
-                                          <th class="text-center font-weight-bold">Title</th>
-                                          <th class="text-center font-weight-bold">Date</th>
-                                          <th class="text-center font-weight-bold"></th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr v-for="(tpnote, index) in tmpNotes"
-                                            :key="index">
-                                          <td class="text-center">{{ index+1 }}</td>
-                                          <td class="text-center">{{ tpnote.tpTitle }}</td>
-                                          <td class="text-center">{{ tpnote.tpDate.substr(5,5) }}</td>
-                                          <td class="text-center"><router-link
-                                                :to="{
-                                                  path: 'note/tmpupdate',
-                                                  query: { tpId: tpnote.tpId },
-                                                }"
-                                                class="py-0 text-center text-decoration-none text-center"
-                                              >수정</router-link>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </template>
-                                  </v-simple-table>
-                              </v-col>
-                              </v-row>
-                            </v-col>
                           </v-row>
                         </v-tab-item>
                         <div v-if="categories.length >= 1">
@@ -593,24 +563,36 @@
                                     </v-row>
                                   </v-card>
                                   </router-link>
-                                  <v-expansion-panels accordion>
-                                    <v-expansion-panel>
-                                      <v-expansion-panel-header @click="getNote(note)" color="grey lighten-5" class="text-button grey--text py-0"># keywords</v-expansion-panel-header>
-                                      <v-expansion-panel-content class="pt-4 text-wrap">
-                                        <div v-for="(item, i) in hashtags" v-bind:key="i" class="d-inline-block">
-                                          <router-link
-                                            :to="{ path: 'search', query: { name: item.name } }"
-                                            class="py-0 text-center text-decoration-none">
-                                            <v-chip
-                                              class="ma-1"
-                                            ><v-icon small class="mr-1">mdi-pound</v-icon>
-                                              {{item.name}}
-                                            </v-chip>
-                                          </router-link>
-                                        </div>
-                                      </v-expansion-panel-content>
-                                    </v-expansion-panel>
-                                  </v-expansion-panels>
+                                  <v-card class="mb-3">
+                              <v-sheet
+                                class="mx-auto"
+                                max-width="700"
+                                height="6vh"
+                                color="grey lighten-5"
+                              >
+                                <v-slide-group multiple show-arrows>
+                                  <v-slide-item
+                                    v-for="(item, i) in hashtags" v-bind:key="i"
+                                    v-slot:default="{ active, toggle }"
+                                    class = "mt-2 mb-2"
+                                  >
+                                    <v-btn
+                                      class="mx-1"
+                                      color="grey lighten-2"
+                                      :input-value="active"
+                                      active-class="purple white--text"
+                                      depressed
+                                      rounded
+                                      small
+                                      @click="toggle"
+                                      v-if="item.hId == note.pId"
+                                    >
+                                      # {{ item.hName }}
+                                    </v-btn>
+                                  </v-slide-item>
+                                </v-slide-group>
+                              </v-sheet>
+                              </v-card>
                                 </v-col>
                                 </div>
                               </v-row>
