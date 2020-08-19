@@ -169,8 +169,8 @@
                 <v-col cols="9">
                     <v-card class="mx-auto" height="71vh">
                         <v-tabs background-color="white" color="grey" centered show-arrows>
-                            <v-tab>Monthly Logs</v-tab>
-                            <v-tab>Ranking</v-tab>
+                            <v-tab>Monthly Usage</v-tab>
+                            <v-tab>Hashtags</v-tab>
                             <v-tab>WordCloud</v-tab>
                             <v-tab>Bookmark</v-tab>
                             <v-tab-item>
@@ -186,8 +186,8 @@
                             </v-tab-item>
                             <v-tab-item>
                                 <v-container fluid>
-                                <v-row class="pt-10">
-                                    <v-col cols="9" class="text-center d-flex justify-center pr-0">
+                                <v-row class="pt-10" v-if="sorted.length > 0">
+                                    <v-col  cols="9" class="text-center d-flex justify-center pr-0">
                                         <D3BarChart :config="chart_config_bar" :datum="sorted" height="300" style="width: 100%;"></D3BarChart>
                                     </v-col>
                                     <v-col cols="3" class="d-flex justify-center align-center pl-0">
@@ -227,16 +227,13 @@
                                               </v-list-item-group>
                                             </v-list>
                                           </v-card>
-
-
-
-
-                                            <!-- <div class="text-h6 front-weight-bold py-5">RANKING</div>
-                                            <div v-for="(item,i) in sorted"  :key="i">
-                                              <div>#{{i}} {{item.name}}</div>
-                                            </div> -->
                                         </div>
                                     </v-col>
+                                </v-row>
+                                <v-row v-else>
+                                  <v-col cols="12" class="text-center pt-1" style="margin-top: 10vh;">
+                                    {{currentUser.username}}님이 사용한 해시태그가 없습니다.
+                                  </v-col>
                                 </v-row>
                                 </v-container>
                             </v-tab-item>
@@ -543,17 +540,17 @@ export default {
         }, 
         // top10
         chart_data: [
-                {count: 50, name: 'Vue'},
-                {count: 40, name: 'JS'},
-                {count: 35, name: 'JAVA'},
-                {count: 25, name: 'DB'},
-                {count: 22, name: 'Spring'},
-                {count: 17, name: '필기'},
-                {count: 11, name: 'Django'},
-                {count: 9, name: 'Python'},
-                {count: 10, name: 'React'},
-                {count: 100, name: 'else'},
-            ],
+          {count: 50, name: 'Vue'},
+          {count: 40, name: 'JS'},
+          {count: 35, name: 'JAVA'},
+          {count: 25, name: 'DB'},
+          {count: 22, name: 'Spring'},
+          {count: 17, name: '필기'},
+          {count: 11, name: 'Django'},
+          {count: 9, name: 'Python'},
+          {count: 10, name: 'React'},
+          {count: 100, name: 'else'},
+        ],
         chart_config: {
                 key: 'name',
                 value: 'count',
@@ -618,13 +615,7 @@ export default {
         },
 
       },
-      sorted : [
-        {c: 20, keyword: 'lorem'},
-        {c: 28, keyword: 'ipsum'},
-        {c: 35, keyword: 'dolor'},
-        {c: 60, keyword: 'sit'},
-        {c: 65, keyword: 'amet'},
-      ],
+      sorted : [],
 
       bar : [],
 
@@ -689,14 +680,18 @@ export default {
           this.chart_data.push({name: element.hName, count:element.hId})
         })
 
-        for (let i = 0; i < 10; i++) {
-          this.sorted[i] = this.chart_data_bar[i]
-        }
+        this.sorted= []
+        if(this.chart_data_bar.length > 0){
+          for (let i = 0; i < this.chart_data_bar.length; i++) {
+            this.sorted[i] = this.chart_data_bar[i]
+          }
 
-        var sortingField = "c";
-        this.sorted.sort((a, b) => {
-          return b[sortingField] - a[sortingField];
-        });
+          var sortingField = "c";
+          this.sorted.sort((a, b) => {
+            return b[sortingField] - a[sortingField];
+          });
+        }
+        
       })
       .catch((error) => {
           if(error.response) {
