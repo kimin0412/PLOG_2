@@ -428,7 +428,7 @@ export default {
         })
         .then((response) => {
           if (response.data.data === "success") {
-            alert("등록 완료");
+            
             this.$router.push("/note");
             http
               .delete("/tp/", {
@@ -438,7 +438,10 @@ export default {
               })
               .then((response) => {
                 if (response.data === "success") {
-                  alert("임시 삭제 완료");
+                  this.$dialog.notify.success("등록 완료 😤", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
                   this.$router.go();
                 }
               })
@@ -480,7 +483,10 @@ export default {
         })
         .then((Response) => {
           if (Response.data === "success") {
-            alert("임시 수정 완료");
+            this.$dialog.notify.warning("임시 수정 완료 😤", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
             this.$router.push("/note");
           }
         })
