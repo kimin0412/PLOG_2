@@ -40,7 +40,7 @@ public class ScheduleController {
     
     @GetMapping("/schedule/monthList")
 	public List<Schedule> monthList(@RequestParam String sDate, int sId) { //date의 s_name에 year, month를 저장해서 온다.
-    	List<Schedule> sList = sService.getMonthScheduleList(sDate, sId);
+    	List<Schedule> sList = sService.getMyMonthScheduleList(sDate, sId);
 		return sList;
 	}
     

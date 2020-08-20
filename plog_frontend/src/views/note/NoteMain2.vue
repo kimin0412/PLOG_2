@@ -12,7 +12,7 @@
                                   <v-subheader class="black--text font-weight-bold">일반</v-subheader>
                                 </v-col>
                                 <v-tabs
-                                  v-model="tab"
+                                  v-model="tab2"
                                   background-color="transparent"
                                   vertical
                                   class="font-weight-bold"
@@ -50,7 +50,7 @@
                 </v-col>
                 <v-col cols="9">
                     <v-card class="mx-auto" min-height="71vh">
-                        <v-tabs-items v-model="tab">
+                        <v-tabs-items v-model="tab2">
                         <v-tab-item>
                           <v-row class="mx-5 pt-5">
                           <v-col cols="12" v-if="Notes.length == 0" class="text-center" style="margin-top: 30vh;">
@@ -82,8 +82,8 @@
                                   </v-col>
                                   <v-col cols="2" class="pr-0 pl-2 mt-4">
 
-                                    <img src="@/assets/icon/file.png" width="100%" alt="">
-                                    <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
+                                    <!-- <img src="@/assets/icon/file.png" width="100%" alt=""> -->
+                                    <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                   </v-col>
                                   <v-col cols="10" class="pl-0">
                                     <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
@@ -118,11 +118,15 @@
                                 height="6vh"
                                 color="grey lighten-5"
                               >
-                                <v-slide-group multiple show-arrows>
+                                <v-slide-group show-arrows>
                                   <v-slide-item
                                     v-for="(item, i) in hashtags" v-bind:key="i"
                                     v-slot:default="{ active, toggle }"
                                     class = "mt-2 mb-2"
+                                  >
+                                  <router-link
+                                    :to="{ path: 'search', query: { name: item.hName } }"
+                                    class="py-0 text-center text-h6 text-decoration-none"
                                   >
                                     <v-btn
                                       class="mx-1"
@@ -137,6 +141,7 @@
                                     >
                                       # {{ item.hName }}
                                     </v-btn>
+                                  </router-link>
                                   </v-slide-item>
                                 </v-slide-group>
                               </v-sheet>
@@ -215,7 +220,7 @@
                             </v-col>
                             <v-col cols="12" v-else class="px-0">
                               <v-row class="pt-5"  style="overflow: auto; height: 57vh; margin-top: 3vh;">
-                                <div>
+                                
                                 <v-col cols="6" v-for="(note, index) in NotesInFolder" :key="index">
                                   <v-hover v-slot:default="{ hover }">
                                   <v-card
@@ -236,8 +241,7 @@
                                             </v-btn>
                                       </v-col>
                                       <v-col cols="2" class="pr-0 pl-2 mt-4">
-                                        <img src="@/assets/icon/file.png" width="100%" alt="">
-                                        <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
+                                        <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                       </v-col>
                                       <v-col cols="10" class="pl-0">
                                         <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
@@ -271,11 +275,15 @@
                                     height="6vh"
                                     color="grey lighten-5"
                                   >
-                                    <v-slide-group multiple show-arrows>
+                                    <v-slide-group show-arrows>
                                       <v-slide-item
                                         v-for="(item, i) in hashtags" v-bind:key="i"
                                         v-slot:default="{ active, toggle }"
                                         class = "mt-2 mb-2"
+                                      >
+                                      <router-link
+                                        :to="{ path: 'search', query: { name: item.hName } }"
+                                        class="py-0 text-center text-h6 text-decoration-none"
                                       >
                                         <v-btn
                                           class="mx-1"
@@ -290,12 +298,13 @@
                                         >
                                           # {{ item.hName }}
                                         </v-btn>
+                                      </router-link>
                                       </v-slide-item>
                                     </v-slide-group>
                                   </v-sheet>
                                   </v-card>
                                 </v-col>
-                                </div>
+                                
                               </v-row>
                             </v-col>
                           </v-row>
@@ -457,7 +466,7 @@
                                     </v-btn>
                                   </v-col>
                                   <v-col cols="2" class="pr-0 pl-2 mt-4">
-                                    <img src="@/assets/icon/file.png" width="100%" alt="">
+                                    <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                   </v-col>
                                   <v-col cols="10" class="pl-0">
                                     <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
@@ -475,11 +484,15 @@
                                 height="6vh"
                                 color="grey lighten-5"
                               >
-                                <v-slide-group multiple show-arrows>
+                                <v-slide-group show-arrows>
                                   <v-slide-item
                                     v-for="(item, i) in hashtags" v-bind:key="i"
                                     v-slot:default="{ active, toggle }"
                                     class = "mt-2 mb-2"
+                                  >
+                                  <router-link
+                                    :to="{ path: 'search', query: { name: item.hName } }"
+                                    class="py-0 text-center text-h6 text-decoration-none"
                                   >
                                     <v-btn
                                       class="mx-1"
@@ -494,6 +507,7 @@
                                     >
                                       # {{ item.hName }}
                                     </v-btn>
+                                  </router-link>
                                   </v-slide-item>
                                 </v-slide-group>
                               </v-sheet>
@@ -551,7 +565,7 @@
                                             </v-btn>
                                       </v-col>
                                       <v-col cols="2" class="pr-0 pl-2 mt-4">
-                                        <img src="@/assets/icon/file.png" width="100%" alt="">
+                                        <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                         <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
                                       </v-col>
                                       <v-col cols="10" class="pl-0">
@@ -570,11 +584,15 @@
                                 height="6vh"
                                 color="grey lighten-5"
                               >
-                                <v-slide-group multiple show-arrows>
+                                <v-slide-group show-arrows>
                                   <v-slide-item
                                     v-for="(item, i) in hashtags" v-bind:key="i"
                                     v-slot:default="{ active, toggle }"
                                     class = "mt-2 mb-2"
+                                  >
+                                  <router-link
+                                    :to="{ path: 'search', query: { name: item.hName } }"
+                                    class="py-0 text-center text-h6 text-decoration-none"
                                   >
                                     <v-btn
                                       class="mx-1"
@@ -589,6 +607,7 @@
                                     >
                                       # {{ item.hName }}
                                     </v-btn>
+                                  </router-link>
                                   </v-slide-item>
                                 </v-slide-group>
                               </v-sheet>
@@ -683,6 +702,7 @@ export default {
     data() {
       return {
         tab: null,
+        tab2 : null,
         items: ['Appetizers', 'Entrees', 'Deserts', 'Cocktails',],
         text: 'Lorem ipsum dolor sit amet',
 
@@ -1062,7 +1082,8 @@ export default {
     watch: {
       length (val) {
         this.tab = val-1
-      }
+        this.tab2 = val-1
+      },
     }
 }
 </script>

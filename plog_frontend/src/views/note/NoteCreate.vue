@@ -291,7 +291,7 @@
                     </v-row>
           <v-row>
         <v-row>
-          <v-col cols="12" class="d-flex justify-end py-0">
+          <v-col cols="12" class="d-flex justify-end py-0 text-right">
             <v-dialog v-model="dialog2" scrollable max-width="300px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -299,7 +299,7 @@
                   dark
                   v-bind="attrs"
                   v-on="on"
-                  class="px-5 d-block d-sm-none"
+                  class="px-5 d-block d-sm-none mb-2"
                   small
                 >
                   + schedule
@@ -339,15 +339,15 @@
           </v-col>
         </v-row>
             <!-- 폴더안에 넣기 -->
-            <v-col cols="12" class="d-flex justify-end py-0">
+            <v-col cols="12" class="d-flex justify-end py-0 text-right">
               <v-dialog v-model="dialogCategory2" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary darken-1"
-                    dark
+                    darka
                     v-bind="attrs"
                     v-on="on"
-                    class="px-5"
+                    class="px-5 d-block d-sm-none"
                     small
                   >
                     Category
@@ -629,7 +629,7 @@ export default {
 
             http
             .put("/post/", {
-              pId: this.nextPId,
+              pId: data.temp,
               pTitle: this.title,
               pContent: resContent,
               pUser: this.$store.state.auth.user.id,

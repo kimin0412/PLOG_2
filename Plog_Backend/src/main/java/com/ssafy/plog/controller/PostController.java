@@ -150,6 +150,7 @@ public class PostController {
 	 
 	 @GetMapping("/list/search/hashtag")
 	 public List<Post> searchHashtag(@RequestParam final int uid, @RequestParam final String hName) {
+		 System.out.println(hName);
 		 return service.searchHashtag(uid, hName);
 	 }
 	 

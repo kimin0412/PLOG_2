@@ -217,4 +217,23 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public Schedule getScheduleByPost(int pId) {
 		return sdao.findScheduleByPost(pId);
 	}
+
+	@Override
+	public List<Schedule> getMyMonthScheduleList(String sDate, int sId) {
+		String[] monthDateSplit = sDate.split(" ");
+
+		int month = Integer.parseInt(monthDateSplit[0].substring(0, monthDateSplit[0].length()-1));
+				
+		String monthAndYear;
+		if(month < 10) {
+			monthAndYear = monthDateSplit[1] + "-0" + month;
+		}else {
+			monthAndYear = monthDateSplit[1] + "-" + month;
+		}
+				
+		List<Schedule> sList = sdao.selectByMonthMine(monthAndYear, sId);
+				
+				
+		return sList;
+	}
 }

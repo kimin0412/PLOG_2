@@ -640,11 +640,10 @@ export default {
                   // console.log(data);
                 });
               });
-              alert(resContent)
 
               http
               .put("/post/", {
-                pId: this.nextPId,
+                pId: data.temp,
                 pTitle: this.title,
                 pContent: resContent,
                 pUser: this.$store.state.auth.user.id,
