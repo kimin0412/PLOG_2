@@ -214,91 +214,59 @@
                   <v-sheet v-else
                       class="mx-auto mysheet"
                     >
-                      <v-slide-group
-                        v-model="model"
-                        class="pa-4 px-0"
-                        show-arrows
-                        center-active
-                      >
-                        <v-slide-item
-                          v-for="(note, index) in Notes" :key="index"
-                          v-slot:default="{ active, toggle }"
-                        >
-                        <div @click="getNote(note)">
-                          <v-card
-                            :color="active ? 'primary' : 'grey lighten-2'"
-                            class="ma-4"
-                            height="150"
-                            width="100"
-                            @click="toggle"
-                          >
-                            <div class="text-center">
-                              {{ note.pTitle }}
-                            </div>
-                            <v-row
-                              class="fill-height"
-                              align="center"
-                              justify="center"
-                            >
-                              <v-scale-transition>
-                                <v-icon
-                                  v-if="active"
-                                  color="white"
-                                  size="30"
-                                  v-text="'mdi-close-circle-outline'"
-                                ></v-icon>
-                              </v-scale-transition>
-                            </v-row>
-                          </v-card>
-                          </div>
-                        </v-slide-item>
-                      </v-slide-group>
+                      <v-col cols="12"                            
+                                v-for="(note, index) in Notes"
+                                :key="index">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-card
+                                draggable
+                                @dragstart="startDrag($event, note)"
+                              >
+                                <v-row class="mx-3" >
+                                  <v-col cols="12" class="py-0 text-right mb-n10 pr-0 mt-2">
+                                        <v-btn text icon>
+                                          <v-icon
+                                            color="#FDD835"
+                                            v-if="note.pBookmark ==1"
+                                            >mdi-star</v-icon
+                                          >
+                                          <v-icon color="grey" v-else
+                                            >mdi-star</v-icon
+                                          >
+                                        </v-btn>
+                                  </v-col>
+                                  <v-col cols="2" class="pr-0 pl-2 mt-4">
 
-                      <v-expand-transition>
-                        <v-sheet
-                          v-if="model != null"
-                          color="grey lighten-4"
-                          height="200"
-                          tile
-                        >
-                          <v-row
-                            class="fill-height"
-                          >
-                            <v-col cols="12" class="py-0 text-center">Note Info.</v-col>
-                            <v-flex class="py-0 text-center">
-                             <v-btn text icon @click="bookmark()">
-                                <v-icon large color="#FDD835" v-if="bmToggle == 1">mdi-star</v-icon>
-                                <v-icon large color="gray" v-else>mdi-star</v-icon>
-                              </v-btn>
-                            </v-flex>
-                            <v-col cols="12" class="py-0 text-center text-h6">
-                            <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
-                              <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
-                            </router-link>
-                            </v-col>
-                            <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
-                            <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
-                              <v-card-text class="d-flex justify-center py-0">
-                                <div v-for="(item,i) in hashtags"  v-bind:key="i" >
-                                  <router-link :to="{ path: 'search', query:{hId:item.name}}" class="py-0 text-center text-h6"> 
-                                    <v-chip
-                                      class="ma-2"
-                                      color="teal"
-                                      text-color="white"
-                                    >
-                                      <v-avatar left>
-                                        <v-icon>mdi-checkbox-marked-circle</v-icon>
-                                      </v-avatar>
-                                      {{item.name}}
-                                    </v-chip>
-                                  </router-link>
-                                  
+                                    <img src="@/assets/icon/file.png" width="100%" alt="">
+                                    <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
+                                  </v-col>
+                                  <v-col cols="10" class="pl-0">
+                                    <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>
+                                    <v-card-subtitle>
+                                      <div>{{note.pDate.substr(0,10)}}</div>
+                                    </v-card-subtitle>
+                                  </v-col>
+                                </v-row>
+
+                              <v-expand-transition>
+                                <router-link
+                                  :to="{
+                                    path: 'note/detail',
+                                    query: { pId: note.pId },
+                                  }"
+                                  class="py-0 text-center text-h6"
+                                >
+                                <div
+                                  v-if="hover"
+                                  class="d-flex transition-fast-in-fast-out grey v-card--reveal display-3 white--text"
+                                  style="height: 100%;"
+                                > <v-icon class="white--text display-3">mdi-book-open-page-variant</v-icon>
                                 </div>
-                              </v-card-text>
-                            </v-col>
-                          </v-row>
-                        </v-sheet>
-                      </v-expand-transition>
+                                </router-link>
+                              </v-expand-transition>
+                              </v-card>
+                              </v-hover>
+                    </v-col>
                     </v-sheet>          
                 </v-row>
                 <v-row class="mt-10 pt-15">

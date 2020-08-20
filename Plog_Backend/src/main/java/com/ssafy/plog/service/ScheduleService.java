@@ -35,4 +35,6 @@ public interface ScheduleService {
 
 	Schedule getScheduleByPost(int pId);
 
+	List<Schedule> getMyMonthScheduleList(String sDate, int sId);
+
 }

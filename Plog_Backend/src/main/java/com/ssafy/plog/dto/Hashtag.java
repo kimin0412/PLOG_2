@@ -52,4 +52,11 @@ public class Hashtag {
 	public void sethName(String hName) {
 		this.hName = hName;
 	}
+
+	@Override
+	public String toString() {
+		return "Hashtag [hId=" + hId + ", hName=" + hName + "]";
+	}
+	
+	
 }

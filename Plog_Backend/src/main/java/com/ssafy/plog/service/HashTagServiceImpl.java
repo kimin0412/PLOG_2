@@ -93,7 +93,9 @@ public class HashTagServiceImpl implements HashTagService {
 			
 			for (int i = 0, size = phs.size(); i < size; i++) {
 				Post_Hashtag ph = phs.get(i);
-				Hashtag hash = hdao.findByHId(ph.getPhHashtag());
+				String name = hdao.findByHId(ph.getPhHashtag()).gethName();
+				Hashtag hash = new Hashtag();
+				hash.sethName(name);
 				hash.sethId(ph.getPhPost());
 				hList.add(hash);
 			}

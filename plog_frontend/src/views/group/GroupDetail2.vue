@@ -41,13 +41,21 @@
                         <div>
                             <v-expansion-panels accordion>
                             <v-expansion-panel>
-                                <v-expansion-panel-header>Schedule</v-expansion-panel-header>
+                                <v-expansion-panel-header>today</v-expansion-panel-header>
                                 <v-expansion-panel-content>
+                                  <div v-if="groupSchedule.length > 0">
                                   <v-row class="text-center" 
                                     v-for="(schedule, index) in groupSchedule" :key="index">
                                     <v-col cols="12" class="text-caption grey--text py-0">{{ schedule.sName }}</v-col>
                                     <v-col cols="12" class="py-1"><v-divider></v-divider></v-col>
                                   </v-row>
+                                  </div>
+                                  <div v-else>
+                                    <v-row class="text-center">
+                                      <v-col cols="12" class="text-caption grey--text py-0">{{ myClub.clName }}팀의 오늘 일정이 없습니다. </v-col>
+                                      <v-col cols="12" class="py-1"><v-divider></v-divider></v-col>
+                                    </v-row>
+                                  </div>
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
                             </v-expansion-panels>
@@ -316,7 +324,7 @@
                                                       </v-col>
                                                       <v-col cols="2" class="pr-0 pl-2 mt-4">
 
-                                                        <img src="@/assets/icon/file.png" width="100%" alt="">
+                                                        <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                                         <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
                                                       </v-col>
                                                       <v-col cols="10" class="pl-0">
@@ -406,7 +414,7 @@
                                                 </v-col>
                                                 <v-col cols="12" v-else class="px-0">
                                                   <v-row class="pt-5"  style="overflow: auto; height: 57vh; margin-top: 3vh;">
-                                                    <div>
+                                                    
                                                     <v-col cols="6" v-for="(note, index) in NotesInFolder" :key="index">
                                                       <v-hover v-slot:default="{ hover }">
                                                       <v-card
@@ -427,7 +435,7 @@
                                                                 </v-btn>
                                                           </v-col>
                                                           <v-col cols="2" class="pr-0 pl-2 mt-4">
-                                                            <img src="@/assets/icon/file.png" width="100%" alt="">
+                                                            <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                                             <!-- <v-card :color="note.pColor" style="width: 100%; height: 100%;" class="transparent--text">c</v-card> -->
                                                           </v-col>
                                                           <v-col cols="10" class="pl-0">
@@ -486,7 +494,7 @@
                                                     </v-sheet>
                                                     </v-card>
                                                     </v-col>
-                                                    </div>
+                                                    
                                                   </v-row>
                                                 </v-col>
                                               </v-row>
@@ -649,7 +657,7 @@
                                       </v-btn>
                                     </v-col>
                                     <v-col cols="2" class="pr-0 pl-2 mt-4">
-                                      <img src="@/assets/icon/file.png" width="100%" alt="">
+                                      <v-card :color="note.pColor" style="width: 100%; height: 70%;" class="transparent--text">c</v-card>
                                     </v-col>
                                     <v-col cols="10" class="pl-0">
                                       <v-card-title class="text-truncate d-block">{{note.pTitle}}</v-card-title>

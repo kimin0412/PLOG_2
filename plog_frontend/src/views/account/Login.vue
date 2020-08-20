@@ -150,7 +150,7 @@
           <v-col cols="12" class="py-1 text-subtitle-2 grey--text pl-5">ID</v-col>
           <v-col cols="12" class="py-0">
             <v-text-field
-              placeholder="이메일을 입력해주세요"
+              placeholder="ID를 입력해주세요"
               filled
               rounded
               dense

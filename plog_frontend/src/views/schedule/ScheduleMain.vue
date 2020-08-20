@@ -136,6 +136,7 @@
                                   label="color"
                                   v-model="groupColor"
                                   required
+                                  readonly
                                 ></v-text-field>
                               </v-col>
                               <v-col cols="12" class="text-right">
@@ -829,8 +830,7 @@ export default {
     },
 
     updateRange() {
-      const events = [];
-      const allDay = this.rnd(0, 3) === 0;
+      var events = [];
 
       if (this.type == 0) {
         http.get("/schedule/monthList/All", {
@@ -842,29 +842,36 @@ export default {
           .then(({ data }) => {
             data.forEach((element) => {
               //alert(element.s_startdate)
-              if (this.type == 0) {
-                events.push({
-                  id: element.sId,
-                  name: element.sName,
-                  start: element.sStartdate.substr(0, 10),
-                  end: element.sEnddate,
-                  color: element.sColor + " lighten-2",
-                });
-              } else {
-                if (element.sClub < 2) {
-                  events.push({
-                    id: element.sId,
-                    name: element.sName,
-                    start: element.sStartdate.substr(0, 10),
-                    end: element.sEnddate,
-                    color: element.sColor + " lighten-2",
-                    timed: !allDay,
-                  });
-                }
-              }
+              events.push({
+                id: element.sId,
+                name: element.sName,
+                start: element.sStartdate.substr(0, 10),
+                end: element.sEnddate,
+                color: element.sColor + " lighten-2",
+              });
             });
           });
-      } else {
+      } else if (this.type == 1) {
+        events = []
+        http.get("/schedule/monthList", {
+            params: {
+              sId: this.$store.state.auth.user.id,
+              sDate: this.$refs.calendar.title,
+            },
+          })
+          .then(({ data }) => {
+            data.forEach((element) => {
+              //alert(element.s_startdate)
+              events.push({
+                id: element.sId,
+                name: element.sName,
+                start: element.sStartdate.substr(0, 10),
+                end: element.sEnddate,
+                color: element.sColor + " lighten-2",
+              });
+            });
+          })
+        }else {
         //클럽인경우
         http
           .get("/club/monthList", {
@@ -1062,10 +1069,12 @@ export default {
               });
               this.$router.push({path:"/schedule", query: { q: ++this.pageIndex }});
             }
-            alert(msg);
           })
           .catch(() => {
-            alert("일정이 있으면 삭제가 안됩니다.");
+            this.$dialog.notify.error("연동되어 있는 노트가 있으면 일정을 삭제할 수 없습니다. 😃", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
           });
         this.dialogUpdate = false;
       }
