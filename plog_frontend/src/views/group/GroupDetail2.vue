@@ -641,8 +641,8 @@
                                   class="py-0">
                                 <router-link
                                       :to="{
-                                        path: 'note/detail',
-                                        query: { pId: note.pId },
+                                        path: '/group/noteDetail',
+                                        query: { pId: note.pId, clId:groupId },
                                       }"
                                       class="py-0 text-center text-h6 text-decoration-none"
                                     >
@@ -734,8 +734,8 @@
                                   <v-col cols="12" v-for="(note, index) in NotesInFolder" :key="index">
                                     <router-link
                                           :to="{
-                                            path: 'note/detail',
-                                            query: { pId: note.pId },
+                                            path: '/group/noteDetail',
+                                            query: { pId: note.pId, clId:groupId },
                                           }"
                                           class="py-0 text-center text-h6 text-decoration-none"
                                         ><v-card
