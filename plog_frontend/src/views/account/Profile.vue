@@ -179,8 +179,8 @@
                                     <v-col cols="12" class="d-flex justify-center mt-5">
                                         <D3LineChart :config="chart_config_formonth" :datum="chart_data_formonth" height="300" style="width: 90%;"></D3LineChart>
                                     </v-col>
-                                    <v-col cols="6" class="text-right brown--text">-- Schedule</v-col>
-                                    <v-col cols="6" class="text-left blue-grey--text">-- Note</v-col>
+                                    <v-col cols="6" class="text-right colsche">-- Schedule</v-col>
+                                    <v-col cols="6" class="text-left colno">-- Note</v-col>
                                 </v-row>
                                 </v-container>
                             </v-tab-item>
@@ -248,7 +248,6 @@
                                         valueKey="value"
                                         :color="myColors"
                                         :showTooltip="true"
-                                        :wordClick="wordClickHandler"
                                          class="mt-5"
                                         >
                                         </wordcloud> 
@@ -710,9 +709,6 @@ export default {
 
 
      methods: {
-      wordClickHandler(name, value, vm) {
-        console.log('wordClickHandler', name, value, vm);
-      },
       logOut() {
         this.$store.dispatch('auth/logout');
         this.$router.go();
@@ -849,4 +845,10 @@ export default {
   cursor: pointer;
 }
 
+.colsche {
+  color: #F44336;
+}
+.colno {
+  color: #009688;
+}
 </style>

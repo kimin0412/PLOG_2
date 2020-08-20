@@ -428,7 +428,10 @@ export default {
         })
         .then((response) => {
           if (response.data.data === "success") {
-            
+            this.$dialog.notify.success("등록 완료 😤", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
             this.$router.push("/note");
             http
               .delete("/tp/", {
@@ -438,7 +441,7 @@ export default {
               })
               .then((response) => {
                 if (response.data === "success") {
-                  this.$dialog.notify.success("등록 완료 😤", {
+                  this.$dialog.notify.success("임시노트 삭제 완료 😤", {
                     position: "bottom-right",
                     timeout: 3000,
                   });

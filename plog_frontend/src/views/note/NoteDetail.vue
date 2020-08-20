@@ -22,13 +22,13 @@
             <v-col cols="6" class="d-flex py-2" style="font-size:15px; color:#78909C">
               {{ writer }} |  {{ Note.pDate | removeTime }} | 
               <span v-if="scheduleName!=''" class="px-1">{{ scheduleName }} |</span>
-              <span class="chgBtn px-2" @click="makePDF"> PDF </span>
+              <span class="chgBtn px-2 pdfBtn" @click="makePDF"> PDF </span>
               |
               <router-link :to="{ path: 'update', query:{pId:this.pId}}" class="py-0 text-center " style="text-decoration: none; color:#78909C"> 
                 <span class="chgBtn px-2"> 수정 </span>
               </router-link>
               |
-              <span class="chgBtn px-2" style="color:#F44336" @click="deleteNote"> 삭제 </span>
+              <span class="chgBtn px-2 dBtn" style="color:#F44336" @click="deleteNote"> 삭제 </span>
             </v-col>
         </v-row>
         <v-row class="d-flex  mb-5">
@@ -86,7 +86,7 @@
                 <span class="chgBtn px-2"> 수정 </span>
               </router-link>
               |
-              <span class="chgBtn px-2" style="color:#F44336" @click="deleteNote"> 삭제 </span>
+              <span class="chgBtn px-2 dBtn" style="color:#F44336" @click="deleteNote"> 삭제 </span>
             </v-col>
         </v-row>
         <v-row class="d-flex align-right mb-10">
@@ -276,7 +276,7 @@ export default {
         deleteNote: async function () {
           const res = await this.$dialog.warning({
             text:"노트를 삭제 하시겠습니까?",
-            title: 'Delete Note'
+            title: ' '
           });
           if(res){
             http.delete('/post/', {
@@ -402,5 +402,11 @@ export default {
 }
 .chgBtn:hover {
   color: #263238;
+}
+.dBtn:hover {
+  cursor : pointer;
+}
+.pdfBtn:hover{
+  cursor:pointer;
 }
 </style>
