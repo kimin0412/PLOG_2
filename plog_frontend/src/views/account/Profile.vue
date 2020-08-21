@@ -617,9 +617,9 @@ export default {
           }                          
         });
 
-      http.get('/club/list', {
+      http.get('/post/list/all', {
         params : {
-          uId : this.$store.state.auth.user.id,
+          uid : this.$store.state.auth.user.id,
         }
       }).then(({ data }) => {
         // this.mygroups = data
@@ -645,6 +645,7 @@ export default {
       })
       .then(({data}) => {
         data.forEach(element => {
+          console.log(element);
           this.chart_data_bar.push({"keyword" : element.hName, "c":element.hId})
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
@@ -653,13 +654,13 @@ export default {
         this.sorted= []
         var sortingField = "c";
         if(this.chart_data_bar.length > 10){
-          for (let i = 0; i < 10; i++) {
-            this.sorted[i] = this.chart_data_bar[i]
-          }
-
-          this.sorted.sort((a, b) => {
+          this.chart_data_bar.sort((a, b) => {
             return b[sortingField] - a[sortingField];
           });
+
+          for (let i = 0; i < 10; i++) {
+            this.sorted[i] = this.chart_data_bar[i]
+          }          
         }else if(this.chart_data_bar.length > 0){
           for (let i = 0; i < this.chart_data_bar.length; i++) {
             this.sorted[i] = this.chart_data_bar[i]
