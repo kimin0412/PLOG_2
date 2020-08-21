@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="d-none d-sm-block">
+      <v-row class="px-10 pt-5">
+        <router-link :to="{ path: 'detail2', query:{clId:this.groupId}}" class="text-decoration-none mb-4 px-15 text-caption">◀ 돌아가기</router-link>
+      </v-row>
       <div class="content-center mx-auto">
         <v-row>
             <v-col cols="11" class="d-flex pt-5">
