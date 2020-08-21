@@ -55,6 +55,7 @@
               </v-container>
             </v-col>
           </v-row>
+          
           <v-row>
             <v-col cols="12" class="px-0">
               <div id="emoDiv">
@@ -87,6 +88,20 @@
               <Editor ref="toastuiEditor1" height="500px" />
             </v-col>
           </v-row>
+          <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="pickColor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="pickColor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="노트의 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
           <v-row>
             <!-- 일정과 연결 -->
             <v-col cols="12" class="d-flex justify-end py-0">
@@ -118,7 +133,7 @@
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-actions class="d-flex justify-end">
-                    <v-btn color="blue darken-1" text @click="dialog = false"
+                    <v-btn color="blue darken-1" text @click="dialog = false; dialogColor = true;"
                       >Save</v-btn
                     >
                     <v-btn color="blue darken-1" text @click="dialog = false"
@@ -128,82 +143,8 @@
                 </v-card>
               </v-dialog>
             </v-col>
-            <!-- 표지 색상 고르는 dialog -->
-            <v-col cols="12" class="d-flex justify-end">
-              <v-dialog v-model="dialogColor" scrollable max-width="300px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="pink lighten-2"
-                    dark
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon left>mdi-heart</v-icon>
-                    Pick Color !
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>Select Color</v-card-title>
-                  <v-divider></v-divider>
-                  <v-card-text style="height: 300px;">
-                    <v-radio-group v-model="pickColor" column>
-                      <v-radio label="red" color="red" value="red"></v-radio>
-                      <v-radio
-                        label="orange"
-                        color="orange"
-                        value="orange"
-                      ></v-radio>
-                      <v-radio
-                        label="amber"
-                        color="amber"
-                        value="amber"
-                      ></v-radio>
-                      <v-radio
-                        label="yellow"
-                        color="yellow"
-                        value="yellow"
-                      ></v-radio>
-                      <v-radio label="lime" color="lime" value="lime"></v-radio>
-                      <v-radio
-                        label="green"
-                        color="green"
-                        value="green"
-                      ></v-radio>
-                      <v-radio label="blue" color="blue" value="blue"></v-radio>
-                      <v-radio
-                        label="purple"
-                        color="purple"
-                        value="purple"
-                      ></v-radio>
-                      <v-radio label="pink" color="pink" value="pink"></v-radio>
-                      <v-radio
-                        label="brown"
-                        color="brown"
-                        value="brown"
-                      ></v-radio>
-                      <v-radio label="grey" color="grey" value="grey"></v-radio>
-                    </v-radio-group>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Save</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Close</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+            <v-col>
             </v-col>
-
             <!-- 폴더안에 넣기 -->
             <v-col cols="12" class="d-flex justify-end py-0">
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
@@ -334,16 +275,31 @@
             <Editor ref="toastuiEditor2" height="500px"/>
           </v-col>
         </v-row>
+        <v-row class="my-2">
+                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                            <v-card :color="pickColor" class="py-2 transparent--text">색</v-card>
+                        </v-col>
+                        <v-col cols="10">
+                            <v-select v-model="pickColor"
+                                        :items="colors"
+                                        filled
+                                        dense
+                                        label="노트의 색깔을 골라주세요"
+                                        full-width>
+                            </v-select>
+                        </v-col>
+                    </v-row>
+          <v-row>
         <v-row>
-          <v-col cols="12" class="d-flex justify-end py-0">
-            <v-dialog v-model="dialog" scrollable max-width="300px">
+          <v-col cols="12" class="d-flex justify-end py-0 text-right">
+            <v-dialog v-model="dialog2" scrollable max-width="300px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="amber darken-2"
                   dark
                   v-bind="attrs"
                   v-on="on"
-                  class="px-5 d-block d-sm-none"
+                  class="px-5 d-block d-sm-none mb-2"
                   small
                 >
                   + schedule
@@ -371,101 +327,27 @@
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions class="d-flex justify-end">
-                  <v-btn color="blue darken-1" text @click="dialog = false"
+                  <v-btn color="blue darken-1" text @click="dialog2 = false"
                     >Save</v-btn
                   >
-                  <v-btn color="blue darken-1" text @click="dialog = false"
+                  <v-btn color="blue darken-1" text @click="dialog2 = false"
                     >Close</v-btn
                   >
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </v-col>
-          <v-col cols="12" class="d-flex justify-end">
-              <v-dialog v-model="dialogColor" scrollable max-width="300px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    color="pink lighten-2"
-                    dark
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon left>mdi-heart</v-icon>
-                    Pick Color !
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>Select Color</v-card-title>
-                  <v-divider></v-divider>
-                  <v-card-text style="height: 300px;">
-                    <v-radio-group v-model="pickColor" column>
-                      <v-radio label="red" color="red" value="red"></v-radio>
-                      <v-radio
-                        label="orange"
-                        color="orange"
-                        value="orange"
-                      ></v-radio>
-                      <v-radio
-                        label="amber"
-                        color="amber"
-                        value="amber"
-                      ></v-radio>
-                      <v-radio
-                        label="yellow"
-                        color="yellow"
-                        value="yellow"
-                      ></v-radio>
-                      <v-radio label="lime" color="lime" value="lime"></v-radio>
-                      <v-radio
-                        label="green"
-                        color="green"
-                        value="green"
-                      ></v-radio>
-                      <v-radio label="blue" color="blue" value="blue"></v-radio>
-                      <v-radio
-                        label="purple"
-                        color="purple"
-                        value="purple"
-                      ></v-radio>
-                      <v-radio label="pink" color="pink" value="pink"></v-radio>
-                      <v-radio
-                        label="brown"
-                        color="brown"
-                        value="brown"
-                      ></v-radio>
-                      <v-radio label="grey" color="grey" value="grey"></v-radio>
-                    </v-radio-group>
-                  </v-card-text>
-                  <v-divider></v-divider>
-                  <v-card-actions>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Save</v-btn
-                    >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click="dialogColor = false"
-                      >Close</v-btn
-                    >
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-col>
-
+        </v-row>
             <!-- 폴더안에 넣기 -->
-            <v-col cols="12" class="d-flex justify-end py-0">
-              <v-dialog v-model="dialogCategory" scrollable max-width="300px">
+            <v-col cols="12" class="d-flex justify-end py-0 text-right">
+              <v-dialog v-model="dialogCategory2" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary darken-1"
-                    dark
+                    darka
                     v-bind="attrs"
                     v-on="on"
-                    class="px-5"
+                    class="px-5 d-block d-sm-none"
                     small
                   >
                     Category
@@ -498,7 +380,7 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="dialogCategory = false"
+                      @click="dialogCategory2 = false"
                       >Save</v-btn
                     >
                     <v-btn
@@ -506,7 +388,7 @@
                       text
                       @click="
                         category = 1;
-                        dialogCategory = false;
+                        dialogCategory2 = false;
                       "
                       >Close</v-btn
                     >
@@ -522,13 +404,6 @@
               class="white--text mr-3"
               >SAVE</v-btn
             >
-            <v-btn
-              @click="tmpcreateAction"
-              small
-              color="grey"
-              class="white--text"
-              >TEMP SAVE</v-btn
-            >
           </v-col>
         </v-row>
       </v-container>
@@ -542,6 +417,7 @@ import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/vue-editor";
 import moment from "moment";
+import AWS from 'aws-sdk';
 
 export default {
   components: {
@@ -581,10 +457,17 @@ export default {
       text: "My timeout is set to 1500.",
       timeout: 1500,
 
-      dialogColor: false,
-      pickColor: "",
-
       groupId : this.$route.query.groupId,
+
+      dialogCategory2 : false,
+      dialog2:false,
+      pickColor: 'indigo',
+      colors: ['red', 'pink', 'purple', 'indigo', 'light-blue', 'green', 'lime', 'yellow', 'orange', 'brown', 'grey'],
+
+      albumBucketName: 'plog-image',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:4985e7e4-3205-4085-8e76-368daf8dc9b7',
+
     };
   },
 
@@ -632,89 +515,202 @@ export default {
   },
 
   methods: {
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), 
+      n = bstr.length, 
+      u8arr = new Uint8Array(n);
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }        
+      return new File([u8arr], fileName, {type:mime});
+    },
+
     createAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      console.log(content1);
-    //   alert(content1);
-    //   alert(content2);
-      var content = null;
-      if (content1 == "") {
-        content = content2;
+      if (!this.title.trim()) {
+        this.$dialog.notify.warning("제목을 입력 해주세요 😥", {
+          position: "bottom-right",
+          timeout: 3000,
+        });
       } else {
-        content = content1;
-      }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
+        var resContent = content;
 
-      http
-        .post("/post/", {
-          pId: this.nextPId,
-          pTitle: this.title,
-          pContent: content,
-          pUser: this.$store.state.auth.user.id,
-          pSchedule: this.dialogm1,
-          pCategory: this.category,
-          pColor: this.pickColor,
-          pClub : 1
+        var numOfHashTag = this.model.length;
+        this.hashtags = "";
+        for (let i = 0; i < numOfHashTag; i++) {
+          this.hashtags += this.model[i] + " ";
+        }
+
+        http
+          .post("/post/", {
+            pId: this.nextPId,
+            pTitle: this.title,
+            pContent: '',
+            pUser: this.$store.state.auth.user.id,
+            pSchedule: this.dialogm1,
+            pCategory: this.category,
+            pColor: this.pickColor,
+            pClub : 1,
+            pHashtag : this.hashtags
         })
         .then(({ data }) => {
           if (data.data == "success") {
-            alert("등록 완료");
+            // alert("일단 등록");
+            var images = [];
+            var i = 0;
+            while(content.includes(";base64,")) {
+              var start = content.indexOf("data:image");
+              var end = content.indexOf("&quot;",start);
+
+              var estart = content.indexOf("data:image");
+              estart = content.indexOf("/", estart) + 1;
+              var eend = content.indexOf(";",estart);
+              var extend = content.substring(estart, eend);
+
+              var image = content.substring(start, end);
+              var fileName = data.temp + "_" + i + "." + extend;
+              var file = this.dataURLtoFile(image, fileName);
+              console.log(file);
+
+              resContent = content.substring(0, start);
+              resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
+              resContent = resContent + content.substring(end);
+              console.log(resContent);
+              images[i] = file;
+              i++;
+              content = resContent;
+            }
+
+            images.forEach(element => {
+              AWS.config.update({
+                region : this.bucketRegion,
+                credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: this.IdentityPoolId
+                })
+              }); //s3 configuration
+
+              var s3 = new AWS.S3({
+                apiVersion: '2006-03-01',
+                params: {
+                  Bucket: this.albumBucketName
+                }
+              }); //s3 configuration
+
+              let photoKey = element.name;
+              s3.upload({
+                Key: photoKey,
+                Body: element,
+                ACL: 'public-read'
+              } , (err) => {
+                if(err){
+                  // console.log(err);
+                  this.$dialog.notify.error("이미지 업로드 중 에러가 발생하였습니다. 😥", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                  return;
+                }
+                // alert("성공!");
+                // console.log(data);
+              });
+            });
+
+            http
+            .put("/post/", {
+              pId: data.temp,
+              pTitle: this.title,
+              pContent: resContent,
+              pUser: this.$store.state.auth.user.id,
+              pSchedule: this.dialogm1,
+              pCategory: this.category,
+              pColor: this.pickColor,
+              pClub : 1,
+              pHashtag : this.hashtags
+            })
+            .then((Response) => {
+              if (Response.data === "success") {
+                this.$dialog.notify.success("노트 등록 완료 😃", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
+                this.$router.push("/note");
+              }
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("clienterror")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
           }
         });
-
-      this.createTags();
-    },
-    createTags() {
-      ////hashtag 저장하는 곳
-      var numOfHashTag = this.model.length;
-      this.hashtags = "";
-      for (let i = 0; i < numOfHashTag; i++) {
-        this.hashtags += this.model[i] + " ";
       }
-
-      http
-        .post("/hashtag/insert", {
-          hId: this.nextPId + this.$store.state.auth.user.id * 1000,
-          hName: this.hashtags,
-        })
-        .then(({ data }) => {
-          if (data.data == "success") {
-            this.$router.push("/note");
-          }
-        });
     },
+    
     tmpcreateAction() {
-      var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
-      var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
-      var content = null;
-      if (content1 == "") {
-        content = content2;
-      } else {
-        content = content1;
-      }
-      const Entities = require("html-entities").XmlEntities;
-      const entities = new Entities();
-      content = entities.encode(content);
-      console.log(content);
-
-      http
-        .post("/tp/", {
-          tpTitle: this.title,
-          tpContent: content,
-          tpUser: this.$store.state.auth.user.id,
-        })
-        .then((Response) => {
-          if (Response.data === "success") {
-            alert("임시 샘플 등록 완료");
-            this.$router.push("/note");
-          }
+      if (!this.title.trim()) {
+        this.$dialog.notify.warning("제목을 입력 해주세요 😥", {
+          position: "bottom-right",
+          timeout: 3000,
         });
+      } else {
+        var content1 = this.$refs.toastuiEditor1.invoke("getHtml");
+        var content2 = this.$refs.toastuiEditor2.invoke("getHtml");
+        var content = null;
+        if (content1 == "") {
+          content = content2;
+        } else {
+          content = content1;
+        }
+        const Entities = require("html-entities").XmlEntities;
+        const entities = new Entities();
+        content = entities.encode(content);
+        http
+          .post("/tp/", {
+            tpTitle: this.title,
+            tpContent: content,
+            tpUser: this.$store.state.auth.user.id,
+          })
+          .then((Response) => {
+            if (Response.data === "success") {
+              this.$dialog.notify.info("임시 노트 등록 완료 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+              this.$router.push("/note");
+            }
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("clienterror")
+            } else{
+              this.$router.push("/404");
+            }                          
+          });
+      }
     },
     nospace() {
-      alert("공백 없이 단어로 입력해주세요");
+      this.$dialog.notify.warning("공백 없이 단어로 입력해주세요 😥", {
+        position: "bottom-right",
+        timeout: 3000,
+      });
     },
 
     addEmoji() {

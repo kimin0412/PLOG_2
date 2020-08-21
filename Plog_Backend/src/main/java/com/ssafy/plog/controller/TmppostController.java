@@ -32,7 +32,7 @@ public class TmppostController {
 	TmppostService service;
 	
 	@GetMapping("/")
-	public Tmppost selectBypId(@RequestParam(required = false) final int tpId) {
+	public Tmppost selectBypId(@RequestParam(required = true) final int tpId) {
 		Tmppost tmppost = service.selectByTpid(tpId);
     	return tmppost;
     }
@@ -88,18 +88,6 @@ public class TmppostController {
 	    }
 	 
 	 
-		@GetMapping("/list/search/sample")
-		public Object selectByTitle(@RequestParam final String searchword) {
-			List<Post> posts = service.selectByTitle(searchword);
-	    	return new ResponseEntity<>(posts, HttpStatus.OK);
-	    }
 		
-		@GetMapping("join")
-		public Object joinClub(@RequestParam final int uId, @RequestParam final int clId, @RequestParam final String password) {
-			if(service.joinClub(uId, clId, password))
-				return new ResponseEntity<>("success", HttpStatus.OK);
-			else
-				return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
-	    }
 			 
 }

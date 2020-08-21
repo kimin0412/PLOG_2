@@ -47,6 +47,12 @@ public class CategoryController {
 		
 	}
     
+    @RequestMapping("/category/club/listAll")
+	public List<Category> getAllClubList(@RequestParam int cClub) {
+    	return cService.getAllClubCategory(cClub);
+		
+	}
+    
     @RequestMapping("/category/update/post")
 	public Object updatePost(@RequestBody Post post) {
     	
@@ -95,4 +101,10 @@ public class CategoryController {
     		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+    
+    @GetMapping("/category")
+    public Category getCategory(@RequestParam int pId) {
+    	return cService.getCategory(pId);
+    }
+    
 }

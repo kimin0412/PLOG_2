@@ -14,11 +14,24 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(response.data));
         }
-
+        if(response.status == 401){
+          //console.log();
+        }
+        else if(response.status == 400){
+          //console.log();
+        }
         return response.data;
       });
   }
-
+  
+  edit(user){
+    return axios.post(API_URL + 'editprofile', {
+        username : user.email,
+        password : user.password,
+        birthday : user.birthday,
+        phone : user.phone
+    });
+  }
 
   logout() {
     localStorage.removeItem('user');
@@ -29,6 +42,11 @@ class AuthService {
       username: user.username,
       email: user.email,
       password: user.password
+    }).then(error =>{
+      if(error.response.status == 400) {
+        //console.log(error.response.status);
+      }
+      
     });
   }
 }

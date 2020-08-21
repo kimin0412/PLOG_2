@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 
@@ -29,5 +30,11 @@ public interface ScheduleService {
 	Schedule selectById(String sId, int sUser);
 
 	List<Post> selectPostById(String sId);
+
+	List<Schedule> getDailyClubScheduleList(String sDate, int sClub);
+
+	Schedule getScheduleByPost(int pId);
+
+	List<Schedule> getMyMonthScheduleList(String sDate, int sId);
 
 }

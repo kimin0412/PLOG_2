@@ -76,4 +76,14 @@ public class CategoryServiceImpl implements CategoryService {
 		cdao.updateCategory(category.getcId(), category.getcName());
 		
 	}
+
+	@Override
+	public List<Category> getAllClubCategory(int cClub) {
+		return cdao.findAllByCClub(cClub);
+	}
+
+	@Override
+	public Category getCategory(int pid) {
+		return cdao.findCategoryByPost(pid);
+	}
 }

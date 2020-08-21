@@ -43,6 +43,8 @@ public class TmppostServiceImpl implements TmppostService {
 
 	@Override
 	public boolean updatePost(Tmppost tp) {
+		if(dao.findBytpId(tp.getTpId()) == null)
+			return false;
 		return dao.save(tp) != null;
 	}
 
@@ -64,13 +66,5 @@ public class TmppostServiceImpl implements TmppostService {
 		}
 	}
 
-	@Override
-	public List<Post> selectByTitle(String searchword) {
-		return null;//dao.findBytpTitle(searchword);
-	}
-
-	@Override
-	public boolean joinClub(int uId, int clId, String password) {
-		return false;
-	}
+	
 }

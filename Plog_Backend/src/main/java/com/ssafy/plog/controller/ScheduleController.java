@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.plog.dto.BasicResponse;
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 import com.ssafy.plog.service.ScheduleService;
@@ -39,6 +40,12 @@ public class ScheduleController {
     
     @GetMapping("/schedule/monthList")
 	public List<Schedule> monthList(@RequestParam String sDate, int sId) { //date의 s_name에 year, month를 저장해서 온다.
+    	List<Schedule> sList = sService.getMyMonthScheduleList(sDate, sId);
+		return sList;
+	}
+    
+    @GetMapping("/schedule/monthList/All")
+	public List<Schedule> monthListAll(@RequestParam String sDate, int sId) { //date의 s_name에 year, month를 저장해서 온다.
     	List<Schedule> sList = sService.getMonthScheduleList(sDate, sId);
 		return sList;
 	}
@@ -56,33 +63,12 @@ public class ScheduleController {
     @GetMapping("/schedule/dayList")
 	public List<Schedule> dayList(@RequestParam String sDate, int sId) { 
     	List<Schedule> sList = sService.getDailyScheduleList(sDate, sId);
-    	System.out.println(sList.size());
 		return sList;
 	}
     
     @GetMapping("/schedule/club/dayList")
 	public List<Schedule> dayListInClub(@RequestParam int sClub, String sDate ) { 
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	List<Schedule> sList = sService.getDailyScheduleList(sDate, sClub);
+    	List<Schedule> sList = sService.getDailyClubScheduleList(sDate, sClub);
     	
 		return sList;
 	}
@@ -126,4 +112,9 @@ public class ScheduleController {
 	public List<Post> getPostsById(@RequestParam String sId) {
 		return sService.selectPostById(sId);
 	}
+    
+    @GetMapping("/schedule")
+    public Schedule getSchedule(@RequestParam int pId) {
+    	return sService.getScheduleByPost(pId);
+    }
 }

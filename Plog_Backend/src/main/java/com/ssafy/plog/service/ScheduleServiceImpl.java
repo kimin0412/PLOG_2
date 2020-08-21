@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.plog.dao.PostDao;
 import com.ssafy.plog.dao.ScheduleDAO;
+import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
 import com.ssafy.plog.dto.Schedule;
 
@@ -53,8 +54,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 			monthAndYear = monthDateSplit[1] + "-" + month;
 		}
 		
-		//select * from schedule where s_startdate 
+		//내가 작성
 		List<Schedule> sList = sdao.selectByMonth(monthAndYear, sId);
+		
 		
 		return sList;
 	}
@@ -117,7 +119,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 						isAnySchedule[j] = true;
 					}
 				}else {
-					for (int j = sDay; j < dayofMonth[curMonth]+1; j++) {
+					for (int j = sDay; j < dayofMonth[curMonth-1]+1; j++) {
 						isAnySchedule[j] = true;
 					}
 				}
@@ -127,7 +129,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 						isAnySchedule[j] = true;
 					}
 				}else {
-					for (int j = 1; j < dayofMonth[curMonth]+1; j++) {
+					for (int j = 1; j < dayofMonth[curMonth-1]+1; j++) {
 						isAnySchedule[j] = true;
 					}
 				}
@@ -136,7 +138,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		List<Integer> scheduleDayNumber = new LinkedList<>();
 		
-		for (int i = 1; i < dayofMonth[curMonth]+1; i++) {
+		for (int i = 1; i < dayofMonth[curMonth-1]+1; i++) {
 			if(isAnySchedule[i]) {
 				scheduleDayNumber.add(i);
 			}
@@ -204,5 +206,34 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public List<Post> selectPostById(String sId) {
 		return pdao.selectPostsbySchedule(sId);
+	}
+
+	@Override
+	public List<Schedule> getDailyClubScheduleList(String sDate, int sClub) {
+		return sdao.getDailyClubSchedule(sDate, sClub);
+	}
+
+	@Override
+	public Schedule getScheduleByPost(int pId) {
+		return sdao.findScheduleByPost(pId);
+	}
+
+	@Override
+	public List<Schedule> getMyMonthScheduleList(String sDate, int sId) {
+		String[] monthDateSplit = sDate.split(" ");
+
+		int month = Integer.parseInt(monthDateSplit[0].substring(0, monthDateSplit[0].length()-1));
+				
+		String monthAndYear;
+		if(month < 10) {
+			monthAndYear = monthDateSplit[1] + "-0" + month;
+		}else {
+			monthAndYear = monthDateSplit[1] + "-" + month;
+		}
+				
+		List<Schedule> sList = sdao.selectByMonthMine(monthAndYear, sId);
+				
+				
+		return sList;
 	}
 }

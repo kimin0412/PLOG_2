@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class Hashtag {
 	
@@ -27,6 +27,15 @@ public class Hashtag {
 	
 	@Column
 	private String hName;
+
+	public Hashtag(int hid, String hName) {
+		this.hId = hid;
+		this.hName = hName;
+	}
+
+	public Hashtag() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int gethId() {
 		return hId;
@@ -43,4 +52,11 @@ public class Hashtag {
 	public void sethName(String hName) {
 		this.hName = hName;
 	}
+
+	@Override
+	public String toString() {
+		return "Hashtag [hId=" + hId + ", hName=" + hName + "]";
+	}
+	
+	
 }

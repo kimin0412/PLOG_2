@@ -243,6 +243,15 @@ export default {
        }).then(({data}) => {
          this.Notes = data;
        })
+       .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
      },
      methods: {
       logOut() {
@@ -264,6 +273,15 @@ export default {
               data.forEach(element => {
                 this.hashtags.push({"name" : element})
               });
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("error")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
         },
         bookmark(){
@@ -277,6 +295,15 @@ export default {
               if(response === 'success'){
                 console.log("success");
               }              
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("error")
+              } else{
+                this.$router.push("/404");
+              }                          
             });
             if(this.bmToggle == 1){
                 this.bmToggle = 0;

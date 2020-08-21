@@ -10,112 +10,27 @@
                   color="indigo"
                   centered
                 >
+                  <v-tab>Posts</v-tab>
                   <v-tab>Team info.</v-tab>
                   <v-tab>Members</v-tab>
-                  <v-tab>Posts</v-tab>
-                  
-                  <v-tab-item
-                  >
-                    <v-container fluid>
-                      <v-row>
-                        <v-col cols="2"></v-col>
-                        <v-col cols="3" class="text-center mt-5">
-                          <img src="@/assets/group/team.png" alt="" width="120">              
-                        </v-col>
-                        <v-col cols="5" class="text-center mt-5">
-                          <v-simple-table dense class="text-left">
-                            <template v-slot:default>
-                              <tbody>
-                                <tr>
-                                  <td>Group Name</td>
-                                  <td>{{ myClub.clName }}</td>
-                                </tr>
-                                <tr>
-                                  <td>Group Host</td>
-                                  <td>{{ host }}</td>
-                                </tr>
-                                <tr>
-                                  <td>Group Color</td>
-                                  <td>{{ myClub.clColor }}</td>
-                                </tr>
-                                <tr>
-                                  <td>Created</td>
-                                  <td>{{ regdate }}</td>
-                                </tr>
-                              </tbody>
-                            </template>
-                          </v-simple-table>
-                        </v-col>  
-                        <v-col cols="2"></v-col>          
-                      </v-row>
-                    </v-container>
-                  </v-tab-item>
                   <v-tab-item>
-                    <v-container fluid>
-                      <v-row>
-                        <v-col cols="12" class="text-center">
-                          아직 서비스 준비중입니다.
-                        </v-col>
-                        <!-- <v-col cols="2"></v-col>
-                        <v-col cols="3" class="text-center mt-5">
-                          <img src="@/assets/group/team.png" alt="" width="120">              
-                        </v-col>
-                        <v-col cols="5" class="text-center mt-5">
-                          <v-simple-table dense class="text-left">
-                            <template v-slot:default>
-                              <tbody>
-                                <tr>
-                                  <td>Group Name</td>
-                                  <td>싸라밸</td>
-                                </tr>
-                                <tr>
-                                  <td>Group Host</td>
-                                  <td>M.J. Kim</td>
-                                </tr>
-                                <tr>
-                                  <td>Group Color</td>
-                                  <td>color</td>
-                                </tr>
-                                <tr>
-                                  <td>Created</td>
-                                  <td>2020.00.00</td>
-                                </tr>
-                              </tbody>
-                            </template>
-                          </v-simple-table>
-                        </v-col>  
-                        <v-col cols="2"></v-col>           -->
-                      </v-row>
-                    </v-container>
-                  </v-tab-item>
-                  <v-tab-item>
-                    <v-col cols="12" class="text-center">
-                      아직 서비스 준비중입니다.
-                    </v-col>
-                    <!-- <div>
+                    <div>
                       <div class="d-none d-sm-block">
                         <div class="content-center mx-auto">
                           <v-row class="mb-2 justify-end">
-                            <router-link :to="{ path: 'note/create', query:{groupId:groupId}}" class="smallicon mr-3">
-                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block"><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
+                            <router-link :to="{ path: '/group/noteCreate', query:{groupId:groupId}}" class="smallicon mr-3 text-decoration-none">
+                              <v-btn small color="light-green" dark class="ml-auto d-none d-sm-block "><v-icon class="mr-3" small>mdi-pencil</v-icon>Write</v-btn>          
                             </router-link>
-                            <router-link to="/search" class="smallicon mr-10">
+                            <router-link to="/search" class="smallicon mr-10 text-decoration-none">
                               <v-btn small color="grey" dark class="ml-auto d-none d-sm-block"><v-icon class="mr-3" small>mdi-magnify</v-icon>Search</v-btn>          
                             </router-link>
-                            <v-btn small color="blue" dark class="ml-auto d-none d-sm-block" @click="categoryDialog = true"><v-icon class="mr-3" small>mdi-message-text</v-icon>new folder</v-btn>
-                          </v-row>
-                          <v-row class="mt-10">
-                            <v-col cols="12" class="py-1 px-0">
-                              <div class="mr-3" style="width: 70px; border-top: 3px solid #bdbdbd; border-left: 2px solid #bdbdbd;"></div>
-                              <div class="ml-1 grey--text text--lighten-1 py-1 text-subtitle-1 font-weight-bold">My notes</div>
-                            </v-col>
-                          </v-row>
-                          <v-row class=" mb-4">
+                            <v-btn small color="blue" dark class="ml-auto d-none d-sm-block text-decoration-none" @click="categoryDialog = true"><v-icon class="mr-3" small>mdi-message-text</v-icon>new folder</v-btn>
                             
                             <v-menu
                               v-model="categoryDialog"
                               :close-on-content-click="false"
                               offset-x
+                              
                             >
                             <v-card>
                               <v-card-title>
@@ -163,8 +78,16 @@
                               </v-card-actions>
                             </v-card>
                             </v-menu>
-
-
+                          </v-row>
+                          <v-row class="mt-10">
+                            <v-col cols="12" class="py-1 px-0">
+                              <div class="mr-3" style="width: 70px; border-top: 3px solid #bdbdbd; border-left: 2px solid #bdbdbd;"></div>
+                              <div class="ml-1 grey--text text--lighten-1 py-1 text-subtitle-1 font-weight-bold">My notes</div>
+                            </v-col>
+                          </v-row>
+                          
+                          <!-- 폴더에 들어가지 않은 노트들 -->
+                          <v-row class=" mb-4">
                             <v-sheet
                                 class="mx-auto mysheet"
                                 @drop='onDrop($event, 1)' 
@@ -183,6 +106,41 @@
                                   >
                                   <div @click="getNote(note)">
                                     <v-card
+                                      v-if="note.pCategory == 1"
+                                      :color="active ? 'grey lighten-1' : 'grey lighten-2'"
+                                      class="ma-1"
+                                      width="200"
+                                      height="120"
+                                      @click="toggle"
+                                      draggable
+                                      @dragstart='startDrag($event, note)'
+                                    >
+                                      <v-list-item three-line>
+                                        <v-list-item-content>
+                                          <v-list-item-title class="headline mb-1"> {{ note.pTitle }}</v-list-item-title>
+                                          <v-list-item-subtitle>created at</v-list-item-subtitle>
+                                          <v-list-item-subtitle>{{ note.pDate | removeTime }}</v-list-item-subtitle>
+                                        </v-list-item-content>
+
+                                        <v-list-item-avatar
+                                          tile
+                                          size="30"
+                                          v-bind:color=note.pColor
+                                        ></v-list-item-avatar>
+                                      </v-list-item>
+                                      <v-row align="center" justify="center">
+                                        <v-scale-transition>
+                                          <v-icon
+                                            v-if="active"
+                                            color="white"
+                                            size="30"
+                                            v-text="'mdi-close-circle-outline'"
+                                          ></v-icon>
+                                        </v-scale-transition>
+                                      </v-row>
+                                    </v-card>
+
+                                    <!-- <v-card
                                       v-if="note.pCategory == 1"
                                       :color="active ? 'grey' : note.pColor"
                                       class="ma-4"
@@ -209,7 +167,7 @@
                                           ></v-icon>
                                         </v-scale-transition>
                                       </v-row>
-                                    </v-card>
+                                    </v-card> -->
                                     </div>
                                   </v-slide-item>
                                 </v-slide-group>
@@ -232,11 +190,12 @@
                                         </v-btn>
                                       </v-flex>
                                       <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
+                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
                                       </router-link>
                                       </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
+                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate | removeTime }}</v-col>
+                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
                                         <v-card-text class="d-flex justify-center flex-wrap py-0">
                                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
@@ -361,11 +320,12 @@
                                         </v-btn>
                                         </v-flex>
                                         <v-col cols="12" class="py-0 text-center text-h6">
-                                        <router-link :to="{ path: 'note/detail', query:{pId:selected2.pId}}" class="py-0 text-center text-h6"> 
+                                        <router-link :to="{ path: '/group/noteDetail', query:{pId:selected2.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                           <v-col cols="12" class="py-0 text-center text-h6">{{ selected2.pTitle }}</v-col>
                                         </router-link>
                                         </v-col>
                                         <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected2.pDate }}</v-col>
+                                        <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName2 }}</strong></v-col>
                                         <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                                           <v-card-text class="d-flex justify-center flex-wrap py-0">
                                             <div v-for="(item,i) in hashtags2"  v-bind:key="i" >
@@ -390,88 +350,13 @@
                                     </v-sheet>
                                   </v-expand-transition>
                                   </v-sheet>
-
-                                  
-
                                 </v-expansion-panel-content>
                                 </div>
                               </v-expansion-panel>
                             </v-expansion-panels>
                             
                           </v-row>
-                          <v-row class="mt-10 pt-15">
-                            <v-col cols="12" class="py-1 px-0">
-                              <div class="mr-3" style="width: 70px; border-top: 3px solid #bdbdbd; border-left: 2px solid #bdbdbd;"></div>
-                              <div class="ml-1 grey--text text--lighten-1 py-1 text-subtitle-1 font-weight-bold">Temp. notes</div>
-                            </v-col>
-                          </v-row>
-                          <v-row class=" mb-4">
-                            <v-sheet
-                                class="mx-auto mysheet"
-                              >
-                                <v-slide-group
-                                  v-model="tpmodel"
-                                  class="pa-4 px-0"
-                                  show-arrows
-                                  center-active
-                                >
-                                  <v-slide-item
-                                    v-for="(tpnote, index) in tmpNotes" :key="index"
-                                    v-slot:default="{ active, toggle }"
-                                  >
-                                  <div @click="getTpNote(tpnote)">
-                                    <v-card
-                                      :color="active ? 'grey' : tpnote.pColor"
-                                      class="ma-4"
-                                      height="150"
-                                      width="100"
-                                      @click="toggle"
-                                    >
-                                      <div class="text-center">
-                                        {{ tpnote.tpTitle }}
-                                      </div>
-                                      <v-row
-                                        class="fill-height"
-                                        align="center"
-                                        justify="center"
-                                      >
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card>
-                                    </div>
-                                  </v-slide-item>
-                                </v-slide-group>
-
-                                <v-expand-transition>
-                                  <v-sheet
-                                    v-if="tpmodel != null"
-                                    color="grey lighten-4"
-                                    height="200"
-                                    tile
-                                  >
-                                    <v-row
-                                      class="fill-height"
-                                    >
-                                      <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>                    
-                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
-                                        <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
-                                      </router-link>
-                                      </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.tpDate }}</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                    </v-row>
-                                  </v-sheet>
-                                </v-expand-transition>
-                              </v-sheet>          
-                          </v-row>
+                         
                         </div>
                       </div>
                       <div class="d-block d-sm-none">
@@ -481,7 +366,7 @@
                             <v-col cols="12" class="py-1 text-h4 font-weight-bold">POSTS</v-col>
                           </v-row>
                           <v-row class="mb-2 justify-end mt-10">
-                            <router-link to="/note/create" class="smallicon mr-3">
+                            <router-link to="/group/noteCreate" class="smallicon mr-3">
                               <v-btn small color="light-green" dark class="ml-auto"><v-icon small>mdi-pencil</v-icon></v-btn>          
                             </router-link>
                             <router-link to="/search" class="smallicon">
@@ -553,11 +438,12 @@
                                         </v-btn>
                                       </v-flex>
                                       <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/detail', query:{pId:selected.pId}}" class="py-0 text-center text-h6"> 
+                                      <router-link :to="{ path: '/group/noteDetail', query:{pId:selected.pId, clId:this.groupId}}" class="py-0 text-center text-h6"> 
                                         <v-col cols="12" class="py-0 text-center text-h6">{{ selected.pTitle }}</v-col>
                                       </router-link>
                                       </v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ selected.pDate }}</v-col>
+                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">writed at <strong>{{ selectedName }}</strong></v-col>
                                       <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS
                                         <v-card-text class="d-flex justify-center py-0">
                                           <div v-for="(item,i) in hashtags"  v-bind:key="i" >
@@ -583,170 +469,192 @@
                               </v-sheet>          
                             </v-col>
                           </v-row>
-                          <v-row class="mt-5">
-                            <v-col cols="12" class="py-1 text-h6">Temporary</v-col>
-                            <v-col cols="12">
-                              <v-sheet
-                                class="mx-auto mysheet"
-                              >
-                                <v-slide-group
-                                  v-model="tpmodel"
-                                  class="pa-4 px-0"
-                                  show-arrows
-                                  center-active
-                                >
-                                  <v-slide-item
-                                    v-for="(tpnote, index) in tmpNotes" :key="index"
-                                    v-slot:default="{ active, toggle }"
-                                  >
-                                  <div @click="getTpNote(tpnote)">
-                                    <v-card
-                                      :color="active ? 'grey' : tpnote.pColor"
-                                      class="ma-4"
-                                      height="150"
-                                      width="100"
-                                      @click="toggle"
-                                    >
-                                      <div class="text-center">
-                                        {{ tpnote.tpTilte }}
-                                      </div>
-                                      <v-row
-                                        class="fill-height"
-                                        align="center"
-                                        justify="center"
-                                      >
-                                        <v-scale-transition>
-                                          <v-icon
-                                            v-if="active"
-                                            color="white"
-                                            size="30"
-                                            v-text="'mdi-close-circle-outline'"
-                                          ></v-icon>
-                                        </v-scale-transition>
-                                      </v-row>
-                                    </v-card>
-                                    </div>
-                                  </v-slide-item>
-                                </v-slide-group>
-
-                                <v-expand-transition>
-                                  <v-sheet
-                                    v-if="tpmodel != null"
-                                    color="grey lighten-4"
-                                    height="200"
-                                    tile
-                                  >
-                                    <v-row
-                                      class="fill-height"
-                                    >
-                                      <v-col cols="12" class="py-0 text-center">Temp. Note Info.</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-h6">
-                                      <router-link :to="{ path: 'note/tmpupdate', query:{tpId:tpselected.tpId}}" class="py-0 text-center text-h6"> 
-                                        <v-col cols="12" class="py-0 text-center text-h6">{{ tpselected.tpTitle }}</v-col>
-                                      </router-link>
-                                      </v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">created at {{ tpselected.tpDate }}</v-col>
-                                      <v-col cols="12" class="py-0 text-center text-subtitle-2">KEY WORDS</v-col>
-                                    </v-row>
-                                  </v-sheet>
-                                </v-expand-transition>
-                              </v-sheet>          
-                            </v-col>
-                          </v-row>
                         </v-container>
                       </div>
-                    </div> -->
+                    </div>
                   </v-tab-item>
+                  <v-tab-item
+                  >
+                    <v-container fluid>
+                      <v-row>
+                        <v-col cols="2"></v-col>
+                        <v-col cols="3" class="text-center mt-5">
+                          <img src="@/assets/group/team.png" alt="" width="120">              
+                        </v-col>
+                        <v-col cols="5" class="text-center mt-5">
+                          <v-simple-table dense class="text-left">
+                            <template v-slot:default>
+                              <tbody>
+                                <tr>
+                                  <td>Group Name</td>
+                                  <td>{{ myClub.clName }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Group Host</td>
+                                  <td>{{ host.email }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Group Color</td>
+                                  <td>{{ myClub.clColor }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Created</td>
+                                  <td>{{ regdate }}</td>
+                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
+                        </v-col>  
+                        <div class="d-flex justify-end py-0 atag">
+                          <div v-if="host.id == this.$store.state.auth.user.id">
+                            <v-btn small color="orange" class="py-0 white--text text-center atag mr-3" @click="clubDialog = true">그룹 수정</v-btn>
+                            <v-dialog
+                              v-model="clubDialog"
+                              :close-on-content-click="false"
+                              offset-x
+                              persistent
+                              max-width="400px"
+                            >
+                              <v-card>
+                                <v-card-title>
+                                  <span class="headline">Update Group</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+                                      <v-col cols="12">
+                                        <v-text-field
+                                          label="Group Name*"
+                                          v-model="groupName"
+                                          required
+                                        ></v-text-field>
+                                      </v-col>
+                                      <v-col cols="12" class="py-0 px-0">
+                                        <v-text-field
+                                        placeholder="입장 코드를 입력해주세요"
+                                        filled
+                                        rounded
+                                        dense
+                                        clearable
+                                        v-model="entercode"
+                                        ></v-text-field> 
+                                    </v-col>      
+                                    <v-col cols="12" class="py-1 text-subtitle-2 grey--text mt-n3">Introduction</v-col>
+                                    <v-col cols="12" class="py-0 px-0">
+                                        <v-textarea
+                                        filled
+                                        auto-grow
+                                        rows="4"
+                                        row-height="30"
+                                        v-model="groupIntro"
+                                        :rules="[rules.counter]"
+                                        rounded
+                                        maxlength="150"
+                                        ></v-textarea>
+                                    </v-col>
+                                    </v-row>
+                                    
+                                    <v-row class="my-2">
+                                      <v-col cols="1" class="px-0 pb-0 mx-0 my-0">
+                                          <v-card :color="groupColor" class="py-2 transparent--text">색</v-card>
+                                      </v-col>
+                                      <v-col cols="11">
+                                          <v-select v-model="groupColor"
+                                                      :items="colors"
+                                                      filled
+                                                      dense
+                                                      label=""
+                                                      full-width>
+                                          </v-select>
+                                      </v-col>
+                                  </v-row>
+                                  <v-card class="mx-auto">
+                                    <div v-for="(member,index) in Members" :key="index">
+                                      <div v-if="member.id != host.id">
+                                      <v-card-text class="d-flex justify-center py-0">
+                                        <div>
+                                          {{ member.email }}
+                                            <v-btn
+                                              text
+                                              color="blue lighten-2  ml-auto"
+                                              @click="deleteMember(member.id, member.email)"
+                                              >회원 삭제하기</v-btn
+                                            >
+                                        </div>
+                                      </v-card-text>
+                                    </div></div>
+                                  </v-card>
+                                  </v-container>
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn color="blue darken-1" text @click="updateClub"
+                                    >수정하기</v-btn
+                                  >
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="clubDialog = false"
+                                    >Close</v-btn
+                                  >
+                                </v-card-actions>
+                              </v-card>
+                            </v-dialog>
+                            
+                            <v-btn small color="orange" class="py-0 white--text text-center atag mr-3" @click="deleteGroup">그룹 삭제</v-btn>
+                          </div>
+                          <div v-else>
+                            <v-btn small color="orange" class="py-0 white--text text-center atag mr-3" @click="withDraw">탈퇴하기</v-btn>
+                          </div>
+                        </div>
+                        <v-col cols="2"></v-col>          
+                      </v-row>
+                    </v-container>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-container fluid>
+                      <v-row>
+                        <v-col cols="2"></v-col>
+                        <v-col cols="3" class="text-center mt-5">
+                          <img src="@/assets/group/team.png" alt="" width="120">              
+                        </v-col>
+                        <v-col cols="5" class="text-center mt-5">
+                          <v-simple-table dense class="text-left">
+                            <template v-slot:default>
+                              <tbody>
+                                <tr>
+                                  <td>Group Name</td>
+                                  <td>{{ myClub.clName }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Group Host</td>
+                                  <td>{{ host.email }}</td>
+                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>                          
+                        </v-col>  
+                        <v-col cols="3"></v-col>
+                        <v-col cols="3" class="text-center mt-5">
+                          <v-simple-table dense class="text-left">
+                            <template v-slot:default>
+                              <th>Group Members</th>
+                              <tbody>
+                                <tr><td></td></tr>
+                                <tr v-for="(member,index) in Members" :key="index"><td>{{member.email}}</td></tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
+                        </v-col>  
+                      </v-row>
+                    </v-container>
+                  </v-tab-item>
+                  
                 </v-tabs>
               </v-card>
             </v-col>
           </v-row>
-          <!-- <v-row>
-            <v-col cols="12">
-              <div class="text-center display-1 font-weight-light">Group Info.</div>
-            </v-col>
-            <v-col cols="2"></v-col>
-            <v-col cols="3" class="text-center mt-5">
-              <img src="@/assets/group/team.png" alt="" width="120">              
-            </v-col>
-            <v-col cols="5" class="text-center mt-5">
-              <v-simple-table dense class="text-left">
-                <template v-slot:default>
-                  <tbody>
-                    <tr>
-                      <td>Group Name</td>
-                      <td>싸라밸</td>
-                    </tr>
-                    <tr>
-                      <td>Group Host</td>
-                      <td>M.J. Kim</td>
-                    </tr>
-                    <tr>
-                      <td>Group Color</td>
-                      <td>color</td>
-                    </tr>
-                    <tr>
-                      <td>Created</td>
-                      <td>2020.00.00</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-col>  
-            <v-col cols="2"></v-col>          
-          </v-row>
-          <v-row class="mt-10">
-            <v-col cols="1"></v-col>
-            <v-col cols="10" class="text-center text-h6 grey--text mb-4 px-15">
-              SSAFY 3기 5반 2팀 싸라밸(민지/민섭/지식/민재/혜민)
-            </v-col>
-            <v-col cols="1"></v-col>
-          </v-row>
-          <v-row class="mt-10 pt-10">
-            <v-col cols="12 mb-4">
-              <div class="text-center display-1 font-weight-light">Group Posts</div>
-            </v-col>
-            <v-col cols="12">
-              <v-item-group>
-              <v-container>
-                <v-row>
-                  <v-col
-                    v-for="n in 4"
-                    :key="n"
-                    cols="3"
-                  >
-                    <v-item v-slot:default="{ active, toggle }">
-                      <v-card
-                        :color="active ? 'primary' : 'transparent'"
-                        class="d-flex align-center justify-center"
-                        height="200"
-                        @click="toggle"
-                        elevation="0"
-                      >
-                        <v-scroll-y-transition>
-                          <div
-                            v-if="active"
-                            class="text-h4 flex-grow-1 text-center"
-                          >
-                            <div class="display-1">title</div>
-                            <div class="grey--text text--lighten-3 text-subtitle-2">writer</div>
-                            <div class="grey--text text--lighten-3 text-subtitle-2">2020.00.00</div>
-                            <router-link to="/note/detail" class="text-decoration-none"> <v-btn>보러가기</v-btn></router-link>
-                          </div>
-                          <div v-else class="text-center">
-                            <div><img src="@/assets/group/file.png" alt="" width="50"></div>
-                            <div class="text-h6">post title</div>
-                            <div>20.00.00</div>
-                          </div>
-                        </v-scroll-y-transition>
-                      </v-card>
-                    </v-item>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-item-group>
-            </v-col>
-          </v-row> -->
+          
         </div>
       </div>
       <div class="d-block d-sm-none">
@@ -771,12 +679,50 @@ export default {
       return {
         groupId: this.$route.query.clId,
         myClub : [],
-        host : '',
+        host : {},
         regdate : '',
+        Members : [],
+        categoryDialog : false,
+        updateCategoryDialog : false,
+        categories : [],
+        Notes : [],
+
+        selected: {},
+        selected2 : {},
+        hashtags : [],
+        hashtags2 : [],
+        bmToggle : 0,
+        bmToggle2 : 0,
+        model: null,
+        modelInCategory : null,
+        cName : '',
+        cUpdateName : '',
+        selectedName : '',
+        selectedName2 : '',
+
+        clubDialog : false,
+        colors: ['red', 'pink', 'purple', 'indigo', 'light-blue', 'green', 'lime', 'yellow', 'orange', 'brown', 'grey'],
+        entercode : '',
+        rules: {
+          counter: value => value.length <= 150 || '150자 이내',
+        },
+        groupName : '',
+        groupIntro : '',
+        groupColor : '',
+
+        pageIndex: 0,
       }
     },
 
     created() {
+      if(this.$route.query.q == null){
+        // console.log("empty");
+        this.pageIndex = 0;
+      }
+      else{
+        this.pageIndex = this.$route.query.q;
+      }
+
       http.get('/club', {
           params : {
             clId : this.groupId,
@@ -784,6 +730,18 @@ export default {
         }).then(({ data }) => {
           this.myClub = data
           this.regdate = this.myClub.clRegdate.substr(0, 10)
+          this.groupName = data.clName
+          this.groupIntro = data.clInfo
+          this.groupColor = data.clColor
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
 
         http.get('/club/host', {
@@ -792,10 +750,410 @@ export default {
           }
         }).then(({ data }) => {
           this.host = data
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+         http.get('/club/members', {
+          params : {
+            clId : this.groupId,
+          }
+        }).then(({ data }) => {
+          this.Members = data
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+      window.scrollTo(0, 0);
+      http.get('/category/club/listAll', {
+        params : {
+          cClub : this.groupId,
+        }
+      })
+      .then(({data}) => {
+        this.categories = data;
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+
+      http.get('post/list/all/club', {
+        params : {
+          clid : this.groupId,
+        }
+      })
+      .then(({data}) => {
+        this.Notes = data;
+      })
+      .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
         });
     },
+
+    filters: {
+      removeTime(val) {
+        return val.substr(0, 10)
+      },
+    },
+
     methods: {
-      
+      createCategory() {
+        if(this.cName == ""){
+          this.$dialog.notify.warning("카테고리 이름을 쓰세요 😤", {
+            position: "bottom-right",
+            timeout: 3000,
+          });
+        } else{
+          http.post('/category/insert', {
+            cName : this.cName,
+            cUser : 1,
+            cClub : this.groupId,
+          })
+          .then(({data}) => {
+            if(data.data == 'success'){
+              this.$dialog.notify.success("새 폴더가 생성되었습니다 😚", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+              this.categoryDialog = false;
+              this.$router.push({path:"/group/detail", query: { q: ++this.pageIndex }});
+            }
+          })
+          .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+        }
+           
+      },
+      updateCategory () {
+        http.put('/category/update', {
+          cId : this.toUpdate,
+          cName : this.cUpdateName
+        })
+        .then(({data}) => {
+          if(data.data == 'success'){
+            this.$router.go();
+          }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+      },
+
+      startDrag (evt, item) { 
+        evt.dataTransfer.dropEffect = 'move'
+        evt.dataTransfer.effectAllowed = 'move'
+        evt.dataTransfer.setData('ID', item.pId)
+      },
+      onDrop (evt, cId) {
+        const itemID = evt.dataTransfer.getData('ID')
+        http.post('/category/update/post', {
+          pId : itemID,
+          pCategory : cId
+        })
+        .then(({data}) => {
+          if(data.data == 'success'){
+            this.$router.go();
+          }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+      },
+
+      getNote(note) {
+            this.selected = note
+            this.hashtags = []
+            this.bmToggle = note.pBookmark
+            this.hashtags = []
+            http.get('/hashtag/select', {
+              params : {
+                uid : this.$store.state.auth.user.id,
+                pid : this.selected.pId,
+              }
+            })
+            .then(({data}) => {
+              data.forEach(element => {
+                this.hashtags.push({"name" : element})
+              });
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("error")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
+
+          http.get('/post/user', {
+            params : {
+              pid : this.selected.pId,
+            }
+          })
+          .then(({data}) => {
+            this.selectedName = data
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("error")
+            } else{
+              this.$router.push("/404");
+          }                          
+        });
+        },
+        getNoteInCategory(note){
+          this.selected2 = note
+          this.hashtags2 = []
+          this.bmToggle2 = note.pBookmark
+          http.get('/hashtag/select', {
+            params : {
+              uid : this.$store.state.auth.user.id,
+              pid : this.selected2.pId,
+            }
+          })
+          .then(({data}) => {
+            data.forEach(element => {
+              this.hashtags2.push({"name" : element})
+            });
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("error")
+            } else{
+              this.$router.push("/404");
+            }                          
+          });
+
+          http.get('/post/user', {
+            params : {
+              pid : this.selected2.pId,
+            }
+          })
+          .then(({data}) => {
+            this.selectedName2 = data
+          })
+          .catch((error) => {
+            if(error.response) {
+              this.$router.push("servererror")
+            } else if(error.request) {
+              this.$router.push("error")
+            } else{
+              this.$router.push("/404");
+            }                          
+          }); 
+        },
+        openUpdateDialog( cId, cName ) {
+          this.updateCategoryDialog = true
+          this.cUpdateName = cName
+          this.toUpdate = cId
+        },
+
+        updateClub() {
+          if (this.groupName.trim() === ''){
+              this.$dialog.notify.warning("그룹명은 필수입니다. 😤", {
+                position: "bottom-right",
+                timeout: 3000,
+              });
+            } else {
+                if (this.entercode.trim() === ''){
+                  this.$dialog.notify.warning("입장 확인용 비밀번호를 설정해주세요! 😥", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                } else {
+                    if (this.groupIntro.trim() === ''){
+                      this.$dialog.notify.warning("짧은 소개 부탁드립니다! 😚", {
+                        position: "bottom-right",
+                        timeout: 3000,
+                      });
+                    } else {
+                        http.post('/club/update', {
+                          clId : this.$store.state.auth.user.id,
+                          clName : this.groupName,
+                          clInfo : this.groupIntro,
+                          clColor : this.groupColor,
+                          clPassword : this.entercode
+                        })
+                        .then(({ data }) => {
+                          let msg = '수정 처리시 문제가 발생했습니다.';
+                          if (data.data == 'success') {
+                            msg = '수정이 완료되었습니다.';
+                            this.$dialog.notify.success(msg + " 😚", {
+                              position: "bottom-right",
+                              timeout: 3000,
+                            });
+                            this.$router.push("/group");
+                          }
+                        })
+                        .catch((error) => {
+                          if(error.response) {
+                            this.$router.push("servererror")
+                          } else if(error.request) {
+                            this.$router.push("error")
+                          } else{
+                            this.$router.push("/404");
+                          }                          
+                        });                        
+                    }
+                }
+            }
+        },
+
+        deleteMember: async function (id, email) {
+          const res = await this.$dialog.warning({
+            text: email+"님이 작성한 노트와 일정은 "+this.host.email+"님의 작성으로 수정됩니다./n괜찮으신가요?",
+            title: 'Warning'
+          })
+          if(res){
+            http.delete('club/delete/member', {
+              params : {
+                uId : id,
+                hostId : this.host.id,
+                groupId : this.groupId
+              }
+            }).then(({ data }) => {
+              let msg = '삭제 처리시 문제가 발생했습니다.';
+                if (data.data == 'success') {
+                  msg = '회원 삭제 완료되었습니다.';
+                  this.$dialog.notify.success(msg + " 😚", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                  this.$router.push("/group");
+                }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("error")
+                } else{
+                  this.$router.push("/404");
+                }                          
+              });
+            this.$router.push("/group");
+          }
+        },
+
+        deleteGroup: async function (){
+          const res = await this.$dialog.warning({
+            text: "그룹을 삭제 하시겠습니까?",
+            title: 'Delete Group'
+          });
+          if(res){
+          http.delete('club/delete', {
+            params : {
+              groupId : this.groupId
+            }
+          }).then(({ data }) => {
+            let msg = '삭제 처리시 문제가 발생했습니다.';
+              if (data.data == 'success') {
+                msg = '삭제 완료되었습니다.';
+                this.$dialog.notify.success(msg + " 😚", {
+                  position: "bottom-right",
+                  timeout: 3000,
+                });
+                this.$router.push("/group");
+              }
+            })
+            .catch((error) => {
+              if(error.response) {
+                this.$router.push("servererror")
+              } else if(error.request) {
+                this.$router.push("error")
+              } else{
+                this.$router.push("/404");
+              }                          
+            });
+          this.$router.push("/group");
+          }
+        },
+
+        withDraw: async function () {
+          const res = await this.$dialog.warning({
+            text: "그룹에서 탈퇴 하시겠습니까?",
+            title: 'Withdraw Group'
+          });
+          if(res){
+            http.delete('club/delete/member', {
+              params : {
+                groupId : this.groupId,
+                uId : this.$store.state.auth.user.id,
+                hostId : this.host.id,
+              }
+            }).then(({ data }) => {
+              let msg = '탈퇴 처리시 문제가 발생했습니다.';
+                if (data.data == 'success') {
+                  msg = '탈퇴 완료되었습니다.';
+                  this.$dialog.notify.success(msg + " 😚", {
+                    position: "bottom-right",
+                    timeout: 3000,
+                  });
+                  this.$router.push("/group");
+                }
+              })
+              .catch((error) => {
+                if(error.response) {
+                  this.$router.push("servererror")
+                } else if(error.request) {
+                  this.$router.push("error")
+                } else{
+                  this.$router.push("/404");
+                }                          
+              });
+            this.$router.push("/group");
+          }
+        }
     }
 }
 </script>

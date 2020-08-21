@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ssafy.plog.dto.Category;
 import com.ssafy.plog.dto.Post;
+import com.ssafy.plog.dto.Post_NoJPA;
 
 public interface PostService {
 
@@ -18,11 +19,9 @@ public interface PostService {
 	
 	boolean deleteByPid(int p_id);
 
-	boolean updatePost(Post post);
+	boolean updatePost(Post_NoJPA post);
 
-	int registPost(Post post);
-
-	List<Post> selectByCategory(int uid, int c_id);
+	int registPost(Post_NoJPA post);
 
 	List<Category> getCategory(int uid);
 
@@ -33,4 +32,14 @@ public interface PostService {
 	List<Post> searchHashtag(int uid, String hName);
 
 	public List<Post> selectByBookmark(int uid);
+
+	List<Post> selectAllClub(int clid);
+
+	List<Post> countPosts(int uid);
+
+	String getUser(int pid);
+
+	Post countClubPosts(int pUser, int pClub);
+
+	List<Post> selectAllInCategory(int uid, int cid, int clid);
 }

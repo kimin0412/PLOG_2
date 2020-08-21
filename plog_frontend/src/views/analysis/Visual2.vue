@@ -38,7 +38,6 @@
 <script>
 // https://saigesp.github.io/vue-d3-charts/#/wordscloud
 import { D3WordsCloud } from 'vue-d3-charts';
-
 export default {
     name: 'Visual2',
     components: {
@@ -83,8 +82,12 @@ export default {
             //     duration: 350,
             //     ease: "easeLinear",
             // },
-            }
+            },
+            hashtags : []
         }
+    },
+    created() {
+      
     }
 
 }

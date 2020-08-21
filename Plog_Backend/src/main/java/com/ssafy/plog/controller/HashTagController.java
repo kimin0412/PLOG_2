@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,22 +24,6 @@ public class HashTagController {
 	
 	@Autowired
 	HashTagService hService;
-	
-    @RequestMapping("/hashtag/insert")
-	public Object insert(@RequestBody Hashtag hashtag) {
-    	
-    	final BasicResponse result = new BasicResponse();
-    	
-    	if(!hashtag.gethName().equals("")) {
-            String[] tags = hashtag.gethName().split(" ");
-            hService.insertHashTag(tags, hashtag.gethId()%1000, hashtag.gethId()/1000);
-         }
-    	
-    	result.status = true;
-        result.data = "success";	
-    		
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
     
     @RequestMapping("/hashtag/select")
     @ResponseBody
@@ -69,7 +54,21 @@ public class HashTagController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
+    @GetMapping("/hashtag/all")
+	public List<Hashtag> getAllHashtag(@RequestParam int uid) { 
+    	List<Hashtag> hList = hService.getAll(uid);
+		return hList;
+	}
     
+    @GetMapping("/hashtag/notes")
+	public List<Hashtag> getNotesHashtag(@RequestParam int uid, int clId) { 
+    	List<Hashtag> hList = hService.getNotesTags(uid, clId);
+		return hList;
+	}
     
-    
+    @GetMapping("/hashtag/notes/category")
+	public List<Hashtag> getNotesHashtagInCategory(@RequestParam int uid, int clId, int cId) { 
+    	List<Hashtag> hList = hService.getNotesTagsInCategory(uid, clId, cId);
+		return hList;
+	}
 }

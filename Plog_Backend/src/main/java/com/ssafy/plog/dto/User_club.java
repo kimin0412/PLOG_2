@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @JsonInclude(JsonInclude.Include.ALWAYS)
@@ -31,6 +31,14 @@ public class User_club {
 	private int ucUser;
 	private int ucClub;
 	private boolean ucHost;
+	
+	public User_club() {}
+	
+	public User_club(int ucUser, int ucClub, boolean ucHost) {
+		this.ucUser = ucUser;
+		this.ucClub = ucClub;
+		this.ucHost = ucHost;
+	}
 	public int getUcId() {
 		return ucId;
 	}

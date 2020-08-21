@@ -18,5 +18,9 @@ public interface CategoryService {
 	void deleteOnlyCategory(int cid);
 
 	void updateCategory(Category category);
+	
+	List<Category> getAllClubCategory(int cClub);
+
+	Category getCategory(int pid);
 
 }
