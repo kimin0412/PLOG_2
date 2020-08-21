@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="d-none d-sm-block">
+      <v-row class="px-10 pt-5">
+        <router-link to="/note" class="text-decoration-none mb-4 px-15 text-caption">◀ 돌아가기</router-link>
+      </v-row>
       <v-card class="content-center mx-auto px-10 py-10" elevation="3" min-height="100vh">
         <v-row>
             <v-col cols="11" class="d-flex pt-5">
