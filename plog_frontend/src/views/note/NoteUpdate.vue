@@ -84,8 +84,7 @@
               </div>
             </v-col>
             <v-col cols="12">
-              <Editor ref="toastuiEditor" height="500px"
-              @stateChange="onEditorChange"/>
+              <Editor ref="toastuiEditor" height="500px"/>
             </v-col>
           </v-row>
           <v-row class="my-2">
@@ -276,8 +275,7 @@
         <v-row class="mt-3">
           <v-col cols="12" class="py-1 text-h6">Content</v-col>
           <v-col cols="12">
-            <Editor ref="toastuiEditor2" height="500px"
-            @stateChange="onEditorChange2"/>
+            <Editor ref="toastuiEditor2" height="500px"/>
           </v-col>
         </v-row>
         <v-row class="my-2">
@@ -403,7 +401,7 @@
             </v-col>
           <v-col cols="12" class="text-end pb-10">
             <v-btn
-              @click="updateAction"
+              @click="updateAction2"
               small
               color="light-green"
               class="white--text mr-3"
@@ -524,9 +522,10 @@ export default {
         this.cnt = v_content.match(/&lt;img src=/g); 
         // console.log(v_content);
         this.content = entities.decode(v_content);
-        //console.log(this.content);
+        console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
+        console.log(this.$refs.toastuiEditor.invoke("getHtml"));
         this.$refs.toastuiEditor2.invoke("setHtml", this.editorText);
         this.pickColor = data.pColor;
       })
@@ -624,6 +623,123 @@ export default {
     updateAction() {
       
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
+      // console.log(content);
+      const Entities = require("html-entities").XmlEntities;
+      const entities = new Entities();
+      content = entities.encode(content);
+      // console.log(content);
+      var resContent = content;
+
+      if(this.category == ''){
+        this.category = 1
+      }
+
+      var numOfHashTag = this.model.length;
+      this.hashtags = "";
+      for (let i = 0; i < numOfHashTag; i++) {
+        this.hashtags += this.model[i] + " ";
+      }
+
+      var images = [];
+      var i = 0;
+      
+      if(this.cnt != null) {
+        i = this.cnt.length;
+      }
+
+      while(content.includes(";base64,")) {
+        var start = content.indexOf("data:image");
+        var end = content.indexOf("&quot;",start);
+
+        var estart = content.indexOf("data:image");
+        estart = content.indexOf("/", estart) + 1;
+        var eend = content.indexOf(";",estart);
+        var extend = content.substring(estart, eend);
+
+        var image = content.substring(start, end);
+        var fileName = this.pId + "_" + i + "." + extend;
+        var file = this.dataURLtoFile(image, fileName);
+        console.log(file);
+        resContent = content.substring(0, start);
+        resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
+        resContent = resContent + content.substring(end);
+        console.log(resContent);
+        images[i] = file;
+        i++;
+        content = resContent;
+      }
+
+      images.forEach(element => {
+        AWS.config.update({
+          region : this.bucketRegion,
+          credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: this.IdentityPoolId
+          })
+        }); //s3 configuration
+
+        var s3 = new AWS.S3({
+          apiVersion: '2006-03-01',
+          params: {
+            Bucket: this.albumBucketName
+          }
+        }); //s3 configuration
+
+        let photoKey = element.name;
+        s3.upload({
+          Key: photoKey,
+          Body: element,
+          ACL: 'public-read'
+        } , (err) => {
+          if(err){
+            // console.log(err);
+            this.$dialog.notify.error("이미지 업로드 중 에러가 발생하였습니다. 😥", {
+              position: "bottom-right",
+              timeout: 3000,
+            });
+            return;
+          }
+          // alert("성공!");
+          // console.log(data);
+        });
+      });
+
+      http
+        .put("/post/", {
+          pId: this.pId,
+          pTitle: this.title,
+          pContent: content,
+          pUser: this.$store.state.auth.user.id,
+          pSchedule: this.dialogm1,
+          pCategory: this.category,
+          pColor: this.pickColor,
+          pClub:1,
+          pHashtag: this.hashtags,
+        })
+        .then((Response) => {
+          if (Response.data === "success") {
+            this.$dialog.notify.success("노트 수정 완료 😄", {
+              position: "bottom-right",
+              timeout: 3000,
+              
+            });
+            this.$router.push("/note");
+          }
+        })
+        .catch((error) => {
+          if(error.response) {
+            this.$router.push("servererror")
+          } else if(error.request) {
+            this.$router.push("error")
+          } else{
+            this.$router.push("/404");
+          }                          
+        });
+        
+    },
+
+    updateAction2() {
+      
+      var content = this.$refs.toastuiEditor2.invoke("getHtml"); // content를 저장하는 액션 처리
       // console.log(content);
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
