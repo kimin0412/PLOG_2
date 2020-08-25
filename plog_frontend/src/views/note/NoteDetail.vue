@@ -160,7 +160,7 @@ export default {
     },
 
     created() {
-      window.scrollTo(0, 0);
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
       http.get('/post/', {
         params : {
           pId : this.pId,
@@ -357,7 +357,7 @@ export default {
             })
             .then((response) => {
               if(response === 'success'){
-                console.log("success");
+                //console.log("success");
               }              
             })
             .catch((error) => {

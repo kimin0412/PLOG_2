@@ -168,6 +168,9 @@ export default {
           colors: ['red', 'pink', 'purple', 'indigo', 'light-blue', 'green', 'lime', 'yellow', 'orange', 'brown', 'grey'],
       }
     },
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    },
     methods: {
         createGroup() {
             if (this.groupname.trim() === ''){

@@ -493,6 +493,9 @@ export default {
       b: '```(백틱 세 개)+사용하려는언어(생략가능) + 작성하려는 코드 + ```(백틱 세 개)'
         }
     },
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    },
     methods: {
 
     }

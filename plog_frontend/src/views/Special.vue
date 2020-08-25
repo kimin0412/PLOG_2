@@ -43,7 +43,10 @@
 
 <script>
 export default {
-    name: 'Special'
+    name: 'Special',
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    },
 }
 </script>
 

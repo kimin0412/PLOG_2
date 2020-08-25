@@ -43,17 +43,16 @@ export default {
             user: new User('', '', '', ''),
         }
     },
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    },
     methods: {
 Edit(){
           if (this.user.password != '' && (this.user.password !== this.user.password2)) {
-          //console.log(this.user.password)
-          //console.log(this.user.password2)
           alert('비밀번호가 일치하지 않습니다')
           }
       },
       withDraw(){
-        //const withdraw2 = confirm("진짜 탈퇴합니까?");
-        console.log(this.$store.state.auth.user.id);
         http.get('auth/withdraw', {
               params : {
                 id : this.$store.state.auth.user.id,
@@ -88,17 +87,11 @@ Edit(){
                   error.message ||
                   error.toString();
 
-                
-                console.log("헤더 : " + Headers.message.status);
-                console.log(this.message);
               //this.$router.push("/error")
 
               }
             )
-            .catch(() => {
-                console.log("헤더 : " + Headers.response);
-                console.log(this.message);
-                
+            .catch(() => {                
               this.$router.push("/error")
             })
           }

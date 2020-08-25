@@ -157,7 +157,7 @@ export default {
     },
 
     created() {
-      window.scrollTo(0, 0);
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
       http.get('/post/', {
         params : {
           pId : this.pId,

@@ -178,6 +178,9 @@ export default {
         joinDialog2: false,
       }
     },
+    created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    },
     watch: {
       searchgroup: function() {
         if (this.searchgroup === '') {
