@@ -732,7 +732,7 @@ export default {
       }
     },
     created() {
-      window.scrollTo(0, 0);
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
       http.get("/category/listAll", {
               params: {
                 uid: this.$store.state.auth.user.id,
@@ -778,7 +778,6 @@ export default {
               },
             })
             .then(({ data }) => {
-              // console.log(data)
               this.tmpNotes = data;
             })
             .catch((error) => {
@@ -859,7 +858,6 @@ export default {
       });
     },
     getTpNote(tpnote) {
-      // console.log(tpnote);
       this.tpselected = tpnote;
     },
     bookmark() {

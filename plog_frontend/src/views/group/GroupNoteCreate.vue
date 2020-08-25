@@ -88,7 +88,7 @@
             </v-col>
           </v-row>
           <v-row class="my-2">
-                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                        <v-col cols="2" class="pl-3 pr-0 pb-0 mx-0 my-0">
                             <v-card :color="pickColor" class="py-2 transparent--text">색</v-card>
                         </v-col>
                         <v-col cols="10">
@@ -103,7 +103,7 @@
           </v-row>
           <v-row>
             <!-- 일정과 연결 -->
-            <v-col cols="12" class="d-flex justify-end py-0">
+            <v-col cols="12" class="d-flex justify-end pt-0 pb-3">
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -111,10 +111,10 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
-                    class="mb-2 px-5 d-none d-sm-block"
+                    class="px-5 d-none d-sm-block mr-3"
                     small
                   >
-                    connect with schedule
+                    schedule
                   </v-btn>
                 </template>
                 <v-card>
@@ -141,10 +141,7 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-            </v-col>
-            
-            <!-- 폴더안에 넣기 -->
-            <v-col cols="12" class="d-flex justify-end py-0">
+
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -199,12 +196,12 @@
                 </v-card>
               </v-dialog>
             </v-col>
-            <v-col cols="12" class="text-end">
+            <v-col cols="12" class="text-end pt-0 pb-3">
               <v-btn
                 @click="createAction"
                 small
                 color="light-green"
-                class="white--text mr-3"
+                class="white--text"
                 >SAVE</v-btn
               >
             </v-col>
@@ -462,6 +459,7 @@ export default {
   },
 
   created() {
+    window.scrollTo({top:0, left:0, behavior:'smooth'});
     if(this.groupId != undefined) {
       http
       .get("/hashtag/getnextPostId", {
@@ -596,12 +594,11 @@ export default {
                 var image = content.substring(start, end);
                 var fileName = data.temp + "_" + i + "." + extend;
                 var file = this.dataURLtoFile(image, fileName);
-                //console.log(file);
 
                 resContent = content.substring(0, start);
                 resContent = resContent + "https://plog-image.s3.ap-northeast-2.amazonaws.com/" + fileName + "&quot; width=&quot;400";
                 resContent = resContent + content.substring(end);
-                //console.log(resContent);
+
                 images[i] = file;
                 i++;
                 content = resContent;
@@ -629,15 +626,12 @@ export default {
                   ACL: 'public-read'
                 } , (err) => {
                   if(err){
-                    // console.log(err);
                     this.$dialog.notify.error("이미지 업로드 중 에러가 발생하였습니다. 😥", {
                       position: "bottom-right",
                       timeout: 3000,
                     });
                     return;
                   }
-                  // alert("성공!");
-                  // console.log(data);
                 });
               });
 

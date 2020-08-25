@@ -206,8 +206,6 @@ export default {
             timeout: 3000,
         });
     } else if (this.user.password !== this.user.password2) {
-          //console.log(this.user.password)
-          //console.log(this.user.password2)
            this.$dialog.notify.error("비밀번호가 일치하지 않습니다 😥", {
             position: "bottom-right",
             timeout: 3000,
@@ -239,7 +237,6 @@ export default {
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-                console.log(this.message.message);
                     if(typeof(this.message.message) != 'undefined'){
                           this.$dialog.notify.error(this.message.message, {
                         position: "bottom-right",

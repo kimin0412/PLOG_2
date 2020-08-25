@@ -131,7 +131,7 @@
                     <v-card class="mx-auto mt-2">
                         <v-expansion-panels accordion>
                         <v-expansion-panel>
-                            <v-expansion-panel-header>more...</v-expansion-panel-header>
+                            <v-expansion-panel-header>More...</v-expansion-panel-header>
                             <v-expansion-panel-content class="px-0">
                                 <v-row class="text-center">
                                     <v-col cols="12" class="py-0">
@@ -592,6 +592,7 @@ export default {
       }
     },
     created() {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
       this.animalimg = require('@/assets/users/u'+this.currentUser.id%13+'.png')
       // 수정페이지 관련
       this.U.username = this.$store.state.auth.user.username
@@ -617,9 +618,9 @@ export default {
           }                          
         });
 
-      http.get('/post/list/all', {
+      http.get('/club/list', {
         params : {
-          uid : this.$store.state.auth.user.id,
+          uId : this.$store.state.auth.user.id,
         }
       }).then(({ data }) => {
         // this.mygroups = data
@@ -645,7 +646,6 @@ export default {
       })
       .then(({data}) => {
         data.forEach(element => {
-          console.log(element);
           this.chart_data_bar.push({"keyword" : element.hName, "c":element.hId})
           this.defaultWords.push({"name" : element.hName, "value":element.hId})
           this.chart_data.push({name: element.hName, count:element.hId})
@@ -715,7 +715,7 @@ export default {
         this.$router.go();
       },
        getNote(note) {
-            console.log(note)
+         
             this.selected = note
             this.hashtags = []
             this.bmToggle = note.pBookmark
@@ -749,7 +749,7 @@ export default {
             })
             .then((response) => {
               if(response === 'success'){
-                console.log("success");
+                //console.log("success");
               }              
             })
             .catch((error) => {
@@ -771,8 +771,6 @@ export default {
         },
         editProfile() {
           // 여기서 검증한 뒤에 axios 쏘기
-          console.log(this.U.userphone);
-          console.log(this.U.userbirthday);
 
           http.get('auth/editprofile', {
             params :{
@@ -784,7 +782,6 @@ export default {
           }).then((response) => {
               this.$store.state.auth.user.userbirthday = this.U.userbirthday;
               this.$store.state.auth.user.userphone = this.U.userphone;
-              //console.log(this.$store.state.auth.user.userbirthday);
               this.$dialog.notify.success("정보가 수정되었습니다.", {
               position: "bottom-right",
               timeout: 3000,
@@ -797,8 +794,6 @@ export default {
           });
         },
         confirmwithdraw() {
-        //  console.log("탈퇴시켜야함");
-         // console.log(this.$store.state.auth.user.id);
           http.get('auth/withdraw', {
               params : {
                 id : this.$store.state.auth.user.id,

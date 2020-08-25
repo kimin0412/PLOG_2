@@ -211,6 +211,7 @@ export default {
     }
   },
   created() {
+    window.scrollTo({top:0, left:0, behavior:'smooth'});
     if (this.$store.state.auth.status.loggedIn) {
       this.$router.push('/mypage');
     }
@@ -274,7 +275,6 @@ export default {
           timeout: 3000,
           });
       } else {
-        console.log("비밀번호 찾기")
         http.get('/findPW', {
               params : {
                 findmyid : this.findmyid,
@@ -309,7 +309,6 @@ export default {
           timeout: 3000,
         });
       } else {
-        console.log("ID찾기")
         http.get('/findID', {
               params : {
                 findemail2 : this.findemail2,

@@ -1,13 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-// import Mainpage from '../views/Main.vue'
 import Aboutus from '../views/AboutUsMain.vue'
 import Schedule from '../views/schedule/ScheduleMain.vue'
-import Mypage from '../views/account/MyPageMain.vue'
 import Search from '../views/SearchMain.vue'
 import Note from '../views/note/NoteMain2.vue'
-import Note2 from '../views/note/NoteMain.vue'
 
 // account
 import Login from '../views/account/Login.vue'
@@ -42,16 +39,8 @@ import ServerError from '../views/error/ServerError.vue'
 import Developers from '../views/Developers.vue'
 import License from '../views/License.vue'
 
-// visualize
-import Visual1 from '../views/analysis/Visual1.vue'
-import Visual2 from '../views/analysis/Visual2.vue'
-import Visual3 from '../views/analysis/Visual3.vue'
-import Visual4 from '../views/analysis/Visual4.vue'
-import Visual5 from '../views/analysis/Visual5.vue'
-
 // group
 import GroupMain from '../views/group/GroupMain.vue'
-import GroupDetail from '../views/group/GroupDetail.vue'
 import GroupSearch from '../views/group/GroupSearch.vue'
 import GroupCreate from '../views/group/GroupCreate.vue'
 import GroupNoteCreate from '../views/group/GroupNoteCreate.vue'
@@ -108,30 +97,6 @@ Vue.use(VueRouter)
     path: '/note',
     name: 'Note',
     component: Note,
-    beforeEnter(from, to, next) {
-      if (!auth.state.status.loggedIn) {
-        next('/auth')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/note2',
-    name: 'Note2',
-    component: Note2,
-    beforeEnter(from, to, next) {
-      if (!auth.state.status.loggedIn) {
-        next('/auth')
-      } else {
-        next()
-      }
-    }
-  },
-  {
-    path: '/mypage',
-    name: 'Mypage',
-    component: Mypage,
     beforeEnter(from, to, next) {
       if (!auth.state.status.loggedIn) {
         next('/auth')
@@ -308,18 +273,6 @@ Vue.use(VueRouter)
     }
   },
   {
-    path: '/group/detail',
-    name: 'GroupDetail',
-    component: GroupDetail,
-    beforeEnter(from, to, next) {
-      if (!auth.state.status.loggedIn) {
-        next('/auth')
-      } else {
-        next()
-      }
-    }
-  },
-  {
     path: '/group/search',
     name: 'GroupSearch',
     component: GroupSearch,
@@ -390,32 +343,6 @@ Vue.use(VueRouter)
         next()
       }
     }
-  },
-  // visual
-  {
-    path: '/v1',
-    name: 'Visual1',
-    component: Visual1
-  },
-  {
-    path: '/v2',
-    name: 'Visual2',
-    component: Visual2
-  },
-  {
-    path: '/v3',
-    name: 'Visual3',
-    component: Visual3
-  },
-  {
-    path: '/v4',
-    name: 'Visual4',
-    component: Visual4
-  },
-  {
-    path: '/v5',
-    name: 'Visual5',
-    component: Visual5
   },
   // guest
   {

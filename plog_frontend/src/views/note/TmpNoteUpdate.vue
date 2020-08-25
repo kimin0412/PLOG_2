@@ -93,7 +93,7 @@
           </v-row>
 
           <v-row class="my-2">
-                        <v-col cols="2" class="px-0 pb-0 mx-0 my-0">
+                        <v-col cols="2" class="pl-3 pr-0 pb-0 mx-0 my-0">
                             <v-card :color="pickColor" class="py-2 transparent--text">색</v-card>
                         </v-col>
                         <v-col cols="10">
@@ -109,7 +109,7 @@
 
           <!-- 일정과 연결 -->
           <v-row>
-            <v-col cols="12" class="d-flex justify-end py-0">
+            <v-col cols="12" class="d-flex justify-end pt-0 pb-3">
               <v-dialog v-model="dialog" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -117,10 +117,10 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
-                    class="px-5 d-none d-sm-block"
+                    class="px-5 d-none d-sm-block mr-3"
                     small
                   >
-                    connect with schedule
+                    schedule
                   </v-btn>
                 </template>
                 <v-card>
@@ -129,7 +129,7 @@
                   <v-card-text style="height: 300px;">
                     <div v-if="todaySchedule.length > 0">
                       <v-radio-group v-model="dialogm1" column>
-                        <div v-for="item in todaySchedule" v-bind:key="item">
+                        <div v-for="(item,index) in todaySchedule" v-bind:key="index">
                           <v-radio
                             v-bind:label="item.name"
                             v-bind:value="item.id"
@@ -154,10 +154,7 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-            </v-col>
-            
-            <!-- 폴더안에 넣기 -->
-            <v-col cols="12" class="d-flex justify-end py-0">
+
               <v-dialog v-model="dialogCategory" scrollable max-width="300px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -212,7 +209,7 @@
                 </v-card>
               </v-dialog>
             </v-col>
-            <v-col cols="12" class="text-end">
+            <v-col cols="12" class="text-end pt-0 pb-3">
               <v-btn
                 @click="createAction"
                 small
@@ -229,9 +226,10 @@
               >
             </v-col>
           </v-row>
-        </v-container>
+        </v-container>              
       </div>
     </div>
+
     <div class="d-block d-sm-none">
       <v-container>
         <v-row>
@@ -307,7 +305,7 @@ export default {
   },
   // created 한 뒤 axios로
   created() {
-    window.scrollTo(0, 0);
+    window.scrollTo({top:0, left:0, behavior:'smooth'});
     http
       .get("/tp/", {
         params: {
@@ -321,7 +319,6 @@ export default {
         const entities = new Entities();
         var v_content = data.tpContent;
         this.content = entities.decode(v_content);
-        console.log(this.content);
         this.editorText = this.content;
         this.$refs.toastuiEditor.invoke("setHtml", this.editorText);
       })
@@ -401,7 +398,7 @@ export default {
       }
     },
     deletekeyword() {
-      console.log(event.target);
+     // console.log(event.target);
     },
     createAction() {
       var content = this.$refs.toastuiEditor.invoke("getHtml"); // content를 저장하는 액션 처리
@@ -475,7 +472,6 @@ export default {
       const Entities = require("html-entities").XmlEntities;
       const entities = new Entities();
       content = entities.encode(content);
-      console.log(content);
 
       http
         .put("/tp/", {

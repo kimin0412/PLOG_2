@@ -345,6 +345,7 @@ export default {
       }
     },
     created () {
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
       if(this.hashtagName != undefined) {
         this.searched = true
         this.manuallysearched = true
@@ -364,7 +365,6 @@ export default {
           }
         })
         .then(({data}) => {
-          //console.log(data);
           this.Notes = data;
           //this.selected = null;
         })
@@ -385,7 +385,6 @@ export default {
         this.manuallysearched = true
         this.searched = true
         this.pastword = this.searched
-        //console.log(this.searchword)
         http.get('/post/list/search', {
           params : {
             uid : this.$store.state.auth.user.id,
@@ -396,9 +395,7 @@ export default {
           }
         })
         .then(({data}) => {
-          //console.log(data);
           this.Notes = data;
-          //this.selected = null;
         })
         .catch((error) => {
           if(error.response) {
@@ -438,7 +435,6 @@ export default {
         this.searched = true
         this.manuallysearched = true
         this.pastword = this.searched
-        console.log(this.searchword2)
         http.get('/post/list/search', {
           params : {
             uid : this.$store.state.auth.user.id,
@@ -449,10 +445,8 @@ export default {
           }
         })
         .then(({data}) => {
-          //console.log(data);
           this.manuallysearched = true
           this.Notes = data;
-          //this.selected = null;
         })
         .catch((error) => {
           if(error.response) {
@@ -490,7 +484,6 @@ export default {
             return moment(new Date(regtime)).format('YYYY.MM.DD');
         },
         getNote(note) {
-            console.log(note)
             this.selected = note
             this.hashtags = []
             this.bmToggle = note.pBookmark
@@ -516,7 +509,6 @@ export default {
             });
         },
         getTpNote(tpnote) {
-            console.log(tpnote)
             this.tpselected = tpnote
             
         },
@@ -529,7 +521,7 @@ export default {
             })
             .then((response) => {
               if(response === 'success'){
-                console.log("success");
+                //console.log("success");
               }              
             })
             .catch((error) => {
