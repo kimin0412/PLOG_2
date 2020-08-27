@@ -50,8 +50,8 @@ public interface ScheduleDAO extends JpaRepository<Schedule, Integer>{
 
 	@Modifying
 	@Transactional
-	@Query(value = "update schedule set s_user = ?2 where s_user = ?1 ", nativeQuery=true)
-	public void updateSUser(int uId, int hostId);
+	@Query(value = "update schedule set s_user = ?2 where s_user = ?1 and s_club = ?3 ", nativeQuery=true)
+	public void updateSUser(int uId, int hostId, int groupId);
 
 	@Modifying
 	@Transactional

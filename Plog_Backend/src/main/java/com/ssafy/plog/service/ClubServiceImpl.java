@@ -114,6 +114,7 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public boolean joinClub(int uId, int clId, String clPassword) {
 		if(clPassword.equals(cdao.selectclPasswordByclId(clId))){
+			System.out.println(uId + " "+ clId);
 			ucdao.save(new User_club(uId, clId, false));
 			return true;
 		}
@@ -133,13 +134,13 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public void deleteMember(int uId, int hostId, int groupId) {
 		// post들의 pUser 바꾸기 -> post_hashtag의 phUser 바꾸기 -> schedule들의 sUser 바꾸기 -> user_club에서 삭제하기
-		pdao.updatePUser(uId, hostId);
+		pdao.updatePUser(uId, hostId, groupId);
 		
 		phdao.updatePhUser(uId, hostId);
 		
-		sdao.updateSUser(uId, hostId);
+		sdao.updateSUser(uId, hostId, groupId);
 		
-		ctdao.updateByCUser(uId, hostId);
+		ctdao.updateByCUser(uId, hostId, groupId);
 		
 		ucdao.deleteByUserAndClub(uId, groupId);
 		
