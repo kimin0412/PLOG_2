@@ -92,8 +92,8 @@ public interface PostDao extends JpaRepository<Post, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "update post set p_user = ?2 where p_user = ?1 ", nativeQuery=true)
-	void updatePUser(int uId, int hostId);
+	@Query(value = "update post set p_user = ?2 where p_user = ?1 and p_club = ?3", nativeQuery=true)
+	void updatePUser(int uId, int hostId, int clId);
 
 	@Query(value = "select count(*) from post where p_user = ?1 and p_club = ?2 ", nativeQuery = true)
 	int getCountByPUser(int pUser, int pClub);
