@@ -1,4 +1,4 @@
-﻿# Sub pjt3
+﻿# Sub pjt3   [Wiki] (https://github.com/kimin0412/PLOG_2/wiki)
 
 ## 개발환경
 - 백엔드(plog_Backend) : sts spring boot
